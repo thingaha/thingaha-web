@@ -1,0 +1,14 @@
+.idea/
+*.log
+*.log.*
+*.pyc
+.cache
+*.pkl
+venv/
+cert/
+local_test/
+__pycache__/
+.pytest_cache/
+.DS_Store
+*.mp4
+*.csv
