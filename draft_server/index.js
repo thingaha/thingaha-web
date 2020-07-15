@@ -7,15 +7,17 @@ app.get('/users', (req, res) => {
   res.json(json)
 })
 
-app.get('/users', (req, res) => {
+app.post('/users', (req, res) => {
   // This endpoint should actually create a user and return user document back
   const json = {
-    id: 1,
-    user_name: 'naruto',
-    email: 'naruto@example.com',
-    address: '88, Strand Road, Kyauktada Township, Yangon.',
-    role: 'admin',
-    country: 'mm',
+    data: {
+      id: 1,
+      user_name: 'naruto',
+      email: 'naruto@example.com',
+      address: '88, Strand Road, Kyauktada Township, Yangon.',
+      role: 'admin',
+      country: 'mm',
+    },
   }
 
   res.status(201)
