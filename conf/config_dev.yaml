@@ -2,10 +2,10 @@ common:
     version: "0.0.1"
     server:
         host: "localhost"
-        port: 5555
+        port: 5000
     log:
         conf: "logging_dev.yaml"
-postgre:
+postgres:
     host: "localhost"
     port: 5432
     user: "postgres"
