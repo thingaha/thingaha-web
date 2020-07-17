@@ -11,7 +11,7 @@ const View = styled(Paper)`
 
 const ContentView = (props) => {
   return (
-    <Grid container item xs={9} direction="column">
+    <Grid container item xs={10} direction="column">
       <View>{props.children}</View>
     </Grid>
   )
