@@ -19,6 +19,7 @@ pip install -r requirements.txt
 ```
 - DB migrate
 ```buildoutcfg
+move to <src> folder
 set FLASK_APP=app.py
 flask db migrate
 flask db upgrade
