@@ -38,8 +38,6 @@ const getUsers = () => {
 }
 
 export default (state = { users: [] }, action) => {
-  console.log('From get users', state, action)
-
   switch (action.type) {
     case GET_ALL_USERS:
       return {
