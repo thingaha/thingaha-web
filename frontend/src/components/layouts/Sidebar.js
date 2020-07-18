@@ -41,7 +41,7 @@ export const NavMenu = () => (
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
-      <Link to={`/users`}>
+      <Link to={'/users'}>
         <ListItemText primary="Users" />
       </Link>
     </ListItem>
