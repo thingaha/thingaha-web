@@ -10,12 +10,23 @@ import SchoolIcon from '@material-ui/icons/School'
 import PeopleIcon from '@material-ui/icons/People'
 import WcIcon from '@material-ui/icons/Wc'
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import logoUrl from '../../logo.svg'
+import { withTheme } from '@material-ui/core/styles'
 
-const SidebarContent = styled(Paper)`
-  width: 100%;
-  height: 100vh;
+const SidebarContent = withTheme(
+  styled(Paper)`
+    width: 100%;
+    height: 100vh;
+    background-color: ${(props) => props.theme.palette.primary.main};
+  `
+)
+
+const StyledMenuContainer = styled.ul`
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  padding-left: 1rem;
 `
 
 const StyledLogoContainer = styled(Grid)`
@@ -27,41 +38,41 @@ const StyledAvatar = styled(Avatar)`
   width: 80px;
 `
 
-export const NavMenu = () => (
-  <div>
-    <ListItem button>
-      <ListItemIcon>
-        <MonetizationOnIcon />
-      </ListItemIcon>
-      <Link to={`/`} activeClassName="active">
-        <ListItemText primary="Donations" />
-      </Link>
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <PeopleIcon />
-      </ListItemIcon>
-      <Link to={'/users'}>
-        <ListItemText primary="Users" />
-      </Link>
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <WcIcon />
-      </ListItemIcon>
-      <Link to={`/`}>
-        <ListItemText primary="Students" />
-      </Link>
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <SchoolIcon />
-      </ListItemIcon>
-      <Link to={`/`}>
-        <ListItemText primary="Schools" />
-      </Link>
-    </ListItem>
-  </div>
+const StyledNavLink = styled(NavLink)`
+  color: white;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 1rem;
+
+  &.active {
+    color: red;
+  }
+
+  & .nav-icon {
+    margin-right: 1rem;
+  }
+`
+
+const NavMenu = () => (
+  <StyledMenuContainer>
+    <StyledNavLink exact to={'/'}>
+      <MonetizationOnIcon className="nav-icon" />
+      Donations
+    </StyledNavLink>
+    <StyledNavLink to={'/users'}>
+      <PeopleIcon className="nav-icon" />
+      Users
+    </StyledNavLink>
+    <StyledNavLink to={'/students'}>
+      <WcIcon className="nav-icon" />
+      Students
+    </StyledNavLink>
+    <StyledNavLink to={'/schools'}>
+      <SchoolIcon className="nav-icon" />
+      Schools
+    </StyledNavLink>
+  </StyledMenuContainer>
 )
 
 const Sidebar = (props) => {

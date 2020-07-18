@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import styled, { ThemeProvider } from 'styled-components'
+import styled from 'styled-components'
 import GlobalStyles from './styles/global'
 import { Normalize } from 'styled-normalize'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import { StylesProvider } from '@material-ui/core/styles'
+import { StylesProvider, ThemeProvider } from '@material-ui/core/styles'
 import theme from './styles/theme'
 import store from './store/configureStore'
 import { Provider } from 'react-redux'
@@ -27,8 +27,8 @@ class App extends Component {
                 <Sidebar />
                 <ContentView>
                   <Switch>
+                    <Route path="/" exact component={Home} />
                     <Route path="/users" exact component={Users} />
-                    <Route path="/" component={Home} />
                   </Switch>
                 </ContentView>
               </BaseLayout>
