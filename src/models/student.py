@@ -1,9 +1,13 @@
-from database import db
+from datetime import datetime, date
+
 from sqlalchemy.exc import SQLAlchemyError
+
+from database import db
+from models.address import AddressModel
 
 
 class StudentModel(db.Model):
-    __tablename__ = "Students"
+    __tablename__ = "students"
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String())
@@ -12,9 +16,13 @@ class StudentModel(db.Model):
     father_name = db.Column(db.UnicodeText())
     mother_name = db.Column(db.UnicodeText())
     parents_occupation = db.Column(db.Text())
-    address_id = db.Column(db.Integer, db.ForeignKey("addresses.id"))
+    address_id = db.Column(db.Integer, db.ForeignKey("addresses.id"), nullable=False)
+    address = db.relationship("addresses", backref=db.backref("students", lazy=True))
 
-    def __init__(self, name, deactivated_at, birth_date, father_name, mother_name, parents_occupation, address_id):
+    def __init__(self, name: str,
+                 deactivated_at: datetime, birth_date: date, father_name: str, mother_name: str,
+                 parents_occupation: str, address_id: int,
+                 address: AddressModel):
         self.name = name
         self.deactivated_at = deactivated_at
         self.birth_date = birth_date
@@ -22,6 +30,7 @@ class StudentModel(db.Model):
         self.mother_name = mother_name
         self.parents_occupation = parents_occupation
         self.address_id = address_id
+        self.address = address
 
     def __repr__(self):
         return f"<Student {self.name}>"

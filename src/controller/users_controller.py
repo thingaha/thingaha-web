@@ -1,6 +1,9 @@
 from flask import Blueprint, request
 
 from models.user import UserModel
+from models.student import StudentModel
+from models.school import SchoolModel
+from models.address import AddressModel
 
 user = Blueprint("user", __name__, url_prefix="/user")
 
@@ -11,7 +14,7 @@ def create_user():
         if request.is_json:
             data = request.get_json()
             if UserModel.create_user(UserModel(name=data["name"], email=data["email"], address=data["address"],
-                                               password=data["password"], role=data["role"], country=data["country"])):
+                                               hashed_password=data["password"], role=data["role"], country=data["country"])):
                 return {"message": f"user {data.get('name')} has been created successfully."}, 200
             else:
                 return {"message": f"user create fail."}, 400
@@ -28,3 +31,16 @@ def create_user():
                 "role": user.role
             } for user in users]
         return {"count": len(results), "users": results}
+
+
+@user.route("/student", methods=["POST", "GET"])
+def create_student():
+    users = StudentModel.query.all()
+    results = [
+        {
+            "name": user.name,
+            "email": user.email,
+            "address": user.address,
+            "role": user.role
+        } for user in users]
+    return {"count": len(results), "users": results}

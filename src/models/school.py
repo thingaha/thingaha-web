@@ -3,16 +3,14 @@ from sqlalchemy.exc import SQLAlchemyError
 from database import db
 
 
-class UserModel(db.Model):
-    __tablename__ = "users"
+class SchoolModel(db.Model):
+    __tablename__ = "schools"
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(), nullable=False)
-    email = db.Column(db.String(), unique=True, nullable=False)
-    address = db.Column(db.UnicodeText())
-    hashed_password = db.Column(db.Text(), nullable=True)
-    role = db.Column(db.Enum("sub_admin", "donator", "admin", name="role"))
-    country = db.Column(db.Enum("jp", "mm", "sg", "th", name="country"))
+    contact_info = db.Column(db.String(), nullable=False)
+    address_id = db.Column(db.Integer, db.ForeignKey("addresses.id"), nullable=False)
+    address = db.relationship("addresses", backref=db.backref("schools", lazy=True))
 
     def __init__(self, name: str, email: str, address: str, hashed_password: str, role: str, country: str) -> None:
         self.name = name
@@ -23,18 +21,17 @@ class UserModel(db.Model):
         self.country = country
 
     def __repr__(self):
-        return f"<User {self.name}>"
+        return f"<School {self.name}>"
 
     @staticmethod
-    def create_user(new_user) -> bool:
+    def create_school(new_school) -> bool:
         """
-        create new users
-        :param new_user:
+        create new_school
+        :param new_school:
         :return: bool
         """
         try:
-            # replace plain password with flask-Bcrypt
-            db.session.add(new_user)
+            db.session.add(new_school)
             db.session.commit()
             return True
         except SQLAlchemyError as e:
