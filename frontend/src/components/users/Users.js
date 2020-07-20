@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { fetchUsers } from '../../store/actions/users'
+import * as actions from '../../store/actions'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
@@ -55,14 +55,14 @@ const Users = ({ users: { users }, getAllUsers }) => {
   )
 }
 
-const mapStateToProps = ({ users }) => ({
-  users,
+const mapStateToProps = (state) => ({
+  users: state.users,
 })
 
 const mapDispatchToProps = (dispatch) => {
   return {
     // dispatching plain actions
-    getAllUsers: () => dispatch(fetchUsers()),
+    getAllUsers: () => dispatch(actions.fetchUsers()),
   }
 }
 
