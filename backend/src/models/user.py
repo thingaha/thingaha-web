@@ -9,15 +9,15 @@ class UserModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(), nullable=False)
     email = db.Column(db.String(), unique=True, nullable=False)
-    address = db.Column(db.UnicodeText())
     hashed_password = db.Column(db.Text(), nullable=True)
     role = db.Column(db.Enum("sub_admin", "donator", "admin", name="role"))
     country = db.Column(db.Enum("jp", "mm", "sg", "th", name="country"))
+    address_id = db.Column(db.Integer, db.ForeignKey("addresses.id"), nullable=False)
 
-    def __init__(self, name: str, email: str, address: str, hashed_password: str, role: str, country: str) -> None:
+    def __init__(self, name: str, email: str, address_id: int, hashed_password: str, role: str, country: str) -> None:
         self.name = name
         self.email = email
-        self.address = address
+        self.address_id = address_id
         self.hashed_password = hashed_password
         self.role = role
         self.country = country

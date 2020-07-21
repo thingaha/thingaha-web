@@ -10,15 +10,11 @@ class SchoolModel(db.Model):
     name = db.Column(db.String(), nullable=False)
     contact_info = db.Column(db.String(), nullable=False)
     address_id = db.Column(db.Integer, db.ForeignKey("addresses.id"), nullable=False)
-    address = db.relationship("addresses", backref=db.backref("schools", lazy=True))
 
-    def __init__(self, name: str, email: str, address: str, hashed_password: str, role: str, country: str) -> None:
+    def __init__(self, name: str, contact_info: str, address_id: int) -> None:
         self.name = name
-        self.email = email
-        self.address = address
-        self.hashed_password = hashed_password
-        self.role = role
-        self.country = country
+        self.contact_info = contact_info
+        self.address_id = address_id
 
     def __repr__(self):
         return f"<School {self.name}>"
