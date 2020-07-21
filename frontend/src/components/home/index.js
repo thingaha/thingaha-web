@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { withTheme } from '@material-ui/core/styles'
 import { Grid, Typography } from '@material-ui/core'

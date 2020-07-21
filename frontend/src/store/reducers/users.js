@@ -1,13 +1,16 @@
-import { GET_ALL_USERS } from '../actions/users'
-
 export default (state = { users: [] }, action) => {
   switch (action.type) {
-    case GET_ALL_USERS:
+    case 'USERS/GET_ALL_SUCCESS':
       return {
         ...state,
-        users: action.users,
+        users: action.json,
       }
-
+    case 'USERS/GET_ALL_FAIL':
+      // TODO handle error
+      return {
+        ...state,
+        error: action.error,
+      }
     default:
       return state
   }

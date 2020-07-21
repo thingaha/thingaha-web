@@ -20,7 +20,7 @@ const Wrapper = styled.div`
 const Users = ({ users: { users }, getAllUsers }) => {
   useEffect(() => {
     getAllUsers()
-  }, [])
+  }, [getAllUsers])
 
   return (
     <Wrapper component={Paper}>
