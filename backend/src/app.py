@@ -8,11 +8,12 @@ from flask_migrate import Migrate
 from common.config import Config
 from common.config import load_config
 from controller import users_controller
-from database import db
+from database import db, SQLALCHEMY_DATABASE_URI
 
 
 def create_app():
     app = Flask(__name__)
+    app.config.update(SQLALCHEMY_DATABASE_URI=SQLALCHEMY_DATABASE_URI)
     app.config.from_object(Config)
     db.init_app(app)
     Migrate(app, db)
@@ -21,8 +22,7 @@ def create_app():
     return app
 
 
-basedir = os.path.abspath(os.path.dirname(__file__))
-conf = load_config(basedir)
+conf = load_config()
 with open("../conf/%s" % conf["common"]["log"]["conf"], "r", encoding="utf-8") as log_conf_f:
     logging.config.dictConfig(yaml.safe_load(log_conf_f))
 
