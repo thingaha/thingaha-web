@@ -3,10 +3,10 @@ from flask import Blueprint, request
 from models.address import AddressModel
 from models.user import UserModel
 
-user = Blueprint("user", __name__, url_prefix="/user")
+api = Blueprint("api", __name__, url_prefix="/api/v1")
 
 
-@user.route("/user", methods=["POST", "GET"])
+@api.route("/user", methods=["POST", "GET"])
 def create_user():
     if request.method == "POST":
         if request.is_json:
@@ -31,7 +31,7 @@ def create_user():
         return {"count": len(results), "users": results}
 
 
-@user.route("/address", methods=["POST", "GET"])
+@api.route("/address", methods=["POST", "GET"])
 def create_address():
     if request.method == "POST":
         if request.is_json:
