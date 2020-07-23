@@ -1,0 +1,46 @@
+{
+  "data": {
+    "students": [
+      {
+        "id": 1,
+        "name": "naruto",
+        "deactivated_at": "",
+        "birth_date": "1990-08-02",
+        "father_name": "U Aye",
+        "mother_name": "Daw Aye",
+        "parents_occupation": "Farmer",
+        "address_id": 10
+      },
+      {
+        "id": 2,
+        "name": "naruto",
+        "deactivated_at": "",
+        "birth_date": "1990-08-01",
+        "father_name": "U Aye Aye",
+        "mother_name": "Daw Aye Aye",
+        "parents_occupation": "Farmer",
+        "address_id": 11
+      },
+      {
+        "id": 3,
+        "name": "naruto",
+        "deactivated_at": "",
+        "birth_date": "1990-08-03",
+        "father_name": "U Mya",
+        "mother_name": "Daw Mya",
+        "parents_occupation": "Farmer",
+        "address_id": 12
+      },
+      {
+        "id": 4,
+        "name": "naruto",
+        "deactivated_at": "",
+        "birth_date": "1990-08-05",
+        "father_name": "U Hla",
+        "mother_name": "Daw Hla",
+        "parents_occupation": "Teacher",
+        "address_id": 13
+      }
+    ]
+  }
+}

@@ -17,7 +17,7 @@ def create_app():
     app.config.from_object(Config)
     db.init_app(app)
     Migrate(app, db)
-    from models import user, student, school, address, transfer, attendance, donation
+    from models import user, student, school, address, transfer, attendance, donation, extrafund
     app.register_blueprint(users_controller.user)
     return app
 

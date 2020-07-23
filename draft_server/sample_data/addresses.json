@@ -1,0 +1,34 @@
+{
+  "data": {
+    "addresses": [
+      {
+        "id": 1,
+        "division": "ayeyarwaddy",
+        "district": "Maubin",
+        "township": "Nyaungdon",
+        "street_address": "RZarni Road"
+      },
+      {
+        "id": 2,
+        "division": "ayeyarwaddy",
+        "district": "Maubin",
+        "township": "Nyaungdon",
+        "street_address": "Bo Min Road"
+      },
+      {
+        "id": 3,
+        "division": "Mon",
+        "district": "Maubin",
+        "township": "Nyaungdon",
+        "street_address": "Bo Gyoke Road"
+      },
+      {
+        "id": 4,
+        "division": "ayeyarwaddy",
+        "district": "Maubin",
+        "township": "Nyaungdon",
+        "street_address": "Rose Road"
+      }
+    ]
+  }
+}

@@ -1,35 +1,36 @@
 # Thingaha Donation Project
 
-thingaha-web is a web application to make life easier for thingaha donation group monthly donation data tracking and workflows.
+**thingaha-web** is a web application to make life easier for thingaha donation group monthly donation data tracking and workflows.
 
 
 ### Backend
 
 ### Pre-requisite
 1. Flask with python3
-2. PostgreSQL == 12.3cd
+2. PostgreSQL == 12.3
 
 ### Environment setup
-- install anaconda via anacoda webpage
--  create virtual environment 
-```buildoutcfg
+- install anaconda from [anaconda](https://docs.anaconda.com/anaconda/install/) webpage
+- install [pgadmin4](https://www.pgadmin.org/download/) (optional)
+
+##### create virtual environment 
+```shell script
 conda create -n <envname>
 conda activate <envname>
-pip install -r requirements.txt
+pip install -r ~/thingaha/backend/requirements.txt
 ```
 - DB migrate
-```buildoutcfg
-move to <src> folder
-set FLASK_APP=app.py
-flask db migrate
-flask db upgrade
+```shell script
+for linux -> go backend/bin and run -> ./db_migrate.sh
+for windows -> go to backend\bin and run -> db_migrate.bat
+
 #memo
 postgres url be like [DB_TYPE]+[DB_CONNECTOR]://[USERNAME]:[PASSWORD]@[HOST]:[PORT]/[DB_NAME]
 ```
 - Start the server
-```buildoutcfg
-for linux -> move to bin and run -> ./start_app.sh
-for windows -> move to bin and run -> start_app.bat
+```shell script
+for linux -> go backend/bin and run -> ./start_app.sh
+for windows -> go to backend\bin and run -> start_app.bat
 ```
 
 ### Frontend
