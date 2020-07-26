@@ -1,8 +1,7 @@
-export const GET_ALL_USERS = 'USERS/ALL'
+export const GET_ALL_USERS = 'USERS/GET_ALL'
 
 export const fetchUsers = () => {
-  return (dispatch) =>
-    dispatch({
-      type: GET_ALL_USERS,
-    })
+  return {
+    type: GET_ALL_USERS,
+  }
 }
