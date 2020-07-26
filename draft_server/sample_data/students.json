@@ -4,7 +4,7 @@
       {
         "id": 1,
         "name": "naruto",
-        "deactivated_at": "",
+        "deactivated_at": null,
         "birth_date": "1990-08-02",
         "father_name": "U Aye",
         "mother_name": "Daw Aye",
@@ -14,7 +14,7 @@
       {
         "id": 2,
         "name": "naruto",
-        "deactivated_at": "",
+        "deactivated_at": null,
         "birth_date": "1990-08-01",
         "father_name": "U Aye Aye",
         "mother_name": "Daw Aye Aye",
@@ -24,7 +24,7 @@
       {
         "id": 3,
         "name": "naruto",
-        "deactivated_at": "",
+        "deactivated_at": null,
         "birth_date": "1990-08-03",
         "father_name": "U Mya",
         "mother_name": "Daw Mya",
@@ -34,7 +34,7 @@
       {
         "id": 4,
         "name": "naruto",
-        "deactivated_at": "",
+        "deactivated_at": "2020-07-26T03:37:05.836Z",
         "birth_date": "1990-08-05",
         "father_name": "U Hla",
         "mother_name": "Daw Hla",
