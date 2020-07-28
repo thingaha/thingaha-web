@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import * as actions from '../../store/actions'
@@ -8,6 +8,9 @@ import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
+import UserForm from './UserForm'
+import { Button } from '@material-ui/core'
+import AddCircleIcon from '@material-ui/icons/AddCircle'
 
 const Wrapper = styled.div`
   width: 70%;
@@ -18,13 +21,28 @@ const Wrapper = styled.div`
 `
 
 const Users = ({ users: { users }, getAllUsers }) => {
+  const [userFormVisible, setUserFormVisible] = useState(false)
+
   useEffect(() => {
     getAllUsers()
   }, [getAllUsers])
 
   return (
     <Wrapper component={Paper}>
-      <h1>Users</h1>
+      <div>
+        <h1>Users</h1>
+        <Button
+          variant="contained"
+          color="primary"
+          startIcon={<AddCircleIcon />}
+          onClick={() => {
+            setUserFormVisible(true)
+          }}
+        >
+          Add User
+        </Button>
+      </div>
+      <UserForm visible={userFormVisible} setVisible={setUserFormVisible} />
       <Table aria-label="simple table">
         <TableHead>
           <TableRow>
