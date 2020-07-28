@@ -1,11 +1,34 @@
+import {
+  GET_ALL_USERS,
+  SUBMIT_USER_FORM_SUCCESS,
+  SUBMIT_USER_FORM_FAILURE,
+  GET_ALL_USERS_SUCCESS,
+  GET_ALL_USERS_FAILURE,
+} from '../actions/users'
+
 export default (state = { users: [] }, action) => {
   switch (action.type) {
-    case 'USERS/GET_ALL_SUCCESS':
+    case GET_ALL_USERS_SUCCESS:
       return {
         ...state,
-        users: action.json,
+        users: [...action.users],
       }
-    case 'USERS/GET_ALL_FAIL':
+    case GET_ALL_USERS_FAILURE:
+      // TODO handle error
+      return {
+        ...state,
+        error: action.error,
+      }
+    case SUBMIT_USER_FORM_SUCCESS:
+      const newUser = action.user
+
+      console.log('aciton', newUser, state)
+
+      return {
+        ...state,
+        users: [...state.users, newUser],
+      }
+    case SUBMIT_USER_FORM_FAILURE:
       // TODO handle error
       return {
         ...state,
