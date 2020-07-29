@@ -1,11 +1,8 @@
-import logging.config
-
-import yaml
 from flask import Flask
 from flask_migrate import Migrate
 
 from common.config import Config
-from common.config import load_config
+from common.config import load_config, load_logging_conf
 from controller import api
 from database import db, SQLALCHEMY_DATABASE_URI
 
@@ -22,8 +19,7 @@ def create_app():
 
 
 conf = load_config()
-with open("../conf/%s" % conf["common"]["log"]["conf"], "r", encoding="utf-8") as log_conf_f:
-    logging.config.dictConfig(yaml.safe_load(log_conf_f))
+load_logging_conf(conf)
 
 
 if __name__ == "__main__":
