@@ -2,7 +2,7 @@ from flask import Flask
 from flask_migrate import Migrate
 
 from common.config import Config
-from common.config import load_config, load_logging_conf
+from common.config import load_config
 from controller import api
 from database import db, SQLALCHEMY_DATABASE_URI
 
@@ -19,8 +19,6 @@ def create_app():
 
 
 conf = load_config()
-load_logging_conf(conf)
-
 
 if __name__ == "__main__":
     try:

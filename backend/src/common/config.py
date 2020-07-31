@@ -3,6 +3,8 @@ import os
 
 import yaml
 
+current_dir = os.path.join(os.path.dirname(__file__), "../../conf/")
+
 
 def load_logging_conf(log_conf: dict):
     """
@@ -11,7 +13,7 @@ def load_logging_conf(log_conf: dict):
     :return:
     """
     try:
-        with open("../conf/%s" % log_conf["common"]["log"]["conf"], "r", encoding="utf-8") as log_conf_f:
+        with open(current_dir + "{}".format(log_conf["common"]["log"]["conf"]), "r", encoding="utf-8") as log_conf_f:
             logging.config.dictConfig(yaml.safe_load(log_conf_f))
     except FileNotFoundError:
         raise Exception("loading log conf load error")
@@ -27,8 +29,10 @@ def load_config() -> dict:
         env = "prod"
     elif os.environ.get("SCRIPT_ENV") == "staging":
         env = "staging"
+    elif os.environ.get("SCRIPT_ENV") == "test":
+        env = "test"
     try:
-        with open("../conf/config_%s.yaml" % env, "r", encoding="utf-8") as conf_f:
+        with open(current_dir + "config_{}.yaml".format(env), "r", encoding="utf-8") as conf_f:
             conf = yaml.safe_load(conf_f)
         return conf
     except FileNotFoundError:
@@ -41,5 +45,8 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     JSON_AS_ASCII = False
     SQLALCHEMY_ECHO = False
+    if os.environ.get("SCRIPT_ENV") == "test":
+        TESTING = True
+        DEBUG = True
 
 
