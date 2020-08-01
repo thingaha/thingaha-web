@@ -1,9 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Grid, Paper } from '@material-ui/core'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemText from '@material-ui/core/ListItemText'
 import ListSubheader from '@material-ui/core/ListSubheader'
 import Avatar from '@material-ui/core/Avatar'
 import SchoolIcon from '@material-ui/icons/School'
@@ -12,15 +9,12 @@ import WcIcon from '@material-ui/icons/Wc'
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn'
 import { NavLink } from 'react-router-dom'
 import logoUrl from '../../logo.svg'
-import { withTheme } from '@material-ui/core/styles'
 
-const SidebarContent = withTheme(
-  styled(Paper)`
-    width: 100%;
-    height: 100vh;
-    background-color: ${(props) => props.theme.palette.primary.main};
-  `
-)
+const SidebarContent = styled(Paper)`
+  width: 100%;
+  height: 100vh;
+  background-color: ${(props) => props.theme.palette.primary.main};
+`
 
 const StyledMenuContainer = styled.ul`
   list-style: none;
@@ -46,7 +40,7 @@ const StyledNavLink = styled(NavLink)`
   margin-bottom: 1rem;
 
   &.active {
-    color: red;
+    color: ${(props) => props.theme.palette.secondary.dark};
   }
 
   & .nav-icon {
