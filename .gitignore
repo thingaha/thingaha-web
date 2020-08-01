@@ -38,3 +38,6 @@ yarn-error.log*
 
 # for people who uses asdf to manage node versions
 .tool-versions
+
+# editor related stuff
+.vscode
