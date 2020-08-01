@@ -11,15 +11,15 @@ export default {
     default: '#fafafa',
   },
   primary: {
-    light: 'rgba(175, 239, 111, 1)',
+    light: 'rgba(43, 195, 28, 1)',
     main: 'rgba(0, 185, 0, 1)',
     dark: 'rgba(3, 169, 3, 1)',
     contrastText: '#fff',
   },
   secondary: {
-    light: 'rgba(211, 74, 243, 1)',
-    main: 'rgba(185, 0, 185, 1)',
-    dark: 'rgba(153, 31, 179, 1)',
+    light: 'rgba(239, 111, 175, 1)',
+    main: 'rgba(252, 164, 208, 1)',
+    dark: 'rgba(212, 77, 144, 1)',
     contrastText: '#fff',
   },
   error: {

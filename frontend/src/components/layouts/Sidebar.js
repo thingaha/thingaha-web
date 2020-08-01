@@ -33,14 +33,22 @@ const StyledAvatar = styled(Avatar)`
 `
 
 const StyledNavLink = styled(NavLink)`
-  color: white;
   display: flex;
   justify-content: flex-start;
   align-items: center;
   margin-bottom: 1rem;
+  color: ${(props) => props.theme.palette.common.white};
+  padding: 0.5rem 1rem;
+
+  &:hover {
+    background-color: ${(props) => props.theme.palette.primary.light};
+    border-radius: 4px;
+  }
 
   &.active {
-    color: ${(props) => props.theme.palette.secondary.dark};
+    color: ${(props) => props.theme.palette.primary.contrastText};
+    background-color: ${(props) => props.theme.palette.primary.dark};
+    border-radius: 4px;
   }
 
   & .nav-icon {
