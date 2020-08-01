@@ -20,6 +20,25 @@ const Wrapper = styled.div`
   padding: 0 20px;
 `
 
+const HeadingContainer = styled.div`
+  margin-bottom: 1rem;
+`
+
+const StyledUserTable = styled(Table)`
+  & td {
+    color: ${(props) => props.theme.palette.text.primary};
+  }
+`
+
+const StyledTableRow = styled(TableRow)`
+  border-bottom: 1px solid ${(props) => props.theme.palette.common.grey};
+
+  &.disabled {
+    background: ${(props) => props.theme.palette.text.disabled};
+    opacity: 0.5;
+  }
+`
+
 const Users = ({ users: { users }, getAllUsers }) => {
   const [userFormVisible, setUserFormVisible] = useState(false)
 
@@ -29,7 +48,7 @@ const Users = ({ users: { users }, getAllUsers }) => {
 
   return (
     <Wrapper component={Paper}>
-      <div>
+      <HeadingContainer>
         <h1>Users</h1>
         <Button
           variant="contained"
@@ -41,9 +60,9 @@ const Users = ({ users: { users }, getAllUsers }) => {
         >
           Add User
         </Button>
-      </div>
+      </HeadingContainer>
       <UserForm visible={userFormVisible} setVisible={setUserFormVisible} />
-      <Table aria-label="simple table">
+      <StyledUserTable aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell align="right">ID</TableCell>
@@ -56,7 +75,10 @@ const Users = ({ users: { users }, getAllUsers }) => {
         </TableHead>
         <TableBody>
           {users.map((user) => (
-            <TableRow key={user.id}>
+            <StyledTableRow
+              key={user.id}
+              className={Boolean(user.deactivated_at) ? 'disabled' : 'asdfs'}
+            >
               <TableCell component="th" scope="row">
                 {user.id}
               </TableCell>
@@ -65,10 +87,10 @@ const Users = ({ users: { users }, getAllUsers }) => {
               <TableCell align="right">{user.address}</TableCell>
               <TableCell align="right">{user.role}</TableCell>
               <TableCell align="right">{user.country}</TableCell>
-            </TableRow>
+            </StyledTableRow>
           ))}
         </TableBody>
-      </Table>
+      </StyledUserTable>
     </Wrapper>
   )
 }
