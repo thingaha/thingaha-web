@@ -8,11 +8,18 @@ import PeopleIcon from '@material-ui/icons/People'
 import WcIcon from '@material-ui/icons/Wc'
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn'
 import { NavLink } from 'react-router-dom'
-import logoUrl from '../../logo.svg'
+import logoUrl from '../../logo_transparent.png'
+
+const SidebarContainerGrid = styled(Grid)`
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+`
 
 const SidebarContent = styled(Paper)`
   width: 100%;
-  height: 100vh;
+  height: 100%;
   background-color: ${(props) => props.theme.palette.primary.main};
 `
 
@@ -21,6 +28,7 @@ const StyledMenuContainer = styled.ul`
   display: flex;
   flex-direction: column;
   padding-left: 1rem;
+  margin-top: 2rem;
 `
 
 const StyledLogoContainer = styled(Grid)`
@@ -28,8 +36,9 @@ const StyledLogoContainer = styled(Grid)`
 `
 
 const StyledAvatar = styled(Avatar)`
-  height: 60px;
-  width: 80px;
+  height: 100px;
+  width: 100%;
+  margin: 0 auto 1rem auto;
 `
 
 const StyledNavLink = styled(NavLink)`
@@ -79,7 +88,7 @@ const NavMenu = () => (
 
 const Sidebar = (props) => {
   return (
-    <Grid
+    <SidebarContainerGrid
       container
       item
       xs={2}
@@ -91,27 +100,22 @@ const Sidebar = (props) => {
         <Grid container row>
           <Grid item xs="2"></Grid>
           <Grid item xs="8">
-            <ListSubheader>
-              <StyledLogoContainer
-                container
-                direction="row"
-                alignItems="center"
-                justify="flex-start"
-              >
-                <Grid item alignItems="center" justify="center" xs="5">
-                  <StyledAvatar alt="Logo" src={logoUrl} />
-                </Grid>
-                <Grid item xs="7" alignItems="center">
-                  Thingaha
-                </Grid>
-              </StyledLogoContainer>
-            </ListSubheader>
+            <StyledLogoContainer
+              container
+              direction="row"
+              alignItems="flex-start"
+              justify="center"
+            >
+              <Grid item alignItems="center" justify="center" xs="12">
+                <StyledAvatar alt="Thingaha Logo" src={logoUrl} />
+              </Grid>
+            </StyledLogoContainer>
             <NavMenu />
           </Grid>
           <Grid item xs="2" />
         </Grid>
       </SidebarContent>
-    </Grid>
+    </SidebarContainerGrid>
   )
 }
 

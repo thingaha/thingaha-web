@@ -21,11 +21,14 @@ const Wrapper = styled.div`
 
 const ContentView = (props) => {
   return (
-    <Grid container item xs={10} direction="column">
-      <View>
-        <Wrapper>{props.children}</Wrapper>
-      </View>
-    </Grid>
+    <>
+      <Grid item xs={2}></Grid>
+      <Grid container item xs={10} direction="column">
+        <View>
+          <Wrapper>{props.children}</Wrapper>
+        </View>
+      </Grid>
+    </>
   )
 }
 
