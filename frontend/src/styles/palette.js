@@ -1,12 +1,10 @@
 import { colors } from '@material-ui/core'
 
-const white = '#FFFFFF'
-const black = '#000000'
-
 export default {
   common: {
-    black: '#000',
+    black: 'rgba(3, 3, 3, 1)',
     white: '#fff',
+    grey: '#888',
   },
   background: {
     paper: 'rgba(242, 252, 242, 0.92)',
@@ -15,7 +13,7 @@ export default {
   primary: {
     light: 'rgba(175, 239, 111, 1)',
     main: 'rgba(0, 185, 0, 1)',
-    dark: 'rgba(85, 167, 0, 1)',
+    dark: 'rgba(3, 169, 3, 1)',
     contrastText: '#fff',
   },
   secondary: {
@@ -25,8 +23,8 @@ export default {
     contrastText: '#fff',
   },
   error: {
-    light: 'rgba(251, 124, 181, 1)',
-    main: 'rgba(246, 9, 115, 1)',
+    light: 'rgba(250, 0, 114, 1)',
+    main: 'rgba(217, 11, 104, 1)',
     dark: 'rgba(182, 6, 68, 1)',
     contrastText: '#fff',
   },
