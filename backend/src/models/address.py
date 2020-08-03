@@ -24,6 +24,9 @@ class AddressModel(db.Model):
     def __repr__(self):
         return f"<Address {self.address}>"
 
+    def format_address(self):
+        return ", ".join(filter(lambda x: x is not None and x != "", [self.street_address, self.township, self.district, self.division]))
+
     @staticmethod
     def create_address(new_address) -> bool:
         """
