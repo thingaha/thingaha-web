@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import DonatorCard from './DonatorCard'
+import { connect } from 'react-redux'
+import * as actions from '../../store/actions'
 
 const DonatorList = styled.ul`
   list-style: none;
@@ -12,54 +14,28 @@ const DonatorList = styled.ul`
   }
 `
 
-const CurrentMonthDonations = ({}) => {
-  const originalDonators = [
-    {
-      id: 1,
-      name: 'Chan Myae San Hlaing + Khine Zar Thwe',
-      status: 'PENDING',
-      amount_jpy: 3000,
-    },
-    {
-      id: 2,
-      name: 'Ma Thin Zar Lin',
-      status: 'PAID',
-      amount_jpy: 3000,
-    },
-    {
-      id: 3,
-      name: 'Ma Khin Sabei Han',
-      status: 'PAID',
-      amount_jpy: 3000,
-    },
-  ]
-  const [donators, setDonators] = useState(originalDonators)
+const CurrentMonthDonations = ({
+  donations: { donations },
+  getDonationsForMonth,
+}) => {
+  useEffect(() => {
+    getDonationsForMonth()
+  }, [getDonationsForMonth])
 
   const handleToggle = (id) => {
-    const newDonators = donators.map((donator) => {
-      if (donator.id == id) {
-        return {
-          ...donator,
-          status: donator.status == 'PENDING' ? 'PAID' : 'PENDING',
-        }
-      } else {
-        return donator
-      }
-    })
-
-    setDonators(newDonators)
+    alert(`Toggling ${id}`)
   }
 
   return (
     <DonatorList>
-      {donators.map((donator) => {
+      {donations.map((donation) => {
         return (
           <li>
             <DonatorCard
-              handleToggle={() => handleToggle(donator.id)}
-              checked={donator.status == 'PAID'}
-              description={donator.name}
-              amount={donator.amount_jpy}
+              handleToggle={() => handleToggle(donation.id)}
+              checked={donation.status == 'PAID'}
+              description={donation.user.user_name}
+              amount={donation.amount_jpy}
             />
           </li>
         )
@@ -68,4 +44,19 @@ const CurrentMonthDonations = ({}) => {
   )
 }
 
-export default CurrentMonthDonations
+const mapStateToProps = (state) => ({
+  donations: state.donations,
+})
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    // dispatching plain actions
+    getDonationsForMonth: (year, month) =>
+      dispatch(actions.getDonationsForMonth(year, month)),
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CurrentMonthDonations)

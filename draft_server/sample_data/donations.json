@@ -2,6 +2,7 @@
   "data": {
     "donations": [
       {
+        "id": 1,
         "user": {
           "id": 1,
           "user_name": "naruto",
@@ -12,41 +13,42 @@
         },
         "year": 2020,
         "month": "january",
-        "student_id": {
-        "id": 1,
-        "name": "naruto",
-        "deactivated_at": "",
-        "birth_date": "1990-08-02",
-        "father_name": "U Aye",
-        "mother_name": "Daw Aye",
-        "parents_occupation": "Farmer",
-        "address_id": 10
-      },
+        "student": {
+          "id": 1,
+          "name": "naruto",
+          "deactivated_at": "",
+          "birth_date": "1990-08-02",
+          "father_name": "U Aye",
+          "mother_name": "Daw Aye",
+          "parents_occupation": "Farmer",
+          "address_id": 10
+        },
         "amount_jpy": 3000,
         "amount_mmk": 30000,
         "status": "pending"
       },
       {
+        "id": 2,
         "user": {
-        "id": 4,
-        "user_name": "kakashi",
-        "email": "kakashi@example.com",
-        "address": "1 Chome-1-2 Oshiage, Sumida City, Tokyo 131-8634",
-        "role": "donator",
-        "country": "jp"
-      },
+          "id": 4,
+          "user_name": "kakashi",
+          "email": "kakashi@example.com",
+          "address": "1 Chome-1-2 Oshiage, Sumida City, Tokyo 131-8634",
+          "role": "donator",
+          "country": "jp"
+        },
         "year": 2020,
         "month": "january",
-        "student_id": {
-        "id": 2,
-        "name": "naruto",
-        "deactivated_at": "",
-        "birth_date": "1990-08-01",
-        "father_name": "U Aye Aye",
-        "mother_name": "Daw Aye Aye",
-        "parents_occupation": "Farmer",
-        "address_id": 11
-      },
+        "student": {
+          "id": 2,
+          "name": "naruto",
+          "deactivated_at": "",
+          "birth_date": "1990-08-01",
+          "father_name": "U Aye Aye",
+          "mother_name": "Daw Aye Aye",
+          "parents_occupation": "Farmer",
+          "address_id": 11
+        },
         "amount_jpy": 3000,
         "amount_mmk": 30000,
         "status": "pending"
