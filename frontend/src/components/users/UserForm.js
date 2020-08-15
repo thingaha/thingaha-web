@@ -41,7 +41,6 @@ const UserForm = ({
       onClose={() => setVisible(false)}
       onCancel={() => setVisible(false)}
       onSubmit={() => {
-        console.log('Submitting', values)
         submitUserForm(values)
         setVisible(false)
       }}
@@ -133,7 +132,6 @@ const FormikUserForm = withFormik({
   },
 
   handleSubmit: (values, { submitUserForm }) => {
-    console.log('Submitting', values)
     submitUserForm(values)
   },
 

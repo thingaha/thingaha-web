@@ -22,8 +22,6 @@ export default (state = { users: [] }, action) => {
     case SUBMIT_USER_FORM_SUCCESS:
       const newUser = action.user
 
-      console.log('aciton', newUser, state)
-
       return {
         ...state,
         users: [...state.users, newUser],
