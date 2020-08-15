@@ -1,8 +1,10 @@
 import { colors } from '@material-ui/core'
 
+const textBlack = 'rgba(0, 0, 0, 0.64)'
+
 export default {
   common: {
-    black: 'rgba(3, 3, 3, 1)',
+    black: textBlack,
     white: '#fff',
     grey: '#888',
   },
@@ -31,11 +33,11 @@ export default {
   success: {
     light: 'rgb(143,240,132)',
     main: 'rgb(31, 225, 8)',
-    dark: 'rgb(10,205,2)',
-    contrastText: 'rgba(3, 3, 3, 1)',
+    dark: '#0aaf00',
+    contrastText: textBlack,
   },
   text: {
-    primary: 'rgba(3, 3, 3, 1)',
+    primary: textBlack,
     secondary: 'rgba(56, 53, 65, 0.54)',
     disabled: 'rgba(102, 116, 102, 0.38)',
     hint: 'rgba(66, 47, 59, 0.69)',

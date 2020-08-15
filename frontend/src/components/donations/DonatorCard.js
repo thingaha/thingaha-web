@@ -46,7 +46,7 @@ const DonatorCard = ({ handleToggle, checked, description, amount }) => {
       <div className="icon">
         <Switch
           edge="end"
-          color="success"
+          color="primary"
           onChange={handleToggle}
           checked={checked}
           inputProps={{ 'aria-labelledby': 'switch-list-label-wifi' }}

@@ -9,7 +9,7 @@ const StyledHeaderContainer = styled(Paper)`
   display: flex;
   margin-bottom: 1rem;
   padding: 0.5rem 1rem;
-  background-color: ${({ theme }) => theme.palette.success.light};
+  background-color: ${({ theme }) => theme.palette.primary.dark};
 
   & .head-count-total {
     flex: 1;
@@ -48,19 +48,21 @@ const CurrentMonthTotalsHeader = ({
   pendingTotal,
 }) => {
   return (
-    <StyledHeaderContainer>
-      <div class="head-count-total">
-        <PeopleIcon />
-        <div class="ratio">
-          {paidCount}/{totalCount}
+    <>
+      <StyledHeaderContainer>
+        <div class="head-count-total">
+          <PeopleIcon />
+          <div class="ratio">
+            {paidCount}/{totalCount}
+          </div>
         </div>
-      </div>
-      <div class="amount-total">
-        <AttachMoneyIcon />
-        <Chip label={paidTotal} className="chip success" />
-        <Chip label={pendingTotal} className="chip default" />
-      </div>
-    </StyledHeaderContainer>
+        <div class="amount-total">
+          <AttachMoneyIcon />
+          <Chip label={paidTotal} className="chip success" />
+          <Chip label={pendingTotal} className="chip default" />
+        </div>
+      </StyledHeaderContainer>
+    </>
   )
 }
 

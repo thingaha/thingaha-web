@@ -6,6 +6,10 @@ import * as actions from '../../store/actions'
 import sumBy from 'lodash/sumBy'
 import values from 'lodash/values'
 import CurrentMonthTotalsHeader from './CurrentMonthTotalsHeader'
+import Input from '@material-ui/core/Input'
+import InputAdornment from '@material-ui/core/InputAdornment'
+import SearchIcon from '@material-ui/icons/Search'
+import { Typography } from '@material-ui/core'
 
 const DonatorList = styled.ul`
   list-style: none;
@@ -39,8 +43,53 @@ const CurrentMonthDonations = ({
     (donation) => donation.status == 'pending'
   )
 
+  const SearchInput = () => {
+    return (
+      <Input
+        id="input-with-icon-adornment"
+        startAdornment={
+          <InputAdornment position="start">
+            <SearchIcon />
+          </InputAdornment>
+        }
+      />
+    )
+  }
+
+  const MonthHeading = styled(Typography)`
+    & .year {
+      color: ${({ theme }) => theme.palette.text.secondary};
+      font-size: 1.25rem;
+    }
+
+    & .month {
+      color: ${({ theme }) => theme.palette.text.primary};
+      font-size: 1.5rem;
+    }
+  `
+
+  const HeadingContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  `
+
+  const Heading = () => {
+    return (
+      <HeadingContainer>
+        <MonthHeading>
+          <span class="month">JUL </span>
+          <span class="year">2020</span>
+        </MonthHeading>
+        <SearchInput />
+      </HeadingContainer>
+    )
+  }
+
   return (
     <>
+      <Heading />
       <CurrentMonthTotalsHeader
         totalCount={donations.length}
         paidCount={paidDonations.length}
