@@ -13,6 +13,7 @@
 
 - install anaconda from [anaconda](https://docs.anaconda.com/anaconda/install/) webpage
 - install [pgadmin4](https://www.pgadmin.org/download/) (optional)
+- create the database with username,password in conf_dev, conf_test
 
 ##### create virtual environment
 
@@ -37,6 +38,13 @@ postgres url be like [DB_TYPE]+[DB_CONNECTOR]://[USERNAME]:[PASSWORD]@[HOST]:[PO
 ```shell script
 for linux -> go backend/bin and run -> ./start_app.sh
 for windows -> go to backend\bin and run -> start_app.bat
+```
+
+- Start the test case
+
+```shell script
+for linux -> go backend/bin and run -> ./start_test.sh
+for windows -> go to backend\bin and run -> start_test.bat
 ```
 
 ### Frontend

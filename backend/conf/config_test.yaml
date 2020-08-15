@@ -1,0 +1,14 @@
+common:
+    version: "0.0.1"
+    server:
+        host: "localhost"
+        port: 5000
+    log:
+        conf: "logging_dev.yaml"
+postgres:
+    url: "postgresql://"
+    host: "localhost"
+    port: 5432
+    user: "postgres"
+    password: "thingaha"
+    db: "thingaha_test"
