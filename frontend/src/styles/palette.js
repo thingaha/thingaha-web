@@ -28,6 +28,12 @@ export default {
     dark: 'rgba(182, 6, 68, 1)',
     contrastText: '#fff',
   },
+  success: {
+    light: 'rgb(143,240,132)',
+    main: 'rgb(31, 225, 8)',
+    dark: 'rgb(10,205,2)',
+    contrastText: 'rgba(3, 3, 3, 1)',
+  },
   text: {
     primary: 'rgba(3, 3, 3, 1)',
     secondary: 'rgba(56, 53, 65, 0.54)',
