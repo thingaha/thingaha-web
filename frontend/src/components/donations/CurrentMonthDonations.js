@@ -3,6 +3,9 @@ import styled from 'styled-components'
 import DonatorCard from './DonatorCard'
 import { connect } from 'react-redux'
 import * as actions from '../../store/actions'
+import sumBy from 'lodash/sumBy'
+import values from 'lodash/values'
+import CurrentMonthTotalsHeader from './CurrentMonthTotalsHeader'
 
 const DonatorList = styled.ul`
   list-style: none;
@@ -15,37 +18,55 @@ const DonatorList = styled.ul`
 `
 
 const CurrentMonthDonations = ({
-  donations: { donations },
+  donations,
   getDonationsForMonth,
+  updateDonationStatus,
 }) => {
   useEffect(() => {
     getDonationsForMonth()
   }, [getDonationsForMonth])
 
-  const handleToggle = (id) => {
-    alert(`Toggling ${id}`)
+  const handleToggle = (donation) => {
+    const newStatus = donation.status == 'pending' ? 'paid' : 'pending'
+    updateDonationStatus(donation.id, newStatus)
   }
 
+  const paidDonations = donations.filter(
+    (donation) => donation.status == 'paid'
+  )
+
+  const pendingDonations = donations.filter(
+    (donation) => donation.status == 'pending'
+  )
+
   return (
-    <DonatorList>
-      {donations.map((donation) => {
-        return (
-          <li>
-            <DonatorCard
-              handleToggle={() => handleToggle(donation.id)}
-              checked={donation.status == 'PAID'}
-              description={donation.user.user_name}
-              amount={donation.amount_jpy}
-            />
-          </li>
-        )
-      })}
-    </DonatorList>
+    <>
+      <CurrentMonthTotalsHeader
+        totalCount={donations.length}
+        paidCount={paidDonations.length}
+        paidTotal={sumBy(paidDonations, 'amount_jpy')}
+        pendingTotal={sumBy(pendingDonations, 'amount_jpy')}
+      />
+      <DonatorList>
+        {donations.map((donation) => {
+          return (
+            <li>
+              <DonatorCard
+                handleToggle={() => handleToggle(donation)}
+                checked={donation.status == 'paid'}
+                description={donation.user.user_name}
+                amount={donation.amount_jpy}
+              />
+            </li>
+          )
+        })}
+      </DonatorList>
+    </>
   )
 }
 
 const mapStateToProps = (state) => ({
-  donations: state.donations,
+  donations: values(state.donations.content),
 })
 
 const mapDispatchToProps = (dispatch) => {
@@ -53,6 +74,9 @@ const mapDispatchToProps = (dispatch) => {
     // dispatching plain actions
     getDonationsForMonth: (year, month) =>
       dispatch(actions.getDonationsForMonth(year, month)),
+
+    updateDonationStatus: (id, status) =>
+      dispatch(actions.updateDonationStatus(id, status)),
   }
 }
 

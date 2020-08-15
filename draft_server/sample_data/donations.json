@@ -25,7 +25,7 @@
       },
       "amount_jpy": 3000,
       "amount_mmk": 30000,
-      "status": "pending"
+      "status": "paid"
     },
     {
       "id": 2,
@@ -79,7 +79,7 @@
       },
       "amount_jpy": 3000,
       "amount_mmk": 30000,
-      "status": "pending"
+      "status": "paid"
     },
     {
       "id": 4,
@@ -106,7 +106,7 @@
       },
       "amount_jpy": 3000,
       "amount_mmk": 30000,
-      "status": "pending"
+      "status": "paid"
     },
     {
       "id": 5,
@@ -160,7 +160,7 @@
       },
       "amount_jpy": 3000,
       "amount_mmk": 30000,
-      "status": "pending"
+      "status": "paid"
     },
     {
       "id": 7,
@@ -1267,7 +1267,7 @@
       },
       "amount_jpy": 3000,
       "amount_mmk": 30000,
-      "status": "pending"
+      "status": "paid"
     },
     {
       "id": 48,
