@@ -1,9 +1,12 @@
 const express = require('express')
 const app = express()
+const cors = require('cors')
 const port = 9000
 
+app.use(cors())
+
 app.get('/users', (req, res) => {
-  const json = require('./users.json')
+  const json = require('./sample_data/users.json')
   res.json(json)
 })
 
@@ -27,7 +30,7 @@ app.post('/users', (req, res) => {
 //GET /donations
 // This endpoint should return monthly donations for all donators of the month.
 app.get('/donations', (req, res) => {
-  const json = require('./donations.json')
+  const json = require('./sample_data/donations.json')
   res.json(json)
 })
 

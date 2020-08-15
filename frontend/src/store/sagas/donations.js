@@ -11,12 +11,11 @@ import {
 
 export function* fetchDonationsForMonth(action) {
   try {
-    // const { backendResponse: json } = yield call([axios, 'get'], '/users') // TODO to call api endpoint
-    const json = yield getDonationsForMonth()
+    const response = yield getDonationsForMonth()
 
     yield put({
       type: GET_DONATIONS_FOR_MONTH_SUCCESS,
-      donations: json.data.donations,
+      donations: response.data.data,
     })
   } catch (error) {
     yield put({ type: GET_DONATIONS_FOR_MONTH_FAILURE, error })
