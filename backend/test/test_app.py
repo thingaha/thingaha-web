@@ -22,6 +22,30 @@ def test_config(init_app):
     assert init_app.config["TESTING"] == True
 
 
-def test_index(init_app, client):
-    res = client.get('/api/v1/address')
+def test_address(init_app, client):
+    res = client.get("/api/v1/address")
+    assert res.status_code == 200
+
+
+def test_school(init_app, client):
+    res = client.get("/api/v1/school")
+    assert res.status_code == 200
+
+
+def test_school_id(init_app, client):
+    res = client.get("/api/v1/school/1")
+    assert res.status_code == 200
+
+
+def test_delete_school_id(init_app, client):
+    res = client.delete("/api/v1/school/1")
+    assert res.status_code == 200
+
+
+def test_update_school_id(init_app, client):
+    res = client.put("/api/v1/school/1", json={
+        "school_name": "No.(33)Nyanungdon",
+        "contact_info": "098",
+        "address_id": 4
+    })
     assert res.status_code == 200
