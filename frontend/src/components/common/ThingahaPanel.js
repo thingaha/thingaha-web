@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import Paper from '@material-ui/core/Paper'
-import { Typography } from '@material-ui/core'
 
 const StyledPanelContainer = styled(Paper)`
   background: ${({ theme }) => theme.palette.background.paper};
@@ -13,19 +12,19 @@ const StyledPanelContainer = styled(Paper)`
   & .heading-container {
     background-color: ${({ theme }) => theme.palette.primary.main};
     color: ${({ theme }) => theme.palette.primary.contrastText};
-    padding: 0.25rem 1rem;
     border-radius: 4px 4px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2rem;
+    font-size: 1.25rem;
   }
 `
 
 const ThingahaPanel = ({ heading, children }) => {
   return (
     <StyledPanelContainer>
-      <div className="heading-container">
-        <Typography variant="h3" align="center" color="inherit">
-          {heading}
-        </Typography>
-      </div>
+      <div className="heading-container">{heading}</div>
       {children}
     </StyledPanelContainer>
   )
