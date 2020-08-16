@@ -58,7 +58,6 @@ const MonthlyDonationStats = ({
   pendingAmount,
   paidAmount,
   countryEmoji,
-  currency,
 }) => {
   return (
     <ThingahaPanel heading={`${countryEmoji} Totals`}>

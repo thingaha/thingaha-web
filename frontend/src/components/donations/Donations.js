@@ -28,25 +28,23 @@ const Donations = ({ donations, getDonationsForMonth }) => {
     (donation) => donation.user.country === 'jp'
   )
 
-  const japanPaidAmount = sumBy(
-    japanDonations.filter((donation) => donation.status === 'paid'),
-    'amount_jpy'
+  const japanPaidDonations = japanDonations.filter(
+    (donation) => donation.status === 'paid'
+  )
+  const japanPendingDonations = japanDonations.filter(
+    (donation) => donation.status === 'pending'
+  )
+  const myanmarPaidDonations = myanmarDonations.filter(
+    (donation) => donation.status === 'paid'
+  )
+  const myanmarPendingDonations = myanmarDonations.filter(
+    (donation) => donation.status === 'pending'
   )
 
-  const myanmarPaidAmount = sumBy(
-    myanmarDonations.filter((donation) => donation.status === 'paid'),
-    'amount_mmk'
-  )
-
-  const japanPendingAmount = sumBy(
-    japanDonations.filter((donation) => donation.status === 'pending'),
-    'amount_jpy'
-  )
-
-  const myanmarPendingAmount = sumBy(
-    myanmarDonations.filter((donation) => donation.status === 'pending'),
-    'amount_mmk'
-  )
+  const japanPaidAmount = sumBy(japanPaidDonations, 'amount_jpy')
+  const myanmarPaidAmount = sumBy(myanmarPaidDonations, 'amount_mmk')
+  const japanPendingAmount = sumBy(japanPendingDonations, 'amount_jpy')
+  const myanmarPendingAmount = sumBy(myanmarPendingDonations, 'amount_mmk')
 
   return (
     <Grid container spacing={3}>
@@ -55,27 +53,25 @@ const Donations = ({ donations, getDonationsForMonth }) => {
           tabMenus={['All', 'JP', 'MM']}
           tabPanels={[
             <All donations={donations} />,
-            <Myanmar donations={myanmarDonations} />,
             <Japan donations={japanDonations} />,
+            <Myanmar donations={myanmarDonations} />,
           ]}
         />
       </Grid>
       <Grid item xs={12} md={4}>
         <MonthlyDonationStats
-          totalCount={50}
-          paidCount={12}
+          totalCount={japanDonations.length}
+          paidCount={japanPaidDonations.length}
           pendingAmount={formatJPY(japanPendingAmount)}
           paidAmount={formatJPY(japanPaidAmount)}
           countryEmoji={'🇯🇵'}
-          currency={'JPY'}
         />
         <MonthlyDonationStats
-          totalCount={8}
-          paidCount={2}
+          totalCount={myanmarDonations.length}
+          paidCount={myanmarPaidDonations.length}
           pendingAmount={formatMMK(myanmarPendingAmount)}
           paidAmount={formatMMK(myanmarPaidAmount)}
           countryEmoji={'🇲🇲'}
-          currency={'MMK'}
         />
       </Grid>
     </Grid>
