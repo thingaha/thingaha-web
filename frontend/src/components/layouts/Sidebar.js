@@ -106,7 +106,7 @@ const Sidebar = (props) => {
               alignItems="flex-start"
               justify="center"
             >
-              <Grid item alignItems="center" justify="center" xs="12">
+              <Grid item container alignItems="center" justify="center" xs="12">
                 <StyledAvatar alt="Thingaha Logo" src={logoUrl} />
               </Grid>
             </StyledLogoContainer>

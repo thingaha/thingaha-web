@@ -35,14 +35,6 @@ const CurrentMonthDonations = ({
     updateDonationStatus(donation.id, newStatus)
   }
 
-  const paidDonations = donations.filter(
-    (donation) => donation.status == 'paid'
-  )
-
-  const pendingDonations = donations.filter(
-    (donation) => donation.status == 'pending'
-  )
-
   const SearchInput = () => {
     return (
       <Input
@@ -90,12 +82,6 @@ const CurrentMonthDonations = ({
   return (
     <>
       <Heading />
-      <CurrentMonthTotalsHeader
-        totalCount={donations.length}
-        paidCount={paidDonations.length}
-        paidTotal={sumBy(paidDonations, 'amount_jpy')}
-        pendingTotal={sumBy(pendingDonations, 'amount_jpy')}
-      />
       <DonatorList>
         {donations.map((donation) => {
           return (
@@ -114,9 +100,7 @@ const CurrentMonthDonations = ({
   )
 }
 
-const mapStateToProps = (state) => ({
-  donations: values(state.donations.content),
-})
+const mapStateToProps = (state) => ({})
 
 const mapDispatchToProps = (dispatch) => {
   return {

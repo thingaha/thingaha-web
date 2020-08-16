@@ -7,6 +7,7 @@ export default {
     black: textBlack,
     white: '#fff',
     grey: '#888',
+    lightgrey: '#e0e0e0',
   },
   background: {
     paper: 'rgba(242, 252, 242, 0.92)',
@@ -36,10 +37,17 @@ export default {
     dark: '#0aaf00',
     contrastText: textBlack,
   },
+  warning: {
+    light: '#fdd835',
+    main: '#f9a825',
+    dark: '#f57f17',
+    contrastText: textBlack,
+  },
   text: {
-    primary: textBlack,
-    secondary: 'rgba(56, 53, 65, 0.54)',
-    disabled: 'rgba(102, 116, 102, 0.38)',
+    primary: '#424242',
+    secondary: '#616161',
+    tertiary: '#757575',
+    disabled: '#bdbdbd',
     hint: 'rgba(66, 47, 59, 0.69)',
   },
 }

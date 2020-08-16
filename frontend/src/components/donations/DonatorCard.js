@@ -9,8 +9,9 @@ const DonatorCardContainer = styled(Paper)`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 0.5rem 1rem;
+  padding: 0rem 0.5rem;
   align-items: center;
+  transition: all 0.3s;
 
   &.success {
     color: ${(props) => props.theme.palette.success.contrastText};

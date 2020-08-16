@@ -53,10 +53,10 @@ const TabbedNav = ({ tabMenus, tabPanels, defaultIndex, centered }) => {
           return <Tab label={label} />
         })}
       </Tabs>
-      {tabPanels.map((Component, index) => {
+      {tabPanels.map((content, index) => {
         return (
           <TabPanel value={value} index={index}>
-            <Component />
+            {content}
           </TabPanel>
         )
       })}
