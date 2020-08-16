@@ -1,6 +1,10 @@
+from typing import List, Dict, Any
+
 from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.orm import relationship
 
 from database import db
+from models.address import AddressModel
 
 
 class SchoolModel(db.Model):
@@ -10,6 +14,7 @@ class SchoolModel(db.Model):
     name = db.Column(db.String(), nullable=False)
     contact_info = db.Column(db.String(), nullable=False)
     address_id = db.Column(db.Integer, db.ForeignKey("addresses.id"), nullable=False)
+    address = relationship("AddressModel", foreign_keys=[address_id])
 
     def __init__(self, name: str, contact_info: str, address_id: int) -> None:
         self.name = name
@@ -18,6 +23,23 @@ class SchoolModel(db.Model):
 
     def __repr__(self):
         return f"<School {self.name}>"
+
+    def school_dict(self) -> Dict[str, Any]:
+        """
+        Return object data in easily serializable format
+        """
+        return {
+            "id": self.id,
+            "name": self.name,
+            "contact_info": self.contact_info,
+            "address": {
+                "id": self.address_id,
+                "division": self.address.division,
+                "district": self.address.district,
+                "township": self.address.township,
+                "street_address": self.address.street_address
+            }
+        }
 
     @staticmethod
     def create_school(new_school) -> bool:
@@ -29,8 +51,63 @@ class SchoolModel(db.Model):
         try:
             db.session.add(new_school)
             db.session.commit()
-            return True
-        except SQLAlchemyError as e:
-            # to put log
-            return False
+            return new_school.id
+        except SQLAlchemyError:
+            db.session.rollback()
+            raise SQLAlchemyError
 
+    @staticmethod
+    def get_all_schools() -> List:
+        """
+        get all school records
+        :return: school list
+        """
+        try:
+            return db.session.query(SchoolModel).join(AddressModel).all()
+        except SQLAlchemyError:
+            raise SQLAlchemyError
+
+    @staticmethod
+    def get_school_by_id(school_id: int) -> List:
+        """
+        get all school records
+        :return: school list
+        """
+        try:
+            return db.session.query(SchoolModel).join(AddressModel).filter(SchoolModel.id == school_id)
+        except SQLAlchemyError:
+            raise SQLAlchemyError
+
+    @staticmethod
+    def delete_school_by_id(school_id: int) -> bool:
+        """
+        delete school by id
+        :param school_id:
+        :return:
+        """
+        try:
+            if not db.session.query(SchoolModel).filter(SchoolModel.id == school_id).delete():
+                return False
+            db.session.commit()
+            return True
+        except SQLAlchemyError:
+            db.session.rollback()
+            raise SQLAlchemyError
+
+    @staticmethod
+    def update_school(school_id: int, school) -> bool:
+        """
+        update school info by id
+        :param school_id:
+        :param school:
+        :return: bool
+        """
+        try:
+            update_school = db.session.query(SchoolModel).filter(SchoolModel.id == school_id).first()
+            update_school.name = school.name
+            update_school.contact_info = school.contact_info
+            db.session.commit()
+            return True
+        except SQLAlchemyError:
+            db.session.rollback()
+            raise SQLAlchemyError

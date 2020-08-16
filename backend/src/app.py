@@ -6,6 +6,8 @@ from common.config import load_config
 from controller import api
 from database import db, SQLALCHEMY_DATABASE_URI
 from service.user.user_service import UserService
+from service.school.school_service import SchoolService
+from service.address.address_service import AddressService
 
 
 def create_app():
@@ -22,8 +24,12 @@ def create_app():
 conf = load_config()
 app = create_app()
 user_service = UserService(app.logger)
+school_service = SchoolService(app.logger)
+address_service = AddressService(app.logger)
 
 api.user_service = user_service
+api.school_service = school_service
+api.address_service = address_service
 
 
 if __name__ == "__main__":
