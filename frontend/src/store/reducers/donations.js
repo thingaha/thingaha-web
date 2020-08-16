@@ -1,9 +1,6 @@
-import groupBy from 'lodash/groupBy'
 import {
-  GET_DONATIONS_FOR_MONTH,
   GET_DONATIONS_FOR_MONTH_SUCCESS,
   GET_DONATIONS_FOR_MONTH_FAILURE,
-  UPDATE_DONATION_STATUS,
   UPDATE_DONATION_STATUS_SUCCESS,
   UPDATE_DONATION_STATUS_FAILURE,
 } from '../actions/donations'
@@ -12,9 +9,7 @@ export default (state = { content: {}, errors: [] }, action) => {
   switch (action.type) {
     case GET_DONATIONS_FOR_MONTH_SUCCESS:
       const newDonations = {}
-      action.donations.map((donation) => {
-        newDonations[donation.id] = donation
-      })
+      action.donations.map((donation) => (newDonations[donation.id] = donation))
       return { ...state, content: newDonations }
     case GET_DONATIONS_FOR_MONTH_FAILURE:
       // TODO handle error

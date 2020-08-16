@@ -1,5 +1,3 @@
-import { colors } from '@material-ui/core'
-
 const textBlack = 'rgba(0, 0, 0, 0.64)'
 
 export default {

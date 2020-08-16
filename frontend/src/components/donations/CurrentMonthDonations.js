@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import DonatorCard from './DonatorCard'
 import { connect } from 'react-redux'
 import * as actions from '../../store/actions'
-import sumBy from 'lodash/sumBy'
-import values from 'lodash/values'
-import CurrentMonthTotalsHeader from './CurrentMonthTotalsHeader'
 import Input from '@material-ui/core/Input'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import SearchIcon from '@material-ui/icons/Search'
@@ -21,17 +18,9 @@ const DonatorList = styled.ul`
   }
 `
 
-const CurrentMonthDonations = ({
-  donations,
-  getDonationsForMonth,
-  updateDonationStatus,
-}) => {
-  useEffect(() => {
-    getDonationsForMonth()
-  }, [getDonationsForMonth])
-
+const CurrentMonthDonations = ({ donations, updateDonationStatus }) => {
   const handleToggle = (donation) => {
-    const newStatus = donation.status == 'pending' ? 'paid' : 'pending'
+    const newStatus = donation.status === 'pending' ? 'paid' : 'pending'
     updateDonationStatus(donation.id, newStatus)
   }
 
@@ -88,7 +77,7 @@ const CurrentMonthDonations = ({
             <li>
               <DonatorCard
                 handleToggle={() => handleToggle(donation)}
-                checked={donation.status == 'paid'}
+                checked={donation.status === 'paid'}
                 description={donation.user.user_name}
                 amount={donation.amount_jpy}
               />

@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Grid, Paper } from '@material-ui/core'
-import ListSubheader from '@material-ui/core/ListSubheader'
 import Avatar from '@material-ui/core/Avatar'
 import SchoolIcon from '@material-ui/icons/School'
 import PeopleIcon from '@material-ui/icons/People'

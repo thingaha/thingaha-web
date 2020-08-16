@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import TabbedNav from '../common/TabbedNav'
+import React, { useEffect } from 'react'
+import ThingahaTabbedNav from '../common/ThingahaTabbedNav'
 import CurrentMonthDonations from './CurrentMonthDonations'
 import MonthlyDonationStats from './MonthlyDonationStats'
 import Grid from '@material-ui/core/Grid'
@@ -22,36 +22,36 @@ const Donations = ({ donations, getDonationsForMonth }) => {
 
   // TODO: replace these filters with selectors using reselect
   const myanmarDonations = donations.filter(
-    (donation) => donation.user.country == 'mm'
+    (donation) => donation.user.country === 'mm'
   )
   const japanDonations = donations.filter(
-    (donation) => donation.user.country == 'jp'
+    (donation) => donation.user.country === 'jp'
   )
 
   const japanPaidAmount = sumBy(
-    japanDonations.filter((donation) => donation.status == 'paid'),
+    japanDonations.filter((donation) => donation.status === 'paid'),
     'amount_jpy'
   )
 
   const myanmarPaidAmount = sumBy(
-    myanmarDonations.filter((donation) => donation.status == 'paid'),
+    myanmarDonations.filter((donation) => donation.status === 'paid'),
     'amount_mmk'
   )
 
   const japanPendingAmount = sumBy(
-    japanDonations.filter((donation) => donation.status == 'pending'),
+    japanDonations.filter((donation) => donation.status === 'pending'),
     'amount_jpy'
   )
 
   const myanmarPendingAmount = sumBy(
-    myanmarDonations.filter((donation) => donation.status == 'pending'),
+    myanmarDonations.filter((donation) => donation.status === 'pending'),
     'amount_mmk'
   )
 
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} md={8}>
-        <TabbedNav
+        <ThingahaTabbedNav
           tabMenus={['All', 'JP', 'MM']}
           tabPanels={[
             <All donations={donations} />,

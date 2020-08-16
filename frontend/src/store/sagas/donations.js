@@ -25,7 +25,8 @@ export function* fetchDonationsForMonth(action) {
 
 export function* startDonationStatusUpdate(action) {
   try {
-    const response = yield updateDonationStatus()
+    // for now don't use api value since there is no api yet
+    // const _response = yield updateDonationStatus()
 
     yield put({
       type: UPDATE_DONATION_STATUS_SUCCESS,

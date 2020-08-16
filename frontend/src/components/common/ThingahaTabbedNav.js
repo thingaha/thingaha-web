@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { makeStyles } from '@material-ui/core/styles'
-import AppBar from '@material-ui/core/AppBar'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import Typography from '@material-ui/core/Typography'
@@ -33,7 +31,7 @@ TabPanel.propTypes = {
   value: PropTypes.any.isRequired,
 }
 
-const TabbedNav = ({ tabMenus, tabPanels, defaultIndex, centered }) => {
+const ThingahaTabbedNav = ({ tabMenus, tabPanels, defaultIndex, centered }) => {
   const [value, setValue] = useState(defaultIndex || 0)
 
   const handleChange = (event, newValue) => {
@@ -64,4 +62,4 @@ const TabbedNav = ({ tabMenus, tabPanels, defaultIndex, centered }) => {
   )
 }
 
-export default TabbedNav
+export default ThingahaTabbedNav
