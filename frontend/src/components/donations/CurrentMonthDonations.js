@@ -7,6 +7,7 @@ import Input from '@material-ui/core/Input'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import SearchIcon from '@material-ui/icons/Search'
 import { Typography } from '@material-ui/core'
+import { formatMMK, formatJPY } from '../../utils/formatCurrency'
 
 const DonatorList = styled.ul`
   list-style: none;
@@ -79,7 +80,11 @@ const CurrentMonthDonations = ({ donations, updateDonationStatus }) => {
                 handleToggle={() => handleToggle(donation)}
                 checked={donation.status === 'paid'}
                 description={donation.user.user_name}
-                amount={donation.amount_jpy}
+                amount={
+                  donation.user.country === 'jp'
+                    ? formatJPY(donation.amount_jpy)
+                    : formatMMK(donation.amount_mmk)
+                }
               />
             </li>
           )

@@ -42,6 +42,7 @@ const DonatorCardContainer = styled(Paper)`
 
 const DonatorCard = ({ handleToggle, checked, description, amount }) => {
   const cardStateClassName = classnames({ success: checked })
+
   return (
     <DonatorCardContainer className={cardStateClassName}>
       <div className="icon">
@@ -58,7 +59,7 @@ const DonatorCard = ({ handleToggle, checked, description, amount }) => {
           {description}
         </Typography>
         <Typography variant="body1" color="inherit">
-          {amount} JPY
+          {amount}
         </Typography>
       </div>
     </DonatorCardContainer>
