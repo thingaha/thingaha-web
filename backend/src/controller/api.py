@@ -43,10 +43,10 @@ def get_user_by_id(user_id: int):
             "data": {
                 "user": user_service.get_user_by_id(user_id)
             }}), 200
-    except SQLCustomError as e:
+    except SQLCustomError as error:
         return jsonify({
             "errors": {
-                "error": e.__dict__
+                "error": error.__dict__
             }
         }), 400
 
@@ -71,10 +71,10 @@ def create_user():
         })
         current_app.logger.info("create user success. user_name %s", data.get("name"))
         return get_user_by_id(user_id)
-    except (RequestDataEmpty, SQLCustomError, ValidateFail) as e:
+    except (RequestDataEmpty, SQLCustomError, ValidateFail) as error:
         return jsonify({
             "errors": {
-                "error": e.__dict__
+                "error": error.__dict__
             }
         }), 400
 
@@ -103,10 +103,10 @@ def update_user(user_id: int):
         return jsonify({
             "status": address_update_status and user_update_status
         }), 200
-    except (SQLCustomError, ValidateFail, RequestDataEmpty) as e:
+    except (SQLCustomError, ValidateFail, RequestDataEmpty) as error:
         return jsonify({
             "errors": {
-                "error": e.__dict__
+                "error": error.__dict__
             }
         }), 400
 
@@ -120,10 +120,10 @@ def delete_user(user_id: int):
         return jsonify({
             "status": user_service.delete_user_by_id(user_id)
         }), 200
-    except SQLCustomError as e:
+    except SQLCustomError as error:
         return jsonify({
             "errors": {
-                "error": e.__dict__
+                "error": error.__dict__
             }
         }), 400
 
