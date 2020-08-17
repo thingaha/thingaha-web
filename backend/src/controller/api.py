@@ -12,38 +12,121 @@ school_service: SchoolService = None
 address_service: AddressService = None
 
 
-@api.route("/user", methods=["POST", "GET", "DELETE", "PUT"])
-def create_user():
+@api.route("/user", methods=["GET"])
+def get_all_users():
     """
-    User management for User CRUD
+    get all users list
     """
-    # TODO call get users by id , name, email (confirm)
-    if request.method == "GET":
+    try:
         users = user_service.get_all_users()
-        return {"count": len(users), "users": users}, 200
+        return jsonify({
+            "data": {
+                "count": len(users),
+                "users": users
+            }}), 200
+    except SQLCustomError as error:
+        return jsonify({
+            "errors": {
+                "error": error.__dict__
+            }
+        }), 400
+
+
+@api.route("/user/<int:user_id>", methods=["GET"])
+def get_user_by_id(user_id: int):
+    """
+    get user by id
+    :return:
+    """
+    print("uuuu", user_id)
+    try:
+        return jsonify({
+            "data": {
+                "user": user_service.get_user_by_id(user_id)
+            }}), 200
+    except SQLCustomError as e:
+        return jsonify({
+            "errors": {
+                "error": e.__dict__
+            }
+        }), 400
+
+
+@api.route("/user", methods=["POST"])
+def create_user():
     data = request.get_json()
-    if not request.is_json:
-        current_app.logger.error("request body error")
-        return {"error": "The request payload is not in JSON format"}, 400
-    if request.method == "POST":
-        if user_service.create_user(data):
-            current_app.logger.info("create user success. email %s", data.get("email"))
-            return {"message": f"user {data.get('email')} has been created successfully."}, 200
-        current_app.logger.error("create user fail. email %s", data.get("email"))
-        return {"message": f"user create fail."}, 400
-    if request.method == "PUT":
-        if user_service.update_user(data):
-            current_app.logger.info("update user id %s success", data.get("id"))
-            return {"message": f"user {data.get('email')} has been updated successfully."}, 200
-        current_app.logger.error("update user id %s fail", data.get("id"))
-        return {"message": f"user update fail."}, 400
-    if request.method == "DELETE":
-        if user_service.delete_user(data.get("id")):
-            current_app.logger.info("delete user id %s success", data.get("id"))
-            return {"message": f"user {data.get('id')} has been deleted successfully."}, 200
-        current_app.logger.error("delete user id %s fail", data.get("id"))
-        return {"message": f"user delete fail."}, 400
-    return {"message": f"invalid operation."}, 400
+    try:
+        address_id = address_service.create_address({
+            "division": data.get("division"),
+            "district": data.get("district"),
+            "township": data.get("township"),
+            "street_address": data.get("street_address")
+        })
+        user_id = user_service.create_user({
+            "name": data.get("name"),
+            "email": data.get("email"),
+            "address_id": address_id,
+            "password": data.get("password"),
+            "role": data.get("role"),
+            "country": data.get("country")
+        })
+        current_app.logger.info("create user success. user_name %s", data.get("name"))
+        return get_user_by_id(user_id)
+    except (RequestDataEmpty, SQLCustomError, ValidateFail) as e:
+        return jsonify({
+            "errors": {
+                "error": e.__dict__
+            }
+        }), 400
+
+
+@api.route("/user/<int:user_id>", methods=["PUT"])
+def update_user(user_id: int):
+    """
+    update user info by id
+    """
+    data = request.get_json()
+    try:
+        address_update_status = address_service.update_address_by_id(data.get("address_id"), {
+            "division": data.get("division"),
+            "district": data.get("district"),
+            "township": data.get("township"),
+            "street_address": data.get("street_address")
+        })
+        user_update_status = user_service.update_user_by_id(user_id, {
+            "name": data.get("name"),
+            "email": data.get("email"),
+            "address_id": data.get("address_id"),
+            "password": data.get("password"),
+            "role": data.get("role"),
+            "country": data.get("country")
+        })
+        return jsonify({
+            "status": address_update_status and user_update_status
+        }), 200
+    except (SQLCustomError, ValidateFail, RequestDataEmpty) as e:
+        return jsonify({
+            "errors": {
+                "error": e.__dict__
+            }
+        }), 400
+
+
+@api.route("/user/<int:user_id>", methods=["DELETE"])
+def delete_user(user_id: int):
+    """
+    delete user by id
+    """
+    try:
+        return jsonify({
+            "status": user_service.delete_user_by_id(user_id)
+        }), 200
+    except SQLCustomError as e:
+        return jsonify({
+            "errors": {
+                "error": e.__dict__
+            }
+        }), 400
 
 
 @api.route("/address", methods=["POST", "GET"])

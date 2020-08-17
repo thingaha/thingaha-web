@@ -1,4 +1,6 @@
-from typing import Dict, Any
+from __future__ import annotations
+
+from typing import Dict, Any, List
 
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import relationship
@@ -37,23 +39,23 @@ class UserModel(db.Model):
                 "id": self.id,
                 "name": self.name,
                 "email": self.email,
-                "address_id": self.address_id,
-                "address": self.address.format_address(),
+                "formatted_address": self.address.format_address(),
+                "address": self.address.as_dict(),
                 "role": self.role,
                 "country": self.country
             }
 
     @staticmethod
-    def create_user(new_user) -> bool:
+    def create_user(new_user) -> int:
         """
         create new users
         :param new_user:
-        :return: bool
+        :return: created user id
         """
         try:
             db.session.add(new_user)
             db.session.commit()
-            return True
+            return new_user.id
         except SQLAlchemyError as error:
             db.session.rollback()
             raise error
@@ -95,31 +97,31 @@ class UserModel(db.Model):
             raise error
 
     @staticmethod
-    def get_user_by_id(user_id: int):
+    def get_user_by_id(user_id: int) -> UserModel:
         """
         get user by id
         :param user_id:
         :return: user info
         """
         try:
-            return db.session.query(UserModel).filter(id=user_id).first()
+            return db.session.query(UserModel).filter(UserModel.id == user_id).first()
         except SQLAlchemyError as error:
             raise error
 
     @staticmethod
-    def get_user_by_email(email: str):
+    def get_user_by_email(email: str) -> UserModel:
         """
-        get user by id
+        get user by email
         :param email:
         :return: user info
         """
         try:
-            return db.session.query(UserModel).filter(email=email).first()
+            return db.session.query(UserModel).filter(UserModel.email == email).first()
         except SQLAlchemyError as error:
-            return error
+            raise error
 
     @staticmethod
-    def get_users_by_name(name):
+    def get_users_by_name(name) -> List[UserModel]:
         """
         get users by name (as name is not unique, multiple records can be returned)
         :param name:
@@ -128,11 +130,10 @@ class UserModel(db.Model):
         try:
             return db.session.query(UserModel).join(AddressModel).filter(UserModel.name == name)
         except SQLAlchemyError as error:
-            # to put log
             raise error
 
     @staticmethod
-    def get_all_users() -> list:
+    def get_all_users() -> List[UserModel]:
         """
         get all users
         :return: users list of dict

@@ -12,3 +12,12 @@ school_schema = Schema({
     "contact_info": str,
     "address_id": int
 })
+
+user_schema = Schema({
+    "name": str,
+    "email": str,
+    "address_id": int,
+    "password": str,
+    "role": str,
+    "country": str
+})

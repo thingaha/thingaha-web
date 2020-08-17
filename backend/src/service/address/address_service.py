@@ -37,3 +37,26 @@ class AddressService:
         except SQLAlchemyError:
             self.logger.error("Address create fail. error %s", traceback.format_exc())
             raise SQLCustomError("Address create fail")
+
+    def update_address_by_id(self, address_id: int, data: Dict[str, str]) -> bool:
+        """
+        update address by id
+        :param address_id:
+        :param data:
+        :return:
+        """
+        if not address_id or not data:
+            raise RequestDataEmpty("address data is empty")
+        if not self.input_validate.validate_school(data, address_schema):
+            self.logger.error("All address field input must be required.")
+            raise ValidateFail("Address update validation fail")
+        try:
+            self.logger.info("update address info by id %s", address_id)
+            return AddressModel.update_address(address_id, AddressModel(
+                division=data["division"],
+                district=data["district"],
+                township=data["township"],
+                street_address=data["street_address"]))
+        except SQLAlchemyError:
+            self.logger.error("Address update fail. id %s, error %s", address_id, traceback.format_exc())
+            raise SQLCustomError(description="Update address by ID SQL ERROR")
