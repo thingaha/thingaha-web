@@ -1,5 +1,4 @@
 import {
-  GET_ALL_USERS,
   SUBMIT_USER_FORM_SUCCESS,
   SUBMIT_USER_FORM_FAILURE,
   GET_ALL_USERS_SUCCESS,
@@ -21,8 +20,6 @@ export default (state = { users: [] }, action) => {
       }
     case SUBMIT_USER_FORM_SUCCESS:
       const newUser = action.user
-
-      console.log('aciton', newUser, state)
 
       return {
         ...state,

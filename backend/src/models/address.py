@@ -28,7 +28,7 @@ class AddressModel(db.Model):
         return ", ".join(filter(lambda x: x is not None and x != "", [self.street_address, self.township, self.district, self.division]))
 
     @staticmethod
-    def create_address(new_address) -> bool:
+    def create_address(new_address) -> (int, bool):
         """
         create new_address for student
         :param new_address:
@@ -37,8 +37,8 @@ class AddressModel(db.Model):
         try:
             db.session.add(new_address)
             db.session.commit()
-            return True
-        except SQLAlchemyError as e:
-            # to put log
-            return False
+            return new_address.id
+        except SQLAlchemyError:
+            db.session.rollback()
+            raise SQLAlchemyError
 

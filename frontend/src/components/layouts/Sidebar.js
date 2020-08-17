@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Grid, Paper } from '@material-ui/core'
-import ListSubheader from '@material-ui/core/ListSubheader'
 import Avatar from '@material-ui/core/Avatar'
 import SchoolIcon from '@material-ui/icons/School'
 import PeopleIcon from '@material-ui/icons/People'
@@ -106,7 +105,7 @@ const Sidebar = (props) => {
               alignItems="flex-start"
               justify="center"
             >
-              <Grid item alignItems="center" justify="center" xs="12">
+              <Grid item container alignItems="center" justify="center" xs="12">
                 <StyledAvatar alt="Thingaha Logo" src={logoUrl} />
               </Grid>
             </StyledLogoContainer>

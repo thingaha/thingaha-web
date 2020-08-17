@@ -26,7 +26,6 @@ export function* submitUserForm(action) {
     const json = yield createUser(action.user)
     yield put({ type: SUBMIT_USER_FORM_SUCCESS, user: json.data })
   } catch (error) {
-    console.log('Error', error)
     yield put({ type: SUBMIT_USER_FORM_FAILURE, error })
   }
 }

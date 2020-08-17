@@ -11,8 +11,8 @@ import { Provider } from 'react-redux'
 import BaseLayout from './components/layouts/BaseLayout'
 import Sidebar from './components/layouts/Sidebar'
 import ContentView from './components/layouts/ContentView'
-import Home from './components/home'
 import Users from './components/users/Users'
+import Donations from './components/donations/Donations'
 
 class App extends Component {
   render() {
@@ -28,7 +28,7 @@ class App extends Component {
                   <Sidebar />
                   <ContentView>
                     <Switch>
-                      <Route path="/" exact component={Home} />
+                      <Route path="/" exact component={Donations} />
                       <Route path="/users" exact component={Users} />
                     </Switch>
                   </ContentView>
