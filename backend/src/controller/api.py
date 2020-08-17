@@ -38,7 +38,6 @@ def get_user_by_id(user_id: int):
     get user by id
     :return:
     """
-    print("uuuu", user_id)
     try:
         return jsonify({
             "data": {
