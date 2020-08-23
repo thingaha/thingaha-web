@@ -1,7 +1,6 @@
 from flask import Blueprint, request, current_app, jsonify
 
 from common.error import SQLCustomError, RequestDataEmpty, ValidateFail
-from models.address import AddressModel
 from service.address.address_service import AddressService
 from service.school.school_service import SchoolService
 from service.user.user_service import UserService
@@ -19,12 +18,14 @@ def get_all_users():
     """
     try:
         users = user_service.get_all_users()
+        current_app.logger.info("get all users")
         return jsonify({
             "data": {
                 "count": len(users),
                 "users": users
             }}), 200
     except SQLCustomError as error:
+        current_app.logger.error("fail to get all users: %s", error)
         return jsonify({
             "errors": {
                 "error": error.__dict__
@@ -39,11 +40,13 @@ def get_user_by_id(user_id: int):
     :return:
     """
     try:
+        current_app.logger.info("get user_id: %s", user_id)
         return jsonify({
             "data": {
                 "user": user_service.get_user_by_id(user_id)
             }}), 200
     except SQLCustomError as error:
+        current_app.logger.error("fail to get user_id: %s", user_id)
         return jsonify({
             "errors": {
                 "error": error.__dict__
@@ -72,6 +75,7 @@ def create_user():
         current_app.logger.info("create user success. user_name %s", data.get("name"))
         return get_user_by_id(user_id)
     except (RequestDataEmpty, SQLCustomError, ValidateFail) as error:
+        current_app.logger.error("create user fail. user_name %s, error: %s", data.get("name"), error)
         return jsonify({
             "errors": {
                 "error": error.__dict__
@@ -85,25 +89,36 @@ def update_user(user_id: int):
     update user info by id
     """
     data = request.get_json()
+    user_update_status = False
     try:
-        address_update_status = address_service.update_address_by_id(data.get("address_id"), {
+        address_id = int(data.get("address_id"))
+        if address_service.update_address_by_id(address_id, {
             "division": data.get("division"),
             "district": data.get("district"),
             "township": data.get("township"),
             "street_address": data.get("street_address")
-        })
-        user_update_status = user_service.update_user_by_id(user_id, {
-            "name": data.get("name"),
-            "email": data.get("email"),
-            "address_id": data.get("address_id"),
-            "password": data.get("password"),
-            "role": data.get("role"),
-            "country": data.get("country")
-        })
+        }):
+            user_update_status = user_service.update_user_by_id(user_id, {
+                "name": data.get("name"),
+                "email": data.get("email"),
+                "address_id": address_id,
+                "password": data.get("password"),
+                "role": data.get("role"),
+                "country": data.get("country")
+            })
+        current_app.logger.info("success user update for user_id: %s", user_id)
         return jsonify({
-            "status": address_update_status and user_update_status
+            "status": user_update_status
         }), 200
+    except ValueError as error:
+        current_app.logger.error("Value error for address id. error: %s", error)
+        return jsonify({
+            "errors": {
+                "error": error
+            }
+        }), 400
     except (SQLCustomError, ValidateFail, RequestDataEmpty) as error:
+        current_app.logger.error("fail to update user: %s, error: %s", user_id, error)
         return jsonify({
             "errors": {
                 "error": error.__dict__
@@ -117,10 +132,12 @@ def delete_user(user_id: int):
     delete user by id
     """
     try:
+        current_app.logger.info("delete user : user_id: %s", user_id)
         return jsonify({
             "status": user_service.delete_user_by_id(user_id)
         }), 200
     except SQLCustomError as error:
+        current_app.logger.error("fail to delete user : user_id: %s", user_id)
         return jsonify({
             "errors": {
                 "error": error.__dict__
@@ -128,33 +145,74 @@ def delete_user(user_id: int):
         }), 400
 
 
-@api.route("/address", methods=["POST", "GET"])
-def create_address():
-    if request.method == "POST":
-        if request.is_json:
-            data = request.get_json()
-            if AddressModel.create_address(AddressModel(division=data["division"],
-                                                        district=data["district"],
-                                                        township=data["township"],
-                                                        street_address=data["street_address"])):
-                return {"message": f"user {data.get('street_address')} has been created successfully."}, 200
-            else:
-                current_app.logger.error("create address fail")
-                return {"message": f"address create fail."}, 400
-        else:
-            current_app.logger.error("request body error")
-            return {"error": "The request payload is not in JSON format"}, 400
+@api.route("/address/<int:address_id>", methods=["GET"])
+def get_address_by_id(address_id: int):
+    """
+    get address by id
+    :param address_id:
+    :return:
+    """
+    try:
+        address = address_service.get_address_by_id(address_id)
+        current_app.logger.info("Return data for address_id: {}".format(address_id))
+        return jsonify({
+            "data": {
+                "schools": address
+            }}), 200
+    except SQLCustomError as error:
+        current_app.logger.error("Return error for school_id: {}".format(address_id))
+        return jsonify({
+            "errors": {
+                "error": error.__dict__
+            }
+        }), 400
 
-    elif request.method == "GET":
-        addresses = AddressModel.query.all()
-        results = [
-            {
-                "division": address.division,
-                "district": address.district,
-                "township": address.township,
-                "street_address": address.street_address
-            } for address in addresses]
-        return {"count": len(results), "addresses": results}, 200
+
+@api.route("/address", methods=["POST"])
+def create_address():
+    """
+    create address data
+    :return:
+    """
+    data = request.get_json()
+    try:
+        current_app.logger.info("create address")
+        address_id = address_service.create_address({
+            "division": data.get("division"),
+            "district": data.get("district"),
+            "township": data.get("township"),
+            "street_address": data.get("street_address")
+        })
+        current_app.logger.info("create address success. address %s", data.get("street_address"))
+        return get_address_by_id(address_id)
+    except (SQLCustomError, ValidateFail, RequestDataEmpty) as error:
+        return jsonify({
+            "errors": {
+                "error": error.__dict__
+            }
+        }), 400
+
+
+@api.route("/address/<int:address_id>", methods=["PUT"])
+def update_address(address_id: int):
+    """
+    update address data
+    :param address_id:
+    :return:
+    """
+    data = request.get_json()
+    try:
+        current_app.logger.info("update address for address_id: %s", address_id)
+        return jsonify({
+            "status": address_service.update_address_by_id(address_id, data)
+        }), 200
+    except (SQLCustomError, ValidateFail, RequestDataEmpty) as error:
+        current_app.logger.error("update address fail: address_id: %s", address_id)
+        return jsonify({
+            "errors": {
+                "error": error.__dict__
+            }
+        }), 400
 
 
 @api.route("/school", methods=["GET"])
@@ -165,36 +223,40 @@ def get_school():
     """
     try:
         schools = school_service.get_all_schools()
+        current_app.logger.info("get all school records")
         return jsonify({
             "data": {
                 "count": len(schools),
                 "schools": schools
             }}), 200
-    except SQLCustomError as e:
+    except SQLCustomError as error:
+        current_app.logger.error("error in get all school records")
         return jsonify({
             "errors": {
-                "error": e.__dict__
+                "error": error.__dict__
             }
         }), 400
 
 
 @api.route("/school/<int:school_id>", methods=["GET"])
-def get_school_by_id(school_id):
+def get_school_by_id(school_id: int):
     """
     get school by school id
     :return:
     """
     try:
         schools = school_service.get_school_by_id(school_id)
+        current_app.logger.info("Return data for school_id: {}".format(school_id))
         return jsonify({
             "data": {
                 "count": len(schools),
                 "schools": schools
             }}), 200
-    except SQLCustomError as e:
+    except SQLCustomError as error:
+        current_app.logger.error("Return error for school_id: {}".format(school_id))
         return jsonify({
             "errors": {
-                "error": e.__dict__
+                "error": error.__dict__
             }
         }), 400
 
@@ -216,10 +278,11 @@ def create_school():
         })
         current_app.logger.info("create school success. school_name %s", data.get("school_name"))
         return get_school_by_id(school_id)
-    except (RequestDataEmpty, SQLCustomError, ValidateFail) as e:
+    except (RequestDataEmpty, SQLCustomError, ValidateFail) as error:
+        current_app.logger.error("create school request fail")
         return jsonify({
             "errors": {
-                "error": e.__dict__
+                "error": error.__dict__
             }
         }), 400
 
@@ -227,29 +290,52 @@ def create_school():
 @api.route("/school/<int:school_id>", methods=["DELETE"])
 def delete_school(school_id):
     try:
-
+        current_app.logger.info("delete school id: {}".format(school_id))
         return jsonify({
             "status": school_service.delete_school_by_id(school_id)
         }), 200
-    except SQLCustomError as e:
+    except SQLCustomError as error:
+        current_app.logger.error("fail to delete school_id: %s".format(school_id))
         return jsonify({
             "errors": {
-                "error": e.__dict__
+                "error": error.__dict__
             }
         }), 400
 
 
 @api.route("/school/<int:school_id>", methods=["PUT"])
-def update_school(school_id):
+def update_school(school_id: int):
     data = request.get_json()
+    school_update_status = False
     try:
+        address_id = int(data.get("address_id"))
+        if address_service.update_address_by_id(address_id, {
+            "division": data.get("division"),
+            "district": data.get("district"),
+            "township": data.get("township"),
+            "street_address": data.get("street_address")
+        }):
+            school_update_status = school_service.update_school_by_id(school_id, {
+                "school_name": data.get("school_name"),
+                "contact_info": data.get("contact_info"),
+                "address_id": address_id
+            })
+        current_app.logger.info("update success for school_id: {}".format(school_id)) if school_update_status else \
+            current_app.logger.error("update fail for school_id: {}".format(school_id))
         return jsonify({
-            "status": school_service.update_school_by_id(school_id, data)
+            "status": school_update_status
         }), 200
-    except (SQLCustomError, ValidateFail, RequestDataEmpty) as e:
-        print(e)
+    except ValueError as error:
+        current_app.logger.error("Value error for address id. error: %s", error)
         return jsonify({
             "errors": {
-                "error": e.__dict__
+                "error": error
+            }
+        }), 400
+    except (SQLCustomError, ValidateFail, RequestDataEmpty) as error:
+        current_app.logger.error("Error for school data update id {} Error: {}".format(school_id, error))
+        return jsonify({
+            "errors": {
+                "error": error.__dict__
             }
         }), 400

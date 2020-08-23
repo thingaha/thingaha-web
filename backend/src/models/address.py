@@ -1,4 +1,4 @@
-from typing import Dict, Any
+from typing import Dict, Any, List
 
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -57,7 +57,7 @@ class AddressModel(db.Model):
             raise SQLAlchemyError
 
     @staticmethod
-    def update_address(address_id, address) -> bool:
+    def update_address(address_id: int, address) -> bool:
         """
         update address info by id
         :param address_id:
@@ -74,4 +74,16 @@ class AddressModel(db.Model):
             return True
         except SQLAlchemyError as error:
             db.session.rollback()
+            raise error
+
+    @staticmethod
+    def get_address_by_id(address_id: int):
+        """
+        get address by id
+        :param address_id:
+        :return: address info
+        """
+        try:
+            return db.session.query(AddressModel).filter(AddressModel.id == address_id).first()
+        except SQLAlchemyError as error:
             raise error

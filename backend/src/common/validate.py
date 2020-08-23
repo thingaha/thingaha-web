@@ -6,30 +6,15 @@ class InputValidate:
         self.schema = schema
 
     @staticmethod
-    def validate_address(address: dict, schema: dict = None):
+    def validate_json(data: dict, schema: dict = None):
         """
-        check valid address
-        :param address:
+        validate info
+        :param data:
         :param schema:
         :return:
         """
         try:
-            return schema.validate(address)
+            return schema.validate(data)
         except SchemaError:
-            return False
-
-    @staticmethod
-    def validate_school(school_info: dict, schema: dict = None):
-        """
-        check valid school info
-        :param school_info:
-        :param schema:
-        :return:
-        """
-        print(type(schema), type(school_info))
-        try:
-            return schema.validate(school_info)
-        except SchemaError as e:
-            print(e)
             return False
 

@@ -58,7 +58,7 @@ class SchoolService:
         """
         if not data:
             raise RequestDataEmpty("school data is empty")
-        if not self.input_validate.validate_school(data, school_schema):
+        if not self.input_validate.validate_json(data, school_schema):
             self.logger.error("All school field input must be required.")
             raise ValidateFail("School validation fail")
         try:
@@ -92,12 +92,11 @@ class SchoolService:
         """
         if not data:
             raise RequestDataEmpty("school data is empty")
-        if not self.input_validate.validate_school(data, school_schema):
+        if not self.input_validate.validate_json(data, school_schema):
             self.logger.error("All school field input must be required.")
             raise ValidateFail("School update validation fail")
         try:
-            print(data)
-            self.logger.info("delete school info by school_id:{}".format(school_id))
+            self.logger.info("update school info by school_id:{}".format(school_id))
             return SchoolModel.update_school(school_id, SchoolModel(
                 name=data["school_name"],
                 contact_info=data["contact_info"],

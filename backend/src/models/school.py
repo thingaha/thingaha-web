@@ -52,9 +52,9 @@ class SchoolModel(db.Model):
             db.session.add(new_school)
             db.session.commit()
             return new_school.id
-        except SQLAlchemyError:
+        except SQLAlchemyError as error:
             db.session.rollback()
-            raise SQLAlchemyError
+            raise error
 
     @staticmethod
     def get_all_schools() -> List:
@@ -64,19 +64,19 @@ class SchoolModel(db.Model):
         """
         try:
             return db.session.query(SchoolModel).join(AddressModel).all()
-        except SQLAlchemyError:
-            raise SQLAlchemyError
+        except SQLAlchemyError as error:
+            raise error
 
     @staticmethod
-    def get_school_by_id(school_id: int) -> List:
+    def get_school_by_id(school_id: int):
         """
         get all school records
         :return: school list
         """
         try:
             return db.session.query(SchoolModel).join(AddressModel).filter(SchoolModel.id == school_id)
-        except SQLAlchemyError:
-            raise SQLAlchemyError
+        except SQLAlchemyError as error:
+            raise error
 
     @staticmethod
     def delete_school_by_id(school_id: int) -> bool:
@@ -90,9 +90,9 @@ class SchoolModel(db.Model):
                 return False
             db.session.commit()
             return True
-        except SQLAlchemyError:
+        except SQLAlchemyError as error:
             db.session.rollback()
-            raise SQLAlchemyError
+            raise error
 
     @staticmethod
     def update_school(school_id: int, school) -> bool:
@@ -108,6 +108,6 @@ class SchoolModel(db.Model):
             update_school.contact_info = school.contact_info
             db.session.commit()
             return True
-        except SQLAlchemyError:
+        except SQLAlchemyError as error:
             db.session.rollback()
-            raise SQLAlchemyError
+            raise error

@@ -1,5 +1,5 @@
 import traceback
-from typing import Dict
+from typing import Dict, Any
 
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -25,7 +25,7 @@ class AddressService:
         """
         if not data:
             raise RequestDataEmpty("address data is empty")
-        if not self.input_validate.validate_address(data, address_schema):
+        if not self.input_validate.validate_json(data, address_schema):
             self.logger.error("All address field input must be required.")
             raise ValidateFail("Address validation fail")
         try:
@@ -47,7 +47,7 @@ class AddressService:
         """
         if not address_id or not data:
             raise RequestDataEmpty("address data is empty")
-        if not self.input_validate.validate_school(data, address_schema):
+        if not self.input_validate.validate_json(data, address_schema):
             self.logger.error("All address field input must be required.")
             raise ValidateFail("Address update validation fail")
         try:
@@ -60,3 +60,16 @@ class AddressService:
         except SQLAlchemyError:
             self.logger.error("Address update fail. id %s, error %s", address_id, traceback.format_exc())
             raise SQLCustomError(description="Update address by ID SQL ERROR")
+
+    def get_address_by_id(self, address_id: int) -> Dict[str, Any]:
+        """
+        get users by id
+        :return: address list of dict
+        """
+        self.logger.info("Get address by id %s", address_id)
+        try:
+            address = AddressModel.get_address_by_id(address_id)
+            return address.as_dict() if address else {}
+        except SQLAlchemyError:
+            self.logger.error("Get address by id fail. id %s. error %s", address_id, traceback.format_exc())
+            raise SQLCustomError(description="GET address by ID SQL ERROR")

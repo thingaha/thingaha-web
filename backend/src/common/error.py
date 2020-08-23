@@ -1,6 +1,7 @@
 class Error(Exception):
     """Base class for other exceptions"""
-    pass
+    def __init__(self, description):
+        self.description = description
 
 
 class SQLCustomError(Error):
@@ -11,9 +12,9 @@ class SQLCustomError(Error):
         SQL custom error
         :param description:
         """
+        super().__init__(description)
         self.error_code = "E0001"
         self.reason = "DB Error"
-        self.description = description
 
 
 class PageNotFoundError(Error):
@@ -26,7 +27,7 @@ class PageNotFoundError(Error):
         """
         self.error_code = "E0002"
         self.reason = "404 ERROR"
-        self.description = description
+        super().__init__(description)
 
 
 class RequestDataEmpty(Error):
@@ -51,4 +52,4 @@ class ValidateFail(Error):
         """
         self.error_code = "E0004"
         self.reason = "Validation Fail"
-        self.description = description
+        super().__init__(description)

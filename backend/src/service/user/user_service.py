@@ -26,7 +26,7 @@ class UserService:
         """
         if not data:
             raise RequestDataEmpty("user data is empty")
-        if not self.input_validate.validate_school(data, user_schema):
+        if not self.input_validate.validate_json(data, user_schema):
             self.logger.error("All user field input must be required.")
             raise ValidateFail("User validation fail")
         try:
@@ -50,7 +50,7 @@ class UserService:
         """
         if not data:
             raise RequestDataEmpty("user data is empty")
-        if not self.input_validate.validate_school(data, user_schema):
+        if not self.input_validate.validate_json(data, user_schema):
             self.logger.error("All user field input must be required.")
             raise ValidateFail("User update validation fail")
         try:
@@ -110,7 +110,8 @@ class UserService:
         """
         self.logger.info("Get users list by id %s", user_id)
         try:
-            return UserModel.get_user_by_id(user_id).as_dict()
+            user = UserModel.get_user_by_id(user_id)
+            return user.as_dict() if user else {}
         except SQLAlchemyError:
             self.logger.error("Get users by id fail. id %s. error %s", user_id, traceback.format_exc())
             raise SQLCustomError(description="GET user by ID SQL ERROR")
