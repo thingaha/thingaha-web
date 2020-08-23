@@ -57,9 +57,12 @@ class AddressService:
                 district=data["district"],
                 township=data["township"],
                 street_address=data["street_address"]))
-        except SQLAlchemyError:
-            self.logger.error("Address update fail. id %s, error %s", address_id, traceback.format_exc())
+        except SQLAlchemyError as e:
+            self.logger.error("Address update fail. id %s, error %s, custom error: %s", address_id, traceback.format_exc(), e)
             raise SQLCustomError(description="Update address by ID SQL ERROR")
+        except SQLCustomError as e:
+            self.logger.error("Address update fail. id %s, error %s, custom error: %s", address_id, traceback.format_exc(), e)
+            raise SQLCustomError(description="No record for requested address")
 
     def get_address_by_id(self, address_id: int) -> Dict[str, Any]:
         """

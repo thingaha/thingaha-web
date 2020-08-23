@@ -1,7 +1,8 @@
-from typing import Dict, Any, List
+from typing import Dict, Any
 
 from sqlalchemy.exc import SQLAlchemyError
 
+from common.error import SQLCustomError
 from database import db
 
 
@@ -66,6 +67,8 @@ class AddressModel(db.Model):
         """
         try:
             target_address = db.session.query(AddressModel).filter(AddressModel.id == address_id).first()
+            if not target_address:
+                raise SQLCustomError("No record for requested address")
             target_address.division = address.division
             target_address.district = address.district
             target_address.township = address.township

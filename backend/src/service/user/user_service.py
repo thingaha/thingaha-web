@@ -65,6 +65,9 @@ class UserService:
         except SQLAlchemyError:
             self.logger.error("User update fail. id %s, error %s", user_id, traceback.format_exc())
             raise SQLCustomError(description="Update user by ID SQL ERROR")
+        except SQLCustomError as e:
+            self.logger.error("User update fail. id %s, error %s, custom error: %s", user_id, traceback.format_exc(), e)
+            raise SQLCustomError(description="No record for requested user")
 
     def delete_user_by_id(self, user_id: int) -> bool:
         """

@@ -73,6 +73,19 @@ def test_create_school(init_app, client):
     assert res.status_code == 200
 
 
+def test_update_school(init_app, client):
+    res = client.put("/api/v1/school/2", json={
+        "school_name": "No.(11)Nyanungdon",
+        "contact_info": "098",
+        "address_id": 1,
+        "district": "yangon",
+        "division": "yangon",
+        "street_address": "18 street",
+        "township": "MyaeNiGone"
+    })
+    assert res.status_code == 200
+
+
 def test_user(init_app, client):
     res = client.get("/api/v1/user")
     assert res.status_code == 200

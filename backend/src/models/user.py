@@ -5,6 +5,7 @@ from typing import Dict, Any, List
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import relationship
 
+from common.error import SQLCustomError
 from database import db
 from models.address import AddressModel
 
@@ -70,6 +71,8 @@ class UserModel(db.Model):
         """
         try:
             target_user = db.session.query(UserModel).filter(UserModel.id == user_id).first()
+            if not target_user:
+                raise SQLCustomError("No record for requested school")
             target_user.name = user.name
             target_user.email = user.email
             target_user.address_id = user.address_id

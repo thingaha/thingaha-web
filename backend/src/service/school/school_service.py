@@ -104,3 +104,6 @@ class SchoolService:
         except SQLAlchemyError as e:
             self.logger.error("Error: {}".format(e))
             raise SQLCustomError(description="Update school by ID SQL ERROR")
+        except SQLCustomError as e:
+            self.logger.error("Error: {}".format(e))
+            raise SQLCustomError(description="No record for requested school")

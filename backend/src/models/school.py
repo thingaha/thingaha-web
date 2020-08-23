@@ -2,7 +2,7 @@ from typing import List, Dict, Any
 
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import relationship
-
+from common.error import SQLCustomError
 from database import db
 from models.address import AddressModel
 
@@ -104,6 +104,8 @@ class SchoolModel(db.Model):
         """
         try:
             update_school = db.session.query(SchoolModel).filter(SchoolModel.id == school_id).first()
+            if not update_school:
+                raise SQLCustomError(description="No record for requested school")
             update_school.name = school.name
             update_school.contact_info = school.contact_info
             db.session.commit()

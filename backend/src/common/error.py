@@ -22,7 +22,7 @@ class PageNotFoundError(Error):
 
     def __init__(self, description):
         """
-        SQL custom error
+        PageNotFoundError
         :param description:
         """
         self.error_code = "E0002"
@@ -35,7 +35,7 @@ class RequestDataEmpty(Error):
 
     def __init__(self, description):
         """
-        SQL custom error
+        Empty Request error
         :param description:
         """
         self.error_code = "E0003"
@@ -47,7 +47,7 @@ class ValidateFail(Error):
     """Raised Validate data when doing action"""
     def __init__(self, description):
         """
-        SQL custom error
+        Validate error
         :param description:
         """
         self.error_code = "E0004"
