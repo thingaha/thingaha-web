@@ -1,8 +1,11 @@
 from datetime import datetime, date
-
+from typing import Dict, Any, List
 from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.orm import relationship
 
+from common.error import SQLCustomError
 from database import db
+from models.address import AddressModel
 
 
 class StudentModel(db.Model):
@@ -16,6 +19,7 @@ class StudentModel(db.Model):
     mother_name = db.Column(db.UnicodeText())
     parents_occupation = db.Column(db.Text())
     address_id = db.Column(db.Integer, db.ForeignKey("addresses.id"), nullable=False)
+    address = relationship("AddressModel", foreign_keys=[address_id])
 
     def __init__(self, name: str,
                  deactivated_at: datetime, birth_date: date, father_name: str, mother_name: str,
@@ -31,6 +35,21 @@ class StudentModel(db.Model):
     def __repr__(self):
         return f"<Student {self.name}>"
 
+    def as_dict(self) -> Dict[str, Any]:
+        """
+        Return object data in easily serializable format
+        """
+        return {
+                "id": self.id,
+                "name": self.name,
+                "deactivated_at": self.deactivated_at,
+                "birth_date": self.birth_date,
+                "father_name": self.father_name,
+                "mother_name": self.mother_name,
+                "parents_occupation": self.parents_occupation,
+                "address": self.address.as_dict()
+            }
+
     @staticmethod
     def create_student(new_student):
         """
@@ -41,8 +60,95 @@ class StudentModel(db.Model):
         try:
             db.session.add(new_student)
             db.session.commit()
-            return True
-        except SQLAlchemyError as e:
-            # to put log
-            return False
+            return new_student.id
+        except SQLAlchemyError as error:
+            db.session.rollback()
+            raise error
 
+    @staticmethod
+    def update_student(student_id, student) -> bool:
+        """
+        update student info by id
+        :param student_id:
+        :param student:
+        :return: bool
+        """
+        try:
+            target_student = db.session.query(StudentModel).filter(StudentModel.id == student_id).first()
+            if not target_student:
+                raise SQLCustomError("No record for requested student")
+            target_student.name = student.name
+            target_student.deactivated_at = student.deactivated_at
+            target_student.birth_date = student.birth_date
+            target_student.father_name = student.father_name
+            target_student.mother_name = student.mother_name
+            target_student.parents_occupation = student.parents_occupation
+            target_student.address_id = student.address_id
+            db.session.commit()
+            return True
+        except SQLAlchemyError as error:
+            db.session.rollback()
+            raise error
+
+    @staticmethod
+    def delete_student(student_id) -> bool:
+        """
+        delete student by id
+        :param student_id:
+        :return: bool
+        """
+        try:
+            if not db.session.query(StudentModel).filter(StudentModel.id == student_id).delete():
+                return False
+            db.session.commit()
+            return True
+        except SQLAlchemyError as error:
+            db.session.rollback()
+            raise error
+
+    @staticmethod
+    def get_student_by_id(student_id: int) -> StudentModel:
+        """
+        get student by id
+        :param student_id:
+        :return: student info
+        """
+        try:
+            return db.session.query(StudentModel).filter(StudentModel.id == student_id).first()
+        except SQLAlchemyError as error:
+            raise error
+
+    @staticmethod
+    def get_students_by_name(name) -> List[StudentModel]:
+        """
+        get students by name (as name is not unique, multiple records can be returned)
+        :param name:
+        :return: student info list
+        """
+        try:
+            return db.session.query(StudentModel).join(AddressModel).filter(StudentModel.name == name)
+        except SQLAlchemyError as error:
+            raise error
+
+    @staticmethod
+    def get_students_by_birth_date(birth_date) -> List[StudentModel]:
+        """
+        get students by birth_date (as birth_date is not unique, multiple records can be returned)
+        :param birth_date:
+        :return: student info list
+        """
+        try:
+            return db.session.query(StudentModel).join(AddressModel).filter(StudentModel.birth_date == birth_date)
+        except SQLAlchemyError as error:
+            raise error
+
+    @staticmethod
+    def get_all_students() -> List[StudentModel]:
+        """
+        get all students
+        :return: students list of dict
+        """
+        try:
+            return db.session.query(StudentModel).join(AddressModel).all()
+        except SQLAlchemyError as error:
+            raise error

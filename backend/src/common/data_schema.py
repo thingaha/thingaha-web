@@ -1,4 +1,5 @@
 from schema import Schema
+from datetime import datetime, date
 
 address_schema = Schema({
     "division": str,
@@ -20,4 +21,14 @@ user_schema = Schema({
     "password": str,
     "role": str,
     "country": str
+})
+
+student_schema = Schema({
+    "name": str,
+    "deactivated_at": datetime,
+    "birth_date": date,
+    "father_name": str,
+    "mother_name": str,
+    "parents_occupation": str,
+    "address_id": int
 })
