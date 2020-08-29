@@ -11,6 +11,7 @@ import Paper from '@material-ui/core/Paper'
 import UserForm from './UserForm'
 import { Button } from '@material-ui/core'
 import AddCircleIcon from '@material-ui/icons/AddCircle'
+import UserCard from './UserCard'
 
 const Wrapper = styled.div`
   width: 70%;
@@ -24,18 +25,17 @@ const HeadingContainer = styled.div`
   margin-bottom: 1rem;
 `
 
-const StyledUserTable = styled(Table)`
-  & td {
-    color: ${(props) => props.theme.palette.text.primary};
-  }
-`
+const UsersContainer = styled.ul`
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
 
-const StyledTableRow = styled(TableRow)`
-  border-bottom: 1px solid ${(props) => props.theme.palette.common.grey};
-
-  &.disabled {
-    background: ${(props) => props.theme.palette.text.disabled};
-    opacity: 0.5;
+  & .user-row {
+    margin-bottom: 1rem;
   }
 `
 
@@ -62,35 +62,16 @@ const Users = ({ users: { users }, getAllUsers }) => {
         </Button>
       </HeadingContainer>
       <UserForm visible={userFormVisible} setVisible={setUserFormVisible} />
-      <StyledUserTable aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell align="right">ID</TableCell>
-            <TableCell align="right">Username</TableCell>
-            <TableCell align="right">Email</TableCell>
-            <TableCell align="right">Address</TableCell>
-            <TableCell align="right">Role</TableCell>
-            <TableCell align="right">Country</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {users.map((user) => (
-            <StyledTableRow
-              key={user.id}
-              className={Boolean(user.deactivated_at) ? 'disabled' : 'asdfs'}
-            >
-              <TableCell component="th" scope="row">
-                {user.id}
-              </TableCell>
-              <TableCell align="right">{user.username}</TableCell>
-              <TableCell align="right">{user.email}</TableCell>
-              <TableCell align="right">{user.address}</TableCell>
-              <TableCell align="right">{user.role}</TableCell>
-              <TableCell align="right">{user.country}</TableCell>
-            </StyledTableRow>
-          ))}
-        </TableBody>
-      </StyledUserTable>
+
+      <UsersContainer>
+        {users.map((user) => {
+          return (
+            <li className="user-row">
+              <UserCard user={user} className="user" />
+            </li>
+          )
+        })}
+      </UsersContainer>
     </Wrapper>
   )
 }
