@@ -1,7 +1,13 @@
+"""
+request body validate module
+"""
 from schema import SchemaError
 
 
 class InputValidate:
+    """
+    input validate with schema
+    """
     def __init__(self, schema: dict = None):
         self.schema = schema
 
@@ -17,4 +23,3 @@ class InputValidate:
             return schema.validate(data)
         except SchemaError:
             return False
-

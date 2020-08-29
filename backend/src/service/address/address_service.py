@@ -1,3 +1,4 @@
+"""address service layer for CRUD action"""
 import traceback
 from typing import Dict, Any
 
@@ -5,17 +6,17 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from common.data_schema import address_schema
 from common.error import RequestDataEmpty, SQLCustomError, ValidateFail
-from common.logger import get_common_logger
-from common.validate import InputValidate
 from models.address import AddressModel
+from service.service import Service
 
 
-class AddressService:
+class AddressService(Service):
+    """
+    address service class for CRUD actions
+    define specific params for address service in AddressService Class
+    """
     def __init__(self, logger=None) -> None:
-        if logger is None:
-            logger = get_common_logger(__name__)
-        self.logger = logger
-        self.input_validate = InputValidate
+        super().__init__(logger)
 
     def create_address(self, data: Dict[str, str]) -> bool:
         """

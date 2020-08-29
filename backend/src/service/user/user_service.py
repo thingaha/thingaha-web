@@ -1,3 +1,4 @@
+"""user service layer for CRUD action"""
 import traceback
 from typing import List, Dict, Any
 
@@ -6,17 +7,17 @@ from werkzeug.security import generate_password_hash
 
 from common.data_schema import user_schema
 from common.error import SQLCustomError, RequestDataEmpty, ValidateFail
-from common.logger import get_common_logger
-from common.validate import InputValidate
 from models.user import UserModel
+from service.service import Service
 
 
-class UserService:
+class UserService(Service):
+    """
+    User Service Class for CRUD actions
+    define specific params for user service in UserService Class
+    """
     def __init__(self, logger=None) -> None:
-        if logger is None:
-            logger = get_common_logger(__name__)
-        self.logger = logger
-        self.input_validate = InputValidate
+        super().__init__(logger)
 
     def create_user(self, data: Dict[str, Any]) -> int:
         """
@@ -38,7 +39,8 @@ class UserService:
                 role=data["role"],
                 country=data["country"]))
         except SQLAlchemyError:
-            self.logger.error("User create fail. email %s, error %s", data.get("email"), traceback.format_exc())
+            self.logger.error("User create fail. email %s, error %s", data.get("email"),
+                              traceback.format_exc())
             raise SQLCustomError("Create User SQL Error")
 
     def update_user_by_id(self, user_id: int, data: Dict[str, Any]) -> bool:
@@ -65,8 +67,9 @@ class UserService:
         except SQLAlchemyError:
             self.logger.error("User update fail. id %s, error %s", user_id, traceback.format_exc())
             raise SQLCustomError(description="Update user by ID SQL ERROR")
-        except SQLCustomError as e:
-            self.logger.error("User update fail. id %s, error %s, custom error: %s", user_id, traceback.format_exc(), e)
+        except SQLCustomError as error:
+            self.logger.error("User update fail. id %s, error %s, custom error: %s",
+                              user_id, traceback.format_exc(), error)
             raise SQLCustomError(description="No record for requested user")
 
     def delete_user_by_id(self, user_id: int) -> bool:
@@ -103,7 +106,8 @@ class UserService:
         try:
             return self.__return_user_list(UserModel.get_users_by_name(name))
         except SQLAlchemyError:
-            self.logger.error("Get users by name fail. name %s. error %s", name, traceback.format_exc())
+            self.logger.error("Get users by name fail. name %s. error %s", name,
+                              traceback.format_exc())
             raise SQLCustomError(description="GET user by NAME SQL ERROR")
 
     def get_user_by_id(self, user_id: int) -> Dict[str, Any]:
@@ -116,7 +120,8 @@ class UserService:
             user = UserModel.get_user_by_id(user_id)
             return user.as_dict() if user else {}
         except SQLAlchemyError:
-            self.logger.error("Get users by id fail. id %s. error %s", user_id, traceback.format_exc())
+            self.logger.error("Get users by id fail. id %s. error %s", user_id,
+                              traceback.format_exc())
             raise SQLCustomError(description="GET user by ID SQL ERROR")
 
     @staticmethod

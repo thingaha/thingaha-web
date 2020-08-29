@@ -1,3 +1,8 @@
+"""
+main api route module for thingaha app
+blueprint name: api
+current version: v1
+"""
 from flask import Blueprint, request, current_app, jsonify
 from flask_cors import cross_origin
 
@@ -60,7 +65,13 @@ def get_user_by_id(user_id: int):
 @api.route("/users", methods=["POST"])
 @cross_origin()
 def create_user():
+    """
+    create user by post body
+    :return:
+    """
     data = request.get_json()
+    if data is None:
+        return post_request_empty()
     try:
         address_id = address_service.create_address({
             "division": data.get("division"),
@@ -79,7 +90,8 @@ def create_user():
         current_app.logger.info("create user success. user_name %s", data.get("name"))
         return get_user_by_id(user_id)
     except (RequestDataEmpty, SQLCustomError, ValidateFail) as error:
-        current_app.logger.error("create user fail. user_name %s, error: %s", data.get("name"), error)
+        current_app.logger.error("create user fail. user_name %s, error: %s",
+                                 data.get("name"), error)
         return jsonify({
             "errors": {
                 "error": error.__dict__
@@ -95,6 +107,8 @@ def update_user(user_id: int):
     """
     data = request.get_json()
     user_update_status = False
+    if data is None:
+        return post_request_empty()
     try:
         address_id = int(data.get("address_id"))
         if address_service.update_address_by_id(address_id, {
@@ -183,6 +197,8 @@ def create_address():
     :return:
     """
     data = request.get_json()
+    if data is None:
+        return post_request_empty()
     try:
         current_app.logger.info("create address")
         address_id = address_service.create_address({
@@ -210,6 +226,8 @@ def update_address(address_id: int):
     :return:
     """
     data = request.get_json()
+    if data is None:
+        return post_request_empty()
     try:
         current_app.logger.info("update address for address_id: %s", address_id)
         return jsonify({
@@ -275,7 +293,13 @@ def get_school_by_id(school_id: int):
 @api.route("/schools", methods=["POST"])
 @cross_origin()
 def create_school():
+    """
+    create school by post body
+    :return:
+    """
     data = request.get_json()
+    if data is None:
+        return post_request_empty()
     try:
         address_id = address_service.create_address({
             "division": data.get("division"),
@@ -302,6 +326,11 @@ def create_school():
 @api.route("/schools/<int:school_id>", methods=["DELETE"])
 @cross_origin()
 def delete_school(school_id):
+    """
+    delete school by ID
+    :param school_id:
+    :return:
+    """
     try:
         current_app.logger.info("delete school id: {}".format(school_id))
         return jsonify({
@@ -319,7 +348,14 @@ def delete_school(school_id):
 @api.route("/schools/<int:school_id>", methods=["PUT"])
 @cross_origin()
 def update_school(school_id: int):
+    """
+    update school by ID
+    :param school_id:
+    :return:
+    """
     data = request.get_json()
+    if data is None:
+        return post_request_empty()
     school_update_status = False
     try:
         address_id = int(data.get("address_id"))
@@ -334,8 +370,9 @@ def update_school(school_id: int):
                 "contact_info": data.get("contact_info"),
                 "address_id": address_id
             })
-        current_app.logger.info("update success for school_id: {}".format(school_id)) if school_update_status else \
-            current_app.logger.error("update fail for school_id: {}".format(school_id))
+        current_app.logger.info("update success for school_id: {}".format(school_id)) \
+            if school_update_status else current_app.logger.error("update fail for school_id: {}"
+                                                                  .format(school_id))
         return jsonify({
             "status": school_update_status
         }), 200
@@ -347,9 +384,23 @@ def update_school(school_id: int):
             }
         }), 400
     except (SQLCustomError, ValidateFail, RequestDataEmpty) as error:
-        current_app.logger.error("Error for school data update id {} Error: {}".format(school_id, error))
+        current_app.logger.error("Error for school data update id {} Error: {}"
+                                 .format(school_id, error))
         return jsonify({
             "errors": {
                 "error": error.__dict__
             }
         }), 400
+
+
+def post_request_empty():
+    """
+    helper function for post request empty
+    :return:
+    """
+    current_app.logger.error("Request Body required")
+    return jsonify({
+        "errors": {
+            "error": RequestDataEmpty("Request Data is Empty").__dict__
+        }
+    }), 400
