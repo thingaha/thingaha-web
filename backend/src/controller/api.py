@@ -1,4 +1,5 @@
 from flask import Blueprint, request, current_app, jsonify
+from flask_cors import cross_origin
 
 from common.error import SQLCustomError, RequestDataEmpty, ValidateFail
 from service.address.address_service import AddressService
@@ -12,6 +13,7 @@ address_service: AddressService = None
 
 
 @api.route("/user", methods=["GET"])
+@cross_origin()
 def get_all_users():
     """
     get all users list
@@ -34,6 +36,7 @@ def get_all_users():
 
 
 @api.route("/user/<int:user_id>", methods=["GET"])
+@cross_origin()
 def get_user_by_id(user_id: int):
     """
     get user by id
@@ -55,6 +58,7 @@ def get_user_by_id(user_id: int):
 
 
 @api.route("/user", methods=["POST"])
+@cross_origin()
 def create_user():
     data = request.get_json()
     try:
@@ -84,6 +88,7 @@ def create_user():
 
 
 @api.route("/user/<int:user_id>", methods=["PUT"])
+@cross_origin()
 def update_user(user_id: int):
     """
     update user info by id
@@ -127,6 +132,7 @@ def update_user(user_id: int):
 
 
 @api.route("/user/<int:user_id>", methods=["DELETE"])
+@cross_origin()
 def delete_user(user_id: int):
     """
     delete user by id
@@ -146,6 +152,7 @@ def delete_user(user_id: int):
 
 
 @api.route("/address/<int:address_id>", methods=["GET"])
+@cross_origin()
 def get_address_by_id(address_id: int):
     """
     get address by id
@@ -169,6 +176,7 @@ def get_address_by_id(address_id: int):
 
 
 @api.route("/address", methods=["POST"])
+@cross_origin()
 def create_address():
     """
     create address data
@@ -194,6 +202,7 @@ def create_address():
 
 
 @api.route("/address/<int:address_id>", methods=["PUT"])
+@cross_origin()
 def update_address(address_id: int):
     """
     update address data
@@ -216,6 +225,7 @@ def update_address(address_id: int):
 
 
 @api.route("/school", methods=["GET"])
+@cross_origin()
 def get_school():
     """
     get school from school table
@@ -239,6 +249,7 @@ def get_school():
 
 
 @api.route("/school/<int:school_id>", methods=["GET"])
+@cross_origin()
 def get_school_by_id(school_id: int):
     """
     get school by school id
@@ -262,6 +273,7 @@ def get_school_by_id(school_id: int):
 
 
 @api.route("/school", methods=["POST"])
+@cross_origin()
 def create_school():
     data = request.get_json()
     try:
@@ -288,6 +300,7 @@ def create_school():
 
 
 @api.route("/school/<int:school_id>", methods=["DELETE"])
+@cross_origin()
 def delete_school(school_id):
     try:
         current_app.logger.info("delete school id: {}".format(school_id))
@@ -304,6 +317,7 @@ def delete_school(school_id):
 
 
 @api.route("/school/<int:school_id>", methods=["PUT"])
+@cross_origin()
 def update_school(school_id: int):
     data = request.get_json()
     school_update_status = False

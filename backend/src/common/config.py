@@ -45,6 +45,7 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     JSON_AS_ASCII = False
     SQLALCHEMY_ECHO = False
+    CORS_HEADERS = "Content-Type"
     if os.environ.get("SCRIPT_ENV") == "test":
         TESTING = True
         DEBUG = True
