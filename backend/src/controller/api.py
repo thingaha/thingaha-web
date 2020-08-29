@@ -12,7 +12,7 @@ school_service: SchoolService = None
 address_service: AddressService = None
 
 
-@api.route("/user", methods=["GET"])
+@api.route("/users", methods=["GET"])
 @cross_origin()
 def get_all_users():
     """
@@ -35,7 +35,7 @@ def get_all_users():
         }), 400
 
 
-@api.route("/user/<int:user_id>", methods=["GET"])
+@api.route("/users/<int:user_id>", methods=["GET"])
 @cross_origin()
 def get_user_by_id(user_id: int):
     """
@@ -57,7 +57,7 @@ def get_user_by_id(user_id: int):
         }), 400
 
 
-@api.route("/user", methods=["POST"])
+@api.route("/users", methods=["POST"])
 @cross_origin()
 def create_user():
     data = request.get_json()
@@ -87,7 +87,7 @@ def create_user():
         }), 400
 
 
-@api.route("/user/<int:user_id>", methods=["PUT"])
+@api.route("/users/<int:user_id>", methods=["PUT"])
 @cross_origin()
 def update_user(user_id: int):
     """
@@ -131,7 +131,7 @@ def update_user(user_id: int):
         }), 400
 
 
-@api.route("/user/<int:user_id>", methods=["DELETE"])
+@api.route("/users/<int:user_id>", methods=["DELETE"])
 @cross_origin()
 def delete_user(user_id: int):
     """
@@ -151,7 +151,7 @@ def delete_user(user_id: int):
         }), 400
 
 
-@api.route("/address/<int:address_id>", methods=["GET"])
+@api.route("/addresses/<int:address_id>", methods=["GET"])
 @cross_origin()
 def get_address_by_id(address_id: int):
     """
@@ -175,7 +175,7 @@ def get_address_by_id(address_id: int):
         }), 400
 
 
-@api.route("/address", methods=["POST"])
+@api.route("/addresses", methods=["POST"])
 @cross_origin()
 def create_address():
     """
@@ -201,7 +201,7 @@ def create_address():
         }), 400
 
 
-@api.route("/address/<int:address_id>", methods=["PUT"])
+@api.route("/addresses/<int:address_id>", methods=["PUT"])
 @cross_origin()
 def update_address(address_id: int):
     """
@@ -224,7 +224,7 @@ def update_address(address_id: int):
         }), 400
 
 
-@api.route("/school", methods=["GET"])
+@api.route("/schools", methods=["GET"])
 @cross_origin()
 def get_school():
     """
@@ -248,7 +248,7 @@ def get_school():
         }), 400
 
 
-@api.route("/school/<int:school_id>", methods=["GET"])
+@api.route("/schools/<int:school_id>", methods=["GET"])
 @cross_origin()
 def get_school_by_id(school_id: int):
     """
@@ -272,7 +272,7 @@ def get_school_by_id(school_id: int):
         }), 400
 
 
-@api.route("/school", methods=["POST"])
+@api.route("/schools", methods=["POST"])
 @cross_origin()
 def create_school():
     data = request.get_json()
@@ -299,7 +299,7 @@ def create_school():
         }), 400
 
 
-@api.route("/school/<int:school_id>", methods=["DELETE"])
+@api.route("/schools/<int:school_id>", methods=["DELETE"])
 @cross_origin()
 def delete_school(school_id):
     try:
@@ -316,7 +316,7 @@ def delete_school(school_id):
         }), 400
 
 
-@api.route("/school/<int:school_id>", methods=["PUT"])
+@api.route("/schools/<int:school_id>", methods=["PUT"])
 @cross_origin()
 def update_school(school_id: int):
     data = request.get_json()

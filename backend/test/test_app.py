@@ -26,19 +26,19 @@ def test_config(init_app):
 
 
 def test_address_get_id(init_app, client):
-    res = client.get("/api/v1/address/1")
+    res = client.get("/api/v1/addresses/1")
     assert res.status_code == 200
 
 
 def test_address_create_update(init_app, client):
-    res = client.post("/api/v1/address", json={
+    res = client.post("/api/v1/addresses", json={
         "district": "yangon",
         "division": "yangon",
         "street_address": "11 street",
         "township": "MyaeNiGone"
     })
     assert res.status_code == 200
-    res = client.put("/api/v1/address/1", json={
+    res = client.put("/api/v1/addresses/1", json={
         "district": "yangon",
         "division": "yangon",
         "street_address": "11 street",
@@ -48,22 +48,22 @@ def test_address_create_update(init_app, client):
 
 
 def test_school(init_app, client):
-    res = client.get("/api/v1/school")
+    res = client.get("/api/v1/schools")
     assert res.status_code == 200
 
 
 def test_school_id(init_app, client):
-    res = client.get("/api/v1/school/1")
+    res = client.get("/api/v1/schools/1")
     assert res.status_code == 200
 
 
 def test_delete_school_id(init_app, client):
-    res = client.delete("/api/v1/school/1")
+    res = client.delete("/api/v1/schools/1")
     assert res.status_code == 200
 
 
 def test_create_update_school(init_app, client):
-    res = client.post("/api/v1/school", json={
+    res = client.post("/api/v1/schools", json={
         "school_name": "No.(35) Nyanungdon",
         "contact_info": "098",
         "district": "yangon",
@@ -72,7 +72,7 @@ def test_create_update_school(init_app, client):
         "township": "La Thar township"
     })
     assert res.status_code == 200
-    res = client.put("/api/v1/school/1", json={
+    res = client.put("/api/v1/schools/1", json={
         "school_name": "No.(11)Nyanungdon",
         "contact_info": "098",
         "address_id": 1,
@@ -85,10 +85,10 @@ def test_create_update_school(init_app, client):
 
 
 def test_user(init_app, client):
-    res = client.get("/api/v1/user")
+    res = client.get("/api/v1/users")
     assert res.status_code == 200
 
 
 def test_user_by_id(init_app, client):
-    res = client.get("/api/v1/user/1")
+    res = client.get("/api/v1/users/1")
     assert res.status_code == 200
