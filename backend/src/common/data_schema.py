@@ -1,3 +1,7 @@
+"""
+schema module for request body
+use python library Schema
+"""
 from schema import Schema
 
 address_schema = Schema({

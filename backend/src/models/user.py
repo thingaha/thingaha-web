@@ -1,3 +1,5 @@
+"""user model class, include migrate and CRUD actions"""
+
 from __future__ import annotations
 
 from typing import Dict, Any, List
@@ -11,6 +13,9 @@ from models.address import AddressModel
 
 
 class UserModel(db.Model):
+    """
+    User Model class with table column definition
+    """
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(), nullable=False)
@@ -21,7 +26,8 @@ class UserModel(db.Model):
     address_id = db.Column(db.Integer, db.ForeignKey("addresses.id"), nullable=False)
     address = relationship("AddressModel", foreign_keys=[address_id])
 
-    def __init__(self, name: str, email: str, address_id: int, role: str, country: str, hashed_password: str=None) -> None:
+    def __init__(self, name: str, email: str, address_id: int, role: str, country: str,
+                 hashed_password: str = None) -> None:
         self.name = name
         self.email = email
         self.address_id = address_id

@@ -1,20 +1,19 @@
 from flask import Flask
+from flask_cors import CORS
 from flask_migrate import Migrate
 
-from common.config import Config
-from common.config import load_config
+from common.config import load_config, load_logging_conf, Config
 from controller import api
 from database import db, SQLALCHEMY_DATABASE_URI
-from service.user.user_service import UserService
-from service.school.school_service import SchoolService
 from service.address.address_service import AddressService
-from flask_cors import CORS, cross_origin
+from service.school.school_service import SchoolService
+from service.user.user_service import UserService
 
 
 def create_app():
     app = Flask(__name__)
     app.config.update(SQLALCHEMY_DATABASE_URI=SQLALCHEMY_DATABASE_URI)
-    cors = CORS(app)
+    CORS(app)
     app.config.from_object(Config)
     db.init_app(app)
     Migrate(app, db)
@@ -24,7 +23,10 @@ def create_app():
 
 
 conf = load_config()
+load_logging_conf(conf["common"]["log"]["conf"])
+
 app = create_app()
+
 user_service = UserService(app.logger)
 school_service = SchoolService(app.logger)
 address_service = AddressService(app.logger)

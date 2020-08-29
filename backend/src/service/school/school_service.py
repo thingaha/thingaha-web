@@ -1,20 +1,21 @@
+"""school service class for CRUD actions"""
 from typing import List, Any, Optional, Dict
 
 from sqlalchemy.exc import SQLAlchemyError
 
-from common.error import SQLCustomError, RequestDataEmpty, ValidateFail
-from common.logger import get_common_logger
-from common.validate import InputValidate
 from common.data_schema import school_schema
+from common.error import SQLCustomError, RequestDataEmpty, ValidateFail
 from models.school import SchoolModel
+from service.service import Service
 
 
-class SchoolService:
+class SchoolService(Service):
+    """
+    school service class for CRUD actions
+    define specific params for school service in SchoolService Class
+    """
     def __init__(self, logger=None) -> None:
-        if logger is None:
-            logger = get_common_logger(__name__)
-        self.logger = logger
-        self.input_validate = InputValidate
+        super().__init__(logger)
 
     def get_all_schools(self) -> (List, Any):
         """
@@ -24,8 +25,8 @@ class SchoolService:
         try:
             self.logger.info("Get school list")
             return self.__return_school_list(SchoolModel.get_all_schools())
-        except SQLAlchemyError as e:
-            self.logger.error("Error: {}".format(e))
+        except SQLAlchemyError as error:
+            self.logger.error("Error: {}".format(error))
             raise SQLCustomError(description="GET School SQL ERROR")
 
     def get_school_by_id(self, school_id: int) -> Optional[List]:
@@ -37,8 +38,8 @@ class SchoolService:
         try:
             self.logger.info("get school info by school_id:{}".format(school_id))
             return self.__return_school_list(SchoolModel.get_school_by_id(school_id))
-        except SQLAlchemyError as e:
-            self.logger.error("Error: {}".format(e))
+        except SQLAlchemyError as error:
+            self.logger.error("Error: {}".format(error))
             raise SQLCustomError(description="GET School by ID SQL ERROR")
 
     @staticmethod
@@ -66,8 +67,8 @@ class SchoolService:
                 name=data["school_name"],
                 contact_info=data["contact_info"],
                 address_id=int(data["address_id"])))
-        except SQLAlchemyError as e:
-            self.logger.error("School create fail. error %s", e)
+        except SQLAlchemyError as error:
+            self.logger.error("School create fail. error %s", error)
             raise SQLCustomError("School create fail")
 
     def delete_school_by_id(self, school_id: int) -> bool:
@@ -79,8 +80,8 @@ class SchoolService:
         try:
             self.logger.info("delete school info by school_id:{}".format(school_id))
             return SchoolModel.delete_school_by_id(school_id)
-        except SQLAlchemyError as e:
-            self.logger.error("Error: {}".format(e))
+        except SQLAlchemyError as error:
+            self.logger.error("Error: {}".format(error))
             raise SQLCustomError(description="Delete school by ID SQL ERROR")
 
     def update_school_by_id(self, school_id: int, data: Dict) -> bool:
@@ -101,9 +102,9 @@ class SchoolService:
                 name=data["school_name"],
                 contact_info=data["contact_info"],
                 address_id=data["address_id"]))
-        except SQLAlchemyError as e:
-            self.logger.error("Error: {}".format(e))
+        except SQLAlchemyError as error:
+            self.logger.error("Error: {}".format(error))
             raise SQLCustomError(description="Update school by ID SQL ERROR")
-        except SQLCustomError as e:
-            self.logger.error("Error: {}".format(e))
+        except SQLCustomError as error:
+            self.logger.error("Error: {}".format(error))
             raise SQLCustomError(description="No record for requested school")

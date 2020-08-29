@@ -1,13 +1,20 @@
+"""school model class, include migrate and CRUD actions"""
+from __future__ import annotations
+
 from typing import List, Dict, Any
 
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import relationship
+
 from common.error import SQLCustomError
 from database import db
 from models.address import AddressModel
 
 
 class SchoolModel(db.Model):
+    """
+    school Model class with table column definition
+    """
     __tablename__ = "schools"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -57,7 +64,7 @@ class SchoolModel(db.Model):
             raise error
 
     @staticmethod
-    def get_all_schools() -> List:
+    def get_all_schools() -> List[SchoolModel]:
         """
         get all school records
         :return: school list
@@ -68,7 +75,7 @@ class SchoolModel(db.Model):
             raise error
 
     @staticmethod
-    def get_school_by_id(school_id: int):
+    def get_school_by_id(school_id: int) -> SchoolModel:
         """
         get all school records
         :return: school list

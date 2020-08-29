@@ -1,3 +1,5 @@
+"""student model class, include migrate and CRUD actions"""
+
 from datetime import datetime, date
 
 from sqlalchemy.exc import SQLAlchemyError
@@ -45,4 +47,3 @@ class StudentModel(db.Model):
         except SQLAlchemyError as e:
             # to put log
             return False
-

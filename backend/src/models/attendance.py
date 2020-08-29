@@ -1,3 +1,4 @@
+"""attendance model class, include migrate and CRUD actions"""
 from datetime import date
 
 from sqlalchemy.exc import SQLAlchemyError
@@ -11,7 +12,9 @@ class AttendanceModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     student_id = db.Column(db.Integer, db.ForeignKey("students.id"), nullable=False)
     school_id = db.Column(db.Integer, db.ForeignKey("schools.id"), nullable=False)
-    grade = db.Column(db.Enum("KG", "G-1", "G-2", "G-3", "G-4", "G-5", "G-6", "G-7", "G-8", "G-9", "G-10", "G-11", "G-12", name="grade"))
+    grade = db.Column(
+        db.Enum("KG", "G-1", "G-2", "G-3", "G-4", "G-5", "G-6", "G-7", "G-8", "G-9", "G-10", "G-11", "G-12",
+                name="grade"))
     year = db.Column(db.UnicodeText(), nullable=False)
     enrolled_date = db.Column(db.Date(), nullable=True)
 
@@ -39,4 +42,3 @@ class AttendanceModel(db.Model):
         except SQLAlchemyError as e:
             # to put log
             return False
-
