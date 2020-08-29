@@ -8,11 +8,13 @@ from database import db, SQLALCHEMY_DATABASE_URI
 from service.user.user_service import UserService
 from service.school.school_service import SchoolService
 from service.address.address_service import AddressService
+from flask_cors import CORS, cross_origin
 
 
 def create_app():
     app = Flask(__name__)
     app.config.update(SQLALCHEMY_DATABASE_URI=SQLALCHEMY_DATABASE_URI)
+    cors = CORS(app)
     app.config.from_object(Config)
     db.init_app(app)
     Migrate(app, db)

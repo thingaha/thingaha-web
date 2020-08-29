@@ -4,17 +4,21 @@ import sys
 import pytest
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "../src"))
-from app import create_app
+from app import create_app, db
 
 
-@pytest.fixture()
+@pytest.fixture
 def init_app():
     yield create_app()
 
 
 @pytest.fixture
 def client(init_app):
-    return init_app.test_client()
+    with init_app.app_context():
+        db.create_all()
+    yield init_app.test_client()
+    with init_app.app_context():
+        db.drop_all()
 
 
 def test_config(init_app):
@@ -26,7 +30,7 @@ def test_address_get_id(init_app, client):
     assert res.status_code == 200
 
 
-def test_address_create(init_app, client):
+def test_address_create_update(init_app, client):
     res = client.post("/api/v1/address", json={
         "district": "yangon",
         "division": "yangon",
@@ -34,9 +38,6 @@ def test_address_create(init_app, client):
         "township": "MyaeNiGone"
     })
     assert res.status_code == 200
-
-
-def test_address_put(init_app, client):
     res = client.put("/api/v1/address/1", json={
         "district": "yangon",
         "division": "yangon",
@@ -61,7 +62,7 @@ def test_delete_school_id(init_app, client):
     assert res.status_code == 200
 
 
-def test_create_school(init_app, client):
+def test_create_update_school(init_app, client):
     res = client.post("/api/v1/school", json={
         "school_name": "No.(35) Nyanungdon",
         "contact_info": "098",
@@ -71,10 +72,7 @@ def test_create_school(init_app, client):
         "township": "La Thar township"
     })
     assert res.status_code == 200
-
-
-def test_update_school(init_app, client):
-    res = client.put("/api/v1/school/2", json={
+    res = client.put("/api/v1/school/1", json={
         "school_name": "No.(11)Nyanungdon",
         "contact_info": "098",
         "address_id": 1,
