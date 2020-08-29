@@ -1,5 +1,6 @@
 import axios from 'axios'
 import last from 'lodash/last'
+import config from './config'
 
 const usersDb = [
   {
@@ -41,12 +42,12 @@ const usersDb = [
 ]
 
 export const fetchUsers = async () => {
-  // const response = await axios.get('/user')
-  // console.log('Api response', response)
+  const response = await axios.get(`${config.apiBaseUrl}/users`)
+  console.log('Api response', response)
 
   return {
     data: {
-      users: usersDb,
+      users: response.data.data.users,
     },
   }
 }

@@ -49,7 +49,7 @@ const UserCard = ({ user }) => {
         <Avatar>{user.country}</Avatar>
       </div>
       <div className="col2">
-        <div className="name">{user.username}</div>
+        <div className="name">{user.name}</div>
         <div className="email">{user.email}</div>
       </div>
       <div className="col3">
