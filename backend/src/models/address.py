@@ -1,3 +1,7 @@
+"""address model class, include migrate and CRUD actions"""
+
+from __future__ import annotations
+
 from typing import Dict, Any
 
 from sqlalchemy.exc import SQLAlchemyError
@@ -7,6 +11,9 @@ from database import db
 
 
 class AddressModel(db.Model):
+    """
+    address Model class with table column definition
+    """
     __tablename__ = "addresses"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -28,7 +35,13 @@ class AddressModel(db.Model):
         return f"<Address {self.format_address()}>"
 
     def format_address(self):
-        return ", ".join(filter(lambda x: x is not None and x != "", [self.street_address, self.township, self.district, self.division]))
+        """
+        format address to user readable format
+        :return:
+        """
+        return ", ".join(filter(lambda x: x is not None and x != "",
+                                [self.street_address, self.township,
+                                 self.district, self.division]))
 
     def as_dict(self) -> Dict[str, Any]:
         """
@@ -53,9 +66,9 @@ class AddressModel(db.Model):
             db.session.add(new_address)
             db.session.commit()
             return new_address.id
-        except SQLAlchemyError:
+        except SQLAlchemyError as error:
             db.session.rollback()
-            raise SQLAlchemyError
+            raise error
 
     @staticmethod
     def update_address(address_id: int, address) -> bool:
@@ -80,7 +93,7 @@ class AddressModel(db.Model):
             raise error
 
     @staticmethod
-    def get_address_by_id(address_id: int):
+    def get_address_by_id(address_id: int) -> AddressModel:
         """
         get address by id
         :param address_id:

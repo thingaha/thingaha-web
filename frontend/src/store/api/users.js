@@ -1,6 +1,6 @@
 import axios from 'axios'
 import last from 'lodash/last'
-axios.defaults.baseURL = 'https://backenddomain' // set backend domain
+import config from './config'
 
 const usersDb = [
   {
@@ -42,11 +42,12 @@ const usersDb = [
 ]
 
 export const fetchUsers = async () => {
-  // mock response for users api call
+  const response = await axios.get(`${config.apiBaseUrl}/users`)
+  console.log('Api response', response)
 
   return {
     data: {
-      users: usersDb,
+      users: response.data.data.users,
     },
   }
 }

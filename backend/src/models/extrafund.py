@@ -1,3 +1,5 @@
+"""extrafund model class, include migrate and CRUD actions"""
+
 from sqlalchemy.exc import SQLAlchemyError
 
 from database import db

@@ -1,3 +1,4 @@
+"""donation model class, include migrate and CRUD actions"""
 from datetime import datetime
 
 from sqlalchemy.exc import SQLAlchemyError
