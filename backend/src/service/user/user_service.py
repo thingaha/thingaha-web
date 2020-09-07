@@ -1,9 +1,9 @@
 """user service layer for CRUD action"""
 import traceback
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 
 from sqlalchemy.exc import SQLAlchemyError
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 
 from common.data_schema import user_schema
 from common.error import SQLCustomError, RequestDataEmpty, ValidateFail
@@ -123,6 +123,31 @@ class UserService(Service):
             self.logger.error("Get users by id fail. id %s. error %s", user_id,
                               traceback.format_exc())
             raise SQLCustomError(description="GET user by ID SQL ERROR")
+
+    @staticmethod
+    def check_password(password: str, user: UserModel):
+        """
+        check role for API call
+        :param password:
+        :param user:
+        :return:
+        """
+        return check_password_hash(user.hashed_password, password)
+
+    def get_user_by_email(self, email: str) -> Optional[UserModel]:
+        """
+
+        :param email:
+        :return:
+        """
+        self.logger.info("Get users list by email %s", email)
+        try:
+            user = UserModel.get_user_by_email(email)
+            return user if user else None
+        except SQLAlchemyError:
+            self.logger.error("Get users by id fail. email %s. error %s", email,
+                              traceback.format_exc())
+            raise SQLCustomError(description="Get user by email SQL ERROR")
 
     @staticmethod
     def __return_user_list(users: List[UserModel]) -> List[Dict[str, Any]]:

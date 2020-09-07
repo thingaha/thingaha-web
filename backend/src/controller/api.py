@@ -3,10 +3,13 @@ main api route module for thingaha app
 blueprint name: api
 current version: v1
 """
+from datetime import timedelta
+
 from flask import Blueprint, request, current_app, jsonify
 from flask_cors import cross_origin
+from flask_jwt_extended import JWTManager, jwt_required, create_access_token
 
-from common.error import SQLCustomError, RequestDataEmpty, ValidateFail
+from common.error import SQLCustomError, RequestDataEmpty, ValidateFail, ThingahaCustomError
 from service.address.address_service import AddressService
 from service.school.school_service import SchoolService
 from service.user.user_service import UserService
@@ -15,9 +18,30 @@ api = Blueprint("api", __name__, url_prefix="/api/v1")
 user_service: UserService = None
 school_service: SchoolService = None
 address_service: AddressService = None
+jwt: JWTManager = None
+
+
+@api.route("/login", methods=["POST"])
+def login():
+    if not request.is_json:
+        return custom_error("Missing JSON in request")
+    email = request.json.get("email", None)
+    password = request.json.get("password", None)
+    if not email:
+        return custom_error("Missing email parameter")
+    if not password:
+        return custom_error("Missing password parameter")
+    user = user_service.get_user_by_email(email)
+    if not user:
+        return custom_error("Requested {} is not a registered member".format(email))
+    if user_service.check_password(password, user):
+        access_token = create_access_token(identity=email, expires_delta=timedelta(days=1))
+        return jsonify(access_token=access_token), 200
+    return custom_error("Bad username or password", 401)
 
 
 @api.route("/users", methods=["GET"])
+@jwt_required
 @cross_origin()
 def get_all_users():
     """
@@ -41,6 +65,7 @@ def get_all_users():
 
 
 @api.route("/users/<int:user_id>", methods=["GET"])
+@jwt_required
 @cross_origin()
 def get_user_by_id(user_id: int):
     """
@@ -63,6 +88,7 @@ def get_user_by_id(user_id: int):
 
 
 @api.route("/users", methods=["POST"])
+@jwt_required
 @cross_origin()
 def create_user():
     """
@@ -100,6 +126,7 @@ def create_user():
 
 
 @api.route("/users/<int:user_id>", methods=["PUT"])
+@jwt_required
 @cross_origin()
 def update_user(user_id: int):
     """
@@ -146,6 +173,7 @@ def update_user(user_id: int):
 
 
 @api.route("/users/<int:user_id>", methods=["DELETE"])
+@jwt_required
 @cross_origin()
 def delete_user(user_id: int):
     """
@@ -166,6 +194,7 @@ def delete_user(user_id: int):
 
 
 @api.route("/addresses/<int:address_id>", methods=["GET"])
+@jwt_required
 @cross_origin()
 def get_address_by_id(address_id: int):
     """
@@ -173,6 +202,7 @@ def get_address_by_id(address_id: int):
     :param address_id:
     :return:
     """
+    print("khinezar")
     try:
         address = address_service.get_address_by_id(address_id)
         current_app.logger.info("Return data for address_id: {}".format(address_id))
@@ -190,6 +220,7 @@ def get_address_by_id(address_id: int):
 
 
 @api.route("/addresses", methods=["POST"])
+@jwt_required
 @cross_origin()
 def create_address():
     """
@@ -218,6 +249,7 @@ def create_address():
 
 
 @api.route("/addresses/<int:address_id>", methods=["PUT"])
+@jwt_required
 @cross_origin()
 def update_address(address_id: int):
     """
@@ -243,6 +275,7 @@ def update_address(address_id: int):
 
 
 @api.route("/schools", methods=["GET"])
+@jwt_required
 @cross_origin()
 def get_school():
     """
@@ -267,6 +300,7 @@ def get_school():
 
 
 @api.route("/schools/<int:school_id>", methods=["GET"])
+@jwt_required
 @cross_origin()
 def get_school_by_id(school_id: int):
     """
@@ -291,6 +325,7 @@ def get_school_by_id(school_id: int):
 
 
 @api.route("/schools", methods=["POST"])
+@jwt_required
 @cross_origin()
 def create_school():
     """
@@ -324,6 +359,7 @@ def create_school():
 
 
 @api.route("/schools/<int:school_id>", methods=["DELETE"])
+@jwt_required
 @cross_origin()
 def delete_school(school_id):
     """
@@ -346,6 +382,7 @@ def delete_school(school_id):
 
 
 @api.route("/schools/<int:school_id>", methods=["PUT"])
+@jwt_required
 @cross_origin()
 def update_school(school_id: int):
     """
@@ -404,3 +441,17 @@ def post_request_empty():
             "error": RequestDataEmpty("Request Data is Empty").__dict__
         }
     }), 400
+
+
+def custom_error(error_message: str, status_code: int = 400):
+    """
+    helper function for custom error with status code return return
+    :param error_message:
+    :param status_code:
+    :return:
+    """
+    return jsonify({
+        "errors": {
+            "error": ThingahaCustomError(error_message).__dict__
+        }
+    }), status_code

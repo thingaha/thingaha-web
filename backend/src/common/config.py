@@ -52,6 +52,7 @@ class Config(object):
     JSON_AS_ASCII = False
     SQLALCHEMY_ECHO = False
     CORS_HEADERS = "Content-Type"
+    JWT_SECRET_KEY = os.environ.get("JWT_SECRET_KEY") or os.urandom(12).hex()
     if os.environ.get("SCRIPT_ENV") == "test":
         TESTING = True
         DEBUG = True

@@ -2,6 +2,7 @@ import os
 import sys
 
 import pytest
+from flask_jwt_extended import create_access_token, JWTManager
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "../src"))
 from app import create_app, db
@@ -9,7 +10,9 @@ from app import create_app, db
 
 @pytest.fixture
 def init_app():
-    yield create_app()
+    app = create_app()
+    JWTManager(app)
+    yield app
 
 
 @pytest.fixture
@@ -21,12 +24,21 @@ def client(init_app):
         db.drop_all()
 
 
+@pytest.fixture
+def json_access_token(init_app, client):
+    with init_app.app_context():
+        access_token = create_access_token(identity="aa@gmail.com")
+        return {
+            "access_token": access_token
+        }
+
+
 def test_config(init_app):
     assert init_app.config["TESTING"] == True
 
 
-def test_address_get_id(init_app, client):
-    res = client.get("/api/v1/addresses/1")
+def test_address_get_id(init_app, client, json_access_token):
+    res = client.get("/api/v1/addresses/1", headers=json_access_token)
     assert res.status_code == 200
 
 

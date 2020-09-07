@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_cors import CORS
+from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
 
 from common.config import load_config, load_logging_conf, Config
@@ -26,6 +27,7 @@ conf = load_config()
 load_logging_conf(conf["common"]["log"]["conf"])
 
 app = create_app()
+jwt = JWTManager(app)
 
 user_service = UserService(app.logger)
 school_service = SchoolService(app.logger)
@@ -34,6 +36,7 @@ address_service = AddressService(app.logger)
 api.user_service = user_service
 api.school_service = school_service
 api.address_service = address_service
+api.jwt = jwt
 
 
 if __name__ == "__main__":
