@@ -1,3 +1,23 @@
+### LOGIN API
+| API      | URL | Action     |
+| :---        |    :----:   |          ---: |
+| /api/v1/login     | Get token       | POST   |
+
+Input Sample:
+```json
+{
+    "email": "moemoe@gmail.com",
+    "password": "123"
+}
+```
+
+Output Sample:
+```json
+{
+    "access_token": "eyJ0eXAiOXXXXX"
+}
+```
+
 ### CREATE User
 | API      | URL | Action     |
 | :---        |    :----:   |          ---: |

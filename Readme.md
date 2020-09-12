@@ -26,7 +26,7 @@ pip install -r ~/thingaha/backend/requirements.txt
 - DB migrate
 
 ```shell script
-for linux -> go backend/bin and run -> ./db_migrate.sh
+for linux, macOS -> go backend/bin and run -> ./db_migrate.sh
 for windows -> go to backend\bin and run -> db_migrate.bat
 
 #memo
@@ -36,16 +36,32 @@ postgres url be like [DB_TYPE]+[DB_CONNECTOR]://[USERNAME]:[PASSWORD]@[HOST]:[PO
 - Start the server
 
 ```shell script
-for linux -> go backend/bin and run -> ./start_app.sh
+for linux, macOS -> go backend/bin and run -> ./start_app.sh
 for windows -> go to backend\bin and run -> start_app.bat
+```
+
+- Start using API
+```
+- Import user table from the record file bin/user_init.
+- Default server port is 5000: 
+- All API required JWT token for access data 
+- Get the access token from login. 
+    -- init user_email: moemoe@gmail.com
+    -- init user_pass: 123
+    -- login URL : => 
+        -- [POST] http://localhost:5000/api/v1/login
+- API docs can be found in https://github.com/thingaha/thingaha-web/tree/master/backend/docs
 ```
 
 - Start the test case
 
 ```shell script
-for linux -> go backend/bin and run -> ./start_test.sh
+for linux, macOS -> go backend/bin and run -> ./start_test.sh
 for windows -> go to backend\bin and run -> start_test.bat
 ```
+
+
+
 
 ### Frontend
 
