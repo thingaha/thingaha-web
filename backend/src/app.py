@@ -9,6 +9,7 @@ from database import db, SQLALCHEMY_DATABASE_URI
 from service.address.address_service import AddressService
 from service.school.school_service import SchoolService
 from service.user.user_service import UserService
+from service.attendance.attendance_service import AttendanceService
 
 
 def create_app():
@@ -32,10 +33,13 @@ jwt = JWTManager(app)
 user_service = UserService(app.logger)
 school_service = SchoolService(app.logger)
 address_service = AddressService(app.logger)
+attendance_service = AttendanceService(app.logger)
+
 
 api.user_service = user_service
 api.school_service = school_service
 api.address_service = address_service
+api.attendance_service = attendance_service
 api.jwt = jwt
 
 

@@ -25,3 +25,11 @@ user_schema = Schema({
     "role": str,
     "country": str
 })
+
+attendance_schema = Schema({
+    "student_id": int,
+    "school_id": int,
+    "grade": str,
+    "year": str,
+    "enrolled_date": str
+})

@@ -43,7 +43,7 @@ Output Sample:
 | /api/v1/school     | GET all school       | GET   |
 
 Output Sample
-```
+```json
 {
   "data": {
     "count": 2,
@@ -75,7 +75,6 @@ Output Sample
     ]
   }
 }
-
 ```
 
 ### GET School by ID

@@ -1,9 +1,9 @@
 """student model class, include migrate and CRUD actions"""
 
 from datetime import datetime, date
-
+from sqlalchemy.orm import relationship
 from sqlalchemy.exc import SQLAlchemyError
-
+from typing import Dict, Any
 from database import db
 
 
@@ -18,6 +18,7 @@ class StudentModel(db.Model):
     mother_name = db.Column(db.UnicodeText())
     parents_occupation = db.Column(db.Text())
     address_id = db.Column(db.Integer, db.ForeignKey("addresses.id"), nullable=False)
+    address = relationship("AddressModel", foreign_keys=[address_id])
 
     def __init__(self, name: str,
                  deactivated_at: datetime, birth_date: date, father_name: str, mother_name: str,
@@ -32,6 +33,27 @@ class StudentModel(db.Model):
 
     def __repr__(self):
         return f"<Student {self.name}>"
+
+    def student_dict(self) -> Dict[str, Any]:
+        """
+        Return object data in easily serializable format
+        """
+        return {
+            "id": self.id,
+            "name": self.name,
+            "deactivated_at": self.deactivated_at.strftime("%d-%m-%Y") if self.deactivated_at else "",
+            "birth_date": self.birth_date.strftime("%d-%m-%Y") if self.birth_date else "",
+            "father_name": self.father_name,
+            "mother_name": self.mother_name,
+            "parents_occupation": self.parents_occupation,
+            "address": {
+                "id": self.address_id,
+                "division": self.address.division,
+                "district": self.address.district,
+                "township": self.address.township,
+                "street_address": self.address.street_address
+            }
+        }
 
     @staticmethod
     def create_student(new_student):

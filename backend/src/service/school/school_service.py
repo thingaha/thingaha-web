@@ -33,7 +33,7 @@ class SchoolService(Service):
         """
         get school info by id
         :param school_id:
-        :return: users list of dict
+        :return: school list of dict
         """
         try:
             self.logger.info("get school info by school_id:{}".format(school_id))
@@ -86,7 +86,7 @@ class SchoolService(Service):
 
     def update_school_by_id(self, school_id: int, data: Dict) -> bool:
         """
-        delete school by id
+        update school by id
         :param school_id:
         :param data:
         :return:

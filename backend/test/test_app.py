@@ -120,3 +120,45 @@ def test_user(init_app, client, json_access_token):
 def test_user_by_id(init_app, client, json_access_token):
     res = client.get("/api/v1/users/1", headers=json_access_token)
     assert res.status_code == 200
+
+
+def test_get_attendance(init_app, client, json_access_token):
+    res = client.get("/api/v1/attendances", headers=json_access_token)
+    assert res.status_code == 200
+
+
+def test_get_attendance_by_id(init_app, client, json_access_token):
+    res = client.get("/api/v1/attendances/1", headers=json_access_token)
+    assert res.status_code == 200
+
+
+def test_post_attendance(init_app, client, json_access_token):
+    """ this task will modify when student create API done"""
+    # create school
+    res = client.post("/api/v1/schools", json={
+        "school_name": "No.(35) Nyanungdon",
+        "contact_info": "098",
+        "district": "yangon",
+        "division": "yangon",
+        "street_address": "18 street",
+        "township": "La Thar township"
+    }, headers=json_access_token)
+    assert res.status_code == 200
+    # create student
+    # skip => will throw error
+    res = client.post("/api/v1/attendances", json={
+        "student_id": 1,
+        "school_id": 1,
+        "grade": "G-10",
+        "year": "2020",
+        "enrolled_date": "2020-02-02"
+    }, headers=json_access_token)
+    assert res.status_code == 200 # fix it after student create api done
+    res = client.put("/api/v1/attendances", json={
+        "student_id": 1,
+        "school_id": 1,
+        "grade": "G-9",
+        "year": "2020",
+        "enrolled_date": "2020-02-01"
+    }, headers=json_access_token)
+    assert res.status_code == 200 # fix it after student create api done
