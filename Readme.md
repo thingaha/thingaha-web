@@ -25,13 +25,19 @@ pip install -r ~/thingaha/backend/requirements.txt
 
 - DB migrate
 
+
 ```shell script
 for linux, macOS -> go backend/bin and run -> ./db_migrate.sh
 for windows -> go to backend\bin and run -> db_migrate.bat
 
+
 #memo
 postgres url be like [DB_TYPE]+[DB_CONNECTOR]://[USERNAME]:[PASSWORD]@[HOST]:[PORT]/[DB_NAME]
 ```
+- ERD Diagram for Thingaha Project
+
+![alt text](https://thingaha.drawerd.com/projects/602/render_svg?share_key=81bba674955bdb98666dc6a685de3f)
+
 
 - Start the server
 
