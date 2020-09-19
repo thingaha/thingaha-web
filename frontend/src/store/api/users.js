@@ -43,7 +43,6 @@ const usersDb = [
 
 export const fetchUsers = async () => {
   const response = await axios.get(`${config.apiBaseUrl}/users`)
-  console.log('Api response', response)
 
   return {
     data: {

@@ -2,7 +2,7 @@ import {
   put,
   // call
 } from 'redux-saga/effects'
-import { getDonationsForMonth, updateDonationStatus } from '../api/donations'
+import { getDonationsForMonth } from '../api/donations'
 import {
   GET_DONATIONS_FOR_MONTH_FAILURE,
   GET_DONATIONS_FOR_MONTH_SUCCESS,
