@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Any
+from typing import Dict, Any, List
 
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -101,5 +101,32 @@ class AddressModel(db.Model):
         """
         try:
             return db.session.query(AddressModel).filter(AddressModel.id == address_id).first()
+        except SQLAlchemyError as error:
+            raise error
+
+    @staticmethod
+    def delete_address(address_id) -> bool:
+        """
+        delete address by id
+        :param address_id:
+        :return: bool
+        """
+        try:
+            if not db.session.query(AddressModel).filter(AddressModel.id == address_id).delete():
+                return False
+            db.session.commit()
+            return True
+        except SQLAlchemyError as error:
+            db.session.rollback()
+            raise error
+
+    @staticmethod
+    def get_all_addresses() -> List[AddressModel]:
+        """
+        get all addresses
+        :return: addresses list of dict
+        """
+        try:
+            return db.session.query(AddressModel).all()
         except SQLAlchemyError as error:
             raise error

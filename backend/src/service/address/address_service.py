@@ -1,6 +1,6 @@
 """address service layer for CRUD action"""
 import traceback
-from typing import Dict, Any
+from typing import Dict, Any, List
 
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -77,3 +77,37 @@ class AddressService(Service):
         except SQLAlchemyError:
             self.logger.error("Get address by id fail. id %s. error %s", address_id, traceback.format_exc())
             raise SQLCustomError(description="GET address by ID SQL ERROR")
+
+    def delete_address_by_id(self, address_id: int) -> bool:
+        """
+        delete address by id
+        :param address_id:
+        :return:
+        """
+        try:
+            self.logger.info("Delete address by id", address_id)
+            return AddressModel.delete_address(address_id)
+        except SQLAlchemyError:
+            self.logger.error("Address delete fail. id %s, error %s", address_id, traceback.format_exc())
+            raise SQLCustomError(description="Delete address by ID SQL ERROR")
+
+    def get_all_addresses(self) -> List[Dict[str, Any]]:
+        """
+        get all addresses
+        :return:
+        """
+        self.logger.info("Get all addresses list")
+        try:
+            return self.__return_address_list(AddressModel.get_all_addresses())
+        except SQLAlchemyError:
+            self.logger.error("Get all addresses fail. error %s", traceback.format_exc())
+            raise SQLCustomError(description="GET address SQL ERROR")
+
+    @staticmethod
+    def __return_address_list(addresses: List[AddressModel]) -> List[Dict[str, Any]]:
+        """
+        return dict list for Addresses
+        :param addresses:
+        :return:
+        """
+        return [address.as_dict() for address in addresses]

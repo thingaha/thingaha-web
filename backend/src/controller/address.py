@@ -23,10 +23,10 @@ def get_address_by_id(address_id: int):
         current_app.logger.info("Return data for address_id: {}".format(address_id))
         return jsonify({
             "data": {
-                "schools": address
+                "address": address
             }}), 200
     except SQLCustomError as error:
-        current_app.logger.error("Return error for school_id: {}".format(address_id))
+        current_app.logger.error("Return error for address_id: {}".format(address_id))
         return jsonify({
             "errors": {
                 "error": error.__dict__
@@ -82,6 +82,54 @@ def update_address(address_id: int):
         }), 200
     except (SQLCustomError, ValidateFail, RequestDataEmpty) as error:
         current_app.logger.error("update address fail: address_id: %s", address_id)
+        return jsonify({
+            "errors": {
+                "error": error.__dict__
+            }
+        }), 400
+
+
+@api.route("/addresses/<int:address_id>", methods=["DELETE"])
+@jwt_required
+@cross_origin()
+def delete_address(address_id: int):
+    """
+    delete address by id
+    :param address_id:
+    :return:
+    """
+    try:
+        current_app.logger.info("delete address : address_id: %s", address_id)
+        return jsonify({
+            "status": address_service.delete_address_by_id(address_id)
+        }), 200
+    except SQLCustomError as error:
+        current_app.logger.error("fail to delete address : address_id: %s", address_id)
+        return jsonify({
+            "errors": {
+                "error": error.__dict__
+            }
+        }), 400
+
+
+@api.route("/addresses", methods=["GET"])
+@jwt_required
+@cross_origin()
+def get_all_addresses():
+    """
+    get all addresses list
+    :return:
+    """
+    try:
+        addresses = address_service.get_all_addresses()
+        current_app.logger.info("get all addresses")
+        return jsonify({
+            "data": {
+                "count": len(addresses),
+                "addresses": addresses
+            }}), 200
+    except SQLCustomError as error:
+        current_app.logger.error("fail to get all addresses: %s", error)
         return jsonify({
             "errors": {
                 "error": error.__dict__
