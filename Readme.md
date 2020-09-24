@@ -7,7 +7,7 @@
 ### Pre-requisite
 
 1. Flask with python3
-2. PostgreSQL == 12.3
+2. [PostgreSQL](https://www.postgresql.org/download/) == 12.3
 
 ### Environment setup
 
@@ -33,6 +33,14 @@ for windows -> go to backend\bin and run -> db_migrate.bat
 
 #memo
 postgres url be like [DB_TYPE]+[DB_CONNECTOR]://[USERNAME]:[PASSWORD]@[HOST]:[PORT]/[DB_NAME]
+```
+
+- DB Seed
+
+```shell script
+for linux, macOS -> go backend/bin and run -> ./db_seed.sh
+for windows -> go to backend\bin and run -> db_seed.bat
+
 ```
 - ERD Diagram for Thingaha Project
 
