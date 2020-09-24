@@ -56,7 +56,6 @@ for windows -> go to backend\bin and run -> start_app.bat
 
 - Start using API
 ```
-- Import user table from the record file bin/user_init.
 - Default server port is 5000: 
 - All API required JWT token for access data 
 - Get the access token from login. 
@@ -74,6 +73,9 @@ for linux, macOS -> go backend/bin and run -> ./start_test.sh
 for windows -> go to backend\bin and run -> start_test.bat
 ```
 
+
+- For the [Postman](https://www.postman.com/) user, 
+please import ***bin/db_seed/thingaha.postman_collection.json*** for API testing
 
 
 

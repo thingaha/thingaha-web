@@ -41,7 +41,7 @@ class UserService(Service):
         except SQLAlchemyError:
             self.logger.error("User create fail. email %s, error %s", data.get("email"),
                               traceback.format_exc())
-            raise SQLCustomError("Create User SQL Error")
+            raise SQLCustomError("Create User Error")
 
     def update_user_by_id(self, user_id: int, data: Dict[str, Any]) -> bool:
         """

@@ -1,0 +1,879 @@
+{
+	"info": {
+		"_postman_id": "7f5251f3-6965-46a7-ba28-2999ea1919be",
+		"name": "thingaha",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"moemoe@gmail.com\",\n    \"password\": \"123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Address[Get]",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDA5MzA4ODcsIm5iZiI6MTYwMDkzMDg4NywianRpIjoiOGMwOGY1YWYtMDMwOC00Njg1LWJiYmUtZGJiYjlhYzk5ZTRkIiwiZXhwIjoxNjAxMDE3Mjg3LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.TPttNkUMTAvAl1jpBl1fm8ZpQuwyvRHwVLrdvpnpAJk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"moemoe@gmail.com\",\n    \"password\": \"123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/addresses",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"addresses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Address[Get][ID]",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDA5MzA4ODcsIm5iZiI6MTYwMDkzMDg4NywianRpIjoiOGMwOGY1YWYtMDMwOC00Njg1LWJiYmUtZGJiYjlhYzk5ZTRkIiwiZXhwIjoxNjAxMDE3Mjg3LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.TPttNkUMTAvAl1jpBl1fm8ZpQuwyvRHwVLrdvpnpAJk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"moemoe@gmail.com\",\n    \"password\": \"123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/addresses/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"addresses",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Address[POST]",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDA5MzEzMjgsIm5iZiI6MTYwMDkzMTMyOCwianRpIjoiMjViZWY4MjQtOTc4Mi00YTllLWJjNzktZmE5ODhlOTZjNGQ0IiwiZXhwIjoxNjAxMDE3NzI4LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.3jfXHKa2F-iMiq1vG-wnXi7MwyGlLOA5ZqiZy2ThbGk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"division\": \"yangon\",\n    \"district\": \"yangon\",\n    \"township\": \"Latha\",\n    \"street_address\": \"19th street\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/addresses",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"addresses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Address[PUT]",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDA5MzEzMjgsIm5iZiI6MTYwMDkzMTMyOCwianRpIjoiMjViZWY4MjQtOTc4Mi00YTllLWJjNzktZmE5ODhlOTZjNGQ0IiwiZXhwIjoxNjAxMDE3NzI4LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.3jfXHKa2F-iMiq1vG-wnXi7MwyGlLOA5ZqiZy2ThbGk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"division\": \"yangon\",\n    \"district\": \"yangon\",\n    \"township\": \"Latha\",\n    \"street_address\": \"20th street\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/addresses/7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"addresses",
+						"7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Attendances[GET]",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDA5MzI4OTUsIm5iZiI6MTYwMDkzMjg5NSwianRpIjoiM2UwMjdmNGYtZTBkYy00YmJlLThlNTgtNTAxYjllZjMxZTdkIiwiZXhwIjoxNjAxMDE5Mjk1LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.9FES3WdT0GL9Cvn0R6EoaK_AlvDHScIBJ4DnLCrg6Iw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/attendances",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"attendances"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Attendances[GET][ID]",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDA5MzI4OTUsIm5iZiI6MTYwMDkzMjg5NSwianRpIjoiM2UwMjdmNGYtZTBkYy00YmJlLThlNTgtNTAxYjllZjMxZTdkIiwiZXhwIjoxNjAxMDE5Mjk1LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.9FES3WdT0GL9Cvn0R6EoaK_AlvDHScIBJ4DnLCrg6Iw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/attendances/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"attendances",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Attendances[POST]",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDA5MzM2NjYsIm5iZiI6MTYwMDkzMzY2NiwianRpIjoiZTc3Y2I2NTEtMmU0Mi00ZmUzLWFiZDktZjg1ZGI1MDM1YjFlIiwiZXhwIjoxNjAxMDIwMDY2LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.aujJk4wMs5o5j0cF7kb0mLaHnxvCHuaCAlbD47kN5hc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"student_id\": 4,\n    \"school_id\": 1,\n    \"grade\": \"G-8\",\n    \"year\": \"2020\",\n    \"enrolled_date\": \"2020-02-02\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/attendances",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"attendances"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Attendances[PUT]",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDA5MzM2NjYsIm5iZiI6MTYwMDkzMzY2NiwianRpIjoiZTc3Y2I2NTEtMmU0Mi00ZmUzLWFiZDktZjg1ZGI1MDM1YjFlIiwiZXhwIjoxNjAxMDIwMDY2LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.aujJk4wMs5o5j0cF7kb0mLaHnxvCHuaCAlbD47kN5hc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"student_id\": 4,\n    \"school_id\": 1,\n    \"grade\": \"G-8\",\n    \"year\": \"2019\",\n    \"enrolled_date\": \"2020-02-02\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/attendances/9",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"attendances",
+						"9"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "School[GET]",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDA5MzM2NjYsIm5iZiI6MTYwMDkzMzY2NiwianRpIjoiZTc3Y2I2NTEtMmU0Mi00ZmUzLWFiZDktZjg1ZGI1MDM1YjFlIiwiZXhwIjoxNjAxMDIwMDY2LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.aujJk4wMs5o5j0cF7kb0mLaHnxvCHuaCAlbD47kN5hc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/schools",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"schools"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "School[GET][ID]",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDA5MzM2NjYsIm5iZiI6MTYwMDkzMzY2NiwianRpIjoiZTc3Y2I2NTEtMmU0Mi00ZmUzLWFiZDktZjg1ZGI1MDM1YjFlIiwiZXhwIjoxNjAxMDIwMDY2LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.aujJk4wMs5o5j0cF7kb0mLaHnxvCHuaCAlbD47kN5hc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/schools/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"schools",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "School[POST]",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDA5MzQzNzYsIm5iZiI6MTYwMDkzNDM3NiwianRpIjoiMjg4NGU1ZDEtMThmNS00Y2YxLTgwYjItNjllMzhiNDlhZmVkIiwiZXhwIjoxNjAxMDIwNzc2LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.AWgVw1b6xyi6kOrJXCR3x_l6_lusW2_X16SMCOgyzeo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"school_name\": \"No.(21)Nyanungdon\",\n    \"contact_info\": \"0988898754\",\n    \"district\": \"ayeyarwady\",\n    \"division\": \"ayeyarwady\",\n    \"street_address\": \"18th street\",\n    \"township\": \"MyaeNiGone\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/schools",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"schools"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "School[PUT]",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDA5MzQzNzYsIm5iZiI6MTYwMDkzNDM3NiwianRpIjoiMjg4NGU1ZDEtMThmNS00Y2YxLTgwYjItNjllMzhiNDlhZmVkIiwiZXhwIjoxNjAxMDIwNzc2LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.AWgVw1b6xyi6kOrJXCR3x_l6_lusW2_X16SMCOgyzeo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"school_name\": \"No.(11)Nyanungdon\",\n    \"contact_info\": \"098\",\n    \"address_id\": 4,\n    \"district\": \"yangon\",\n    \"division\": \"yangon\",\n    \"street_address\": \"20 street\",\n    \"township\": \"MyaeNiGone\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/schools/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"schools",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User[GET]",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDA5MzQzNzYsIm5iZiI6MTYwMDkzNDM3NiwianRpIjoiMjg4NGU1ZDEtMThmNS00Y2YxLTgwYjItNjllMzhiNDlhZmVkIiwiZXhwIjoxNjAxMDIwNzc2LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.AWgVw1b6xyi6kOrJXCR3x_l6_lusW2_X16SMCOgyzeo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User[GET][ID]",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDA5MzQzNzYsIm5iZiI6MTYwMDkzNDM3NiwianRpIjoiMjg4NGU1ZDEtMThmNS00Y2YxLTgwYjItNjllMzhiNDlhZmVkIiwiZXhwIjoxNjAxMDIwNzc2LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.AWgVw1b6xyi6kOrJXCR3x_l6_lusW2_X16SMCOgyzeo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/users/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User[POST]",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDA5MzUwNTEsIm5iZiI6MTYwMDkzNTA1MSwianRpIjoiN2VmMDY4NGYtMzFkMC00YTgxLWI4ODgtODlhZTYwNmYyMmY1IiwiZXhwIjoxNjAxMDIxNDUxLCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.ZKvR_-7DeA7S-okSEhXLqR_tg0MJTkM-KtY6AuuLn8I",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"MoeMoe\", \n    \"email\": \"moemoe11@gmail.com\",\n    \"password\" : \"123\", \n    \"role\": \"admin\", \n    \"country\": \"mm\",\n    \"district\": \"pabedan\",\n    \"division\": \"yangon\",\n    \"street_address\": \"18 street\",\n    \"township\": \"La Thar township\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User[PUT]",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDA5MzUwNTEsIm5iZiI6MTYwMDkzNTA1MSwianRpIjoiN2VmMDY4NGYtMzFkMC00YTgxLWI4ODgtODlhZTYwNmYyMmY1IiwiZXhwIjoxNjAxMDIxNDUxLCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.ZKvR_-7DeA7S-okSEhXLqR_tg0MJTkM-KtY6AuuLn8I",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 2,\n    \"name\": \"Moemoe1\",\n    \"email\": \"moemoe1@gmail.com\",\n    \"password\" : \"1234\", \n    \"role\": \"admin\",\n    \"country\": \"mm\",\n    \"address_id\": 4,\n    \"district\": \"pabedan\",\n    \"division\": \"yangon\",\n    \"street_address\": \"19 street\",\n    \"township\": \"La Thar township\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/users/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User[DELETE]",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDA5MzUwNTEsIm5iZiI6MTYwMDkzNTA1MSwianRpIjoiN2VmMDY4NGYtMzFkMC00YTgxLWI4ODgtODlhZTYwNmYyMmY1IiwiZXhwIjoxNjAxMDIxNDUxLCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.ZKvR_-7DeA7S-okSEhXLqR_tg0MJTkM-KtY6AuuLn8I",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/users/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "School[DELETE][ID]",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDA5MzQzNzYsIm5iZiI6MTYwMDkzNDM3NiwianRpIjoiMjg4NGU1ZDEtMThmNS00Y2YxLTgwYjItNjllMzhiNDlhZmVkIiwiZXhwIjoxNjAxMDIwNzc2LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.AWgVw1b6xyi6kOrJXCR3x_l6_lusW2_X16SMCOgyzeo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/schools/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"schools",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Attendances[DELETE][ID]",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDA5MzI4OTUsIm5iZiI6MTYwMDkzMjg5NSwianRpIjoiM2UwMjdmNGYtZTBkYy00YmJlLThlNTgtNTAxYjllZjMxZTdkIiwiZXhwIjoxNjAxMDE5Mjk1LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.9FES3WdT0GL9Cvn0R6EoaK_AlvDHScIBJ4DnLCrg6Iw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/attendances/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"attendances",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Attendances[DELETE]",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDA5MzI4OTUsIm5iZiI6MTYwMDkzMjg5NSwianRpIjoiM2UwMjdmNGYtZTBkYy00YmJlLThlNTgtNTAxYjllZjMxZTdkIiwiZXhwIjoxNjAxMDE5Mjk1LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.9FES3WdT0GL9Cvn0R6EoaK_AlvDHScIBJ4DnLCrg6Iw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/attendances/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"attendances",
+						"3"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

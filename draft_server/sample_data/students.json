@@ -9,6 +9,7 @@
         "father_name": "U Aye",
         "mother_name": "Daw Aye",
         "parents_occupation": "Farmer",
+        "photo": "https://s3.(region).amazonaws.com/(bucketName)/ImageName",
         "address": {
           "id": 1,
           "division": "ayeyarwaddy",
@@ -25,6 +26,7 @@
         "father_name": "U Aye Aye",
         "mother_name": "Daw Aye Aye",
         "parents_occupation": "Farmer",
+        "photo": "https://s3.(region).amazonaws.com/(bucketName)/ImageName",
         "address": {
           "id": 2,
           "division": "ayeyarwaddy",
@@ -41,6 +43,7 @@
         "father_name": "U Mya",
         "mother_name": "Daw Mya",
         "parents_occupation": "Farmer",
+        "photo": "https://s3.(region).amazonaws.com/(bucketName)/ImageName",
         "address": {
           "id": 3,
           "division": "ayeyarwaddy",
@@ -57,6 +60,7 @@
         "father_name": "U Hla",
         "mother_name": "Daw Hla",
         "parents_occupation": "Teacher",
+        "photo": "https://s3.(region).amazonaws.com/(bucketName)/ImageName",
         "address": {
           "id": 4,
           "division": "ayeyarwaddy",
