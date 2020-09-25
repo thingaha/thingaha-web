@@ -14,6 +14,16 @@ import {
   fetchDonationsForMonth,
   startDonationStatusUpdate,
 } from './sagas/donations'
+import {
+  GET_ALL_SCHOOLS,
+  SUBMIT_NEW_SCHOOL_FORM,
+  SUBMIT_EDIT_SCHOOL_FORM,
+} from './actions/schools'
+import {
+  fetchAllSchools,
+  submitNewSchoolForm,
+  submitEditSchoolForm,
+} from './sagas/schools'
 import { loginUser } from './sagas/authentication'
 
 // add Saga below
@@ -23,6 +33,9 @@ export default function* rootSaga() {
     takeLatest(SUBMIT_USER_FORM, submitUserForm),
     takeLatest(GET_DONATIONS_FOR_MONTH, fetchDonationsForMonth),
     takeLatest(UPDATE_DONATION_STATUS, startDonationStatusUpdate),
+    takeLatest(GET_ALL_SCHOOLS, fetchAllSchools),
+    takeLatest(SUBMIT_NEW_SCHOOL_FORM, submitNewSchoolForm),
+    takeLatest(SUBMIT_EDIT_SCHOOL_FORM, submitEditSchoolForm),
     takeLatest(LOGIN, loginUser),
   ])
 }
