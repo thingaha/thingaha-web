@@ -69,8 +69,6 @@ const Login = ({
     setShowPassword(!showPassword)
   }
 
-  console.log(authentication)
-
   if (authentication && authentication.authenticated) {
     return <Redirect to="/" />
   }

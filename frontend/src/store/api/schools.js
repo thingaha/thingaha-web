@@ -1,6 +1,5 @@
-import axios from 'axios'
 import last from 'lodash/last'
-import config from './config'
+import thingahaApiClient from '../../utils/thingahaApiClient'
 
 const schoolsDb = [
   {
@@ -54,7 +53,7 @@ const schoolsDb = [
 ]
 
 export const fetchSchools = async () => {
-  const response = await axios.get(`${config.apiBaseUrl}/schools`)
+  const response = await thingahaApiClient.get('/schools')
   return {
     data: {
       schools: response.data.data.schools,

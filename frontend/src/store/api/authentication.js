@@ -1,28 +1,7 @@
-import axios from 'axios'
-import config from './config'
+import TokenStorage from '../../utils/tokenStorage'
 import get from 'lodash/get'
-
-const TokenStorage = (() => {
-  const localStorage = window.localStorage
-
-  const setToken = (token) => {
-    return localStorage.setItem('authToken', token)
-  }
-
-  const getToken = () => {
-    return localStorage.getItem('authToken')
-  }
-
-  const clearToken = () => {
-    return localStorage.removeItem('authToken')
-  }
-
-  return {
-    getToken,
-    setToken,
-    clearToken,
-  }
-})()
+import thingahaApiClient from '../../utils/thingahaApiClient'
+import config from '../../config'
 
 // Development only - fake login method
 // Just returning hardcoded values
@@ -39,14 +18,14 @@ const draftLogin = ({ email, password }) => {
 }
 
 export const login = async ({ email, password }) => {
-  if (config.draft) {
+  if (config.useDraftServer) {
     return draftLogin({ email, password })
   } else {
     // TODO: add proper error handling with Redux when we implement global error and notification toasts
     // We probably don't need try catch here but let the saga handle error instead.
     // For now we're just going to show a plain old alert message.
     try {
-      const response = await axios.post(`${config.apiBaseUrl}/login`, {
+      const response = await thingahaApiClient.post('/login', {
         email,
         password,
       })

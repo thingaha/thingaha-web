@@ -1,4 +1,4 @@
-import { LOGIN_FAILURE, LOGIN_SUCCESS } from '../actions/authentication'
+import { AUTH_FAILURE, LOGIN_FAILURE, LOGIN_SUCCESS } from '../actions/authentication'
 
 export default (
   state = { authenticated: false, currentUser: null },
@@ -10,6 +10,14 @@ export default (
       return {
         ...state,
         error: action.error,
+      }
+    case AUTH_FAILURE:
+      // TODO handle error
+      return {
+        ...state,
+        authenticated: false,
+        currentUser: null,
+        error: action.errorResponse,
       }
     case LOGIN_SUCCESS:
       const currentUser = action.currentUser

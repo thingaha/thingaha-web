@@ -11,7 +11,7 @@ import {
 import { StylesProvider, MuiThemeProvider } from '@material-ui/core/styles'
 import theme from './styles/theme'
 import store from './store/configureStore'
-import { Provider } from 'react-redux'
+import { Provider, connect } from 'react-redux'
 
 import BaseLayout from './components/layouts/BaseLayout'
 import Sidebar from './components/layouts/Sidebar'
@@ -22,9 +22,7 @@ import Users from './components/users/Users'
 import Donations from './components/donations/Donations'
 import Schools from './components/schools/Schools'
 
-import { isLoggedIn } from './store/api/authentication'
-
-const PrivateRoute = ({ component: Component, ...rest }) => {
+const PrivateRouteComponent = ({ component: Component, authentication, ...rest }) => {
   return (
     // Show the component only when the user is logged in
     // Otherwise, redirect the user to /signin page
@@ -34,7 +32,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
         <Route
           {...rest}
           render={(props) => {
-            if (!isLoggedIn()) {
+            if (!authentication.authenticated) {
               return (
                 <Redirect
                   to={{
@@ -52,6 +50,18 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
     </BaseLayout>
   )
 }
+
+
+const mapStateToProps = (state) => ({
+  authentication: state.authentication
+})
+
+const mapDispatchToProps = (dispatch) => ({})
+
+const PrivateRoute = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PrivateRouteComponent)
 
 const AdminApp = () => {
   return (
