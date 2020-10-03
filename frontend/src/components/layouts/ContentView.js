@@ -15,7 +15,7 @@ const Wrapper = styled.div`
   margin: 1rem auto;
 
   ${media.tabletPortraitUp} {
-    width: 70%;
+    width: 100%;
   }
 `
 
