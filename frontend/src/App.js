@@ -21,6 +21,8 @@ import NotFound from './pages/NotFound'
 import Users from './components/users/Users'
 import Donations from './components/donations/Donations'
 import Schools from './components/schools/Schools'
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const PrivateRouteComponent = ({ component: Component, authentication, ...rest }) => {
   return (
@@ -51,7 +53,6 @@ const PrivateRouteComponent = ({ component: Component, authentication, ...rest }
   )
 }
 
-
 const mapStateToProps = (state) => ({
   authentication: state.authentication
 })
@@ -74,6 +75,16 @@ const AdminApp = () => {
 
         <Route path="*" component={NotFound} />
       </Switch>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        />
     </Router>
   )
 }
