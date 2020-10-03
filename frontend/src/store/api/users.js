@@ -1,6 +1,5 @@
-import axios from 'axios'
 import last from 'lodash/last'
-import config from './config'
+import thingahaApiClient from '../../utils/thingahaApiClient'
 
 const usersDb = [
   {
@@ -42,7 +41,7 @@ const usersDb = [
 ]
 
 export const fetchUsers = async () => {
-  const response = await axios.get(`${config.apiBaseUrl}/users`)
+  const response = await thingahaApiClient.get('/users')
 
   return {
     data: {

@@ -9,6 +9,7 @@ import {
   UPDATE_DONATION_STATUS_SUCCESS,
   UPDATE_DONATION_STATUS_FAILURE,
 } from '../actions/donations'
+import defaultErrorHandler from './defaultErrorHandler'
 
 export function* fetchDonationsForMonth(action) {
   try {
@@ -16,10 +17,10 @@ export function* fetchDonationsForMonth(action) {
 
     yield put({
       type: GET_DONATIONS_FOR_MONTH_SUCCESS,
-      donations: response.data.data,
+      donations: response.data,
     })
   } catch (error) {
-    yield put({ type: GET_DONATIONS_FOR_MONTH_FAILURE, error })
+    yield defaultErrorHandler(error, GET_DONATIONS_FOR_MONTH_FAILURE)
   }
 }
 
