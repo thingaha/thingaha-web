@@ -637,7 +637,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDA5MzUwNTEsIm5iZiI6MTYwMDkzNTA1MSwianRpIjoiN2VmMDY4NGYtMzFkMC00YTgxLWI4ODgtODlhZTYwNmYyMmY1IiwiZXhwIjoxNjAxMDIxNDUxLCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.ZKvR_-7DeA7S-okSEhXLqR_tg0MJTkM-KtY6AuuLn8I",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDE3MzU4MDUsIm5iZiI6MTYwMTczNTgwNSwianRpIjoiY2M4MjI0YzItMDgxZS00NzQ5LTg2N2ItZmQ0MjMyNDQ0Y2JmIiwiZXhwIjoxNjAxODIyMjA1LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.7irMCxZ_L-5DnLl9OmKPrO3i02AicewyDDJEBBhMUjQ",
 							"type": "string"
 						}
 					]
@@ -646,7 +646,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"MoeMoe\", \n    \"email\": \"moemoe11@gmail.com\",\n    \"password\" : \"123\", \n    \"role\": \"admin\", \n    \"country\": \"mm\",\n    \"district\": \"pabedan\",\n    \"division\": \"yangon\",\n    \"street_address\": \"18 street\",\n    \"township\": \"La Thar township\"\n}",
+					"raw": "{\n    \"name\": \"MoeMoe\", \n    \"email\": \"moemoe11@gmail.com\",\n    \"password\" : \"123\", \n    \"role\": \"admin\", \n    \"country\": \"mm\",\n    \"donation_active\": true,\n    \"district\": \"pabedan\",\n    \"division\": \"yangon\",\n    \"street_address\": \"18 street\",\n    \"township\": \"La Thar township\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"

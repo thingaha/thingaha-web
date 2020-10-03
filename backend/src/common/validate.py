@@ -12,7 +12,7 @@ class InputValidate:
         self.schema = schema
 
     @staticmethod
-    def validate_json(data: dict, schema: dict = None):
+    def validate_json(data: dict, schema=None):
         """
         validate info
         :param data:

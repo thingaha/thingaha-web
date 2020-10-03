@@ -23,7 +23,8 @@ user_schema = Schema({
     "address_id": int,
     "password": str,
     "role": str,
-    "country": str
+    "country": str,
+    "donation_active": bool
 })
 
 attendance_schema = Schema({

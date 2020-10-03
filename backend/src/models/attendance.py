@@ -22,7 +22,7 @@ class AttendanceModel(db.Model):
     grade = db.Column(
         db.Enum("KG", "G-1", "G-2", "G-3", "G-4", "G-5", "G-6", "G-7", "G-8", "G-9", "G-10", "G-11", "G-12",
                 name="grade"))
-    year = db.Column(db.UnicodeText(), nullable=False)
+    year = db.Column(db.Integer, nullable=False)
     enrolled_date = db.Column(db.Date(), nullable=True)
     school = relationship("SchoolModel", foreign_keys=[school_id])
     student = relationship("StudentModel", foreign_keys=[student_id])
@@ -71,8 +71,8 @@ class AttendanceModel(db.Model):
     @staticmethod
     def get_all_attendance() -> List[AttendanceModel]:
         """
-        get all school records
-        :return: school list
+        get all Attendance records
+        :return: Attendance list
         """
         try:
             return db.session.query(AttendanceModel, SchoolModel, StudentModel).\
@@ -84,9 +84,9 @@ class AttendanceModel(db.Model):
     @staticmethod
     def get_attendance_by_id(attendance_id: int) -> List[AttendanceModel]:
         """
-        get all school records
+        get all Attendance records
         :param attendance_id
-        :return: school list
+        :return: Attendance list
         """
         try:
             return db.session.query(AttendanceModel, SchoolModel, StudentModel). \
@@ -99,7 +99,7 @@ class AttendanceModel(db.Model):
     @staticmethod
     def delete_attendance_by_id(attendance_id: int) -> bool:
         """
-        delete school by id
+        delete Attendance by id
         :param attendance_id:
         :return:
         """

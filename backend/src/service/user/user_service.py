@@ -37,7 +37,8 @@ class UserService(Service):
                 address_id=data["address_id"],
                 hashed_password=generate_password_hash(data["password"]),
                 role=data["role"],
-                country=data["country"]))
+                country=data["country"],
+                donation_active=data["donation_active"]))
         except SQLAlchemyError:
             self.logger.error("User create fail. email %s, error %s", data.get("email"),
                               traceback.format_exc())
@@ -63,7 +64,8 @@ class UserService(Service):
                 address_id=data["address_id"],
                 hashed_password=generate_password_hash(data["password"]),
                 role=data["role"],
-                country=data["country"]))
+                country=data["country"],
+                donation_active=data["donation_active"]))
         except SQLAlchemyError:
             self.logger.error("User update fail. id %s, error %s", user_id, traceback.format_exc())
             raise SQLCustomError(description="Update user by ID SQL ERROR")
