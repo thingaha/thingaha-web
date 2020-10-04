@@ -1,4 +1,5 @@
 """school service class for CRUD actions"""
+import traceback
 from typing import List, Any, Optional, Dict
 
 from sqlalchemy.exc import SQLAlchemyError
@@ -11,7 +12,7 @@ from service.service import Service
 
 class AttendanceService(Service):
     """
-    school service class for CRUD actions
+    Attendance service class for CRUD actions
     define specific params for school service in SchoolService Class
     """
     def __init__(self, logger=None) -> None:
@@ -40,7 +41,7 @@ class AttendanceService(Service):
             return [attendance.attendance_dict(school, student) for attendance, school, student in
                     AttendanceModel.get_attendance_by_id(attendance_id)]
         except SQLAlchemyError as error:
-            self.logger.error("Error: {}".format(error))
+            self.logger.error("Error: {}".format(traceback.format_exc()))
             raise SQLCustomError(description="GET Attendance by ID SQL ERROR")
 
     def create_attendance(self, data: Dict) -> bool:

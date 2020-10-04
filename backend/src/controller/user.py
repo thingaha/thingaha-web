@@ -103,7 +103,8 @@ def create_user():
             "address_id": address_id,
             "password": data.get("password"),
             "role": data.get("role"),
-            "country": data.get("country")
+            "country": data.get("country"),
+            "donation_active": data.get("donation_active")
         })
         current_app.logger.info("create user success. user_name %s", data.get("name"))
         return get_user_by_id(user_id)
@@ -142,7 +143,8 @@ def update_user(user_id: int):
                 "address_id": address_id,
                 "password": data.get("password"),
                 "role": data.get("role"),
-                "country": data.get("country")
+                "country": data.get("country"),
+                "donation_active": data.get("donation_active")
             })
         current_app.logger.info("success user update for user_id: %s", user_id)
         return jsonify({

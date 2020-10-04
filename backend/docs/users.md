@@ -33,6 +33,7 @@ Input Sample:
     "country": "mm",
     "district": "pabedan",
     "division": "yangon",
+    "donation_active": true,
     "street_address": "18 street",
     "township": "La Thar township"
 }
@@ -40,23 +41,27 @@ Input Sample:
 Output Sample:
 ```
 {
-  "data": {
-    "user": {
-      "id": 1,
-      "name": "MoeMoe",
-      "email": "moemoe@gmail.com",
-      "role": "admin",
-      "country": "mm",
-      "address": {
-        "district": "pabedan",
-        "division": "yangon",
-        "id": 1,
-        "street_address": "18 street",
-        "township": "La Thar township"
-      },
-      "formatted_address": "18 street, La Thar township, pabedan, yangon"
+    "data": {
+        "count": 1,
+        "users": [
+            {
+                "address": {
+                    "district": "ညောင်တုန်းမြို့",
+                    "division": "ayeyarwady",
+                    "id": 1,
+                    "street_address": "အာဇာနည်လမ်း",
+                    "township": "အမှတ်(၈)ရပ်ကွက်"
+                },
+                "country": "mm",
+                "donation_active": true,
+                "email": "moemoe@gmail.com",
+                "formatted_address": "အာဇာနည်လမ်း, အမှတ်(၈)ရပ်ကွက်, ညောင်တုန်းမြို့, ayeyarwady",
+                "id": 1,
+                "name": "MoeMoe",
+                "role": "admin"
+            }
+        ]
     }
-  }
 }
 ```
 
@@ -80,6 +85,7 @@ Output Sample
           "township": "MyaeNiGone"
         },
         "country": "mm",
+        "donation_active": true,
         "email": "kzt1@gmail.com",
         "formatted_address": "11 street, MyaeNiGone, yangon, yangon",
         "id": 2,
@@ -95,6 +101,7 @@ Output Sample
           "township": "MyaeNiGone"
         },
         "country": "mm",
+        "donation_active": true,
         "email": "kzt2@gmail.com",
         "formatted_address": "12 street, MyaeNiGone, yangon, yangon",
         "id": 3,
@@ -110,6 +117,7 @@ Output Sample
           "township": "La Thar township"
         },
         "country": "mm",
+        "donation_active": false,
         "email": "thingyan_test01@gmail.com",
         "formatted_address": "18 street, La Thar township, yangon, yangon",
         "id": 4,
