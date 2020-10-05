@@ -95,7 +95,8 @@ def create_user():
             "division": data.get("division"),
             "district": data.get("district"),
             "township": data.get("township"),
-            "street_address": data.get("street_address")
+            "street_address": data.get("street_address"),
+            "type": data.get("type")
         })
         user_id = user_service.create_user({
             "name": data.get("name"),

@@ -51,7 +51,8 @@ def create_address():
             "division": data.get("division"),
             "district": data.get("district"),
             "township": data.get("township"),
-            "street_address": data.get("street_address")
+            "street_address": data.get("street_address"),
+            "type": data.get("type")
         })
         current_app.logger.info("create address success. address %s", data.get("street_address"))
         return get_address_by_id(address_id)

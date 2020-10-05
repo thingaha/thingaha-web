@@ -24,12 +24,14 @@ class AddressModel(db.Model):
     district = db.Column(db.UnicodeText())
     township = db.Column(db.UnicodeText())
     street_address = db.Column(db.UnicodeText())
+    type = db.Column(db.Enum("user", "student", "school", name="addresses_types"), default="user", nullable=False)
 
-    def __init__(self, division: str, district: str, township: str, street_address: str) -> None:
+    def __init__(self, division: str, district: str, township: str, street_address: str, type: str = "user") -> None:
         self.division = division
         self.district = district
         self.township = township
         self.street_address = street_address
+        self.type = type
 
     def __repr__(self):
         return f"<Address {self.format_address()}>"

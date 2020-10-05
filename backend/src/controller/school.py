@@ -75,7 +75,8 @@ def create_school():
             "division": data.get("division"),
             "district": data.get("district"),
             "township": data.get("township"),
-            "street_address": data.get("street_address")
+            "street_address": data.get("street_address"),
+            "type": data.get("type")
         })
         school_id = school_service.create_school({
             "school_name": data.get("school_name"),

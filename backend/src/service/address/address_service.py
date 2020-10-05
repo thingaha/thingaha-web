@@ -34,7 +34,8 @@ class AddressService(Service):
                 division=data["division"],
                 district=data["district"],
                 township=data["township"],
-                street_address=data["street_address"]))
+                street_address=data["street_address"],
+                type=data["type"]))
         except SQLAlchemyError:
             self.logger.error("Address create fail. error %s", traceback.format_exc())
             raise SQLCustomError("Address create fail")

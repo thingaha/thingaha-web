@@ -9,7 +9,8 @@ Input Sample:
     "division": "yangon",
     "district": "Yangon",
     "township": "Latha",
-    "street_address": "19th street"
+    "street_address": "19th street",
+    "type": "user"
 }
 ```
 Output Sample:
@@ -20,7 +21,12 @@ Output Sample:
             "district": "Yangon",
             "division": "yangon",
             "id": 2,
-            "street_address": "19th street",
+            "street_address": "17th street",
+            "addressable": {
+                          "id": 1,
+                          "name": "Maung Maung",
+                          "type": "user"
+                        },
             "township": "Latha"
         }
     }
@@ -42,6 +48,11 @@ Output Sample
                 "district": "Yangon",
                 "division": "yangon",
                 "id": 1,
+                "addressable": {
+                          "id": 1,
+                          "name": "Maung Maung",
+                          "type": "user"
+                        },
                 "street_address": "Thanlan street",
                 "township": "Hlaing"
             },
@@ -49,6 +60,11 @@ Output Sample
                 "district": "Yangon",
                 "division": "yangon",
                 "id": 2,
+                "addressable": {
+                          "id": 1,
+                          "name": "Maung Maung",
+                          "type": "student"
+                        },
                 "street_address": "19th street",
                 "township": "Latha"
             }
@@ -70,6 +86,11 @@ Output Sample
             "district": "Yangon",
             "division": "yangon",
             "id": 2,
+            "addressable": {
+                      "id": 1,
+                      "name": "Maung Maung",
+                      "type": "student"
+                    },
             "street_address": "19th street",
             "township": "Latha"
         }
@@ -88,7 +109,8 @@ Input Sample:
     "division": "yangon",
     "district": "Yangon",
     "township": "Latha",
-    "street_address": "17th street"
+    "street_address": "17th street",
+    "type": "donator"
 }
 ```
 

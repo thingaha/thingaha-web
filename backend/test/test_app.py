@@ -33,7 +33,8 @@ def json_access_token(init_app, client):
             division="yangon",
             district="aa",
             township="aa",
-            street_address="aa"))
+            street_address="aa",
+            type="user"))
         UserModel.create_user(UserModel(
             name="aa",
             email="aa@gmail.com",
