@@ -1,3 +1,4 @@
+"""API route for School API"""
 from flask import request, current_app, jsonify
 from flask_cors import cross_origin
 from flask_jwt_extended import jwt_required
@@ -136,7 +137,8 @@ def update_school(school_id: int):
             "division": data.get("division"),
             "district": data.get("district"),
             "township": data.get("township"),
-            "street_address": data.get("street_address")
+            "street_address": data.get("street_address"),
+            "type": data.get("type")
         }):
             school_update_status = school_service.update_school_by_id(school_id, {
                 "school_name": data.get("school_name"),

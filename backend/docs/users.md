@@ -35,7 +35,8 @@ Input Sample:
     "division": "yangon",
     "donation_active": true,
     "street_address": "18 street",
-    "township": "La Thar township"
+    "township": "La Thar township",
+    "type": "user"
 }
 ```
 Output Sample:
@@ -172,7 +173,8 @@ Input Sample:
     "district": "pabedan",
     "division": "yangon",
     "street_address": "19 street",
-    "township": "La Thar township"
+    "township": "La Thar township",
+    "type": "user"
 }
 ```
 

@@ -11,7 +11,8 @@ Input Sample:
     "district": "yangon",
     "division": "yangon",
     "street_address": "18 street",
-    "township": "MyaeNiGone"
+    "township": "MyaeNiGone",
+    "type": "school"
 }
 ```
 Output Sample:
@@ -116,7 +117,8 @@ Input Sample:
     "district": "yangon",
     "division": "yangon",
     "street_address": "18 street",
-    "township": "MyaeNiGone"
+    "township": "MyaeNiGone",
+    "type": "school"
 }
 
 ```

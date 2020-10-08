@@ -155,3 +155,14 @@ class UserModel(db.Model):
             return db.session.query(UserModel).join(AddressModel).all()
         except SQLAlchemyError as error:
             raise error
+
+    @staticmethod
+    def get_all_user_address() -> dict:
+        """
+        get all user address for get all address API
+        """
+        try:
+            return db.session.query(AddressModel, UserModel). \
+                filter(AddressModel.id == UserModel.address_id).filter(AddressModel.type == "user").all()
+        except SQLAlchemyError as error:
+            raise error
