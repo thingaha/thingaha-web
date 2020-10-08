@@ -646,7 +646,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"MoeMoe\", \n    \"email\": \"moemoe11@gmail.com\",\n    \"password\" : \"123\", \n    \"role\": \"admin\", \n    \"country\": \"mm\",\n    \"donation_active\": true,\n    \"district\": \"pabedan\",\n    \"division\": \"yangon\",\n    \"street_address\": \"18 street\",\n    \"township\": \"La Thar township\"\n}",
+					"raw": "{\n    \"name\": \"MoeMoe\", \n    \"email\": \"moemoe11@gmail.com\",\n    \"password\" : \"123\", \n    \"role\": \"admin\", \n    \"country\": \"mm\",\n    \"donation_active\": true,\n    \"district\": \"pabedan\",\n    \"division\": \"yangon\",\n    \"street_address\": \"18 street\",\n    \"township\": \"La Thar township\",\n    \"type\": \"user\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
