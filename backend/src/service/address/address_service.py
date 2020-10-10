@@ -8,6 +8,9 @@ from common.data_schema import address_schema
 from common.error import RequestDataEmpty, SQLCustomError, ValidateFail
 from models.address import AddressModel
 from service.service import Service
+from service.school.school_service import SchoolService
+from service.user.user_service import UserService
+from service.student.student_service import StudentService
 
 
 class AddressService(Service):
@@ -34,7 +37,8 @@ class AddressService(Service):
                 division=data["division"],
                 district=data["district"],
                 township=data["township"],
-                street_address=data["street_address"]))
+                street_address=data["street_address"],
+                type=data["type"]))
         except SQLAlchemyError:
             self.logger.error("Address create fail. error %s", traceback.format_exc())
             raise SQLCustomError("Address create fail")
@@ -57,12 +61,15 @@ class AddressService(Service):
                 division=data["division"],
                 district=data["district"],
                 township=data["township"],
-                street_address=data["street_address"]))
+                street_address=data["street_address"],
+                type=data["type"]))
         except SQLAlchemyError as e:
-            self.logger.error("Address update fail. id %s, error %s, custom error: %s", address_id, traceback.format_exc(), e)
+            self.logger.error("Address update fail. id %s, error %s, custom error: %s", address_id,
+                              traceback.format_exc(), e)
             raise SQLCustomError(description="Update address by ID SQL ERROR")
         except SQLCustomError as e:
-            self.logger.error("Address update fail. id %s, error %s, custom error: %s", address_id, traceback.format_exc(), e)
+            self.logger.error("Address update fail. id %s, error %s, custom error: %s", address_id,
+                              traceback.format_exc(), e)
             raise SQLCustomError(description="No record for requested address")
 
     def get_address_by_id(self, address_id: int) -> Dict[str, Any]:
@@ -98,7 +105,8 @@ class AddressService(Service):
         """
         self.logger.info("Get all addresses list")
         try:
-            return self.__return_address_list(AddressModel.get_all_addresses())
+            return SchoolService.get_all_school_address() + UserService.get_all_user_address() + \
+                   StudentService.get_all_student_address()
         except SQLAlchemyError:
             self.logger.error("Get all addresses fail. error %s", traceback.format_exc())
             raise SQLCustomError(description="GET address SQL ERROR")

@@ -25,7 +25,8 @@ class AttendanceService(Service):
         """
         try:
             self.logger.info("Get attendance list")
-            return [attendance.attendance_dict(school, student) for attendance, school, student in AttendanceModel.get_all_attendance()]
+            return [attendance.attendance_dict(school, student) for attendance, school, student in
+                    AttendanceModel.get_all_attendance()]
         except SQLAlchemyError as error:
             self.logger.error("Error: {}".format(error))
             raise SQLCustomError(description="GET Attendance SQL ERROR")
@@ -63,7 +64,7 @@ class AttendanceService(Service):
                 year=data["year"],
                 enrolled_date=data["enrolled_date"]))
         except SQLAlchemyError as error:
-            self.logger.error("Attendance create fail. error %s", error)
+            self.logger.error("Attendance create fail. error %s, format: %s ", error, traceback.format_exc())
             raise SQLCustomError("Attendance create fail")
 
     def delete_attendance_by_id(self, attendance_id: int) -> bool:

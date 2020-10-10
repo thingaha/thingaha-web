@@ -33,7 +33,8 @@ def json_access_token(init_app, client):
             division="yangon",
             district="aa",
             township="aa",
-            street_address="aa"))
+            street_address="aa",
+            type="user"))
         UserModel.create_user(UserModel(
             name="aa",
             email="aa@gmail.com",
@@ -63,14 +64,16 @@ def test_address_create_update(init_app, client, json_access_token):
         "district": "yangon",
         "division": "yangon",
         "street_address": "11 street",
-        "township": "MyaeNiGone"
+        "township": "MyaeNiGone",
+        "type": "user"
     }, headers=json_access_token)
     assert res.status_code == 200
     res = client.put("/api/v1/addresses/1", json={
         "district": "yangon",
         "division": "yangon",
         "street_address": "11 street",
-        "township": "MyaeNiGone"
+        "township": "MyaeNiGone",
+        "type": "user"
     }, headers=json_access_token)
     assert res.status_code == 200
 
@@ -97,7 +100,8 @@ def test_create_update_school(init_app, client, json_access_token):
         "district": "yangon",
         "division": "yangon",
         "street_address": "18 street",
-        "township": "La Thar township"
+        "township": "La Thar township",
+        "type": "school"
     }, headers=json_access_token)
     assert res.status_code == 200
     res = client.put("/api/v1/schools/1", json={
@@ -107,7 +111,8 @@ def test_create_update_school(init_app, client, json_access_token):
         "district": "yangon",
         "division": "yangon",
         "street_address": "18 street",
-        "township": "MyaeNiGone"
+        "township": "MyaeNiGone",
+        "type": "school"
     }, headers=json_access_token)
     assert res.status_code == 200
 
@@ -141,7 +146,8 @@ def test_post_attendance(init_app, client, json_access_token):
         "district": "yangon",
         "division": "yangon",
         "street_address": "18 street",
-        "township": "La Thar township"
+        "township": "La Thar township",
+        "type": "student"
     }, headers=json_access_token)
     assert res.status_code == 200
     # create student

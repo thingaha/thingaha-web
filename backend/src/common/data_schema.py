@@ -8,7 +8,8 @@ address_schema = Schema({
     "division": str,
     "district": str,
     "township": str,
-    "street_address": str
+    "street_address": str,
+    "type": str
 })
 
 school_schema = Schema({

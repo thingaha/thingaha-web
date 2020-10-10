@@ -108,3 +108,10 @@ class SchoolService(Service):
         except SQLCustomError as error:
             self.logger.error("Error: {}".format(error))
             raise SQLCustomError(description="No record for requested school")
+
+    @staticmethod
+    def get_all_school_address():
+        """
+        get all school address for get all address API
+        """
+        return [address.address_type_dict(school) for address, school in SchoolModel.get_all_school_address()]

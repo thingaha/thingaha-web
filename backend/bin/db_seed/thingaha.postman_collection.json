@@ -49,7 +49,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDA5MzA4ODcsIm5iZiI6MTYwMDkzMDg4NywianRpIjoiOGMwOGY1YWYtMDMwOC00Njg1LWJiYmUtZGJiYjlhYzk5ZTRkIiwiZXhwIjoxNjAxMDE3Mjg3LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.TPttNkUMTAvAl1jpBl1fm8ZpQuwyvRHwVLrdvpnpAJk",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDE5MDcxMDAsIm5iZiI6MTYwMTkwNzEwMCwianRpIjoiNjI4ZjRlZDEtN2U4ZC00MWRmLWExYTEtYWFmYzE3Nzg1ODE0IiwiZXhwIjoxNjAxOTkzNTAwLCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.YolI83L3EB49W6AHLewu8tQCQo--w97DYHXnlLieI2s",
 							"type": "string"
 						}
 					]
@@ -58,7 +58,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\": \"moemoe@gmail.com\",\n    \"password\": \"123\"\n}",
+					"raw": "",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -92,7 +92,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDA5MzA4ODcsIm5iZiI6MTYwMDkzMDg4NywianRpIjoiOGMwOGY1YWYtMDMwOC00Njg1LWJiYmUtZGJiYjlhYzk5ZTRkIiwiZXhwIjoxNjAxMDE3Mjg3LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.TPttNkUMTAvAl1jpBl1fm8ZpQuwyvRHwVLrdvpnpAJk",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDE5MDcxMDAsIm5iZiI6MTYwMTkwNzEwMCwianRpIjoiNjI4ZjRlZDEtN2U4ZC00MWRmLWExYTEtYWFmYzE3Nzg1ODE0IiwiZXhwIjoxNjAxOTkzNTAwLCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.YolI83L3EB49W6AHLewu8tQCQo--w97DYHXnlLieI2s",
 							"type": "string"
 						}
 					]
@@ -101,7 +101,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\": \"moemoe@gmail.com\",\n    \"password\": \"123\"\n}",
+					"raw": "",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -133,7 +133,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDA5MzEzMjgsIm5iZiI6MTYwMDkzMTMyOCwianRpIjoiMjViZWY4MjQtOTc4Mi00YTllLWJjNzktZmE5ODhlOTZjNGQ0IiwiZXhwIjoxNjAxMDE3NzI4LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.3jfXHKa2F-iMiq1vG-wnXi7MwyGlLOA5ZqiZy2ThbGk",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDE5MDcxMDAsIm5iZiI6MTYwMTkwNzEwMCwianRpIjoiNjI4ZjRlZDEtN2U4ZC00MWRmLWExYTEtYWFmYzE3Nzg1ODE0IiwiZXhwIjoxNjAxOTkzNTAwLCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.YolI83L3EB49W6AHLewu8tQCQo--w97DYHXnlLieI2s",
 							"type": "string"
 						}
 					]
@@ -142,7 +142,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"division\": \"yangon\",\n    \"district\": \"yangon\",\n    \"township\": \"Latha\",\n    \"street_address\": \"19th street\"\n}",
+					"raw": "{\n    \"division\": \"yangon\",\n    \"district\": \"yangon\",\n    \"township\": \"Latha\",\n    \"street_address\": \"19th street\",\n    \"type\": \"user\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -173,7 +173,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDA5MzEzMjgsIm5iZiI6MTYwMDkzMTMyOCwianRpIjoiMjViZWY4MjQtOTc4Mi00YTllLWJjNzktZmE5ODhlOTZjNGQ0IiwiZXhwIjoxNjAxMDE3NzI4LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.3jfXHKa2F-iMiq1vG-wnXi7MwyGlLOA5ZqiZy2ThbGk",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDE5MDcxMDAsIm5iZiI6MTYwMTkwNzEwMCwianRpIjoiNjI4ZjRlZDEtN2U4ZC00MWRmLWExYTEtYWFmYzE3Nzg1ODE0IiwiZXhwIjoxNjAxOTkzNTAwLCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.YolI83L3EB49W6AHLewu8tQCQo--w97DYHXnlLieI2s",
 							"type": "string"
 						}
 					]
@@ -182,7 +182,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"division\": \"yangon\",\n    \"district\": \"yangon\",\n    \"township\": \"Latha\",\n    \"street_address\": \"20th street\"\n}",
+					"raw": "{\n    \"division\": \"yangon\",\n    \"district\": \"yangon\",\n    \"township\": \"Latha\",\n    \"street_address\": \"20th street\",\n    \"type\": \"school\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -190,7 +190,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:5000/api/v1/addresses/7",
+					"raw": "http://localhost:5000/api/v1/addresses/6",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -200,7 +200,7 @@
 						"api",
 						"v1",
 						"addresses",
-						"7"
+						"6"
 					]
 				}
 			},
@@ -646,7 +646,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"MoeMoe\", \n    \"email\": \"moemoe11@gmail.com\",\n    \"password\" : \"123\", \n    \"role\": \"admin\", \n    \"country\": \"mm\",\n    \"donation_active\": true,\n    \"district\": \"pabedan\",\n    \"division\": \"yangon\",\n    \"street_address\": \"18 street\",\n    \"township\": \"La Thar township\"\n}",
+					"raw": "{\n    \"name\": \"MoeMoe\", \n    \"email\": \"moemoe11@gmail.com\",\n    \"password\" : \"123\", \n    \"role\": \"admin\", \n    \"country\": \"mm\",\n    \"donation_active\": true,\n    \"district\": \"pabedan\",\n    \"division\": \"yangon\",\n    \"street_address\": \"18 street\",\n    \"township\": \"La Thar township\",\n    \"type\": \"user\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"

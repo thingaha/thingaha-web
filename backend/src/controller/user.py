@@ -1,3 +1,4 @@
+"""API route for User API"""
 from datetime import timedelta
 
 from flask import request, current_app, jsonify
@@ -95,7 +96,8 @@ def create_user():
             "division": data.get("division"),
             "district": data.get("district"),
             "township": data.get("township"),
-            "street_address": data.get("street_address")
+            "street_address": data.get("street_address"),
+            "type": data.get("type")
         })
         user_id = user_service.create_user({
             "name": data.get("name"),
@@ -135,7 +137,8 @@ def update_user(user_id: int):
             "division": data.get("division"),
             "district": data.get("district"),
             "township": data.get("township"),
-            "street_address": data.get("street_address")
+            "street_address": data.get("street_address"),
+            "type": data.get("type")
         }):
             user_update_status = user_service.update_user_by_id(user_id, {
                 "name": data.get("name"),
