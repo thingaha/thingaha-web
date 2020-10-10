@@ -100,4 +100,6 @@ Main UI framework is [Material UI](https://material-ui.com/). For component styl
 - Then set up the frontend app.
   - To set up frontend dev server, `cd` into the `frontend` directory and install necessary node modules by running `yarn install`.
   - Then, run `yarn start`
+  - To set up for windows developmemt, please update frontend\package.json 
+    - `"start": "PORT=5001 react-scripts start"` to `"start": "set PORT=5001 && react-scripts start"`
   - The frontend dev server is configured to run on port `5001`. Try navigating to [http://localhost:5001/](http://localhost:5001/) to see the app in action.
