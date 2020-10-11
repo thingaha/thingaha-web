@@ -168,3 +168,37 @@ def test_post_attendance(init_app, client, json_access_token):
         "enrolled_date": "2020-02-01"
     }, headers=json_access_token)
     assert res.status_code == 200 # fix it after student create api done
+
+
+def test_get_transfer_by_id(init_app, client, json_access_token):
+    res = client.get("/api/v1/transfers/1", headers=json_access_token)
+    assert res.status_code == 200
+
+
+def test_get_all_transfer(init_app, client, json_access_token):
+    res = client.get("/api/v1/transfers", headers=json_access_token)
+    assert res.status_code == 200
+
+
+def test_delete_transfer_by_id(init_app, client, json_access_token):
+    res = client.delete("/api/v1/transfers/1", headers=json_access_token)
+    assert res.status_code == 200
+
+
+def test_create_update_transfer(init_app, client, json_access_token):
+    res = client.post("/api/v1/transfers", json={
+        "year": 2020,
+        "month": "march",
+        "total_mmk": 3000,
+        "total_jpy": 0
+    }, headers=json_access_token)
+    assert res.status_code == 200
+    res = client.put("/api/v1/transfers/1", json={
+        "year": 2020,
+        "month": "march",
+        "total_mmk": 3000,
+        "total_jpy": 35000
+    }, headers=json_access_token)
+    assert res.status_code == 200
+
+

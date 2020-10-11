@@ -1,5 +1,5 @@
 ### LOGIN API
-| API      | URL | Action     |
+| API      | Description | Action     |
 | :---        |    :----:   |          ---: |
 | /api/v1/login     | Get token       | POST   |
 
@@ -19,7 +19,7 @@ Output Sample:
 ```
 
 ### CREATE User
-| API      | URL | Action     |
+| API      | Description | Action     |
 | :---        |    :----:   |          ---: |
 | /api/v1/user     | Create User       | POST   |
 
@@ -67,7 +67,7 @@ Output Sample:
 ```
 
 ### GET all Users
-| API      | URL | Action     |
+| API      | Description | Action     |
 | :---        |    :----:   |          ---: |
 | /api/v1/user     | GET all user       | GET   |
 
@@ -131,7 +131,7 @@ Output Sample
 ```
 
 ### GET User by ID
-| API      | URL | Action     |
+| API      | Description | Action     |
 | :---        |    :----:   |          ---: |
 | /api/v1/user/id     | GET user by id     | GET   |
 Output Sample
@@ -157,7 +157,7 @@ Output Sample
 }
 ```
 ### UPDATE user
-| API      | URL | Action     |
+| API      | Description | Action     |
 | :---        |    :----:   |          ---: |
 | /api/v1/user/id     | update user info by id     | PUT  |
 Input Sample:
@@ -188,7 +188,7 @@ Output Sample:
 
 ### DELETE user
 
-| API      | URL | Action     |
+| API      | Description | Action     |
 | :---        |    :----:   |          ---: |
 | /api/v1/user/id     | Delete user by id     | DELETE  |
 ```json
