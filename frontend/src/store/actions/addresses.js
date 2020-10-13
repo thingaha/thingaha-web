@@ -6,14 +6,13 @@ export const GET_SEARCH_ADDRESSES_SUCCESS = 'ADDRESSES/GET_SEARCH_SUCCESS'
 export const GET_SEARCH_ADDRESSES_FAILURE = 'ADDRESSES/GET_SEARCH_FAILURE'
 
 export const fetchAddresses = () => {
-    return {
-      type: GET_ALL_ADDRESSES,
-    }
+  return {
+    type: GET_ALL_ADDRESSES,
   }
-  
-  export const searchAddresses = (formValues) => {
-    return {
-      type: GET_SEARCH_ADDRESSES,
-    }
+}
+
+export const searchAddresses = (formValues) => {
+  return {
+    type: GET_SEARCH_ADDRESSES,
   }
-  
+}

@@ -25,14 +25,8 @@ import {
   submitEditSchoolForm,
 } from './sagas/schools'
 import { loginUser } from './sagas/authentication'
-import {
-GET_ALL_ADDRESSES,
-GET_SEARCH_ADDRESSES
-} from './actions/addresses'
-import {
-fetchAddressesSaga,
-searchAddressesSaga
-} from './sagas/addresses'
+import { GET_ALL_ADDRESSES, GET_SEARCH_ADDRESSES } from './actions/addresses'
+import { fetchAddressesSaga, searchAddressesSaga } from './sagas/addresses'
 
 // add Saga below
 export default function* rootSaga() {
