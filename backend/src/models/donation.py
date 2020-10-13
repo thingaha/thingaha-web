@@ -1,10 +1,16 @@
 """donation model class, include migrate and CRUD actions"""
+from __future__ import annotations
+
 from datetime import datetime
+from typing import List
 
 from sqlalchemy.exc import SQLAlchemyError
 
+from common.error import SQLCustomError
 from database import db
-
+from models.user import UserModel
+from models.student import StudentModel
+from models.attendance import AttendanceModel
 
 class DonationModel(db.Model):
     __tablename__ = "donations"
@@ -34,19 +40,114 @@ class DonationModel(db.Model):
     def __repr__(self):
         return f"<Donation Records for user_id {self.user_id}>"
 
+    def donation_dict(self, user: UserModel, student: StudentModel):
+        """
+        Return object data for viewing easily serializable format
+        :param user:
+        :param student:
+        :return:
+        """
+
+        if self.paid_at is None:
+            status = 'pending'
+        else:
+            status = 'paid'
+        return {
+            "id": self.id,
+            "user": user.as_dict(),
+            "year": self.year,
+            "month": self.month,
+            "student": student.student_dict(),
+            "mmk_amount": self.mmk_amount,
+            "jpy_amount": self.jpy_amount,
+            "status": status
+        }
+
     @staticmethod
-    def create_donation(new_donation) -> bool:
+    def create_donation(new_donation) -> int:
         """
         create  new_donation
         :param new_donation:
-        :return: bool
+        :return: int
         """
         try:
             db.session.add(new_donation)
             db.session.commit()
-            return True
-        except SQLAlchemyError as e:
+            return new_donation.id
+        except SQLAlchemyError as error:
             # to put log
-            return False
+            raise error
+
+    @staticmethod
+    def get_all_donations() -> List[DonationModel]:
+        """
+        get all donation records
+        :return: donation list
+        """
+        try:
+            return db.session.query(DonationModel, UserModel, StudentModel). \
+                filter(DonationModel.user_id == UserModel.id). \
+                filter(DonationModel.attendance_id == AttendanceModel.id). \
+                filter(AttendanceModel.id == StudentModel.id).all()
+        except SQLAlchemyError as error:
+            raise error
 
 
+    @staticmethod
+    def get_donation_by_id(donation_id: int) -> List[DonationModel]:
+        """
+        get all donation records
+        :param donation_id
+        :return: donation list
+        """
+        try:
+            return db.session.query(DonationModel, UserModel, StudentModel). \
+                filter(DonationModel.user_id == UserModel.id). \
+                filter(DonationModel.attendance_id == AttendanceModel.id). \
+                filter(AttendanceModel.id == StudentModel.id). \
+                filter(DonationModel.id == donation_id)
+        except SQLAlchemyError as error:
+            raise error
+
+
+    @staticmethod
+    def delete_donation_by_id(donation_id: int) -> bool:
+        """
+        delete donation by id
+        :param donation_id:
+        :return:
+        """
+        try:
+            if not db.session.query(DonationModel).filter(DonationModel.id == donation_id).delete():
+                return False
+            db.session.commit()
+            return True
+        except SQLAlchemyError as error:
+            db.session.rollback()
+            raise error
+
+    @staticmethod
+    def update_donation(donation_id: int, donation: DonationModel) -> bool:
+        """
+        update donation info by id
+        :param donation_id:
+        :param donation:
+        :return: bool
+        """
+        try:
+            target_donation = db.session.query(DonationModel).filter(DonationModel.id == donation_id).first()
+            if not target_donation:
+                raise SQLCustomError("No record for requested donation")
+            target_donation.user_id = donation.user_id
+            target_donation.attendance_id = donation.attendance_id
+            target_donation.transfer_id = donation.transfer_id
+            target_donation.month = donation.month
+            target_donation.year = donation.year
+            target_donation.mmk_amount = donation.mmk_amount
+            target_donation.jpy_amount = donation.jpy_amount
+            target_donation.paid_at = donation.paid_at
+            db.session.commit()
+            return True
+        except SQLAlchemyError as error:
+            db.session.rollback()
+            raise error

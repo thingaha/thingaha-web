@@ -33,3 +33,14 @@ attendance_schema = Schema({
     "year": str,
     "enrolled_date": str
 })
+
+donation_schema = Schema({
+    "user_id": int,
+    "attendance_id": int,
+    "transfer_id": int,
+    "year": int,
+    "month": str,
+    "mmk_amount": float,
+    "jpy_amount": float,
+    "paid_at": str
+})

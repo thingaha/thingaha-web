@@ -40,3 +40,4 @@ from controller.address import *
 from controller.attendance import *
 from controller.school import *
 from controller.user import *
+from controller.donation import *
