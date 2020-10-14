@@ -2,22 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import { Grid, Paper } from '@material-ui/core'
 import Typography from '@material-ui/core/Typography'
-import { makeStyles } from '@material-ui/core/styles'
 import Box from '@material-ui/core/Box'
 import { NavLink } from 'react-router-dom'
-
-const useStyles = makeStyles((theme) => ({
-  righticon: {
-    [theme.breakpoints.up('sm')]: {
-      'padding-right': '2rem !important',
-    },
-  },
-  nameField: {
-    [theme.breakpoints.down('sm')]: {
-      'padding-right': '2rem !important',
-    },
-  },
-}))
+import { media } from '../../styles/variables'
 
 const AddressCardContainer = styled(Paper)`
   display: flex;
@@ -27,15 +14,32 @@ const AddressCardContainer = styled(Paper)`
   margin: 0.5rem 0rem;
   align-items: center;
   transition: all 0.3s;
+  ${media.tabletPortraitUp} {
+    padding-right: 2rem;
+  }
+  ${media.mobileOnly} {
+    padding-right: 0.5rem;
+  }
 
   & .cardName {
-    font-size: 1.2rem !important;
+    padding-top: 0.5rem;
+    ${media.mobileOnly} {
+      padding-right: 2rem;
+    }
+  }
+
+  & .cardNameFont {
+    font-size: 1.2rem;
   }
 
   & .cardTitle {
     font-size: 0.7rem;
     color: ${(props) => props.theme.palette.text.disabled};
   }
+`
+
+const IconDiv = styled.div`
+  color: ${({ theme }) => theme.palette.primary.main};
 `
 
 //TODO: localize
@@ -45,15 +49,14 @@ const labelTownship = 'Township'
 const labelStreetAddress = 'Street Address'
 
 const AddressCard = ({ address, icon, link }) => {
-  const classes = useStyles()
   return (
-    <AddressCardContainer className={classes.righticon} elevation={2}>
+    <AddressCardContainer elevation={2}>
       <Grid container spacing={1}>
         <Grid item sm={3} xs={12}>
           <Grid container spacing={1}>
-            <Grid item xs={12} style={{ paddingTop: '0.5rem' }}>
+            <Grid item xs={12} className="cardName">
               <NavLink to={link}>
-                <Typography variant="subtitle1" className="cardName">
+                <Typography variant="subtitle1" className="cardNameFont">
                   {address.addressable.name}
                 </Typography>
               </NavLink>
@@ -62,7 +65,7 @@ const AddressCard = ({ address, icon, link }) => {
               display={{ xs: 'block', sm: 'none' }}
               style={{ marginLeft: '-2rem' }}
             >
-              {icon}
+              <IconDiv>{icon}</IconDiv>
             </Box>
           </Grid>
         </Grid>
@@ -89,13 +92,12 @@ const AddressCard = ({ address, icon, link }) => {
             {labelStreetAddress}
           </div>
           <Typography variant="subtitle1">{address.street_address}</Typography>
-          {/* <div xs={12}>{address.addressable.type}</div> */}
         </Grid>
         <Box
           display={{ xs: 'none', sm: 'block' }}
           style={{ marginRight: '-2rem' }}
         >
-          {icon}
+          <IconDiv>{icon}</IconDiv>
         </Box>
       </Grid>
     </AddressCardContainer>

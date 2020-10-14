@@ -1,7 +1,7 @@
 import React from 'react'
 import AddressCard from './AddressesCard'
 
-const AddressesList = ({ addresses, icon, type }) => {
+const AddressList = ({ addresses, icon, type }) => {
   return (
     <div>
       {addresses.map((address) => {
@@ -14,4 +14,4 @@ const AddressesList = ({ addresses, icon, type }) => {
   )
 }
 
-export default AddressesList
+export default AddressList
