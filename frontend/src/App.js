@@ -23,6 +23,7 @@ import Donations from './components/donations/Donations'
 import Schools from './components/schools/Schools'
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import Addresses from './components/addresses/Addresses'
 
 const PrivateRouteComponent = ({ component: Component, authentication, ...rest }) => {
   return (
@@ -72,7 +73,7 @@ const AdminApp = () => {
         <PrivateRoute path="/" exact component={Donations} />
         <PrivateRoute path="/users" exact component={Users} />
         <PrivateRoute path="/schools" exact component={Schools} />
-
+        <PrivateRoute path="/addresses" exact component={Addresses} />
         <Route path="*" component={NotFound} />
       </Switch>
       <ToastContainer

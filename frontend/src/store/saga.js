@@ -25,6 +25,8 @@ import {
   submitEditSchoolForm,
 } from './sagas/schools'
 import { loginUser } from './sagas/authentication'
+import { GET_ALL_ADDRESSES, GET_SEARCH_ADDRESSES } from './actions/addresses'
+import { fetchAddressesSaga, searchAddressesSaga } from './sagas/addresses'
 
 // add Saga below
 export default function* rootSaga() {
@@ -36,6 +38,8 @@ export default function* rootSaga() {
     takeLatest(GET_ALL_SCHOOLS, fetchAllSchools),
     takeLatest(SUBMIT_NEW_SCHOOL_FORM, submitNewSchoolForm),
     takeLatest(SUBMIT_EDIT_SCHOOL_FORM, submitEditSchoolForm),
+    takeLatest(GET_ALL_ADDRESSES, fetchAddressesSaga),
+    takeLatest(GET_SEARCH_ADDRESSES, searchAddressesSaga),
     takeLatest(LOGIN, loginUser),
   ])
 }
