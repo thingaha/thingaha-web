@@ -25,7 +25,7 @@ class TransferService(Service):
         :return: True if creation success else False
         """
         if not data:
-            raise RequestDataEmpty("transfer data is empty")
+            raise RequestDataEmpty("Transfer data is empty")
         if not self.input_validate.validate_json(data, transfer_schema):
             self.logger.error("All scheme field input must be required.")
             raise ValidateFail("Transfer validation fail")
@@ -48,12 +48,12 @@ class TransferService(Service):
         :return:
         """
         if not transfer_id or not data:
-            raise RequestDataEmpty("transfer data is empty")
+            raise RequestDataEmpty("Transfer data is empty")
         if not self.input_validate.validate_json(data, transfer_schema):
             self.logger.error("All transfer field input must be required.")
             raise ValidateFail("Transfer update validation fail")
         try:
-            self.logger.info("update transfer info by id %s", transfer_id)
+            self.logger.info("Update transfer info by id %s", transfer_id)
             return TransferModel.update_transfer(transfer_id, TransferModel(
                 year=int(data["year"]),
                 month=data["month"],
@@ -62,7 +62,7 @@ class TransferService(Service):
         except SQLAlchemyError as error:
             self.logger.error("Transfer update fail. id %s, error %s, custom error: %s", transfer_id,
                               traceback.format_exc(), error)
-            raise SQLCustomError(description="Update address by ID SQL ERROR")
+            raise SQLCustomError(description="Update transfer by ID SQL ERROR")
         except SQLCustomError as error:
             self.logger.error("Transfer update fail. id %s, error %s, custom error: %s", transfer_id,
                               traceback.format_exc(), error)
@@ -79,7 +79,7 @@ class TransferService(Service):
             transfer = TransferModel.get_transfer_by_id(transfer_id)
             return transfer.as_dict() if transfer else {}
         except SQLAlchemyError:
-            self.logger.error("Get address by id fail. id %s. error %s", transfer_id, traceback.format_exc())
+            self.logger.error("Get transfer record by id fail. id %s. error %s", transfer_id, traceback.format_exc())
             raise SQLCustomError(description="GET transfer by ID SQL ERROR")
 
     def delete_transfer_by_id(self, transfer_id: int) -> bool:
@@ -97,10 +97,10 @@ class TransferService(Service):
 
     def get_all_transfers(self) -> List[Dict[str, Any]]:
         """
-        get all addresses
+        get all transfers
         :return:
         """
-        self.logger.info("Get all addresses list")
+        self.logger.info("Get all transfers list")
         try:
             return [transfer.as_dict() for transfer in TransferModel.get_all_transfers()]
         except SQLAlchemyError:

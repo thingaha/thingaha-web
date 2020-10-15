@@ -46,14 +46,14 @@ def create_transfers():
     if data is None:
         return post_request_empty()
     try:
-        current_app.logger.info("create transfer record")
+        current_app.logger.info("Create transfer record")
         transfer_id = transfer_service.create_transfer({
             "year": data.get("year"),
             "month": data.get("month"),
             "total_mmk": data.get("total_mmk"),
             "total_jpy": data.get("total_jpy")
         })
-        current_app.logger.info("create transfer success. transfer %s", data.get("month"))
+        current_app.logger.info("Create transfer success. transfer %s", data.get("month"))
         return get_transfer_by_id(transfer_id)
     except (SQLCustomError, ValidateFail, RequestDataEmpty) as error:
         return jsonify({
@@ -76,12 +76,12 @@ def update_transfers(transfer_id: int):
     if data is None:
         return post_request_empty()
     try:
-        current_app.logger.info("update transfer for transfer_id: %s", transfer_id)
+        current_app.logger.info("Update transfer for transfer_id: %s", transfer_id)
         return jsonify({
             "status": transfer_service.update_transfer_by_id(transfer_id, data)
         }), 200
     except (SQLCustomError, ValidateFail, RequestDataEmpty) as error:
-        current_app.logger.error("update transfer fail: transfer_id: %s", transfer_id)
+        current_app.logger.error("Update transfer fail: transfer_id: %s", transfer_id)
         return jsonify({
             "errors": {
                 "error": error.__dict__
@@ -99,12 +99,12 @@ def delete_transfers(transfer_id: int):
     :return:
     """
     try:
-        current_app.logger.info("delete transfer : transfer_id: %s", transfer_id)
+        current_app.logger.info("Delete transfer : transfer_id: %s", transfer_id)
         return jsonify({
             "status": transfer_service.delete_transfer_by_id(transfer_id)
         }), 200
     except SQLCustomError as error:
-        current_app.logger.error("fail to delete transfer : transfer_id: %s", transfer_id)
+        current_app.logger.error("Fail to delete transfer : transfer_id: %s", transfer_id)
         return jsonify({
             "errors": {
                 "error": error.__dict__
@@ -122,14 +122,14 @@ def get_all_transfers():
     """
     try:
         transfers = transfer_service.get_all_transfers()
-        current_app.logger.info("get all transfers")
+        current_app.logger.info("Get all transfers")
         return jsonify({
             "data": {
                 "count": len(transfers),
                 "transfers": transfers
             }}), 200
     except SQLCustomError as error:
-        current_app.logger.error("fail to get all transfers: %s", error)
+        current_app.logger.error("Fail to get all transfers: %s", error)
         return jsonify({
             "errors": {
                 "error": error.__dict__
