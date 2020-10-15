@@ -28,8 +28,9 @@ def login():
     if not user:
         return custom_error("Requested {} is not a registered member".format(email))
     if user_service.check_password(password, user):
-        access_token = create_access_token(identity=email, expires_delta=timedelta(days=1))
-        return jsonify(access_token=access_token), 200
+        access_token = create_access_token(
+            identity=email, expires_delta=timedelta(days=1))
+        return jsonify({'data': {'access_token': access_token}}), 200
     return custom_error("Bad username or password", 401)
 
 
@@ -108,7 +109,8 @@ def create_user():
             "country": data.get("country"),
             "donation_active": data.get("donation_active")
         })
-        current_app.logger.info("create user success. user_name %s", data.get("name"))
+        current_app.logger.info(
+            "create user success. user_name %s", data.get("name"))
         return get_user_by_id(user_id)
     except (RequestDataEmpty, SQLCustomError, ValidateFail) as error:
         current_app.logger.error("create user fail. user_name %s, error: %s",
@@ -154,14 +156,16 @@ def update_user(user_id: int):
             "status": user_update_status
         }), 200
     except ValueError as error:
-        current_app.logger.error("Value error for address id. error: %s", error)
+        current_app.logger.error(
+            "Value error for address id. error: %s", error)
         return jsonify({
             "errors": {
                 "error": error
             }
         }), 400
     except (SQLCustomError, ValidateFail, RequestDataEmpty) as error:
-        current_app.logger.error("fail to update user: %s, error: %s", user_id, error)
+        current_app.logger.error(
+            "fail to update user: %s, error: %s", user_id, error)
         return jsonify({
             "errors": {
                 "error": error.__dict__
