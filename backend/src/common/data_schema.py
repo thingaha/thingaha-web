@@ -35,3 +35,10 @@ attendance_schema = Schema({
     "year": str,
     "enrolled_date": str
 })
+
+transfer_schema = Schema({
+    "year": int,
+    "month": str,
+    "total_mmk": int,
+    "total_jpy": int
+})

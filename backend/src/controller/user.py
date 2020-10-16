@@ -42,14 +42,14 @@ def get_all_users():
     """
     try:
         users = user_service.get_all_users()
-        current_app.logger.info("get all users")
+        current_app.logger.info("Get all users")
         return jsonify({
             "data": {
                 "count": len(users),
                 "users": users
             }}), 200
     except SQLCustomError as error:
-        current_app.logger.error("fail to get all users: %s", error)
+        current_app.logger.error("Fail to get all users: %s", error)
         return jsonify({
             "errors": {
                 "error": error.__dict__
@@ -66,13 +66,13 @@ def get_user_by_id(user_id: int):
     :return:
     """
     try:
-        current_app.logger.info("get user_id: %s", user_id)
+        current_app.logger.info("Get user_id: %s", user_id)
         return jsonify({
             "data": {
                 "user": user_service.get_user_by_id(user_id)
             }}), 200
     except SQLCustomError as error:
-        current_app.logger.error("fail to get user_id: %s", user_id)
+        current_app.logger.error("Fail to get user_id: %s", user_id)
         return jsonify({
             "errors": {
                 "error": error.__dict__
@@ -108,10 +108,10 @@ def create_user():
             "country": data.get("country"),
             "donation_active": data.get("donation_active")
         })
-        current_app.logger.info("create user success. user_name %s", data.get("name"))
+        current_app.logger.info("Create user success. user_name %s", data.get("name"))
         return get_user_by_id(user_id)
     except (RequestDataEmpty, SQLCustomError, ValidateFail) as error:
-        current_app.logger.error("create user fail. user_name %s, error: %s",
+        current_app.logger.error("Create user fail. user_name %s, error: %s",
                                  data.get("name"), error)
         return jsonify({
             "errors": {
@@ -149,7 +149,7 @@ def update_user(user_id: int):
                 "country": data.get("country"),
                 "donation_active": data.get("donation_active")
             })
-        current_app.logger.info("success user update for user_id: %s", user_id)
+        current_app.logger.info("Success user update for user_id: %s", user_id)
         return jsonify({
             "status": user_update_status
         }), 200
@@ -161,7 +161,7 @@ def update_user(user_id: int):
             }
         }), 400
     except (SQLCustomError, ValidateFail, RequestDataEmpty) as error:
-        current_app.logger.error("fail to update user: %s, error: %s", user_id, error)
+        current_app.logger.error("Fail to update user: %s, error: %s", user_id, error)
         return jsonify({
             "errors": {
                 "error": error.__dict__
@@ -177,12 +177,12 @@ def delete_user(user_id: int):
     delete user by id
     """
     try:
-        current_app.logger.info("delete user : user_id: %s", user_id)
+        current_app.logger.info("Delete user : user_id: %s", user_id)
         return jsonify({
             "status": user_service.delete_user_by_id(user_id)
         }), 200
     except SQLCustomError as error:
-        current_app.logger.error("fail to delete user : user_id: %s", user_id)
+        current_app.logger.error("Fail to delete user : user_id: %s", user_id)
         return jsonify({
             "errors": {
                 "error": error.__dict__

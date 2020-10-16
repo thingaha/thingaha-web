@@ -28,7 +28,7 @@ class AddressService(Service):
         :return: True if creation success else False
         """
         if not data:
-            raise RequestDataEmpty("address data is empty")
+            raise RequestDataEmpty("Address data is empty")
         if not self.input_validate.validate_json(data, address_schema):
             self.logger.error("All address field input must be required.")
             raise ValidateFail("Address validation fail")
@@ -51,7 +51,7 @@ class AddressService(Service):
         :return:
         """
         if not address_id or not data:
-            raise RequestDataEmpty("address data is empty")
+            raise RequestDataEmpty("Address data is empty")
         if not self.input_validate.validate_json(data, address_schema):
             self.logger.error("All address field input must be required.")
             raise ValidateFail("Address update validation fail")
