@@ -29,7 +29,17 @@ def login():
         return custom_error("Requested {} is not a registered member".format(email))
     if user_service.check_password(password, user):
         access_token = create_access_token(identity=email, expires_delta=timedelta(days=1))
-        return jsonify(access_token=access_token), 200
+        return jsonify({
+            "data": {
+                "access_token": access_token,
+                "user": {
+                    "id": user.id,
+                    "email": user.email,
+                    "username": user.name
+                }
+            }
+        }
+        ), 200
     return custom_error("Bad username or password", 401)
 
 
@@ -50,11 +60,7 @@ def get_all_users():
             }}), 200
     except SQLCustomError as error:
         current_app.logger.error("Fail to get all users: %s", error)
-        return jsonify({
-            "errors": {
-                "error": error.__dict__
-            }
-        }), 400
+        return jsonify({"errors": [error.__dict__]}), 400
 
 
 @api.route("/users/<int:user_id>", methods=["GET"])
@@ -73,11 +79,7 @@ def get_user_by_id(user_id: int):
             }}), 200
     except SQLCustomError as error:
         current_app.logger.error("Fail to get user_id: %s", user_id)
-        return jsonify({
-            "errors": {
-                "error": error.__dict__
-            }
-        }), 400
+        return jsonify({"errors": [error.__dict__]}), 400
 
 
 @api.route("/users", methods=["POST"])
@@ -113,11 +115,7 @@ def create_user():
     except (RequestDataEmpty, SQLCustomError, ValidateFail) as error:
         current_app.logger.error("Create user fail. user_name %s, error: %s",
                                  data.get("name"), error)
-        return jsonify({
-            "errors": {
-                "error": error.__dict__
-            }
-        }), 400
+        return jsonify({"errors": [error.__dict__]}), 400
 
 
 @api.route("/users/<int:user_id>", methods=["PUT"])
@@ -156,17 +154,10 @@ def update_user(user_id: int):
     except ValueError as error:
         current_app.logger.error("Value error for address id. error: %s", error)
         return jsonify({
-            "errors": {
-                "error": error
-            }
-        }), 400
+            "errors": {[error.__dict__]}}), 400
     except (SQLCustomError, ValidateFail, RequestDataEmpty) as error:
         current_app.logger.error("Fail to update user: %s, error: %s", user_id, error)
-        return jsonify({
-            "errors": {
-                "error": error.__dict__
-            }
-        }), 400
+        return jsonify({"errors": [error.__dict__]}), 400
 
 
 @api.route("/users/<int:user_id>", methods=["DELETE"])
@@ -183,8 +174,4 @@ def delete_user(user_id: int):
         }), 200
     except SQLCustomError as error:
         current_app.logger.error("Fail to delete user : user_id: %s", user_id)
-        return jsonify({
-            "errors": {
-                "error": error.__dict__
-            }
-        }), 400
+        return jsonify({"errors": [error.__dict__]}), 400
