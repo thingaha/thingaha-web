@@ -22,8 +22,7 @@ const Wrapper = styled.div`
 const ContentView = (props) => {
   return (
     <>
-      <Grid item xs={2}></Grid>
-      <Grid container item xs={10} direction="column">
+      <Grid container item xs={12} direction="column">
         <View>
           <Wrapper>{props.children}</Wrapper>
         </View>

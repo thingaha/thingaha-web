@@ -13,7 +13,7 @@ import InputAdornment from '@material-ui/core/InputAdornment'
 import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import Button from '@material-ui/core/Button'
-import logoUrl from '../logo_transparent.png'
+import logoUrl from '../images/logo_transparent.png'
 import { Redirect } from 'react-router-dom'
 
 const CenteredContainer = styled.main`
