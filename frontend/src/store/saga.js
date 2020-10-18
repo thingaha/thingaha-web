@@ -24,6 +24,18 @@ import {
   submitNewSchoolForm,
   submitEditSchoolForm,
 } from './sagas/schools'
+import { 
+  GET_STUDENT_INFO,
+  GET_ALL_STUDENTS,
+  SUBMIT_NEW_STUDENT_FORM ,
+  SUBMIT_EDIT_STUDENT_FORM,
+} from './actions/students'
+import { 
+  fetchStudentInfo,
+  fetchAllStudents,
+  submitNewStudentForm ,
+  submitEditStudentForm,
+} from './sagas/students'
 import { loginUser } from './sagas/authentication'
 import { GET_ALL_ADDRESSES, GET_SEARCH_ADDRESSES } from './actions/addresses'
 import { fetchAddressesSaga, searchAddressesSaga } from './sagas/addresses'
@@ -40,6 +52,10 @@ export default function* rootSaga() {
     takeLatest(SUBMIT_EDIT_SCHOOL_FORM, submitEditSchoolForm),
     takeLatest(GET_ALL_ADDRESSES, fetchAddressesSaga),
     takeLatest(GET_SEARCH_ADDRESSES, searchAddressesSaga),
+    takeLatest(GET_STUDENT_INFO, fetchStudentInfo),
+    takeLatest(GET_ALL_STUDENTS, fetchAllStudents),
+    takeLatest(SUBMIT_NEW_STUDENT_FORM, submitNewStudentForm),
+    takeLatest(SUBMIT_EDIT_STUDENT_FORM, submitEditStudentForm),
     takeLatest(LOGIN, loginUser),
   ])
 }
