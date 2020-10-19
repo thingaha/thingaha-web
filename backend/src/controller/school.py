@@ -45,7 +45,7 @@ def get_school_by_id(school_id: int):
         return jsonify({
             "data": {
                 "count": len(schools),
-                "schools": schools
+                "school": schools
             }}), 200
     except SQLCustomError as error:
         current_app.logger.error("Return error for school_id: {}".format(school_id))

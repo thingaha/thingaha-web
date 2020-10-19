@@ -87,7 +87,7 @@ Output Sample
 {
   "data": {
     "count": 1,
-    "schools": [
+    "school": [
       {
         "address": {
           "district": "yangon",
