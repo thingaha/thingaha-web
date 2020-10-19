@@ -7,10 +7,10 @@ from sqlalchemy.exc import SQLAlchemyError
 from common.data_schema import address_schema
 from common.error import RequestDataEmpty, SQLCustomError, ValidateFail
 from models.address import AddressModel
-from service.service import Service
 from service.school.school_service import SchoolService
-from service.user.user_service import UserService
+from service.service import Service
 from service.student.student_service import StudentService
+from service.user.user_service import UserService
 
 
 class AddressService(Service):
@@ -98,15 +98,18 @@ class AddressService(Service):
             self.logger.error("Address delete fail. id %s, error %s", address_id, traceback.format_exc())
             raise SQLCustomError(description="Delete address by ID SQL ERROR")
 
-    def get_all_addresses(self) -> List[Dict[str, Any]]:
+    def get_all_addresses(self, page: int = 1) -> (List[Dict[str, Any]], int):
         """
         get all addresses
+        :params page
         :return:
         """
         self.logger.info("Get all addresses list")
         try:
-            return SchoolService.get_all_school_address() + UserService.get_all_user_address() + \
-                   StudentService.get_all_student_address()
+            schools, schools_count = SchoolService.get_all_school_address(page)
+            users, users_count = UserService.get_all_user_address(page)
+            student, students_count = StudentService.get_all_student_address(page)
+            return schools + users + student, schools_count+users_count+students_count
         except SQLAlchemyError:
             self.logger.error("Get all addresses fail. error %s", traceback.format_exc())
             raise SQLCustomError(description="GET address SQL ERROR")

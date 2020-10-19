@@ -21,7 +21,7 @@ Output Sample:
 ### CREATE User
 | API      | Description | Action     |
 | :---        |    :----:   |          ---: |
-| /api/v1/user     | Create User       | POST   |
+| /api/v1/users     | Create User       | POST   |
 
 Input Sample:
 ```json
@@ -40,7 +40,7 @@ Input Sample:
 }
 ```
 Output Sample:
-```
+```json
 {
     "data": {
         "count": 1,
@@ -69,7 +69,9 @@ Output Sample:
 ### GET all Users
 | API      | Description | Action     |
 | :---        |    :----:   |          ---: |
-| /api/v1/user     | GET all user       | GET   |
+| /api/v1/users     | GET all users       | GET   |
+| /api/v1/users?page=XXX     | GET all users with pagination      | GET   |
+default count per page is 20.
 
 Output Sample
 ``` json
@@ -133,7 +135,7 @@ Output Sample
 ### GET User by ID
 | API      | Description | Action     |
 | :---        |    :----:   |          ---: |
-| /api/v1/user/id     | GET user by id     | GET   |
+| /api/v1/users/id     | GET user by id     | GET   |
 Output Sample
 ```json
 {
@@ -159,7 +161,7 @@ Output Sample
 ### UPDATE user
 | API      | Description | Action     |
 | :---        |    :----:   |          ---: |
-| /api/v1/user/id     | update user info by id     | PUT  |
+| /api/v1/users/id     | update user info by id     | PUT  |
 Input Sample:
 ```json
 {
@@ -190,7 +192,7 @@ Output Sample:
 
 | API      | Description | Action     |
 | :---        |    :----:   |          ---: |
-| /api/v1/user/id     | Delete user by id     | DELETE  |
+| /api/v1/users/id     | Delete user by id     | DELETE  |
 ```json
 {
   "status": true
