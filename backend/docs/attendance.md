@@ -150,7 +150,7 @@ Output Sample
 ```json
 {
     "data": {
-        "attendances": [
+        "attendance": [
             {
                 "enrolled_date": "02-02-2020",
                 "grade": "G-9",
