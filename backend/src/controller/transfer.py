@@ -23,7 +23,7 @@ def get_transfer_by_id(transfer_id: int):
         current_app.logger.info("Return data for transfer_id: {}".format(transfer_id))
         return jsonify({
             "data": {
-                "transfers": transfers
+                "transfer": transfers
             }}), 200
     except SQLCustomError as error:
         current_app.logger.error("Return error for transfer_id: {}".format(transfer_id))

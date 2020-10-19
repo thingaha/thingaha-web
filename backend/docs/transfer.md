@@ -87,7 +87,7 @@ Output Sample
 ```json
 {
     "data": {
-        "transfers": {
+        "transfer": {
             "id": 1,
             "month": "march",
             "total_jpy": 200.0,
