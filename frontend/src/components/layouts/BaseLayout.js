@@ -11,7 +11,7 @@ import { Grid } from '@material-ui/core'
 import styled from 'styled-components'
 import { media } from '../../styles/variables'
 import ContentView from './ContentView'
-import logoUrl from '../../images/logo_transparent_vertical.png'
+import logoUrl from '../../images/logo_transparent_horizontal.png'
 
 const drawerWidth = 200
 
