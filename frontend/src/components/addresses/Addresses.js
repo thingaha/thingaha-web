@@ -99,7 +99,7 @@ const Addresses = ({ addresses: { addresses, count }, getAllAddresses }) => {
         <Grid item>
           <SearchInput />
         </Grid>
-        <Grid item justify-xs-flex-end>
+        <Grid item className="MuiGrid-justify-xs-flex-end">
           <TotalAmountDiv>
             <div className="total">{labelTotal}</div>
             <div className="amount">{count}</div>

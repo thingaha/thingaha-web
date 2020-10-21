@@ -18,7 +18,7 @@ function TabPanel(props) {
     >
       {value === index && (
         <Box p={3} px={0}>
-          <Typography>{children}</Typography>
+          <Typography component={'span'}>{children}</Typography>
         </Box>
       )}
     </div>
@@ -47,13 +47,13 @@ const ThingahaTabbedNav = ({ tabMenus, tabPanels, defaultIndex, centered }) => {
         textColor="primary"
         centered={centered}
       >
-        {tabMenus.map((label) => {
-          return <Tab label={label} />
+        {tabMenus.map((label, index) => {
+          return <Tab key={index} label={label} />
         })}
       </Tabs>
       {tabPanels.map((content, index) => {
         return (
-          <TabPanel value={value} index={index}>
+          <TabPanel key={index} value={value} index={index}>
             {content}
           </TabPanel>
         )
