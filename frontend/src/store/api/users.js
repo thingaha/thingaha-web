@@ -45,7 +45,7 @@ export const fetchUsers = async () => {
 
   return {
     data: {
-      users: response.data.data.users,
+      users: response.data.users,
     },
   }
 }
@@ -55,5 +55,12 @@ export const createUser = async (userFormValues) => {
   usersDb.push(newUser)
   return {
     data: newUser,
+  }
+}
+
+export const editUser = (values) => {
+  // TODO call backend users edit endpoint
+  return {
+    data: [...usersDb.filter((user) => user.id !== values.id), values],
   }
 }
