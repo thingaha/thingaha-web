@@ -107,11 +107,12 @@ def get_all_addresses():
     :return:
     """
     try:
-        addresses = address_service.get_all_addresses()
+        page = request.args.get("page", 1, type=int)
+        addresses, count = address_service.get_all_addresses(page)
         current_app.logger.info("Get all addresses")
         return jsonify({
             "data": {
-                "count": len(addresses),
+                "count": count,
                 "addresses": addresses
             }}), 200
     except SQLCustomError as error:

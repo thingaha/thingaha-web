@@ -51,11 +51,12 @@ def get_all_users():
     get all users list
     """
     try:
-        users = user_service.get_all_users()
+        page = request.args.get("page", 1, type=int)
+        users, count = user_service.get_all_users(page)
         current_app.logger.info("Get all users")
         return jsonify({
             "data": {
-                "count": len(users),
+                "count": count,
                 "users": users
             }}), 200
     except SQLCustomError as error:
