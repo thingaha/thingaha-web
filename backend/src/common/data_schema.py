@@ -8,7 +8,8 @@ address_schema = Schema({
     "division": str,
     "district": str,
     "township": str,
-    "street_address": str
+    "street_address": str,
+    "type": str
 })
 
 school_schema = Schema({
@@ -33,4 +34,11 @@ attendance_schema = Schema({
     "grade": str,
     "year": str,
     "enrolled_date": str
+})
+
+transfer_schema = Schema({
+    "year": int,
+    "month": str,
+    "total_mmk": int,
+    "total_jpy": int
 })

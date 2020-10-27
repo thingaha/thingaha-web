@@ -1,5 +1,5 @@
 ### LOGIN API
-| API      | URL | Action     |
+| API      | Description | Action     |
 | :---        |    :----:   |          ---: |
 | /api/v1/login     | Get token       | POST   |
 
@@ -19,7 +19,7 @@ Output Sample:
 ```
 
 ### CREATE User
-| API      | URL | Action     |
+| API      | Description | Action     |
 | :---        |    :----:   |          ---: |
 | /api/v1/user     | Create User       | POST   |
 
@@ -35,7 +35,8 @@ Input Sample:
     "division": "yangon",
     "donation_active": true,
     "street_address": "18 street",
-    "township": "La Thar township"
+    "township": "La Thar township",
+    "type": "user"
 }
 ```
 Output Sample:
@@ -66,7 +67,7 @@ Output Sample:
 ```
 
 ### GET all Users
-| API      | URL | Action     |
+| API      | Description | Action     |
 | :---        |    :----:   |          ---: |
 | /api/v1/user     | GET all user       | GET   |
 
@@ -130,7 +131,7 @@ Output Sample
 ```
 
 ### GET User by ID
-| API      | URL | Action     |
+| API      | Description | Action     |
 | :---        |    :----:   |          ---: |
 | /api/v1/user/id     | GET user by id     | GET   |
 Output Sample
@@ -156,7 +157,7 @@ Output Sample
 }
 ```
 ### UPDATE user
-| API      | URL | Action     |
+| API      | Description | Action     |
 | :---        |    :----:   |          ---: |
 | /api/v1/user/id     | update user info by id     | PUT  |
 Input Sample:
@@ -172,7 +173,8 @@ Input Sample:
     "district": "pabedan",
     "division": "yangon",
     "street_address": "19 street",
-    "township": "La Thar township"
+    "township": "La Thar township",
+    "type": "user"
 }
 ```
 
@@ -186,7 +188,7 @@ Output Sample:
 
 ### DELETE user
 
-| API      | URL | Action     |
+| API      | Description | Action     |
 | :---        |    :----:   |          ---: |
 | /api/v1/user/id     | Delete user by id     | DELETE  |
 ```json

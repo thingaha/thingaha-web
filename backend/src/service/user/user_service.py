@@ -159,3 +159,10 @@ class UserService(Service):
         :return:
         """
         return [user.as_dict() for user in users]
+
+    @staticmethod
+    def get_all_user_address():
+        """
+        get all user address for get all address API
+        """
+        return [address.address_type_dict(user) for address, user in UserModel.get_all_user_address()]

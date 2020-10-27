@@ -63,3 +63,9 @@ app.get('/donations', (req, res) => {
 app.listen(port, () =>
   console.log(`Example app listening at http://localhost:${port}`)
 )
+
+//addresses
+app.get('/addresses', (req, res) => {
+  const json = require('./sample_data/addresses.json')
+  res.json(json)
+})

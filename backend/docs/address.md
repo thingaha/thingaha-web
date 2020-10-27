@@ -1,5 +1,5 @@
 ### CREATE Address
-| API      | URL | Action     |
+| API      | Description | Action     |
 | :---        |    :----:   |          ---: |
 | /api/v1/addresses     | Create Address    | POST   |
 
@@ -9,7 +9,8 @@ Input Sample:
     "division": "yangon",
     "district": "Yangon",
     "township": "Latha",
-    "street_address": "19th street"
+    "street_address": "19th street",
+    "type": "user"
 }
 ```
 Output Sample:
@@ -20,7 +21,12 @@ Output Sample:
             "district": "Yangon",
             "division": "yangon",
             "id": 2,
-            "street_address": "19th street",
+            "street_address": "17th street",
+            "addressable": {
+                          "id": 1,
+                          "name": "Maung Maung",
+                          "type": "user"
+                        },
             "township": "Latha"
         }
     }
@@ -28,7 +34,7 @@ Output Sample:
 ```
 
 ### GET all Addresses
-| API      | URL | Action     |
+| API      | Description | Action     |
 | :---        |    :----:   |          ---: |
 | /api/v1/addresses     | GET all addresses      | GET   |
 
@@ -42,6 +48,11 @@ Output Sample
                 "district": "Yangon",
                 "division": "yangon",
                 "id": 1,
+                "addressable": {
+                          "id": 1,
+                          "name": "Maung Maung",
+                          "type": "user"
+                        },
                 "street_address": "Thanlan street",
                 "township": "Hlaing"
             },
@@ -49,6 +60,11 @@ Output Sample
                 "district": "Yangon",
                 "division": "yangon",
                 "id": 2,
+                "addressable": {
+                          "id": 1,
+                          "name": "Maung Maung",
+                          "type": "student"
+                        },
                 "street_address": "19th street",
                 "township": "Latha"
             }
@@ -58,7 +74,7 @@ Output Sample
 ```
 
 ### GET Address by ID
-| API      | URL | Action     |
+| API      | Description | Action     |
 | :---        |    :----:   |          ---: |
 | /api/v1/addresses/id     | GET address by id    | GET   |
 
@@ -70,6 +86,11 @@ Output Sample
             "district": "Yangon",
             "division": "yangon",
             "id": 2,
+            "addressable": {
+                      "id": 1,
+                      "name": "Maung Maung",
+                      "type": "student"
+                    },
             "street_address": "19th street",
             "township": "Latha"
         }
@@ -78,7 +99,7 @@ Output Sample
 ```
 
 ### UPDATE Address
-| API      | URL | Action     |
+| API      | Description | Action     |
 | :---        |    :----:   |          ---: |
 | /api/v1/addresses/id     | update address info by id     | PUT  |
 
@@ -88,7 +109,8 @@ Input Sample:
     "division": "yangon",
     "district": "Yangon",
     "township": "Latha",
-    "street_address": "17th street"
+    "street_address": "17th street",
+    "type": "donator"
 }
 ```
 
@@ -100,7 +122,7 @@ Output Sample:
 ```
 
 ### DELETE Address
-| API      | URL | Action     |
+| API      | Description | Action     |
 | :---        |    :----:   |          ---: |
 | /api/v1/addresses/id     | Delete address by id     | DELETE  |
 

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Any, List
+from typing import Dict, Any
 
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -24,15 +24,17 @@ class AddressModel(db.Model):
     district = db.Column(db.UnicodeText())
     township = db.Column(db.UnicodeText())
     street_address = db.Column(db.UnicodeText())
+    type = db.Column(db.Enum("user", "student", "school", name="addresses_types"), default="user", nullable=False)
 
-    def __init__(self, division: str, district: str, township: str, street_address: str) -> None:
+    def __repr__(self):
+        return f"<Address {self.format_address()}>"
+
+    def __init__(self, division: str, district: str, township: str, street_address: str, type: str = "user") -> None:
         self.division = division
         self.district = district
         self.township = township
         self.street_address = street_address
-
-    def __repr__(self):
-        return f"<Address {self.format_address()}>"
+        self.type = type
 
     def format_address(self):
         """
@@ -53,6 +55,25 @@ class AddressModel(db.Model):
             "district": self.district,
             "township": self.township,
             "street_address": self.street_address
+        }
+
+    def address_type_dict(self, obj):
+        """
+        Return object data for viewing easily serializable format
+        :param obj: addressable object from query
+        :return:
+        """
+        return {
+            "id": self.id,
+            "addressable": {
+                "id": obj.id,
+                "name": obj.name,
+                "type": self.type
+            },
+            "division": self.division,
+            "district": self.district,
+            "township": self.township,
+            "street_address": self.street_address,
         }
 
     @staticmethod
@@ -86,6 +107,7 @@ class AddressModel(db.Model):
             target_address.district = address.district
             target_address.township = address.township
             target_address.street_address = address.street_address
+            target_address.type = address.type
             db.session.commit()
             return True
         except SQLAlchemyError as error:
@@ -118,15 +140,4 @@ class AddressModel(db.Model):
             return True
         except SQLAlchemyError as error:
             db.session.rollback()
-            raise error
-
-    @staticmethod
-    def get_all_addresses() -> List[AddressModel]:
-        """
-        get all addresses
-        :return: addresses list of dict
-        """
-        try:
-            return db.session.query(AddressModel).all()
-        except SQLAlchemyError as error:
             raise error

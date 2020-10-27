@@ -33,7 +33,8 @@ def json_access_token(init_app, client):
             division="yangon",
             district="aa",
             township="aa",
-            street_address="aa"))
+            street_address="aa",
+            type="user"))
         UserModel.create_user(UserModel(
             name="aa",
             email="aa@gmail.com",
@@ -63,14 +64,16 @@ def test_address_create_update(init_app, client, json_access_token):
         "district": "yangon",
         "division": "yangon",
         "street_address": "11 street",
-        "township": "MyaeNiGone"
+        "township": "MyaeNiGone",
+        "type": "user"
     }, headers=json_access_token)
     assert res.status_code == 200
     res = client.put("/api/v1/addresses/1", json={
         "district": "yangon",
         "division": "yangon",
         "street_address": "11 street",
-        "township": "MyaeNiGone"
+        "township": "MyaeNiGone",
+        "type": "user"
     }, headers=json_access_token)
     assert res.status_code == 200
 
@@ -97,7 +100,8 @@ def test_create_update_school(init_app, client, json_access_token):
         "district": "yangon",
         "division": "yangon",
         "street_address": "18 street",
-        "township": "La Thar township"
+        "township": "La Thar township",
+        "type": "school"
     }, headers=json_access_token)
     assert res.status_code == 200
     res = client.put("/api/v1/schools/1", json={
@@ -107,7 +111,8 @@ def test_create_update_school(init_app, client, json_access_token):
         "district": "yangon",
         "division": "yangon",
         "street_address": "18 street",
-        "township": "MyaeNiGone"
+        "township": "MyaeNiGone",
+        "type": "school"
     }, headers=json_access_token)
     assert res.status_code == 200
 
@@ -141,7 +146,8 @@ def test_post_attendance(init_app, client, json_access_token):
         "district": "yangon",
         "division": "yangon",
         "street_address": "18 street",
-        "township": "La Thar township"
+        "township": "La Thar township",
+        "type": "student"
     }, headers=json_access_token)
     assert res.status_code == 200
     # create student
@@ -162,3 +168,37 @@ def test_post_attendance(init_app, client, json_access_token):
         "enrolled_date": "2020-02-01"
     }, headers=json_access_token)
     assert res.status_code == 200 # fix it after student create api done
+
+
+def test_get_transfer_by_id(init_app, client, json_access_token):
+    res = client.get("/api/v1/transfers/1", headers=json_access_token)
+    assert res.status_code == 200
+
+
+def test_get_all_transfer(init_app, client, json_access_token):
+    res = client.get("/api/v1/transfers", headers=json_access_token)
+    assert res.status_code == 200
+
+
+def test_delete_transfer_by_id(init_app, client, json_access_token):
+    res = client.delete("/api/v1/transfers/1", headers=json_access_token)
+    assert res.status_code == 200
+
+
+def test_create_update_transfer(init_app, client, json_access_token):
+    res = client.post("/api/v1/transfers", json={
+        "year": 2020,
+        "month": "march",
+        "total_mmk": 3000,
+        "total_jpy": 0
+    }, headers=json_access_token)
+    assert res.status_code == 200
+    res = client.put("/api/v1/transfers/1", json={
+        "year": 2020,
+        "month": "march",
+        "total_mmk": 3000,
+        "total_jpy": 35000
+    }, headers=json_access_token)
+    assert res.status_code == 200
+
+

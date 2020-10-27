@@ -120,3 +120,14 @@ class SchoolModel(db.Model):
         except SQLAlchemyError as error:
             db.session.rollback()
             raise error
+
+    @staticmethod
+    def get_all_school_address() -> dict:
+        """
+        get all school address for get all address API
+        """
+        try:
+            return db.session.query(AddressModel, SchoolModel). \
+                filter(AddressModel.id == SchoolModel.address_id).filter(AddressModel.type == "school").all()
+        except SQLAlchemyError as error:
+            raise error

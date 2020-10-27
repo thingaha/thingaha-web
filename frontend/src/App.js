@@ -14,47 +14,47 @@ import store from './store/configureStore'
 import { Provider, connect } from 'react-redux'
 
 import BaseLayout from './components/layouts/BaseLayout'
-import Sidebar from './components/layouts/Sidebar'
-import ContentView from './components/layouts/ContentView'
 import Login from './pages/Login'
 import NotFound from './pages/NotFound'
 import Users from './components/users/Users'
 import Donations from './components/donations/Donations'
 import Schools from './components/schools/Schools'
-import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import Addresses from './components/addresses/Addresses'
 
-const PrivateRouteComponent = ({ component: Component, authentication, ...rest }) => {
+const PrivateRouteComponent = ({
+  component: Component,
+  authentication,
+  ...rest
+}) => {
   return (
     // Show the component only when the user is logged in
     // Otherwise, redirect the user to /signin page
     <BaseLayout>
-      <Sidebar />
-      <ContentView>
-        <Route
-          {...rest}
-          render={(props) => {
-            if (!authentication.authenticated) {
-              return (
-                <Redirect
-                  to={{
-                    pathname: '/login',
-                    state: { from: props.location },
-                  }}
-                />
-              )
-            }
+      <Route
+        {...rest}
+        render={(props) => {
+          if (!authentication.authenticated) {
+            return (
+              <Redirect
+                to={{
+                  pathname: '/login',
+                  state: { from: props.location },
+                }}
+              />
+            )
+          }
 
-            return <Component {...props} />
-          }}
-        />
-      </ContentView>
+          return <Component {...props} />
+        }}
+      />
     </BaseLayout>
   )
 }
 
 const mapStateToProps = (state) => ({
-  authentication: state.authentication
+  authentication: state.authentication,
 })
 
 const mapDispatchToProps = (dispatch) => ({})
@@ -72,7 +72,7 @@ const AdminApp = () => {
         <PrivateRoute path="/" exact component={Donations} />
         <PrivateRoute path="/users" exact component={Users} />
         <PrivateRoute path="/schools" exact component={Schools} />
-
+        <PrivateRoute path="/addresses" exact component={Addresses} />
         <Route path="*" component={NotFound} />
       </Switch>
       <ToastContainer
@@ -84,7 +84,7 @@ const AdminApp = () => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        />
+      />
     </Router>
   )
 }

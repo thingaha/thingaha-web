@@ -19,11 +19,7 @@ def post_request_empty():
     :return:
     """
     current_app.logger.error("Request Body required")
-    return jsonify({
-        "errors": {
-            "error": RequestDataEmpty("Request Data is Empty").__dict__
-        }
-    }), 400
+    return jsonify({"errors": [RequestDataEmpty("Request Data is Empty").__dict__]}), 400
 
 
 def custom_error(error_message: str, status_code: int = 400):
@@ -33,10 +29,11 @@ def custom_error(error_message: str, status_code: int = 400):
     :param status_code:
     :return:
     """
-    return jsonify({"errors": {"error": ThingahaCustomError(error_message).__dict__}}), status_code
+    return jsonify({"errors": [ThingahaCustomError(error_message).__dict__]}), status_code
 
 
 from controller.address import *
 from controller.attendance import *
 from controller.school import *
 from controller.user import *
+from controller.transfer import *
