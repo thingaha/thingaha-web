@@ -1,5 +1,5 @@
 ### CREATE Address
-| API      | URL | Action     |
+| API      | Description | Action     |
 | :---        |    :----:   |          ---: |
 | /api/v1/addresses     | Create Address    | POST   |
 
@@ -34,7 +34,7 @@ Output Sample:
 ```
 
 ### GET all Addresses
-| API      | URL | Action     |
+| API      | Description | Action     |
 | :---        |    :----:   |          ---: |
 | /api/v1/addresses     | GET all addresses      | GET   |
 
@@ -74,7 +74,7 @@ Output Sample
 ```
 
 ### GET Address by ID
-| API      | URL | Action     |
+| API      | Description | Action     |
 | :---        |    :----:   |          ---: |
 | /api/v1/addresses/id     | GET address by id    | GET   |
 
@@ -99,7 +99,7 @@ Output Sample
 ```
 
 ### UPDATE Address
-| API      | URL | Action     |
+| API      | Description | Action     |
 | :---        |    :----:   |          ---: |
 | /api/v1/addresses/id     | update address info by id     | PUT  |
 
@@ -122,7 +122,7 @@ Output Sample:
 ```
 
 ### DELETE Address
-| API      | URL | Action     |
+| API      | Description | Action     |
 | :---        |    :----:   |          ---: |
 | /api/v1/addresses/id     | Delete address by id     | DELETE  |
 

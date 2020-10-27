@@ -36,7 +36,7 @@ class SchoolService(Service):
         :return: school list of dict
         """
         try:
-            self.logger.info("get school info by school_id:{}".format(school_id))
+            self.logger.info("Get school info by school_id:{}".format(school_id))
             return self.__return_school_list(SchoolModel.get_school_by_id(school_id))
         except SQLAlchemyError as error:
             self.logger.error("Error: {}".format(error))
@@ -58,7 +58,7 @@ class SchoolService(Service):
         :return:
         """
         if not data:
-            raise RequestDataEmpty("school data is empty")
+            raise RequestDataEmpty("School data is empty")
         if not self.input_validate.validate_json(data, school_schema):
             self.logger.error("All school field input must be required.")
             raise ValidateFail("School validation fail")
@@ -78,7 +78,7 @@ class SchoolService(Service):
         :return:
         """
         try:
-            self.logger.info("delete school info by school_id:{}".format(school_id))
+            self.logger.info("Delete school info by school_id:{}".format(school_id))
             return SchoolModel.delete_school_by_id(school_id)
         except SQLAlchemyError as error:
             self.logger.error("Error: {}".format(error))
@@ -92,7 +92,7 @@ class SchoolService(Service):
         :return:
         """
         if not data:
-            raise RequestDataEmpty("school data is empty")
+            raise RequestDataEmpty("School data is empty")
         if not self.input_validate.validate_json(data, school_schema):
             self.logger.error("All school field input must be required.")
             raise ValidateFail("School update validation fail")

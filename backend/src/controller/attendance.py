@@ -16,15 +16,15 @@ attendance_service = AttendanceService()
 def get_attendances():
     try:
         attendance = attendance_service.get_all_attendance_records()
-        current_app.logger.info("get all attendance records")
+        current_app.logger.info("Get all attendance records")
         return jsonify({
             "data": {
                 "count": len(attendance),
                 "attendances": attendance
             }}), 200
     except SQLCustomError as error:
-        current_app.logger.error("error in get all attendance records")
-        return jsonify({"errors": {"error": error.__dict__}}), 400
+        current_app.logger.error("Error in get all attendance records")
+        return jsonify({"errors": [error.__dict__]}), 400
 
 
 @api.route("/attendances/<int:attendance_id>", methods=["GET"])
@@ -41,11 +41,11 @@ def get_attendance_by_id(attendance_id: int):
         return jsonify({
             "data": {
                 "count": len(attendance),
-                "attendances": attendance
+                "attendance": attendance
             }}), 200
     except SQLCustomError as error:
         current_app.logger.error("Return error for attendances: {}".format(attendance_id))
-        return jsonify({"errors": {"error": error.__dict__}}), 400
+        return jsonify({"errors": [error.__dict__]}), 400
 
 
 @api.route("/attendances", methods=["POST"])
@@ -66,11 +66,11 @@ def create_attendance():
             "grade": data.get("grade"),
             "year": data.get("year"),
             "enrolled_date": data.get("enrolled_date")})
-        current_app.logger.info("create school success. school_name %s", data.get("school_name"))
+        current_app.logger.info("Create school success. school_name %s", data.get("school_name"))
         return get_attendance_by_id(attendance_id), 200
     except (RequestDataEmpty, SQLCustomError, ValidateFail) as error:
-        current_app.logger.error("create attendance request fail")
-        return jsonify({"errors": {"error": error.__dict__}}), 400
+        current_app.logger.error("Create attendance request fail")
+        return jsonify({"errors": [error.__dict__]}), 400
 
 
 @api.route("/attendances/<int:attendance_id>", methods=["DELETE"])
@@ -83,13 +83,13 @@ def delete_attendances(attendance_id):
     :return:
     """
     try:
-        current_app.logger.info("delete attendance id: {}".format(attendance_id))
+        current_app.logger.info("Delete attendance id: {}".format(attendance_id))
         return jsonify({
             "status": attendance_service.delete_attendance_by_id(attendance_id)
         }), 200
     except SQLCustomError as error:
-        current_app.logger.error("fail to delete attendance_id: %s".format(attendance_id))
-        return jsonify({"errors": {"error": error.__dict__}}), 400
+        current_app.logger.error("Fail to delete attendance_id: %s".format(attendance_id))
+        return jsonify({"errors": [error.__dict__]}), 400
 
 
 @api.route("/attendances/<int:attendance_id>", methods=["PUT"])
@@ -108,10 +108,10 @@ def update_attendance(attendance_id: int):
     if data is None:
         return post_request_empty()
     try:
-        current_app.logger.info("update attendance for attendance_id: %s", attendance_id)
+        current_app.logger.info("Update attendance for attendance_id: %s", attendance_id)
         return jsonify({
             "status": attendance_service.update_attendance_by_id(attendance_id, data)
         }), 200
     except (SQLCustomError, ValidateFail, RequestDataEmpty) as error:
-        current_app.logger.error("update attendance fail: attendance_id: %s", attendance_id)
-        return jsonify({"errors": {"error": error.__dict__}}), 400
+        current_app.logger.error("Update attendance fail: attendance_id: %s", attendance_id)
+        return jsonify({"errors": [error.__dict__]}), 400

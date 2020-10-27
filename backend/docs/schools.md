@@ -1,5 +1,5 @@
 ### CREATE School
-| API      | URL | Action     |
+| API      | Description | Action     |
 | :---        |    :----:   |          ---: |
 | /api/v1/school     | Create School       | POST   |
 
@@ -39,7 +39,7 @@ Output Sample:
 ```
 
 ### GET all Schools
-| API      | URL | Action     |
+| API      | Description | Action     |
 | :---        |    :----:   |          ---: |
 | /api/v1/school     | GET all school       | GET   |
 
@@ -79,7 +79,7 @@ Output Sample
 ```
 
 ### GET School by ID
-| API      | URL | Action     |
+| API      | Description | Action     |
 | :---        |    :----:   |          ---: |
 | /api/v1/school/id     | GET school by id     | GET   |
 Output Sample
@@ -87,7 +87,7 @@ Output Sample
 {
   "data": {
     "count": 1,
-    "schools": [
+    "school": [
       {
         "address": {
           "district": "yangon",
@@ -105,7 +105,7 @@ Output Sample
 }
 ```
 ### UPDATE school
-| API      | URL | Action     |
+| API      | Description | Action     |
 | :---        |    :----:   |          ---: |
 | /api/v1/school/id     | update school info by id     | PUT  |
 Input Sample:
@@ -133,7 +133,7 @@ Output Sample:
 
 ### DELETE school
 
-| API      | URL | Action     |
+| API      | Description | Action     |
 | :---        |    :----:   |          ---: |
 | /api/v1/school/id     | Delete school by id     | DELETE  |
 ```json

@@ -20,19 +20,15 @@ def get_school():
     """
     try:
         schools = school_service.get_all_schools()
-        current_app.logger.info("get all school records")
+        current_app.logger.info("Get all school records")
         return jsonify({
             "data": {
                 "count": len(schools),
                 "schools": schools
             }}), 200
     except SQLCustomError as error:
-        current_app.logger.error("error in get all school records")
-        return jsonify({
-            "errors": {
-                "error": error.__dict__
-            }
-        }), 400
+        current_app.logger.error("Error in get all school records")
+        return jsonify({"errors": [error.__dict__]}), 400
 
 
 @api.route("/schools/<int:school_id>", methods=["GET"])
@@ -49,15 +45,11 @@ def get_school_by_id(school_id: int):
         return jsonify({
             "data": {
                 "count": len(schools),
-                "schools": schools
+                "school": schools
             }}), 200
     except SQLCustomError as error:
         current_app.logger.error("Return error for school_id: {}".format(school_id))
-        return jsonify({
-            "errors": {
-                "error": error.__dict__
-            }
-        }), 400
+        return jsonify({"errors": [error.__dict__]}), 400
 
 
 @api.route("/schools", methods=["POST"])
@@ -84,15 +76,11 @@ def create_school():
             "contact_info": data.get("contact_info"),
             "address_id": address_id
         })
-        current_app.logger.info("create school success. school_name %s", data.get("school_name"))
+        current_app.logger.info("Create school success. school_name %s", data.get("school_name"))
         return get_school_by_id(school_id)
     except (RequestDataEmpty, SQLCustomError, ValidateFail) as error:
-        current_app.logger.error("create school request fail")
-        return jsonify({
-            "errors": {
-                "error": error.__dict__
-            }
-        }), 400
+        current_app.logger.error("Create school request fail")
+        return jsonify({"errors": [error.__dict__]}), 400
 
 
 @api.route("/schools/<int:school_id>", methods=["DELETE"])
@@ -105,17 +93,13 @@ def delete_school(school_id):
     :return:
     """
     try:
-        current_app.logger.info("delete school id: {}".format(school_id))
+        current_app.logger.info("Delete school id: {}".format(school_id))
         return jsonify({
             "status": school_service.delete_school_by_id(school_id)
         }), 200
     except SQLCustomError as error:
-        current_app.logger.error("fail to delete school_id: %s".format(school_id))
-        return jsonify({
-            "errors": {
-                "error": error.__dict__
-            }
-        }), 400
+        current_app.logger.error("Fail to delete school_id: %s".format(school_id))
+        return jsonify({"errors": [error.__dict__]}), 400
 
 
 @api.route("/schools/<int:school_id>", methods=["PUT"])
@@ -145,24 +129,16 @@ def update_school(school_id: int):
                 "contact_info": data.get("contact_info"),
                 "address_id": address_id
             })
-        current_app.logger.info("update success for school_id: {}".format(school_id)) \
-            if school_update_status else current_app.logger.error("update fail for school_id: {}"
+        current_app.logger.info("Update success for school_id: {}".format(school_id)) \
+            if school_update_status else current_app.logger.error("Update fail for school_id: {}"
                                                                   .format(school_id))
         return jsonify({
             "status": school_update_status
         }), 200
     except ValueError as error:
         current_app.logger.error("Value error for address id. error: %s", error)
-        return jsonify({
-            "errors": {
-                "error": error
-            }
-        }), 400
+        return jsonify({"errors": [error.__dict__]}), 400
     except (SQLCustomError, ValidateFail, RequestDataEmpty) as error:
         current_app.logger.error("Error for school data update id {} Error: {}"
                                  .format(school_id, error))
-        return jsonify({
-            "errors": {
-                "error": error.__dict__
-            }
-        }), 400
+        return jsonify({"errors": [error.__dict__]}), 400

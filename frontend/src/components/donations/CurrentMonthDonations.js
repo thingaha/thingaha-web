@@ -60,9 +60,9 @@ const CurrentMonthDonations = ({ donations, updateDonationStatus }) => {
   const Heading = () => {
     return (
       <HeadingContainer>
-        <MonthHeading>
-          <span class="month">JUL </span>
-          <span class="year">2020</span>
+        <MonthHeading component={'span'}>
+          <span className="month">JUL </span>
+          <span className="year">2020</span>
         </MonthHeading>
         <SearchInput />
       </HeadingContainer>
@@ -75,7 +75,7 @@ const CurrentMonthDonations = ({ donations, updateDonationStatus }) => {
       <DonatorList>
         {donations.map((donation) => {
           return (
-            <li>
+            <li key={donation.id}>
               <DonatorCard
                 handleToggle={() => handleToggle(donation)}
                 checked={donation.status === 'paid'}

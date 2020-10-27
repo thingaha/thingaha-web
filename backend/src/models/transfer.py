@@ -1,7 +1,11 @@
 """transfer model class, include migrate and CRUD actions"""
+from __future__ import annotations
+
+from typing import List, Dict, Any
 
 from sqlalchemy.exc import SQLAlchemyError
 
+from common.error import SQLCustomError
 from database import db
 
 
@@ -23,6 +27,18 @@ class TransferModel(db.Model):
     def __repr__(self):
         return f"<Transfer record for {self.month}>"
 
+    def as_dict(self) -> Dict[str, Any]:
+        """
+        Return object data in easily serializable format
+        """
+        return {
+            "id": self.id,
+            "year": self.year,
+            "month": self.month,
+            "total_mmk": self.total_mmk,
+            "total_jpy": self.total_jpy
+        }
+
     @staticmethod
     def create_transfer(new_transfer) -> bool:
         """
@@ -33,8 +49,67 @@ class TransferModel(db.Model):
         try:
             db.session.add(new_transfer)
             db.session.commit()
-            return True
-        except SQLAlchemyError as e:
-            # to put log
-            return False
+            return new_transfer.id
+        except SQLAlchemyError as error:
+            db.session.rollback()
+            raise error
 
+    @staticmethod
+    def get_all_transfers() -> List[TransferModel]:
+        """
+        get all Transfer records
+        :return: Transfer list
+        """
+        try:
+            return db.session.query(TransferModel).all()
+        except SQLAlchemyError as error:
+            raise error
+
+    @staticmethod
+    def get_transfer_by_id(transfer_id: int) -> TransferModel:
+        """
+        get all transfer records
+        :return: transfer list
+        """
+        try:
+            return db.session.query(TransferModel).filter(TransferModel.id == transfer_id).first()
+        except SQLAlchemyError as error:
+            raise error
+
+    @staticmethod
+    def delete_transfer_by_id(transfer_id: int) -> bool:
+        """
+        delete transfer by id
+        :param transfer_id:
+        :return:
+        """
+        try:
+            if not db.session.query(TransferModel).filter(TransferModel.id == transfer_id).delete():
+                return False
+            db.session.commit()
+            return True
+        except SQLAlchemyError as error:
+            db.session.rollback()
+            raise error
+
+    @staticmethod
+    def update_transfer(transfer_id: int, transfer) -> bool:
+        """
+        update transfer info by id
+        :param transfer_id:
+        :param transfer:
+        :return: bool
+        """
+        try:
+            update_transfer = db.session.query(TransferModel).filter(TransferModel.id == transfer_id).first()
+            if not update_transfer:
+                raise SQLCustomError(description="No record for requested transfer")
+            update_transfer.year = transfer.year
+            update_transfer.month = transfer.month
+            update_transfer.total_mmk = transfer.total_mmk
+            update_transfer.total_jpy = transfer.total_jpy
+            db.session.commit()
+            return True
+        except SQLAlchemyError as error:
+            db.session.rollback()
+            raise error

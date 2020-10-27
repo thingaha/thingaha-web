@@ -28,11 +28,7 @@ def get_address_by_id(address_id: int):
             }}), 200
     except SQLCustomError as error:
         current_app.logger.error("Return error for address_id: {}".format(address_id))
-        return jsonify({
-            "errors": {
-                "error": error.__dict__
-            }
-        }), 400
+        return jsonify({"errors": [error.__dict__]}), 400
 
 
 @api.route("/addresses", methods=["POST"])
@@ -47,7 +43,7 @@ def create_address():
     if data is None:
         return post_request_empty()
     try:
-        current_app.logger.info("create address")
+        current_app.logger.info("Create address")
         address_id = address_service.create_address({
             "division": data.get("division"),
             "district": data.get("district"),
@@ -55,14 +51,10 @@ def create_address():
             "street_address": data.get("street_address"),
             "type": data.get("type")
         })
-        current_app.logger.info("create address success. address %s", data.get("street_address"))
+        current_app.logger.info("Create address success. address %s", data.get("street_address"))
         return get_address_by_id(address_id)
     except (SQLCustomError, ValidateFail, RequestDataEmpty) as error:
-        return jsonify({
-            "errors": {
-                "error": error.__dict__
-            }
-        }), 400
+        return jsonify({"errors": [error.__dict__]}), 400
 
 
 @api.route("/addresses/<int:address_id>", methods=["PUT"])
@@ -78,17 +70,13 @@ def update_address(address_id: int):
     if data is None:
         return post_request_empty()
     try:
-        current_app.logger.info("update address for address_id: %s", address_id)
+        current_app.logger.info("Update address for address_id: %s", address_id)
         return jsonify({
             "status": address_service.update_address_by_id(address_id, data)
         }), 200
     except (SQLCustomError, ValidateFail, RequestDataEmpty) as error:
-        current_app.logger.error("update address fail: address_id: %s", address_id)
-        return jsonify({
-            "errors": {
-                "error": error.__dict__
-            }
-        }), 400
+        current_app.logger.error("Update address fail: address_id: %s", address_id)
+        return jsonify({"errors": [error.__dict__]}), 400
 
 
 @api.route("/addresses/<int:address_id>", methods=["DELETE"])
@@ -101,17 +89,13 @@ def delete_address(address_id: int):
     :return:
     """
     try:
-        current_app.logger.info("delete address : address_id: %s", address_id)
+        current_app.logger.info("Delete address : address_id: %s", address_id)
         return jsonify({
             "status": address_service.delete_address_by_id(address_id)
         }), 200
     except SQLCustomError as error:
-        current_app.logger.error("fail to delete address : address_id: %s", address_id)
-        return jsonify({
-            "errors": {
-                "error": error.__dict__
-            }
-        }), 400
+        current_app.logger.error("Fail to delete address : address_id: %s", address_id)
+        return jsonify({"errors": [error.__dict__]}), 400
 
 
 @api.route("/addresses", methods=["GET"])
@@ -124,16 +108,12 @@ def get_all_addresses():
     """
     try:
         addresses = address_service.get_all_addresses()
-        current_app.logger.info("get all addresses")
+        current_app.logger.info("Get all addresses")
         return jsonify({
             "data": {
                 "count": len(addresses),
                 "addresses": addresses
             }}), 200
     except SQLCustomError as error:
-        current_app.logger.error("fail to get all addresses: %s", error)
-        return jsonify({
-            "errors": {
-                "error": error.__dict__
-            }
-        }), 400
+        current_app.logger.error("Fail to get all addresses: %s", error)
+        return jsonify({"errors": [error.__dict__]}), 400
