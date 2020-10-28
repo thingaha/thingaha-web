@@ -5,6 +5,8 @@ common:
         port: 5000
     log:
         conf: "logging_dev.yaml"
+    aws:
+        url: "https://{}.s3-ap-northeast-1.amazonaws.com/{}"
 postgres:
     url: "postgresql://"
     host: "localhost"

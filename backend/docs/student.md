@@ -174,6 +174,55 @@ Output Sample:
 }
 ```
 
+### Save Student Photo
+| API      | Description | Action     |
+| :---        |    :----:   |          ---: |
+| /api/v1/student/upload     | Save Photo to S3    | POST   |
+
+Input Sample:
+```form
+request form > file > img 
+request form > student_id
+```
+Output Sample:
+```json
+{
+    "url": "https://thingaha.s3-ap-northeast-1.amazonaws.com/XXXX.png"
+}
+```
+### Update Student Photo
+| API      | Description | Action     |
+| :---        |    :----:   |          ---: |
+| /api/v1/student/upload     | Update Photo in S3    | PUT   |
+
+Input Sample:
+```form
+request form-data > file > img 
+request form-data > student_id
+request form-data > old_url
+```
+Output Sample:
+```json
+{
+    "url": "https://thingaha.s3-ap-northeast-1.amazonaws.com/XXXX.png"
+}
+```
+
+### Delete Student Photo
+| API      | Description | Action     |
+| :---        |    :----:   |          ---: |
+| /api/v1/student/delete     | Delete Photo in S3    | DELETE   |
+
+Input Sample:
+```json
+{
+  "url": "https://thingaha.s3-ap-northeast-1.amazonaws.com/st001.png"
+}
+```
+Output status only: 200 for success, 400 for failed
+
+- ***for error detail description please reference error.md***
+
 ### ERROR 
 
 ```json

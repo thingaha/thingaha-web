@@ -4,9 +4,10 @@ blueprint name: api
 current version: v1
 """
 
-from flask import Blueprint, current_app, jsonify
+from flask import Blueprint
 from flask_jwt_extended import JWTManager
-from common.error import ThingahaCustomError, RequestDataEmpty
+
+from common.error import ThingahaCustomError
 
 api = Blueprint("api", __name__, url_prefix="/api/v1")
 
