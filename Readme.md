@@ -16,11 +16,16 @@
 - Install Docker Engine from [Docker Official Site](https://docs.docker.com/engine/install/)
 - Setup docker containers
 
-  - cd into the `backend` directory and run `docker-compose up`
+  - cd into the `backend` directory and run `docker-compose up`. (Note: all the following commands assume we're in `backend` directory as working directory)
   - it should create `backend_web_1` container and `backend_db_1` containers.
   - Then, optionally, seed database using the following command:
-    `docker exec backend_web_1 /usr/bin/python3 ../db_seed.py`
+    `docker exec backend_web_1 /usr/bin/python3 ../src/db_seed.py`
   - You should be able to go to `http://localhost:5000/api/v1/users` and should see a json error message.
+
+  For backend developers, who want to use docker for backend development, please refer to the following commands:
+
+  - If there is any change in `requirements.txt`, we will need to rebuild the containers. To rebuild containers, we use:
+    `docker-compose build` command.
 
 #### Native env setup using Anaconda
 
