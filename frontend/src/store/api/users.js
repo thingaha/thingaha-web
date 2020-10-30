@@ -41,11 +41,11 @@ const usersDb = [
 ]
 
 export const fetchUsers = async () => {
-  const response = await thingahaApiClient.get('/users')
+  const { data, error, status } = await thingahaApiClient.get('/users')
 
   return {
     data: {
-      users: response.data.users,
+      users: data.users,
     },
   }
 }

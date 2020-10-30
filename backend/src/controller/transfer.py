@@ -121,11 +121,12 @@ def get_all_transfers():
     :return:
     """
     try:
-        transfers = transfer_service.get_all_transfers()
+        page = request.args.get("page", 1, type=int)
+        transfers, count = transfer_service.get_all_transfers(page)
         current_app.logger.info("Get all transfers")
         return jsonify({
             "data": {
-                "count": len(transfers),
+                "count": count,
                 "transfers": transfers
             }}), 200
     except SQLCustomError as error:

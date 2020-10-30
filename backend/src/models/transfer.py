@@ -1,8 +1,9 @@
 """transfer model class, include migrate and CRUD actions"""
 from __future__ import annotations
 
-from typing import List, Dict, Any
+from typing import Dict, Any
 
+from flask_sqlalchemy import Pagination
 from sqlalchemy.exc import SQLAlchemyError
 
 from common.error import SQLCustomError
@@ -55,13 +56,14 @@ class TransferModel(db.Model):
             raise error
 
     @staticmethod
-    def get_all_transfers() -> List[TransferModel]:
+    def get_all_transfers(page: int) -> Pagination:
         """
         get all Transfer records
+        :param: int
         :return: Transfer list
         """
         try:
-            return db.session.query(TransferModel).all()
+            return db.session.query(TransferModel).paginate(page=page, error_out=False)
         except SQLAlchemyError as error:
             raise error
 
