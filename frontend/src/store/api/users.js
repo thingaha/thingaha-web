@@ -57,3 +57,10 @@ export const createUser = async (userFormValues) => {
     data: newUser,
   }
 }
+
+export const editUser = (values) => {
+  // TODO call backend users edit endpoint
+  return {
+    data: [...usersDb.filter((user) => user.id !== values.id), values],
+  }
+}

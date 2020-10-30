@@ -3,9 +3,18 @@ import {
   all,
   // call
 } from 'redux-saga/effects'
-import { GET_ALL_USERS, SUBMIT_USER_FORM } from './actions/users'
+import {
+  GET_ALL_USERS,
+  SUBMIT_USER_FORM,
+  SUBMIT_EDIT_USER_FORM,
+} from './actions/users'
 import { LOGIN } from './actions/authentication'
-import { fetchAllUsers, submitUserForm } from './sagas/users'
+import {
+  fetchAllUsers,
+  submitUserForm,
+  submitEditUserForm,
+} from './sagas/users'
+
 import {
   GET_DONATIONS_FOR_MONTH,
   UPDATE_DONATION_STATUS,
@@ -33,6 +42,7 @@ export default function* rootSaga() {
   yield all([
     takeLatest(GET_ALL_USERS, fetchAllUsers),
     takeLatest(SUBMIT_USER_FORM, submitUserForm),
+    takeLatest(SUBMIT_EDIT_USER_FORM, submitEditUserForm),
     takeLatest(GET_DONATIONS_FOR_MONTH, fetchDonationsForMonth),
     takeLatest(UPDATE_DONATION_STATUS, startDonationStatusUpdate),
     takeLatest(GET_ALL_SCHOOLS, fetchAllSchools),
