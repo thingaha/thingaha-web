@@ -75,7 +75,6 @@ class DonationModel(db.Model):
             db.session.commit()
             return new_donation.id
         except SQLAlchemyError as error:
-            # to put log
             raise error
 
     @staticmethod

@@ -2,7 +2,7 @@
 schema module for request body
 use python library Schema
 """
-from schema import Schema
+from schema import Schema, Or
 
 address_schema = Schema({
     "division": str,
@@ -42,5 +42,5 @@ donation_schema = Schema({
     "month": str,
     "mmk_amount": float,
     "jpy_amount": float,
-    "paid_at": str
+    "paid_at": Or(None, str)
 })
