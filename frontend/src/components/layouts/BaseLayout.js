@@ -21,6 +21,10 @@ const DrawerStyled = styled(Drawer)`
   & .drawerPaper {
     width: ${drawerWidth}px;
   }
+
+  & .drawerHeight {
+    height: 100%;
+  }
 `
 
 const RootDiv = styled.div`
@@ -33,13 +37,8 @@ const RootDiv = styled.div`
     }
   }
 
-  $ .drawerHeight {
-    height: 100%;
-  }
-
   & .menuButton {
     margin-right: 1rem;
-    }
   }
 
   & .toolbar {
