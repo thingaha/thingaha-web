@@ -1775,6 +1775,154 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Student photo [Update]",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDE3MzU4MDUsIm5iZiI6MTYwMTczNTgwNSwianRpIjoiY2M4MjI0YzItMDgxZS00NzQ5LTg2N2ItZmQ0MjMyNDQ0Y2JmIiwiZXhwIjoxNjAxODIyMjA1LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.7irMCxZ_L-5DnLl9OmKPrO3i02AicewyDDJEBBhMUjQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "img",
+							"type": "file",
+							"src": []
+						},
+						{
+							"key": "student_id",
+							"value": "st004",
+							"type": "text"
+						},
+						{
+							"key": "old_url",
+							"value": "https://thingaha.s3-ap-northeast-1.amazonaws.com/st004.png",
+							"type": "text"
+						}
+					],
+					"options": {
+						"formdata": {}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/student/upload",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"student",
+						"upload"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Student Photo [Delete]",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDE3MzU4MDUsIm5iZiI6MTYwMTczNTgwNSwianRpIjoiY2M4MjI0YzItMDgxZS00NzQ5LTg2N2ItZmQ0MjMyNDQ0Y2JmIiwiZXhwIjoxNjAxODIyMjA1LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.7irMCxZ_L-5DnLl9OmKPrO3i02AicewyDDJEBBhMUjQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"url\": \"https://thingaha.s3-ap-northeast-1.amazonaws.com/st001.png\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/student/delete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"student",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Student photo [Create]",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDE3MzU4MDUsIm5iZiI6MTYwMTczNTgwNSwianRpIjoiY2M4MjI0YzItMDgxZS00NzQ5LTg2N2ItZmQ0MjMyNDQ0Y2JmIiwiZXhwIjoxNjAxODIyMjA1LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.7irMCxZ_L-5DnLl9OmKPrO3i02AicewyDDJEBBhMUjQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "img",
+							"value": null,
+							"type": "file"
+						},
+						{
+							"key": "student_id",
+							"value": "st003",
+							"type": "text"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/student/upload",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"student",
+						"upload"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"protocolProfileBehavior": {}
