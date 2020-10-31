@@ -22,6 +22,10 @@ import Schools from './components/schools/Schools'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Addresses from './components/addresses/Addresses'
+import { checkLoginState } from './store/actions/authentication'
+
+// Initial check for existing persisted login state. This will grab any existing persistent login state to the redux store before mounting components.
+store.dispatch(checkLoginState())
 
 const PrivateRouteComponent = ({
   component: Component,
@@ -35,7 +39,7 @@ const PrivateRouteComponent = ({
       <Route
         {...rest}
         render={(props) => {
-          if (!authentication.authenticated) {
+          if (!authentication.accessToken) {
             return (
               <Redirect
                 to={{
@@ -57,7 +61,9 @@ const mapStateToProps = (state) => ({
   authentication: state.authentication,
 })
 
-const mapDispatchToProps = (dispatch) => ({})
+const mapDispatchToProps = (dispatch) => ({
+  checkLoginState: () => dispatch(checkLoginState()),
+})
 
 const PrivateRoute = connect(
   mapStateToProps,
@@ -75,16 +81,6 @@ const AdminApp = () => {
         <PrivateRoute path="/addresses" exact component={Addresses} />
         <Route path="*" component={NotFound} />
       </Switch>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
     </Router>
   )
 }
@@ -99,6 +95,16 @@ class App extends Component {
               <Normalize />
               <GlobalStyles />
               <AdminApp />
+              <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+              />
             </StylesProvider>
           </ThemeProvider>
         </MuiThemeProvider>

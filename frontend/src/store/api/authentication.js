@@ -1,11 +1,16 @@
-import TokenStorage from '../../utils/tokenStorage'
+import PersistentAuthentication from '../../utils/persistentAuthentication'
 import thingahaApiClient from '../../utils/thingahaApiClient'
 import config from '../../config'
 
 // Development only - fake login method
 // Just returning hardcoded values
 const draftLogin = ({ email, password }) => {
-  TokenStorage.setToken(`${email}.${password}`)
+  PersistentAuthentication.save({
+    accessToken: 'faketoken',
+    currentUser: {
+      email,
+    },
+  })
 
   return {
     user: {
@@ -27,18 +32,22 @@ export const login = async ({ email, password }) => {
 
     // Store the token in local storage for subsequent queries
     const { access_token, user } = data
-    TokenStorage.setToken(access_token)
+    PersistentAuthentication.save({
+      accessToken: access_token,
+      currentUser: user,
+    })
 
-    return { user }
+    return {
+      accessToken: access_token,
+      currentUser: user,
+    }
   }
 }
 
 export const logout = () => {
-  TokenStorage.clearToken()
+  PersistentAuthentication.reset()
 }
 
-export const isLoggedIn = () => {
-  const token = TokenStorage.getToken()
-
-  return !!token
+export const getLoginState = () => {
+  return PersistentAuthentication.retrieve()
 }

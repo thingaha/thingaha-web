@@ -60,7 +60,7 @@ const Login = ({
   errors,
   handleChange,
   handleSubmit,
-  loginUser,
+  logInUser,
   error,
   authentication,
 }) => {
@@ -69,7 +69,7 @@ const Login = ({
     setShowPassword(!showPassword)
   }
 
-  if (authentication && authentication.authenticated) {
+  if (authentication && authentication.accessToken) {
     return <Redirect to="/" />
   }
 
@@ -144,8 +144,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loginUser: ({ email, password }) =>
-      dispatch(actions.loginUser({ email, password })),
+    logInUser: ({ email, password }) =>
+      dispatch(actions.logInUser({ email, password })),
   }
 }
 
@@ -170,8 +170,8 @@ const FormikLoginForm = withFormik({
     return errors
   },
 
-  handleSubmit: ({ email, password }, { props: { loginUser } }) => {
-    loginUser({ email, password })
+  handleSubmit: ({ email, password }, { props: { logInUser } }) => {
+    logInUser({ email, password })
   },
 
   displayName: 'Login',
