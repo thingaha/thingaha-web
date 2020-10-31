@@ -56,12 +56,12 @@ const UserForm = ({
         <FormContainer>
           <StyledFormControl>
             <TextField
-              id="username"
-              name="username"
+              id="name"
+              name="name"
               placeholder="Jane"
               label="User Name"
               onChange={handleChange}
-              value={values.username}
+              value={values.name}
             />
           </StyledFormControl>
           <StyledFormControl>
@@ -140,7 +140,7 @@ const FormikUserForm = withFormik({
       console.log('UserForm 140', props.editingUser)
       return props.editingUser
     } else {
-      return { username: '', email: '', role: 'donator', country: 'jp' }
+      return { name: '', email: '', role: 'donator', country: 'jp' }
     }
   },
 
