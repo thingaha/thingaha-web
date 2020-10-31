@@ -2,6 +2,8 @@
 
 **thingaha-web** is a web application to make life easier for thingaha donation group monthly donation data tracking and workflows.
 
+For project background and current goals for v1.0, please read the [Wiki Home Page](https://github.com/thingaha/thingaha-web/wiki).
+
 ### Backend
 
 ### Pre-requisite
