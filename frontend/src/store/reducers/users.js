@@ -3,6 +3,8 @@ import {
   SUBMIT_USER_FORM_FAILURE,
   GET_ALL_USERS_SUCCESS,
   GET_ALL_USERS_FAILURE,
+  SUBMIT_EDIT_USER_FORM_SUCCESS,
+  SUBMIT_EDIT_USER_FORM_FAILURE,
 } from '../actions/users'
 
 export default (state = { users: [] }, action) => {
@@ -31,7 +33,19 @@ export default (state = { users: [] }, action) => {
         ...state,
         error: action.error,
       }
+    case SUBMIT_EDIT_USER_FORM_SUCCESS:
+      return {
+        ...state,
+        users: [...action.users],
+      }
+    case SUBMIT_EDIT_USER_FORM_FAILURE:
+      return {
+        ...state,
+        error: action.error,
+      }
     default:
       return state
   }
 }
+
+//edituser

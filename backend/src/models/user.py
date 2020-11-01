@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from typing import Dict, Any, List
 
+from flask_sqlalchemy import Pagination
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import relationship
 
@@ -23,17 +24,19 @@ class UserModel(db.Model):
     hashed_password = db.Column(db.Text(), nullable=True)
     role = db.Column(db.Enum("sub_admin", "donator", "admin", name="role"))
     country = db.Column(db.Enum("jp", "mm", "sg", "th", name="country"))
+    donation_active = db.Column(db.Boolean, default=False)
     address_id = db.Column(db.Integer, db.ForeignKey("addresses.id"), nullable=False)
     address = relationship("AddressModel", foreign_keys=[address_id])
 
     def __init__(self, name: str, email: str, address_id: int, role: str, country: str,
-                 hashed_password: str = None) -> None:
+                 hashed_password: str = None, donation_active: bool =False) -> None:
         self.name = name
         self.email = email
         self.address_id = address_id
         self.hashed_password = hashed_password
         self.role = role
         self.country = country
+        self.donation_active = donation_active
 
     def __repr__(self):
         return f"<User {self.name}>"
@@ -49,7 +52,8 @@ class UserModel(db.Model):
                 "formatted_address": self.address.format_address(),
                 "address": self.address.as_dict(),
                 "role": self.role,
-                "country": self.country
+                "country": self.country,
+                "donation_active": self.donation_active
             }
 
     @staticmethod
@@ -83,6 +87,7 @@ class UserModel(db.Model):
             target_user.email = user.email
             target_user.address_id = user.address_id
             target_user.country = user.country
+            target_user.donation_active = user.donation_active
             db.session.commit()
             return True
         except SQLAlchemyError as error:
@@ -142,12 +147,27 @@ class UserModel(db.Model):
             raise error
 
     @staticmethod
-    def get_all_users() -> List[UserModel]:
+    def get_all_users(page: int) -> Pagination:
         """
         get all users
+        :page integer
         :return: users list of dict
         """
         try:
-            return db.session.query(UserModel).join(AddressModel).all()
+            return db.session.query(UserModel).join(AddressModel).paginate(page=page, error_out=False)
+        except SQLAlchemyError as error:
+            raise error
+
+    @staticmethod
+    def get_all_user_address(page: int = 1) -> Pagination:
+        """
+        get all user address for get all address API
+        :params page
+        :return Pagination Object
+        """
+        try:
+            return db.session.query(AddressModel, UserModel). \
+                filter(AddressModel.id == UserModel.address_id).filter(
+                AddressModel.type == "user").paginate(page=page, error_out=False)
         except SQLAlchemyError as error:
             raise error

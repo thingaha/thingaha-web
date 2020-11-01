@@ -21,7 +21,7 @@ const ThingahaFormModal = ({
   title,
 }) => {
   return (
-    <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
+    <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title" fullWidth>
       <DialogTitle id="form-dialog-title" align="center">
         {title}
       </DialogTitle>

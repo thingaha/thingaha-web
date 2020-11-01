@@ -37,6 +37,8 @@ def load_config() -> dict:
         env = "staging"
     elif os.environ.get("SCRIPT_ENV") == "test":
         env = "test"
+    elif os.environ.get("SCRIPT_ENV") == "docker":
+        env = "docker"
     try:
         with open(current_dir + "config_{}.yaml".format(env), "r", encoding="utf-8") as conf_f:
             conf = yaml.safe_load(conf_f)
@@ -52,6 +54,7 @@ class Config(object):
     JSON_AS_ASCII = False
     SQLALCHEMY_ECHO = False
     CORS_HEADERS = "Content-Type"
+    JWT_SECRET_KEY = os.environ.get("JWT_SECRET_KEY") or os.urandom(12).hex()
     if os.environ.get("SCRIPT_ENV") == "test":
         TESTING = True
         DEBUG = True

@@ -1,6 +1,5 @@
-import axios from 'axios'
 import last from 'lodash/last'
-import config from './config'
+import thingahaApiClient from '../../utils/thingahaApiClient'
 
 const usersDb = [
   {
@@ -42,12 +41,11 @@ const usersDb = [
 ]
 
 export const fetchUsers = async () => {
-  const response = await axios.get(`${config.apiBaseUrl}/users`)
-  console.log('Api response', response)
+  const { data, error, status } = await thingahaApiClient.get('/users')
 
   return {
     data: {
-      users: response.data.data.users,
+      users: data.users,
     },
   }
 }
@@ -57,5 +55,12 @@ export const createUser = async (userFormValues) => {
   usersDb.push(newUser)
   return {
     data: newUser,
+  }
+}
+
+export const editUser = (values) => {
+  // TODO call backend users edit endpoint
+  return {
+    data: [...usersDb.filter((user) => user.id !== values.id), values],
   }
 }

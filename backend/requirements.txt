@@ -18,3 +18,5 @@ schema==0.7.2
 mock==4.0.2
 pytest==5.4.3
 flask-cors==3.0.8
+flask-jwt-extended==3.24.1
+pytest-mock==3.3.1
