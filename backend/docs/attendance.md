@@ -61,7 +61,9 @@ Output Sample:
 ### GET all Attendances
 | API      | Description | Action     |
 | :---        |    :----:   |          ---: |
-| /api/v1/attendances     | GET all Attendances       | GET   |
+| /api/v1/attendances     | Get all attendances       | GET   |
+| /api/v1/attendances?page=XXX     | Get all attendances with pagination      | GET   |
+default count per page is 20.
 
 Output Sample
 ```json
@@ -150,7 +152,7 @@ Output Sample
 ```json
 {
     "data": {
-        "attendances": [
+        "attendance": [
             {
                 "enrolled_date": "02-02-2020",
                 "grade": "G-9",

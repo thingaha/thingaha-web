@@ -31,6 +31,9 @@ Output Sample:
 | API      | Description | Action     |
 | :---        |    :----:   |          ---: |
 | /api/v1/transfers     | GET all transfers      | GET   |
+| /api/v1/transfers?page=XXX     | GET all transfer with pagination      | GET   |
+default count per page is 20.
+
 
 Output Sample
 ```json
@@ -87,7 +90,7 @@ Output Sample
 ```json
 {
     "data": {
-        "transfers": {
+        "transfer": {
             "id": 1,
             "month": "march",
             "total_jpy": 200.0,

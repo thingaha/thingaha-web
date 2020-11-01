@@ -1,30 +1,53 @@
 import React from 'react'
 import styled from 'styled-components'
+import { connect } from 'react-redux'
+import get from 'lodash/get'
 import { Grid, Paper } from '@material-ui/core'
 import Avatar from '@material-ui/core/Avatar'
+import Typography from '@material-ui/core/Typography'
 import SchoolIcon from '@material-ui/icons/School'
 import PeopleIcon from '@material-ui/icons/People'
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn'
 import { NavLink } from 'react-router-dom'
-import logoUrl from '../../logo_transparent.png'
+import logoUrl from '../../images/logo_transparent.png'
 import AirplayIcon from '@material-ui/icons/Airplay'
 import LocationCityIcon from '@material-ui/icons/LocationCity'
 import HowToRegIcon from '@material-ui/icons/HowToReg'
 import LocalAtmIcon from '@material-ui/icons/LocalAtm'
 import SyncAltIcon from '@material-ui/icons/SyncAlt'
-import HomeIcon from '@material-ui/icons/Home';
-
-const SidebarContainerGrid = styled(Grid)`
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-`
+import SettingsIcon from '@material-ui/icons/Settings'
+import HomeIcon from '@material-ui/icons/Home'
+import ExitToAppIcon from '@material-ui/icons/ExitToApp'
+import * as actions from '../../store/actions'
 
 const SidebarContent = styled(Paper)`
   width: 100%;
   height: 100%;
   background-color: ${(props) => props.theme.palette.primary.main};
+  border-radius: unset;
+
+  & .vertical-layout {
+    height: 100%;
+
+    & .logo-container {
+      height: auto;
+    }
+
+    & .logo-image {
+      height: 100px;
+      width: 100%;
+    }
+
+    & .user-profile-container {
+      margin-top: 1rem;
+    }
+
+    & .account-menus-container {
+      margin-top: auto;
+      margin-bottom: 0.5rem;
+      padding: 0 0.5rem;
+    }
+  }
 `
 
 const StyledMenuContainer = styled.ul`
@@ -32,24 +55,14 @@ const StyledMenuContainer = styled.ul`
   display: flex;
   flex-direction: column;
   padding-left: 1rem;
-  margin-top: 2rem;
-`
-
-const StyledLogoContainer = styled(Grid)`
-  height: 80px;
-`
-
-const StyledAvatar = styled(Avatar)`
-  height: 100px;
-  width: 100%;
-  margin: 0 auto 1rem auto;
+  margin-top: 1rem;
 `
 
 const StyledNavLink = styled(NavLink)`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   color: ${(props) => props.theme.palette.common.white};
   padding: 0.5rem 1rem;
 
@@ -69,78 +82,184 @@ const StyledNavLink = styled(NavLink)`
   }
 `
 
-const NavMenu = () => (
+const NavMenu = ({ closeMobileDrawer }) => (
   <StyledMenuContainer>
-    <StyledNavLink exact to={'/'}>
+    <StyledNavLink onClick={closeMobileDrawer} exact to={'/'}>
       <AirplayIcon className="nav-icon" />
       Dashboard
     </StyledNavLink>
-    <StyledNavLink to={'/donations'}>
+    <StyledNavLink onClick={closeMobileDrawer} to={'/donations'}>
       <MonetizationOnIcon className="nav-icon" />
       Donations
     </StyledNavLink>
-    <StyledNavLink to={'/users'}>
+    <StyledNavLink onClick={closeMobileDrawer} to={'/users'}>
       <PeopleIcon className="nav-icon" />
       Users
     </StyledNavLink>
-    <StyledNavLink to={'/students'}>
+    <StyledNavLink onClick={closeMobileDrawer} to={'/students'}>
       <SchoolIcon className="nav-icon" />
       Students
     </StyledNavLink>
-    <StyledNavLink to={'/schools'}>
+    <StyledNavLink onClick={closeMobileDrawer} to={'/schools'}>
       <LocationCityIcon className="nav-icon" />
       Schools
     </StyledNavLink>
-    <StyledNavLink to={'/attendances'}>
+    <StyledNavLink onClick={closeMobileDrawer} to={'/attendances'}>
       <HowToRegIcon className="nav-icon" />
       Attendances
     </StyledNavLink>
-    <StyledNavLink to={'/extrafunds'}>
+    <StyledNavLink onClick={closeMobileDrawer} to={'/extrafunds'}>
       <LocalAtmIcon className="nav-icon" />
       Extra Funds
     </StyledNavLink>
-    <StyledNavLink to={'/transfers'}>
+    <StyledNavLink onClick={closeMobileDrawer} to={'/transfers'}>
       <SyncAltIcon className="nav-icon" />
       Transfers
     </StyledNavLink>
-    <StyledNavLink to={'/addresses'}>
+    <StyledNavLink onClick={closeMobileDrawer} to={'/addresses'}>
       <HomeIcon className="nav-icon" />
       Addresses
     </StyledNavLink>
   </StyledMenuContainer>
 )
 
-const Sidebar = (props) => {
+const StyledUserDetailContainer = styled.div`
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  & .user-detail {
+    color: white;
+    word-wrap: normal;
+  }
+
+  & .logout-link {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    color: white;
+    cursor: pointer;
+
+    & .icon {
+      margin-left: 1rem;
+    }
+  }
+`
+
+const CurrentUserInformation = ({ authentication }) => {
+  const userEmail = get(authentication, ['currentUser', 'email'], null)
+  if (!userEmail) {
+    return <StyledUserDetailContainer>Not Logged In</StyledUserDetailContainer>
+  }
+
   return (
-    <SidebarContainerGrid
-      container
-      item
-      xs={2}
-      direction="column"
-      alignItems="center"
-      justify="flex-start"
-    >
-      <SidebarContent>
-        <Grid container row>
-          <Grid item xs="1"></Grid>
-          <Grid item xs="10">
-            <StyledLogoContainer
-              container
-              direction="row"
-              alignItems="flex-start"
-              justify="center"
-            >
-              <Grid item container alignItems="center" justify="center" xs="12">
-                <StyledAvatar alt="Thingaha Logo" src={logoUrl} />
-              </Grid>
-            </StyledLogoContainer>
-            <NavMenu />
-          </Grid>
-          <Grid item xs="1" />
-        </Grid>
-      </SidebarContent>
-    </SidebarContainerGrid>
+    <StyledUserDetailContainer>
+      <Typography variant="body1" className="user-detail">
+        {userEmail}
+      </Typography>
+    </StyledUserDetailContainer>
   )
 }
 
-export default Sidebar
+const StyledAccountActions = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: auto;
+
+  & .nav-icon {
+    color: white;
+    cursor: pointer;
+  }
+`
+
+const AccountActions = ({ logOutUser, closeMobileDrawer }) => {
+  return (
+    <StyledAccountActions>
+      <div className="settings-link">
+        <NavLink to={'/account'} onClick={closeMobileDrawer}>
+          <SettingsIcon className="nav-icon" />
+        </NavLink>
+      </div>
+      <div className="logout-link">
+        <ExitToAppIcon className="nav-icon" onClick={logOutUser} />
+      </div>
+    </StyledAccountActions>
+  )
+}
+
+const Sidebar = ({ authentication, logOutUser, closeMobileDrawer }) => {
+  return (
+    <SidebarContent>
+      <Grid
+        item
+        xs={12}
+        container
+        justify="flex-start"
+        direction="column"
+        className="vertical-layout"
+      >
+        <Grid
+          container
+          direction="row"
+          alignItems="flex-start"
+          justify="center"
+          className="logo-container"
+        >
+          <Grid item container alignItems="center" justify="center" xs={12}>
+            <Avatar alt="Thingaha Logo" src={logoUrl} className="logo-image" />
+          </Grid>
+        </Grid>
+        <Grid
+          container
+          direction="row"
+          alignItems="flex-start"
+          justify="center"
+          className="user-profile-container"
+        >
+          <Grid
+            item
+            container
+            alignItems="center"
+            justify="center"
+            xs={12}
+            className="user-profile"
+          >
+            <CurrentUserInformation
+              authentication={authentication}
+              logOutUser={logOutUser}
+            />
+          </Grid>
+        </Grid>
+        <NavMenu closeMobileDrawer={closeMobileDrawer} />
+        <Grid
+          container
+          direction="row"
+          alignItems="flex-end"
+          justify="center"
+          className="account-menus-container"
+        >
+          <Grid item container alignItems="center" justify="center" xs={12}>
+            <AccountActions
+              logOutUser={logOutUser}
+              closeMobileDrawer={closeMobileDrawer}
+            />
+          </Grid>
+        </Grid>
+      </Grid>
+    </SidebarContent>
+  )
+}
+const mapStateToProps = (state) => ({
+  authentication: state.authentication,
+})
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logOutUser: () => dispatch(actions.logOutUser()),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Sidebar)

@@ -1,7 +1,7 @@
 ### CREATE School
 | API      | Description | Action     |
 | :---        |    :----:   |          ---: |
-| /api/v1/school     | Create School       | POST   |
+| /api/v1/schools     | Create School       | POST   |
 
 Input Sample:
 ```json
@@ -41,7 +41,9 @@ Output Sample:
 ### GET all Schools
 | API      | Description | Action     |
 | :---        |    :----:   |          ---: |
-| /api/v1/school     | GET all school       | GET   |
+| /api/v1/schools     | GET all school       | GET   |
+| /api/v1/schools?page=XXX     | GET all school with pagination      | GET   |
+default count per page is 20.
 
 Output Sample
 ```json
@@ -81,13 +83,13 @@ Output Sample
 ### GET School by ID
 | API      | Description | Action     |
 | :---        |    :----:   |          ---: |
-| /api/v1/school/id     | GET school by id     | GET   |
+| /api/v1/schools/id     | GET school by id     | GET   |
 Output Sample
 ```json
 {
   "data": {
     "count": 1,
-    "schools": [
+    "school": [
       {
         "address": {
           "district": "yangon",
@@ -107,7 +109,7 @@ Output Sample
 ### UPDATE school
 | API      | Description | Action     |
 | :---        |    :----:   |          ---: |
-| /api/v1/school/id     | update school info by id     | PUT  |
+| /api/v1/schools/id     | update school info by id     | PUT  |
 Input Sample:
 ```json
 {
@@ -135,7 +137,7 @@ Output Sample:
 
 | API      | Description | Action     |
 | :---        |    :----:   |          ---: |
-| /api/v1/school/id     | Delete school by id     | DELETE  |
+| /api/v1/schools/id     | Delete school by id     | DELETE  |
 ```json
 {
   "status": true

@@ -13,8 +13,9 @@ import InputAdornment from '@material-ui/core/InputAdornment'
 import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import Button from '@material-ui/core/Button'
-import logoUrl from '../logo_transparent.png'
+import logoUrl from '../images/logo_transparent.png'
 import { Redirect } from 'react-router-dom'
+import { media } from '../styles/variables'
 
 const CenteredContainer = styled.main`
   display: flex;
@@ -25,8 +26,13 @@ const CenteredContainer = styled.main`
 const LoginPanel = styled(Paper)`
   padding: 2rem;
   width: 100%;
-  max-width: 500px;
-  min-width: 300px;
+  height: 100%;
+
+  ${media.tabletPortraitUp} {
+    max-width: 500px;
+    min-width: 300px;
+    height: auto;
+  }
 `
 
 const StyledLogoAvatar = styled(Avatar)`
@@ -60,7 +66,7 @@ const Login = ({
   errors,
   handleChange,
   handleSubmit,
-  loginUser,
+  logInUser,
   error,
   authentication,
 }) => {
@@ -69,7 +75,7 @@ const Login = ({
     setShowPassword(!showPassword)
   }
 
-  if (authentication && authentication.authenticated) {
+  if (authentication && authentication.accessToken) {
     return <Redirect to="/" />
   }
 
@@ -144,8 +150,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loginUser: ({ email, password }) =>
-      dispatch(actions.loginUser({ email, password })),
+    logInUser: ({ email, password }) =>
+      dispatch(actions.logInUser({ email, password })),
   }
 }
 
@@ -170,8 +176,8 @@ const FormikLoginForm = withFormik({
     return errors
   },
 
-  handleSubmit: ({ email, password }, { props: { loginUser } }) => {
-    loginUser({ email, password })
+  handleSubmit: ({ email, password }, { props: { logInUser } }) => {
+    logInUser({ email, password })
   },
 
   displayName: 'Login',

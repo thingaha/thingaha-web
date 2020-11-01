@@ -3,6 +3,7 @@
 from datetime import datetime, date
 from typing import Dict, Any
 
+from flask_sqlalchemy import Pagination
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import relationship
 
@@ -74,12 +75,15 @@ class StudentModel(db.Model):
             return False
 
     @staticmethod
-    def get_all_student_address() -> dict:
+    def get_all_student_address(page) -> Pagination:
         """
         get all school address for get all address API
+        :params page
+        :return
         """
         try:
             return db.session.query(AddressModel, StudentModel). \
-                filter(AddressModel.id == StudentModel.address_id).filter(AddressModel.type == "student").all()
+                filter(AddressModel.id == StudentModel.address_id).filter(
+                AddressModel.type == "student").paginate(page=page, error_out=False)
         except SQLAlchemyError as error:
             raise error

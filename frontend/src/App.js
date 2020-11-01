@@ -14,8 +14,6 @@ import store from './store/configureStore'
 import { Provider, connect } from 'react-redux'
 
 import BaseLayout from './components/layouts/BaseLayout'
-import Sidebar from './components/layouts/Sidebar'
-import ContentView from './components/layouts/ContentView'
 import Login from './pages/Login'
 import NotFound from './pages/NotFound'
 import Users from './components/users/Users'
@@ -26,41 +24,48 @@ import StudentDetails from './components/students/StudentDetails'
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Addresses from './components/addresses/Addresses'
+import { checkLoginState } from './store/actions/authentication'
 
-const PrivateRouteComponent = ({ component: Component, authentication, ...rest }) => {
+// Initial check for existing persisted login state. This will grab any existing persistent login state to the redux store before mounting components.
+store.dispatch(checkLoginState())
+
+const PrivateRouteComponent = ({
+  component: Component,
+  authentication,
+  ...rest
+}) => {
   return (
     // Show the component only when the user is logged in
     // Otherwise, redirect the user to /signin page
     <BaseLayout>
-      <Sidebar />
-      <ContentView>
-        <Route
-          {...rest}
-          render={(props) => {
-            if (!authentication.authenticated) {
-              return (
-                <Redirect
-                  to={{
-                    pathname: '/login',
-                    state: { from: props.location },
-                  }}
-                />
-              )
-            }
+      <Route
+        {...rest}
+        render={(props) => {
+          if (!authentication.accessToken) {
+            return (
+              <Redirect
+                to={{
+                  pathname: '/login',
+                  state: { from: props.location },
+                }}
+              />
+            )
+          }
 
-            return <Component {...props} />
-          }}
-        />
-      </ContentView>
+          return <Component {...props} />
+        }}
+      />
     </BaseLayout>
   )
 }
 
 const mapStateToProps = (state) => ({
-  authentication: state.authentication
+  authentication: state.authentication,
 })
 
-const mapDispatchToProps = (dispatch) => ({})
+const mapDispatchToProps = (dispatch) => ({
+  checkLoginState: () => dispatch(checkLoginState()),
+})
 
 const PrivateRoute = connect(
   mapStateToProps,
@@ -81,16 +86,6 @@ const AdminApp = () => {
 
         <Route path="*" component={NotFound} />
       </Switch>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        />
     </Router>
   )
 }
@@ -105,6 +100,16 @@ class App extends Component {
               <Normalize />
               <GlobalStyles />
               <AdminApp />
+              <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+              />
             </StylesProvider>
           </ThemeProvider>
         </MuiThemeProvider>

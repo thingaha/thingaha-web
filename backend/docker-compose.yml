@@ -1,0 +1,33 @@
+version: '3.3'
+services:
+  web:
+    image: thingha-web:0.1
+    build: .
+    ports:
+      - '5000:5000'
+    volumes:
+      - .:/app
+      - logdata:/var/log
+    links:
+      - db
+    networks:
+      - thingaha-net
+  db:
+    image: 'postgres:12.4'
+    restart: always
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      - thingaha_db:/var/lib/postgresql/data
+    ports:
+      - '5444:5432'
+    networks:
+      - thingaha-net
+volumes:
+  logdata: {}
+  thingaha_db:
+networks:
+  thingaha-net:
+    driver: 'bridge'
