@@ -53,23 +53,29 @@ const schoolsDb = [
 ]
 
 export const fetchSchools = async () => {
-  const response = await thingahaApiClient.get('/schools')
+  const { data, status, error } = await thingahaApiClient.get('/schools')
+
   return {
     data: {
-      schools: response.data.data.schools,
+      schools: data.schools,
     },
   }
 }
 
-export const createSchool = (values) => {
+export const createSchool = async (values) => {
   // TODO call backend schools create endpoint
-  const newSchool = {
-    ...values,
-    id: last(schoolsDb).id + 1,
-  }
-  schoolsDb.push(newSchool)
+  // const newSchool = {
+  //   ...values,
+  //   id: last(schoolsDb).id + 1,
+  // }
+  const { data, status, error } = await thingahaApiClient.post(
+    '/schools',
+    values
+  )
+  console.log('School creation result', data, status, error)
+
   return {
-    data: newSchool,
+    school: data.school,
   }
 }
 

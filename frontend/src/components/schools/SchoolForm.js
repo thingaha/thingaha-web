@@ -1,6 +1,7 @@
 import React from 'react'
 import { withFormik } from 'formik'
 import { connect } from 'react-redux'
+import capitalize from 'lodash/capitalize'
 import styled from 'styled-components'
 import * as actions from '../../store/actions'
 import FormControl from '@material-ui/core/FormControl'
@@ -9,6 +10,7 @@ import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 import ThingahaFormModal from '../common/ThingahaFormModal'
 import InputLabel from '@material-ui/core/InputLabel'
+import { data as divisions } from '../../utils/myanmarDivisions.json'
 
 const FormContainer = styled.div`
   display: flex;
@@ -51,8 +53,8 @@ const SchoolForm = ({
         <FormContainer>
           <StyledFormControl>
             <TextField
-              id="name"
-              name="name"
+              id="school_name"
+              name="school_name"
               placeholder="Please enter school name..."
               label="School Name"
               onChange={handleChange}
@@ -78,9 +80,11 @@ const SchoolForm = ({
               name="division"
               label="Division"
             >
-              <MenuItem value="yangon">Yangon</MenuItem>
-              <MenuItem value="mandalay">Mandalay</MenuItem>
-              <MenuItem value="ayeyarwaddy">Ayeyarwaddy</MenuItem>
+              {divisions.map((division) => {
+                return (
+                  <MenuItem value="yangon">{capitalize(division)}</MenuItem>
+                )
+              })}
             </Select>
           </StyledFormControl>
           <StyledFormControl>
@@ -130,7 +134,7 @@ const SchoolForm = ({
 const transformSchoolSchemaFlat = (school) => {
   return {
     id: school.id,
-    name: school.name,
+    school_name: school.school_name,
     contact_info: school.contact_info,
     division: school.address.division,
     district: school.address.district,
@@ -142,7 +146,7 @@ const transformSchoolSchemaFlat = (school) => {
 const transformSchoolSchema = (school) => {
   return {
     id: school.id,
-    name: school.name,
+    school_name: school.school_name,
     contact_info: school.contact_info,
     address: {
       division: school.division,
@@ -160,11 +164,27 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    submitNewSchoolForm: (values) => {
-      dispatch(actions.submitNewSchoolForm(transformSchoolSchema(values)))
+    submitNewSchoolForm: ({
+      school_name,
+      contact_info,
+      division,
+      district,
+      township,
+      street_address,
+    }) => {
+      dispatch(
+        actions.submitNewSchoolForm({
+          school_name,
+          contact_info,
+          division,
+          district,
+          township,
+          street_address,
+        })
+      )
     },
     submitEditSchoolForm: (values) => {
-      dispatch(actions.submitEditSchoolForm(transformSchoolSchema(values)))
+      dispatch(actions.submitEditSchoolForm(values))
     },
   }
 }
@@ -174,7 +194,7 @@ const FormikSchoolForm = withFormik({
     return transformSchoolSchemaFlat(
       props.editingSchool || {
         id: '',
-        name: '',
+        school_name: '',
         contact_info: '',
         address: {
           division: '',
