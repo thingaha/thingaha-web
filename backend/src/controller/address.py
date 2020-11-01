@@ -1,3 +1,4 @@
+"""API route for address API"""
 from flask import request, current_app, jsonify
 from flask_cors import cross_origin
 from flask_jwt_extended import jwt_required
@@ -23,15 +24,11 @@ def get_address_by_id(address_id: int):
         current_app.logger.info("Return data for address_id: {}".format(address_id))
         return jsonify({
             "data": {
-                "schools": address
+                "address": address
             }}), 200
     except SQLCustomError as error:
-        current_app.logger.error("Return error for school_id: {}".format(address_id))
-        return jsonify({
-            "errors": {
-                "error": error.__dict__
-            }
-        }), 400
+        current_app.logger.error("Return error for address_id: {}".format(address_id))
+        return jsonify({"errors": [error.__dict__]}), 400
 
 
 @api.route("/addresses", methods=["POST"])
@@ -46,21 +43,18 @@ def create_address():
     if data is None:
         return post_request_empty()
     try:
-        current_app.logger.info("create address")
+        current_app.logger.info("Create address")
         address_id = address_service.create_address({
             "division": data.get("division"),
             "district": data.get("district"),
             "township": data.get("township"),
-            "street_address": data.get("street_address")
+            "street_address": data.get("street_address"),
+            "type": data.get("type")
         })
-        current_app.logger.info("create address success. address %s", data.get("street_address"))
+        current_app.logger.info("Create address success. address %s", data.get("street_address"))
         return get_address_by_id(address_id)
     except (SQLCustomError, ValidateFail, RequestDataEmpty) as error:
-        return jsonify({
-            "errors": {
-                "error": error.__dict__
-            }
-        }), 400
+        return jsonify({"errors": [error.__dict__]}), 400
 
 
 @api.route("/addresses/<int:address_id>", methods=["PUT"])
@@ -76,14 +70,51 @@ def update_address(address_id: int):
     if data is None:
         return post_request_empty()
     try:
-        current_app.logger.info("update address for address_id: %s", address_id)
+        current_app.logger.info("Update address for address_id: %s", address_id)
         return jsonify({
             "status": address_service.update_address_by_id(address_id, data)
         }), 200
     except (SQLCustomError, ValidateFail, RequestDataEmpty) as error:
-        current_app.logger.error("update address fail: address_id: %s", address_id)
+        current_app.logger.error("Update address fail: address_id: %s", address_id)
+        return jsonify({"errors": [error.__dict__]}), 400
+
+
+@api.route("/addresses/<int:address_id>", methods=["DELETE"])
+@jwt_required
+@cross_origin()
+def delete_address(address_id: int):
+    """
+    delete address by id
+    :param address_id:
+    :return:
+    """
+    try:
+        current_app.logger.info("Delete address : address_id: %s", address_id)
         return jsonify({
-            "errors": {
-                "error": error.__dict__
-            }
-        }), 400
+            "status": address_service.delete_address_by_id(address_id)
+        }), 200
+    except SQLCustomError as error:
+        current_app.logger.error("Fail to delete address : address_id: %s", address_id)
+        return jsonify({"errors": [error.__dict__]}), 400
+
+
+@api.route("/addresses", methods=["GET"])
+@jwt_required
+@cross_origin()
+def get_all_addresses():
+    """
+    get all addresses list
+    :return:
+    """
+    try:
+        page = request.args.get("page", 1, type=int)
+        addresses, count = address_service.get_all_addresses(page)
+        current_app.logger.info("Get all addresses")
+        return jsonify({
+            "data": {
+                "count": count,
+                "addresses": addresses
+            }}), 200
+    except SQLCustomError as error:
+        current_app.logger.error("Fail to get all addresses: %s", error)
+        return jsonify({"errors": [error.__dict__]}), 400

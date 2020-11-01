@@ -1,5 +1,5 @@
 ### LOGIN API
-| API      | URL | Action     |
+| API      | Description | Action     |
 | :---        |    :----:   |          ---: |
 | /api/v1/login     | Get token       | POST   |
 
@@ -19,9 +19,9 @@ Output Sample:
 ```
 
 ### CREATE User
-| API      | URL | Action     |
+| API      | Description | Action     |
 | :---        |    :----:   |          ---: |
-| /api/v1/user     | Create User       | POST   |
+| /api/v1/users     | Create User       | POST   |
 
 Input Sample:
 ```json
@@ -33,37 +33,45 @@ Input Sample:
     "country": "mm",
     "district": "pabedan",
     "division": "yangon",
+    "donation_active": true,
     "street_address": "18 street",
-    "township": "La Thar township"
+    "township": "La Thar township",
+    "type": "user"
 }
 ```
 Output Sample:
-```
+```json
 {
-  "data": {
-    "user": {
-      "id": 1,
-      "name": "MoeMoe",
-      "email": "moemoe@gmail.com",
-      "role": "admin",
-      "country": "mm",
-      "address": {
-        "district": "pabedan",
-        "division": "yangon",
-        "id": 1,
-        "street_address": "18 street",
-        "township": "La Thar township"
-      },
-      "formatted_address": "18 street, La Thar township, pabedan, yangon"
+    "data": {
+        "count": 1,
+        "users": [
+            {
+                "address": {
+                    "district": "ညောင်တုန်းမြို့",
+                    "division": "ayeyarwady",
+                    "id": 1,
+                    "street_address": "အာဇာနည်လမ်း",
+                    "township": "အမှတ်(၈)ရပ်ကွက်"
+                },
+                "country": "mm",
+                "donation_active": true,
+                "email": "moemoe@gmail.com",
+                "formatted_address": "အာဇာနည်လမ်း, အမှတ်(၈)ရပ်ကွက်, ညောင်တုန်းမြို့, ayeyarwady",
+                "id": 1,
+                "name": "MoeMoe",
+                "role": "admin"
+            }
+        ]
     }
-  }
 }
 ```
 
 ### GET all Users
-| API      | URL | Action     |
+| API      | Description | Action     |
 | :---        |    :----:   |          ---: |
-| /api/v1/user     | GET all user       | GET   |
+| /api/v1/users     | GET all users       | GET   |
+| /api/v1/users?page=XXX     | GET all users with pagination      | GET   |
+default count per page is 20.
 
 Output Sample
 ``` json
@@ -80,6 +88,7 @@ Output Sample
           "township": "MyaeNiGone"
         },
         "country": "mm",
+        "donation_active": true,
         "email": "kzt1@gmail.com",
         "formatted_address": "11 street, MyaeNiGone, yangon, yangon",
         "id": 2,
@@ -95,6 +104,7 @@ Output Sample
           "township": "MyaeNiGone"
         },
         "country": "mm",
+        "donation_active": true,
         "email": "kzt2@gmail.com",
         "formatted_address": "12 street, MyaeNiGone, yangon, yangon",
         "id": 3,
@@ -110,6 +120,7 @@ Output Sample
           "township": "La Thar township"
         },
         "country": "mm",
+        "donation_active": false,
         "email": "thingyan_test01@gmail.com",
         "formatted_address": "18 street, La Thar township, yangon, yangon",
         "id": 4,
@@ -122,9 +133,9 @@ Output Sample
 ```
 
 ### GET User by ID
-| API      | URL | Action     |
+| API      | Description | Action     |
 | :---        |    :----:   |          ---: |
-| /api/v1/user/id     | GET user by id     | GET   |
+| /api/v1/users/id     | GET user by id     | GET   |
 Output Sample
 ```json
 {
@@ -148,9 +159,9 @@ Output Sample
 }
 ```
 ### UPDATE user
-| API      | URL | Action     |
+| API      | Description | Action     |
 | :---        |    :----:   |          ---: |
-| /api/v1/user/id     | update user info by id     | PUT  |
+| /api/v1/users/id     | update user info by id     | PUT  |
 Input Sample:
 ```json
 {
@@ -164,7 +175,8 @@ Input Sample:
     "district": "pabedan",
     "division": "yangon",
     "street_address": "19 street",
-    "township": "La Thar township"
+    "township": "La Thar township",
+    "type": "user"
 }
 ```
 
@@ -178,9 +190,9 @@ Output Sample:
 
 ### DELETE user
 
-| API      | URL | Action     |
+| API      | Description | Action     |
 | :---        |    :----:   |          ---: |
-| /api/v1/user/id     | Delete user by id     | DELETE  |
+| /api/v1/users/id     | Delete user by id     | DELETE  |
 ```json
 {
   "status": true

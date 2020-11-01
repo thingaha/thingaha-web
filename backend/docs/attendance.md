@@ -1,5 +1,5 @@
 ### CREATE Attendance
-| API      | URL | Action     |
+| API      | Description | Action     |
 | :---        |    :----:   |          ---: |
 | /api/v1/attendances     | Create attendance       | POST   |
 
@@ -59,9 +59,11 @@ Output Sample:
 ```
 
 ### GET all Attendances
-| API      | URL | Action     |
+| API      | Description | Action     |
 | :---        |    :----:   |          ---: |
-| /api/v1/attendances     | GET all Attendances       | GET   |
+| /api/v1/attendances     | Get all attendances       | GET   |
+| /api/v1/attendances?page=XXX     | Get all attendances with pagination      | GET   |
+default count per page is 20.
 
 Output Sample
 ```json
@@ -143,14 +145,14 @@ Output Sample
 ```
 
 ### GET Attendance by ID
-| API      | URL | Action     |
+| API      | Description | Action     |
 | :---        |    :----:   |          ---: |
 | /api/v1/attendances/id     | GET attendance by id     | GET   |
 Output Sample
 ```json
 {
     "data": {
-        "attendances": [
+        "attendance": [
             {
                 "enrolled_date": "02-02-2020",
                 "grade": "G-9",
@@ -191,7 +193,7 @@ Output Sample
 }
 ```
 ### UPDATE Attendance
-| API      | URL | Action     |
+| API      | Description | Action     |
 | :---        |    :----:   |          ---: |
 | /api/v1/attendances/id     | update school info by id     | PUT  |
 Input Sample:
@@ -215,7 +217,7 @@ Output Sample:
 
 ### DELETE attendance
 
-| API      | URL | Action     |
+| API      | Description | Action     |
 | :---        |    :----:   |          ---: |
 | /api/v1/attendances/id     | Delete attendances by id     | DELETE  |
 ```json

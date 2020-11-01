@@ -15,15 +15,14 @@ const Wrapper = styled.div`
   margin: 1rem auto;
 
   ${media.tabletPortraitUp} {
-    width: 70%;
+    width: 100%;
   }
 `
 
 const ContentView = (props) => {
   return (
     <>
-      <Grid item xs={2}></Grid>
-      <Grid container item xs={10} direction="column">
+      <Grid container item xs={12} direction="column">
         <View>
           <Wrapper>{props.children}</Wrapper>
         </View>

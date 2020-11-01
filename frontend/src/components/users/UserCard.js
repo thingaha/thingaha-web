@@ -22,6 +22,9 @@ const UserCardWrapper = styled(Paper)`
     margin-left: auto;
     display: flex;
     flex-direction: column;
+    align-items: flex-end;
+    margin-left: auto;
+    margin-right: 1rem;
   }
 
   & .name {
@@ -42,7 +45,7 @@ const UserCardWrapper = styled(Paper)`
   }
 `
 
-const UserCard = ({ user }) => {
+const UserCard = ({ user, onEdit }) => {
   return (
     <UserCardWrapper>
       <div className="col1">
@@ -61,7 +64,14 @@ const UserCard = ({ user }) => {
         />
       </div>
       <div className="col4">
-        <EditIcon color="primary" className="edit" variant="rounded" />
+        <EditIcon
+          color="primary"
+          className="edit"
+          variant="rounded"
+          onClick={() => {
+            onEdit(user)
+          }}
+        />
       </div>
     </UserCardWrapper>
   )

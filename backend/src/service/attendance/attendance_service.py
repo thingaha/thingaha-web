@@ -1,4 +1,5 @@
 """school service class for CRUD actions"""
+import traceback
 from typing import List, Any, Optional, Dict
 
 from sqlalchemy.exc import SQLAlchemyError
@@ -11,20 +12,23 @@ from service.service import Service
 
 class AttendanceService(Service):
     """
-    school service class for CRUD actions
+    Attendance service class for CRUD actions
     define specific params for school service in SchoolService Class
     """
     def __init__(self, logger=None) -> None:
         super().__init__(logger)
 
-    def get_all_attendance_records(self) -> (List, Any):
+    def get_all_attendances(self, page) -> (List, Any):
         """
         get all attendance
+        :params page
         :return: attendance list of dict
         """
         try:
             self.logger.info("Get attendance list")
-            return [attendance.attendance_dict(school, student) for attendance, school, student in AttendanceModel.get_all_attendance()]
+            attendances = AttendanceModel.get_all_attendances(page)
+            return [attendance.attendance_dict(school, student) for attendance, school, student in
+                    attendances.items], attendances.total
         except SQLAlchemyError as error:
             self.logger.error("Error: {}".format(error))
             raise SQLCustomError(description="GET Attendance SQL ERROR")
@@ -36,11 +40,11 @@ class AttendanceService(Service):
         :return: attendance list of dict
         """
         try:
-            self.logger.info("get attendance info by attendance_id:{}".format(attendance_id))
+            self.logger.info("Get attendance info by attendance_id:{}".format(attendance_id))
             return [attendance.attendance_dict(school, student) for attendance, school, student in
                     AttendanceModel.get_attendance_by_id(attendance_id)]
         except SQLAlchemyError as error:
-            self.logger.error("Error: {}".format(error))
+            self.logger.error("Error: {}".format(traceback.format_exc()))
             raise SQLCustomError(description="GET Attendance by ID SQL ERROR")
 
     def create_attendance(self, data: Dict) -> bool:
@@ -50,7 +54,7 @@ class AttendanceService(Service):
         :return:
         """
         if not data:
-            raise RequestDataEmpty("attendance data is empty")
+            raise RequestDataEmpty("Attendance data is empty")
         if not self.input_validate.validate_json(data, attendance_schema):
             self.logger.error("All attendance field input must be required.")
             raise ValidateFail("Attendance validation fail")
@@ -62,7 +66,7 @@ class AttendanceService(Service):
                 year=data["year"],
                 enrolled_date=data["enrolled_date"]))
         except SQLAlchemyError as error:
-            self.logger.error("Attendance create fail. error %s", error)
+            self.logger.error("Attendance create fail. error %s, format: %s ", error, traceback.format_exc())
             raise SQLCustomError("Attendance create fail")
 
     def delete_attendance_by_id(self, attendance_id: int) -> bool:
@@ -72,7 +76,7 @@ class AttendanceService(Service):
         :return:
         """
         try:
-            self.logger.info("delete attendance info by attendance_id:{}".format(attendance_id))
+            self.logger.info("Delete attendance info by attendance_id:{}".format(attendance_id))
             return AttendanceModel.delete_attendance_by_id(attendance_id)
         except SQLAlchemyError as error:
             self.logger.error("Error: {}".format(error))
@@ -86,12 +90,12 @@ class AttendanceService(Service):
         :return:
         """
         if not data:
-            raise RequestDataEmpty("school data is empty")
+            raise RequestDataEmpty("Attendance data is empty")
         if not self.input_validate.validate_json(data, attendance_schema):
             self.logger.error("All attendance field input must be required.")
             raise ValidateFail("Attendance update validation fail")
         try:
-            self.logger.info("update attendance info by attendance_id:{}".format(attendance_id))
+            self.logger.info("Update attendance info by attendance_id:{}".format(attendance_id))
             return AttendanceModel.update_attendance(attendance_id, AttendanceModel(
                 student_id=data["student_id"],
                 school_id=data["school_id"],

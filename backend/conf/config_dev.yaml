@@ -1,5 +1,5 @@
 common:
-    version: "0.0.1"
+    version: "0.1"
     server:
         host: "localhost"
         port: 5000

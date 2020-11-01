@@ -1,10 +1,14 @@
 """student model class, include migrate and CRUD actions"""
 
 from datetime import datetime, date
-from sqlalchemy.orm import relationship
-from sqlalchemy.exc import SQLAlchemyError
 from typing import Dict, Any
+
+from flask_sqlalchemy import Pagination
+from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.orm import relationship
+
 from database import db
+from models.address import AddressModel
 
 
 class StudentModel(db.Model):
@@ -69,3 +73,17 @@ class StudentModel(db.Model):
         except SQLAlchemyError as e:
             # to put log
             return False
+
+    @staticmethod
+    def get_all_student_address(page) -> Pagination:
+        """
+        get all school address for get all address API
+        :params page
+        :return
+        """
+        try:
+            return db.session.query(AddressModel, StudentModel). \
+                filter(AddressModel.id == StudentModel.address_id).filter(
+                AddressModel.type == "student").paginate(page=page, error_out=False)
+        except SQLAlchemyError as error:
+            raise error

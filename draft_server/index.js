@@ -27,6 +27,32 @@ app.post('/users', (req, res) => {
   res.json(json)
 })
 
+app.get('/schools', (req, res) => {
+  const json = require('./sample_data/schools.json')
+  res.json(json)
+})
+
+app.post('/schools', (req, res) => {
+  // This endpoint should actually create a user and return user document back
+  const json = {
+    data: {
+      id: 1,
+      name: 'School5',
+      contact_info: '+95090987654',
+      address: {
+        id: 2,
+        division: 'yangon',
+        district: 'putharo',
+        township: 'putharo',
+        street_address: 'putharo Road',
+      },
+    },
+  }
+
+  res.status(201)
+  res.json(json)
+})
+
 //GET /donations
 // This endpoint should return monthly donations for all donators of the month.
 app.get('/donations', (req, res) => {
@@ -37,3 +63,9 @@ app.get('/donations', (req, res) => {
 app.listen(port, () =>
   console.log(`Example app listening at http://localhost:${port}`)
 )
+
+//addresses
+app.get('/addresses', (req, res) => {
+  const json = require('./sample_data/addresses.json')
+  res.json(json)
+})

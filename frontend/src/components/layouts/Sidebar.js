@@ -4,22 +4,21 @@ import { Grid, Paper } from '@material-ui/core'
 import Avatar from '@material-ui/core/Avatar'
 import SchoolIcon from '@material-ui/icons/School'
 import PeopleIcon from '@material-ui/icons/People'
-import WcIcon from '@material-ui/icons/Wc'
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn'
 import { NavLink } from 'react-router-dom'
-import logoUrl from '../../logo_transparent.png'
-
-const SidebarContainerGrid = styled(Grid)`
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-`
+import logoUrl from '../../images/logo_transparent.png'
+import AirplayIcon from '@material-ui/icons/Airplay'
+import LocationCityIcon from '@material-ui/icons/LocationCity'
+import HowToRegIcon from '@material-ui/icons/HowToReg'
+import LocalAtmIcon from '@material-ui/icons/LocalAtm'
+import SyncAltIcon from '@material-ui/icons/SyncAlt'
+import HomeIcon from '@material-ui/icons/Home'
 
 const SidebarContent = styled(Paper)`
   width: 100%;
   height: 100%;
   background-color: ${(props) => props.theme.palette.primary.main};
+  border-radius: unset;
 `
 
 const StyledMenuContainer = styled.ul`
@@ -67,6 +66,10 @@ const StyledNavLink = styled(NavLink)`
 const NavMenu = () => (
   <StyledMenuContainer>
     <StyledNavLink exact to={'/'}>
+      <AirplayIcon className="nav-icon" />
+      Dashboard
+    </StyledNavLink>
+    <StyledNavLink to={'/donations'}>
       <MonetizationOnIcon className="nav-icon" />
       Donations
     </StyledNavLink>
@@ -75,46 +78,53 @@ const NavMenu = () => (
       Users
     </StyledNavLink>
     <StyledNavLink to={'/students'}>
-      <WcIcon className="nav-icon" />
+      <SchoolIcon className="nav-icon" />
       Students
     </StyledNavLink>
     <StyledNavLink to={'/schools'}>
-      <SchoolIcon className="nav-icon" />
+      <LocationCityIcon className="nav-icon" />
       Schools
+    </StyledNavLink>
+    <StyledNavLink to={'/attendances'}>
+      <HowToRegIcon className="nav-icon" />
+      Attendances
+    </StyledNavLink>
+    <StyledNavLink to={'/extrafunds'}>
+      <LocalAtmIcon className="nav-icon" />
+      Extra Funds
+    </StyledNavLink>
+    <StyledNavLink to={'/transfers'}>
+      <SyncAltIcon className="nav-icon" />
+      Transfers
+    </StyledNavLink>
+    <StyledNavLink to={'/addresses'}>
+      <HomeIcon className="nav-icon" />
+      Addresses
     </StyledNavLink>
   </StyledMenuContainer>
 )
 
 const Sidebar = (props) => {
   return (
-    <SidebarContainerGrid
-      container
-      item
-      xs={2}
-      direction="column"
-      alignItems="center"
-      justify="flex-start"
-    >
-      <SidebarContent>
-        <Grid container row>
-          <Grid item xs="2"></Grid>
-          <Grid item xs="8">
-            <StyledLogoContainer
-              container
-              direction="row"
-              alignItems="flex-start"
-              justify="center"
-            >
-              <Grid item container alignItems="center" justify="center" xs="12">
-                <StyledAvatar alt="Thingaha Logo" src={logoUrl} />
-              </Grid>
-            </StyledLogoContainer>
-            <NavMenu />
-          </Grid>
-          <Grid item xs="2" />
+    <SidebarContent>
+      <Grid container direction="row">
+        <Grid item xs={1}></Grid>
+        <Grid item xs={10}>
+          <StyledLogoContainer
+            container
+            direction="row"
+            alignItems="flex-start"
+            justify="center"
+          >
+            <Grid item container alignItems="center" justify="center" xs={12}>
+              <StyledAvatar alt="Thingaha Logo" src={logoUrl} />
+            </Grid>
+          </StyledLogoContainer>
+          <NavMenu />
         </Grid>
-      </SidebarContent>
-    </SidebarContainerGrid>
+        <Grid item xs={1} />
+      </Grid>
+    </SidebarContent>
   )
 }
 

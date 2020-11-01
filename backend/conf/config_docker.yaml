@@ -1,0 +1,14 @@
+common:
+  version: '0.1'
+  server:
+    host: '0.0.0.0'
+    port: 5000
+  log:
+    conf: 'logging_prod.yaml'
+postgres:
+  url: 'postgresql://'
+  host: 'db'
+  port: 5432
+  user: 'thingaha'
+  password: 'thingaha'
+  db: 'thingaha_dev'

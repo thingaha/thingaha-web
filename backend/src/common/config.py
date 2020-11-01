@@ -37,6 +37,8 @@ def load_config() -> dict:
         env = "staging"
     elif os.environ.get("SCRIPT_ENV") == "test":
         env = "test"
+    elif os.environ.get("SCRIPT_ENV") == "docker":
+        env = "docker"
     try:
         with open(current_dir + "config_{}.yaml".format(env), "r", encoding="utf-8") as conf_f:
             conf = yaml.safe_load(conf_f)

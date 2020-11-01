@@ -8,7 +8,8 @@ address_schema = Schema({
     "division": str,
     "district": str,
     "township": str,
-    "street_address": str
+    "street_address": str,
+    "type": str
 })
 
 school_schema = Schema({
@@ -23,7 +24,8 @@ user_schema = Schema({
     "address_id": int,
     "password": str,
     "role": str,
-    "country": str
+    "country": str,
+    "donation_active": bool
 })
 
 attendance_schema = Schema({
@@ -43,4 +45,11 @@ donation_schema = Schema({
     "mmk_amount": float,
     "jpy_amount": float,
     "paid_at": Or(None, str)
+})
+
+transfer_schema = Schema({
+    "year": int,
+    "month": str,
+    "total_mmk": int,
+    "total_jpy": int
 })

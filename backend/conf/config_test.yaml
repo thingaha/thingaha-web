@@ -1,5 +1,5 @@
 common:
-    version: "0.0.1"
+    version: "0.1"
     server:
         host: "localhost"
         port: 5000
@@ -9,6 +9,6 @@ postgres:
     url: "postgresql://"
     host: "localhost"
     port: 5432
-    user: "postgres"
+    user: "thingaha"
     password: "thingaha"
     db: "thingaha_test"
