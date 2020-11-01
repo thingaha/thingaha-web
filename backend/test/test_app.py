@@ -201,4 +201,64 @@ def test_create_update_transfer(init_app, client, json_access_token):
     }, headers=json_access_token)
     assert res.status_code == 200
 
+def test_student(init_app, client, json_access_token):
+    res = client.get("/api/v1/students", headers=json_access_token)
+    assert res.status_code == 200
+
+
+def test_student_id(init_app, client, json_access_token):
+    res = client.get("/api/v1/students/1", headers=json_access_token)
+    assert res.status_code == 200
+
+
+def test_delete_student_id(init_app, client, json_access_token):
+    res = client.post("/api/v1/students", json={
+        "name": "naruto-test",
+        "birth_date": "1990-08-01",
+        "father_name": "U Aye Aye",
+        "mother_name": "Daw Aye Aye",
+        "parents_occupation": "Farmer",
+        "photo": "https://i.pinimg.com/originals/a7/65/45/a7654580f501e9501e329978bebd051b.jpg",
+        "district": "yangon",
+        "division": "yangon",
+        "street_address": "18 street",
+        "township": "La Thar township",
+        "type": "student"
+    }, headers=json_access_token)
+    assert res.status_code == 200
+    res = client.delete("/api/v1/students/1", headers=json_access_token)
+    assert res.status_code == 200
+
+
+def test_create_update_student(init_app, client, json_access_token):
+    res = client.post("/api/v1/students", json={
+        "name": "naruto-test",
+        "birth_date": "1990-08-01",
+        "father_name": "U Aye Aye",
+        "mother_name": "Daw Aye Aye",
+        "parents_occupation": "Farmer",
+        "photo": "https://i.pinimg.com/originals/a7/65/45/a7654580f501e9501e329978bebd051b.jpg",
+        "district": "yangon",
+        "division": "yangon",
+        "street_address": "18 street",
+        "township": "La Thar township",
+        "type": "student"
+    }, headers=json_access_token)
+    assert res.status_code == 200
+    res = client.put("/api/v1/students/1", json={
+        "name": "naruto-test",
+        "birth_date": "1990-08-01",
+        "father_name": "U Aye Aye",
+        "mother_name": "Daw Aye Aye",
+        "parents_occupation": "Farmer",
+        "photo": "https://i.pinimg.com/originals/a7/65/45/a7654580f501e9501e329978bebd051b.jpg",
+        "address_id": 1,
+        "district": "yangon",
+        "division": "yangon",
+        "street_address": "18 street",
+        "township": "La Thar township",
+        "type": "student"
+    }, headers=json_access_token)
+    assert res.status_code == 200
+
 

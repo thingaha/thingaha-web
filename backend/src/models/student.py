@@ -1,4 +1,5 @@
 """student model class, include migrate and CRUD actions"""
+from __future__ import annotations
 
 from datetime import datetime, date
 from typing import Dict, Any, List
@@ -22,18 +23,20 @@ class StudentModel(db.Model):
     father_name = db.Column(db.UnicodeText())
     mother_name = db.Column(db.UnicodeText())
     parents_occupation = db.Column(db.Text())
+    photo = db.Column(db.Text())
     address_id = db.Column(db.Integer, db.ForeignKey("addresses.id"), nullable=False)
     address = relationship("AddressModel", foreign_keys=[address_id])
 
     def __init__(self, name: str,
                  deactivated_at: datetime, birth_date: date, father_name: str, mother_name: str,
-                 parents_occupation: str, address_id: int):
+                 parents_occupation: str, photo: str, address_id: int):
         self.name = name
         self.deactivated_at = deactivated_at
         self.birth_date = birth_date
         self.father_name = father_name
         self.mother_name = mother_name
         self.parents_occupation = parents_occupation
+        self.photo = photo
         self.address_id = address_id
 
     def __repr__(self):
@@ -51,6 +54,7 @@ class StudentModel(db.Model):
             "father_name": self.father_name,
             "mother_name": self.mother_name,
             "parents_occupation": self.parents_occupation,
+            "photo": self.photo,
             "address": {
                 "id": self.address_id,
                 "division": self.address.division,
@@ -59,6 +63,70 @@ class StudentModel(db.Model):
                 "street_address": self.address.street_address
             }
         }
+
+    @staticmethod
+    def get_student_by_id(student_id: int) -> List[StudentModel]:
+        """
+        get student by id
+        :param student_id:
+        :return: student info
+        """
+        try:
+            return db.session.query(StudentModel). \
+                join(AddressModel). \
+                filter(StudentModel.id == student_id)
+        except SQLAlchemyError as error:
+            raise error
+
+    @staticmethod
+    def get_students_by_name(name) -> List[StudentModel]:
+        """
+        get students by name (as name is not unique, multiple records can be returned)
+        :param name:
+        :return: student info list
+        """
+        try:
+            return db.session.query(StudentModel).join(AddressModel).filter(StudentModel.name == name)
+        except SQLAlchemyError as error:
+            raise error
+
+    @staticmethod
+    def get_students_by_birth_date(birth_date) -> List[StudentModel]:
+        """
+        get students by birth_date (as birth_date is not unique, multiple records can be returned)
+        :param birth_date:
+        :return: student info list
+        """
+        try:
+            return db.session.query(StudentModel).join(AddressModel).filter(StudentModel.birth_date == birth_date)
+        except SQLAlchemyError as error:
+            raise error
+
+    @staticmethod
+    def get_all_students(page) -> Pagination:
+        """
+        get all students
+        :return: students list of dict
+        """
+        try:
+            return db.session.query(StudentModel).join(AddressModel). \
+                paginate(page=page, error_out=False)
+        except SQLAlchemyError as error:
+            raise error
+
+    @staticmethod
+    def get_all_student_address(page) -> Pagination:
+        """
+        get all school address for get all address API
+        :params page
+        :return
+        """
+        try:
+            return db.session.query(AddressModel, StudentModel). \
+                filter(AddressModel.id == StudentModel.address_id).filter(
+                AddressModel.type == "student").paginate(page=page, error_out=False)
+        except SQLAlchemyError as error:
+            raise error
 
     @staticmethod
     def create_student(new_student):
@@ -93,6 +161,7 @@ class StudentModel(db.Model):
             target_student.father_name = student.father_name
             target_student.mother_name = student.mother_name
             target_student.parents_occupation = student.parents_occupation
+            target_student.photo = student.photo
             target_student.address_id = student.address_id
             db.session.commit()
             return True
@@ -116,61 +185,3 @@ class StudentModel(db.Model):
             db.session.rollback()
             raise error
 
-    @staticmethod
-    def get_student_by_id(student_id: int) -> StudentModel:
-        """
-        get student by id
-        :param student_id:
-        :return: student info
-        """
-        try:
-            return db.session.query(StudentModel).filter(StudentModel.id == student_id).first()
-        except SQLAlchemyError as error:
-            raise error
-
-    @staticmethod
-    def get_students_by_name(name) -> List[StudentModel]:
-        """
-        get students by name (as name is not unique, multiple records can be returned)
-        :param name:
-        :return: student info list
-        """
-        try:
-            return db.session.query(StudentModel).join(AddressModel).filter(StudentModel.name == name)
-        except SQLAlchemyError as error:
-            raise error
-
-    @staticmethod
-    def get_students_by_birth_date(birth_date) -> List[StudentModel]:
-        """
-        get students by birth_date (as birth_date is not unique, multiple records can be returned)
-        :param birth_date:
-        :return: student info list
-        """
-        try:
-            return db.session.query(StudentModel).join(AddressModel).filter(StudentModel.birth_date == birth_date)
-        except SQLAlchemyError as error:
-            raise error
-
-    @staticmethod
-    def get_all_students() -> List[StudentModel]:
-        """
-        get all students
-        :return: students list of dict
-        """
-        try:
-            return db.session.query(StudentModel).join(AddressModel).all()
-
-    @staticmethod    
-    def get_all_student_address(page) -> Pagination:
-        """
-        get all school address for get all address API
-        :params page
-        :return
-        """
-        try:
-            return db.session.query(AddressModel, StudentModel). \
-                filter(AddressModel.id == StudentModel.address_id).filter(
-                AddressModel.type == "student").paginate(page=page, error_out=False)
-        except SQLAlchemyError as error:
-            raise error
