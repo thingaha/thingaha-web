@@ -21,6 +21,10 @@ const DrawerStyled = styled(Drawer)`
   & .drawerPaper {
     width: ${drawerWidth}px;
   }
+
+  & .drawerHeight {
+    height: 100%;
+  }
 `
 
 const RootDiv = styled.div`

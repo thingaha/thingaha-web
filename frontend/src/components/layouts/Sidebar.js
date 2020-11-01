@@ -25,6 +25,29 @@ const SidebarContent = styled(Paper)`
   height: 100%;
   background-color: ${(props) => props.theme.palette.primary.main};
   border-radius: unset;
+
+  & .vertical-layout {
+    height: 100%;
+
+    & .logo-container {
+      height: auto;
+    }
+
+    & .logo-image {
+      height: 100px;
+      width: 100%;
+    }
+
+    & .user-profile-container {
+      margin-top: 1rem;
+    }
+
+    & .account-menus-container {
+      margin-top: auto;
+      margin-bottom: 0.5rem;
+      padding: 0 0.5rem;
+    }
+  }
 `
 
 const StyledMenuContainer = styled.ul`
@@ -32,24 +55,14 @@ const StyledMenuContainer = styled.ul`
   display: flex;
   flex-direction: column;
   padding-left: 1rem;
-  margin-top: 2rem;
-`
-
-const StyledLogoContainer = styled(Grid)`
-  height: 80px;
-`
-
-const StyledAvatar = styled(Avatar)`
-  height: 100px;
-  width: 100%;
-  margin: 0 auto 1rem auto;
+  margin-top: 1rem;
 `
 
 const StyledNavLink = styled(NavLink)`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   color: ${(props) => props.theme.palette.common.white};
   padding: 0.5rem 1rem;
 
@@ -115,7 +128,6 @@ const StyledUserDetailContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  margin-top: 2rem;
 
   & .user-detail {
     color: white;
@@ -136,7 +148,7 @@ const StyledUserDetailContainer = styled.div`
 `
 
 const CurrentUserInformation = ({ authentication, logOutUser }) => {
-  const userEmail = get(authentication, 'currentUser.email')
+  const userEmail = get(authentication, ['currentUser', 'email'], null)
   if (!userEmail) {
     return <StyledUserDetailContainer>Not Logged In</StyledUserDetailContainer>
   }
@@ -155,6 +167,7 @@ const StyledAccountActions = styled.div`
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
+  margin-top: auto;
 
   & .nav-icon {
     color: white;
@@ -180,52 +193,58 @@ const AccountActions = ({ logOutUser }) => {
 const Sidebar = ({ authentication, logOutUser }) => {
   return (
     <SidebarContent>
-      <Grid container direction="row">
-        <Grid item xs={1}></Grid>
-        <Grid item xs={10} container justify="space-between">
-          <StyledLogoContainer
-            container
-            direction="row"
-            alignItems="flex-start"
-            justify="center"
-          >
-            <Grid item container alignItems="center" justify="center" xs={12}>
-              <StyledAvatar alt="Thingaha Logo" src={logoUrl} />
-            </Grid>
-          </StyledLogoContainer>
-          <StyledLogoContainer
-            container
-            direction="row"
-            alignItems="flex-start"
-            justify="center"
-          >
-            <Grid
-              item
-              container
-              alignItems="center"
-              justify="center"
-              xs={12}
-              className="user-profile"
-            >
-              <CurrentUserInformation
-                authentication={authentication}
-                logOutUser={logOutUser}
-              />
-            </Grid>
-          </StyledLogoContainer>
-          <NavMenu />
-          <StyledLogoContainer
-            container
-            direction="row"
-            alignItems="flex-end"
-            justify="center"
-          >
-            <Grid item container alignItems="center" justify="center" xs={12}>
-              <AccountActions logOutUser={logOutUser} />
-            </Grid>
-          </StyledLogoContainer>
+      <Grid
+        item
+        xs={12}
+        container
+        justify="flex-start"
+        direction="column"
+        className="vertical-layout"
+      >
+        <Grid
+          container
+          direction="row"
+          alignItems="flex-start"
+          justify="center"
+          className="logo-container"
+        >
+          <Grid item container alignItems="center" justify="center" xs={12}>
+            <Avatar alt="Thingaha Logo" src={logoUrl} className="logo-image" />
+          </Grid>
         </Grid>
-        <Grid item xs={1} />
+        <Grid
+          container
+          direction="row"
+          alignItems="flex-start"
+          justify="center"
+          className="user-profile-container"
+        >
+          <Grid
+            item
+            container
+            alignItems="center"
+            justify="center"
+            xs={12}
+            className="user-profile"
+          >
+            <CurrentUserInformation
+              authentication={authentication}
+              logOutUser={logOutUser}
+            />
+          </Grid>
+        </Grid>
+        <NavMenu />
+        <Grid
+          container
+          direction="row"
+          alignItems="flex-end"
+          justify="center"
+          className="account-menus-container"
+        >
+          <Grid item container alignItems="center" justify="center" xs={12}>
+            <AccountActions logOutUser={logOutUser} />
+          </Grid>
+        </Grid>
       </Grid>
     </SidebarContent>
   )
