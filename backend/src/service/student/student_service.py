@@ -1,4 +1,3 @@
-import traceback
 from typing import List, Dict, Any
 
 from sqlalchemy.exc import SQLAlchemyError
@@ -9,14 +8,31 @@ from common.error import SQLCustomError, RequestDataEmpty, ValidateFail
 from common.logger import get_common_logger
 from common.validate import InputValidate
 from models.student import StudentModel
+from service.service import Service
 
-
-class StudentService:
+class StudentService(Service):
+    """
+    student service class for CRUD actions
+    define specific params for student service in StudentService Class
+    """
     def __init__(self, logger=None) -> None:
-        if logger is None:
-            logger = get_common_logger(__name__)
-        self.logger = logger
-        self.input_validate = InputValidate
+        super().__init__(logger)
+
+    @staticmethod
+    def get_all_student_address(page: int = 1) -> (List[Dict], int):
+        """
+        get all school address for get all address API
+        :params page integer
+        :return
+        """
+        students_address = StudentModel.get_all_student_address(page)
+        return [address.address_type_dict(student) for address, student in students_address.items], students_address.total
+
+    # def __init__(self, logger=None) -> None:
+    #     if logger is None:
+    #         logger = get_common_logger(__name__)
+    #     self.logger = logger
+    #     self.input_validate = InputValidate
 
     def create_student(self, data: Dict[str, Any]) -> int:
         """

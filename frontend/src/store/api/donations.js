@@ -1,8 +1,7 @@
-import axios from 'axios'
-import config from './config'
+import thingahaApiClient from '../../utils/thingahaApiClient'
 
 export const getDonationsForMonth = async (year, month) => {
-  return axios.get(`${config.apiBaseUrl}/donations`)
+  return thingahaApiClient.get('/donations')
 }
 
 export const updateDonationStatus = async (id, status) => {

@@ -1,3 +1,7 @@
+"""address model class, include migrate and CRUD actions"""
+
+from __future__ import annotations
+
 from typing import Dict, Any
 
 from sqlalchemy.exc import SQLAlchemyError
@@ -7,6 +11,9 @@ from database import db
 
 
 class AddressModel(db.Model):
+    """
+    address Model class with table column definition
+    """
     __tablename__ = "addresses"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -17,18 +24,26 @@ class AddressModel(db.Model):
     district = db.Column(db.UnicodeText())
     township = db.Column(db.UnicodeText())
     street_address = db.Column(db.UnicodeText())
-
-    def __init__(self, division: str, district: str, township: str, street_address: str) -> None:
-        self.division = division
-        self.district = district
-        self.township = township
-        self.street_address = street_address
+    type = db.Column(db.Enum("user", "student", "school", name="addresses_types"), default="user", nullable=False)
 
     def __repr__(self):
         return f"<Address {self.format_address()}>"
 
+    def __init__(self, division: str, district: str, township: str, street_address: str, type: str = "user") -> None:
+        self.division = division
+        self.district = district
+        self.township = township
+        self.street_address = street_address
+        self.type = type
+
     def format_address(self):
-        return ", ".join(filter(lambda x: x is not None and x != "", [self.street_address, self.township, self.district, self.division]))
+        """
+        format address to user readable format
+        :return:
+        """
+        return ", ".join(filter(lambda x: x is not None and x != "",
+                                [self.street_address, self.township,
+                                 self.district, self.division]))
 
     def as_dict(self) -> Dict[str, Any]:
         """
@@ -42,6 +57,25 @@ class AddressModel(db.Model):
             "street_address": self.street_address
         }
 
+    def address_type_dict(self, obj):
+        """
+        Return object data for viewing easily serializable format
+        :param obj: addressable object from query
+        :return:
+        """
+        return {
+            "id": self.id,
+            "addressable": {
+                "id": obj.id,
+                "name": obj.name,
+                "type": self.type
+            },
+            "division": self.division,
+            "district": self.district,
+            "township": self.township,
+            "street_address": self.street_address,
+        }
+
     @staticmethod
     def create_address(new_address) -> (int, bool):
         """
@@ -53,9 +87,9 @@ class AddressModel(db.Model):
             db.session.add(new_address)
             db.session.commit()
             return new_address.id
-        except SQLAlchemyError:
+        except SQLAlchemyError as error:
             db.session.rollback()
-            raise SQLAlchemyError
+            raise error
 
     @staticmethod
     def update_address(address_id: int, address) -> bool:
@@ -73,6 +107,7 @@ class AddressModel(db.Model):
             target_address.district = address.district
             target_address.township = address.township
             target_address.street_address = address.street_address
+            target_address.type = address.type
             db.session.commit()
             return True
         except SQLAlchemyError as error:
@@ -80,7 +115,7 @@ class AddressModel(db.Model):
             raise error
 
     @staticmethod
-    def get_address_by_id(address_id: int):
+    def get_address_by_id(address_id: int) -> AddressModel:
         """
         get address by id
         :param address_id:
@@ -89,4 +124,20 @@ class AddressModel(db.Model):
         try:
             return db.session.query(AddressModel).filter(AddressModel.id == address_id).first()
         except SQLAlchemyError as error:
+            raise error
+
+    @staticmethod
+    def delete_address(address_id) -> bool:
+        """
+        delete address by id
+        :param address_id:
+        :return: bool
+        """
+        try:
+            if not db.session.query(AddressModel).filter(AddressModel.id == address_id).delete():
+                return False
+            db.session.commit()
+            return True
+        except SQLAlchemyError as error:
+            db.session.rollback()
             raise error

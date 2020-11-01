@@ -1,6 +1,5 @@
-import axios from 'axios'
 import last from 'lodash/last'
-axios.defaults.baseURL = 'https://backenddomain' // set backend domain
+import thingahaApiClient from '../../utils/thingahaApiClient'
 
 const usersDb = [
   {
@@ -42,11 +41,11 @@ const usersDb = [
 ]
 
 export const fetchUsers = async () => {
-  // mock response for users api call
+  const { data, error, status } = await thingahaApiClient.get('/users')
 
   return {
     data: {
-      users: usersDb,
+      users: data.users,
     },
   }
 }
@@ -56,5 +55,12 @@ export const createUser = async (userFormValues) => {
   usersDb.push(newUser)
   return {
     data: newUser,
+  }
+}
+
+export const editUser = (values) => {
+  // TODO call backend users edit endpoint
+  return {
+    data: [...usersDb.filter((user) => user.id !== values.id), values],
   }
 }

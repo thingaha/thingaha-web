@@ -1,6 +1,16 @@
+"""
+Custom Error Module for thingaha API
+Each error has
+Error Code : EXXXX
+reason: "Custom Reason"
+description: "Error Description"
+"""
+
+
 class Error(Exception):
     """Base class for other exceptions"""
     def __init__(self, description):
+        super().__init__()
         self.description = description
 
 
@@ -25,9 +35,9 @@ class PageNotFoundError(Error):
         PageNotFoundError
         :param description:
         """
+        super().__init__(description)
         self.error_code = "E0002"
         self.reason = "404 ERROR"
-        super().__init__(description)
 
 
 class RequestDataEmpty(Error):
@@ -38,9 +48,9 @@ class RequestDataEmpty(Error):
         Empty Request error
         :param description:
         """
+        super().__init__(description)
         self.error_code = "E0003"
         self.reason = "Request Json is empty"
-        self.description = description
 
 
 class ValidateFail(Error):
@@ -50,6 +60,42 @@ class ValidateFail(Error):
         Validate error
         :param description:
         """
+        super().__init__(description)
         self.error_code = "E0004"
         self.reason = "Validation Fail"
+
+
+class FileNotFound(Error):
+    """Raised custom FileNotFound"""
+    def __init__(self, description):
+        """
+        Validate error
+        :param description:
+        """
         super().__init__(description)
+        self.error_code = "E0005"
+        self.reason = "File not found"
+
+
+class TokenExpired(Error):
+    """Raised custom TokenExpired Error"""
+    def __init__(self, description):
+        """
+        TokenExpired error
+        :param description:
+        """
+        super().__init__(description)
+        self.error_code = "E0006"
+        self.reason = "JWT Token Expired"
+
+
+class ThingahaCustomError(Error):
+    """Raised custom Error"""
+    def __init__(self, description):
+        """
+        TokenExpired error
+        :param description:
+        """
+        super().__init__(description)
+        self.error_code = "E0007"
+        self.reason = "Request ERROR"

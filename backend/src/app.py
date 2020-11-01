@@ -1,35 +1,32 @@
 from flask import Flask
+from flask_cors import CORS
+from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
 
-from common.config import Config
-from common.config import load_config
+from common.config import load_config, load_logging_conf, Config
 from controller import api
 from database import db, SQLALCHEMY_DATABASE_URI
-from service.user.user_service import UserService
-from service.school.school_service import SchoolService
-from service.address.address_service import AddressService
 
 
 def create_app():
     app = Flask(__name__)
     app.config.update(SQLALCHEMY_DATABASE_URI=SQLALCHEMY_DATABASE_URI)
+    CORS(app)
     app.config.from_object(Config)
     db.init_app(app)
-    Migrate(app, db)
+    Migrate(app, db, compare_type=True)
     from models import user, student, school, address, transfer, attendance, donation, extrafund
     app.register_blueprint(api.api)
     return app
 
 
 conf = load_config()
-app = create_app()
-user_service = UserService(app.logger)
-school_service = SchoolService(app.logger)
-address_service = AddressService(app.logger)
+load_logging_conf(conf["common"]["log"]["conf"])
 
-api.user_service = user_service
-api.school_service = school_service
-api.address_service = address_service
+app = create_app()
+jwt = JWTManager(app)
+
+api.jwt = jwt
 
 
 if __name__ == "__main__":

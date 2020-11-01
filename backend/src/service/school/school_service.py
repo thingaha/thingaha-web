@@ -1,44 +1,48 @@
+"""school service class for CRUD actions"""
 from typing import List, Any, Optional, Dict
 
 from sqlalchemy.exc import SQLAlchemyError
 
-from common.error import SQLCustomError, RequestDataEmpty, ValidateFail
-from common.logger import get_common_logger
-from common.validate import InputValidate
 from common.data_schema import school_schema
+from common.error import SQLCustomError, RequestDataEmpty, ValidateFail
 from models.school import SchoolModel
+from service.service import Service
 
 
-class SchoolService:
+class SchoolService(Service):
+    """
+    school service class for CRUD actions
+    define specific params for school service in SchoolService Class
+    """
+
     def __init__(self, logger=None) -> None:
-        if logger is None:
-            logger = get_common_logger(__name__)
-        self.logger = logger
-        self.input_validate = InputValidate
+        super().__init__(logger)
 
-    def get_all_schools(self) -> (List, Any):
+    def get_all_schools(self, page: int = 1) -> (List, Any):
         """
         get all school
+        :params:page : int
         :return: school list of dict
         """
         try:
             self.logger.info("Get school list")
-            return self.__return_school_list(SchoolModel.get_all_schools())
-        except SQLAlchemyError as e:
-            self.logger.error("Error: {}".format(e))
+            schools = SchoolModel.get_all_schools(page)
+            return self.__return_school_list(schools.items), schools.total
+        except SQLAlchemyError as error:
+            self.logger.error("Error: {}".format(error))
             raise SQLCustomError(description="GET School SQL ERROR")
 
     def get_school_by_id(self, school_id: int) -> Optional[List]:
         """
         get school info by id
         :param school_id:
-        :return: users list of dict
+        :return: school list of dict
         """
         try:
-            self.logger.info("get school info by school_id:{}".format(school_id))
+            self.logger.info("Get school info by school_id:{}".format(school_id))
             return self.__return_school_list(SchoolModel.get_school_by_id(school_id))
-        except SQLAlchemyError as e:
-            self.logger.error("Error: {}".format(e))
+        except SQLAlchemyError as error:
+            self.logger.error("Error: {}".format(error))
             raise SQLCustomError(description="GET School by ID SQL ERROR")
 
     @staticmethod
@@ -57,7 +61,7 @@ class SchoolService:
         :return:
         """
         if not data:
-            raise RequestDataEmpty("school data is empty")
+            raise RequestDataEmpty("School data is empty")
         if not self.input_validate.validate_json(data, school_schema):
             self.logger.error("All school field input must be required.")
             raise ValidateFail("School validation fail")
@@ -66,8 +70,8 @@ class SchoolService:
                 name=data["school_name"],
                 contact_info=data["contact_info"],
                 address_id=int(data["address_id"])))
-        except SQLAlchemyError as e:
-            self.logger.error("School create fail. error %s", e)
+        except SQLAlchemyError as error:
+            self.logger.error("School create fail. error %s", error)
             raise SQLCustomError("School create fail")
 
     def delete_school_by_id(self, school_id: int) -> bool:
@@ -77,21 +81,21 @@ class SchoolService:
         :return:
         """
         try:
-            self.logger.info("delete school info by school_id:{}".format(school_id))
+            self.logger.info("Delete school info by school_id:{}".format(school_id))
             return SchoolModel.delete_school_by_id(school_id)
-        except SQLAlchemyError as e:
-            self.logger.error("Error: {}".format(e))
+        except SQLAlchemyError as error:
+            self.logger.error("Error: {}".format(error))
             raise SQLCustomError(description="Delete school by ID SQL ERROR")
 
     def update_school_by_id(self, school_id: int, data: Dict) -> bool:
         """
-        delete school by id
+        update school by id
         :param school_id:
         :param data:
         :return:
         """
         if not data:
-            raise RequestDataEmpty("school data is empty")
+            raise RequestDataEmpty("School data is empty")
         if not self.input_validate.validate_json(data, school_schema):
             self.logger.error("All school field input must be required.")
             raise ValidateFail("School update validation fail")
@@ -101,9 +105,19 @@ class SchoolService:
                 name=data["school_name"],
                 contact_info=data["contact_info"],
                 address_id=data["address_id"]))
-        except SQLAlchemyError as e:
-            self.logger.error("Error: {}".format(e))
+        except SQLAlchemyError as error:
+            self.logger.error("Error: {}".format(error))
             raise SQLCustomError(description="Update school by ID SQL ERROR")
-        except SQLCustomError as e:
-            self.logger.error("Error: {}".format(e))
+        except SQLCustomError as error:
+            self.logger.error("Error: {}".format(error))
             raise SQLCustomError(description="No record for requested school")
+
+    @staticmethod
+    def get_all_school_address(page: int = 1) -> (Dict, int):
+        """
+        get all school address for get all address API
+        :param page
+        """
+        schools_addresses = SchoolModel.get_all_school_address(page)
+        return [address.address_type_dict(school) for address, school in schools_addresses.items], \
+               schools_addresses.total

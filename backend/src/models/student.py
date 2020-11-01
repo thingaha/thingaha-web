@@ -1,5 +1,9 @@
+"""student model class, include migrate and CRUD actions"""
+
 from datetime import datetime, date
 from typing import Dict, Any, List
+
+from flask_sqlalchemy import Pagination
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import relationship
 
@@ -35,20 +39,26 @@ class StudentModel(db.Model):
     def __repr__(self):
         return f"<Student {self.name}>"
 
-    def as_dict(self) -> Dict[str, Any]:
+    def student_dict(self) -> Dict[str, Any]:
         """
         Return object data in easily serializable format
         """
         return {
-                "id": self.id,
-                "name": self.name,
-                "deactivated_at": self.deactivated_at,
-                "birth_date": self.birth_date,
-                "father_name": self.father_name,
-                "mother_name": self.mother_name,
-                "parents_occupation": self.parents_occupation,
-                "address": self.address.as_dict()
+            "id": self.id,
+            "name": self.name,
+            "deactivated_at": self.deactivated_at.strftime("%d-%m-%Y") if self.deactivated_at else "",
+            "birth_date": self.birth_date.strftime("%d-%m-%Y") if self.birth_date else "",
+            "father_name": self.father_name,
+            "mother_name": self.mother_name,
+            "parents_occupation": self.parents_occupation,
+            "address": {
+                "id": self.address_id,
+                "division": self.address.division,
+                "district": self.address.district,
+                "township": self.address.township,
+                "street_address": self.address.street_address
             }
+        }
 
     @staticmethod
     def create_student(new_student):
@@ -150,5 +160,17 @@ class StudentModel(db.Model):
         """
         try:
             return db.session.query(StudentModel).join(AddressModel).all()
+
+    @staticmethod    
+    def get_all_student_address(page) -> Pagination:
+        """
+        get all school address for get all address API
+        :params page
+        :return
+        """
+        try:
+            return db.session.query(AddressModel, StudentModel). \
+                filter(AddressModel.id == StudentModel.address_id).filter(
+                AddressModel.type == "student").paginate(page=page, error_out=False)
         except SQLAlchemyError as error:
             raise error

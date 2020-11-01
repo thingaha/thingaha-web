@@ -1,3 +1,7 @@
+"""
+schema module for request body
+use python library Schema
+"""
 from schema import Schema
 from datetime import datetime, date
 
@@ -5,7 +9,8 @@ address_schema = Schema({
     "division": str,
     "district": str,
     "township": str,
-    "street_address": str
+    "street_address": str,
+    "type": str
 })
 
 school_schema = Schema({
@@ -20,7 +25,23 @@ user_schema = Schema({
     "address_id": int,
     "password": str,
     "role": str,
-    "country": str
+    "country": str,
+    "donation_active": bool
+})
+
+attendance_schema = Schema({
+    "student_id": int,
+    "school_id": int,
+    "grade": str,
+    "year": str,
+    "enrolled_date": str
+})
+
+transfer_schema = Schema({
+    "year": int,
+    "month": str,
+    "total_mmk": int,
+    "total_jpy": int
 })
 
 student_schema = Schema({

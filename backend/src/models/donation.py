@@ -1,3 +1,4 @@
+"""donation model class, include migrate and CRUD actions"""
 from datetime import datetime
 
 from sqlalchemy.exc import SQLAlchemyError
@@ -11,7 +12,7 @@ class DonationModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     attendance_id = db.Column(db.Integer, db.ForeignKey("attendances.id"), nullable=False)
-    transfer_id = db.Column(db.Integer, db.ForeignKey("transfers.id"), nullable=False)
+    transfer_id = db.Column(db.Integer, db.ForeignKey("transfers.id"), nullable=True)
     year = db.Column(db.Integer, nullable=False)
     month = db.Column(db.Enum("january", "february", "march", "april", "may", "june",
                               "july", "august", "september", "october", "november", "december", name="month"))

@@ -1,13 +1,21 @@
-from typing import List, Dict, Any
+"""school model class, include migrate and CRUD actions"""
+from __future__ import annotations
 
+from typing import Dict, Any
+
+from flask_sqlalchemy import Pagination
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import relationship
+
 from common.error import SQLCustomError
 from database import db
 from models.address import AddressModel
 
 
 class SchoolModel(db.Model):
+    """
+    school Model class with table column definition
+    """
     __tablename__ = "schools"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -57,18 +65,19 @@ class SchoolModel(db.Model):
             raise error
 
     @staticmethod
-    def get_all_schools() -> List:
+    def get_all_schools(page) -> Pagination:
         """
         get all school records
-        :return: school list
+        :params page: int
+        :return: school Pagination iterator
         """
         try:
-            return db.session.query(SchoolModel).join(AddressModel).all()
+            return db.session.query(SchoolModel).join(AddressModel).paginate(page=page, error_out=False)
         except SQLAlchemyError as error:
             raise error
 
     @staticmethod
-    def get_school_by_id(school_id: int):
+    def get_school_by_id(school_id: int) -> SchoolModel:
         """
         get all school records
         :return: school list
@@ -112,4 +121,18 @@ class SchoolModel(db.Model):
             return True
         except SQLAlchemyError as error:
             db.session.rollback()
+            raise error
+
+    @staticmethod
+    def get_all_school_address(page: int = 1) -> Pagination:
+        """
+        get all school address for get all address API
+        :params page integer
+        :return Pagination object
+        """
+        try:
+            return db.session.query(AddressModel, SchoolModel). \
+                filter(AddressModel.id == SchoolModel.address_id).filter(
+                AddressModel.type == "school").paginate(page=page, error_out=False)
+        except SQLAlchemyError as error:
             raise error
