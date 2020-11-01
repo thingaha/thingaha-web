@@ -1083,6 +1083,322 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Student photo [UPDATE]",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDE3MzU4MDUsIm5iZiI6MTYwMTczNTgwNSwianRpIjoiY2M4MjI0YzItMDgxZS00NzQ5LTg2N2ItZmQ0MjMyNDQ0Y2JmIiwiZXhwIjoxNjAxODIyMjA1LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.7irMCxZ_L-5DnLl9OmKPrO3i02AicewyDDJEBBhMUjQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "img",
+							"type": "file",
+							"src": []
+						},
+						{
+							"key": "student_id",
+							"value": "st004",
+							"type": "text"
+						},
+						{
+							"key": "old_url",
+							"value": "https://thingaha.s3-ap-northeast-1.amazonaws.com/st004.png",
+							"type": "text"
+						}
+					],
+					"options": {
+						"formdata": {}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/student/upload",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"student",
+						"upload"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Student Photo [DELETE]",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDE3MzU4MDUsIm5iZiI6MTYwMTczNTgwNSwianRpIjoiY2M4MjI0YzItMDgxZS00NzQ5LTg2N2ItZmQ0MjMyNDQ0Y2JmIiwiZXhwIjoxNjAxODIyMjA1LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.7irMCxZ_L-5DnLl9OmKPrO3i02AicewyDDJEBBhMUjQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"url\": \"https://thingaha.s3-ap-northeast-1.amazonaws.com/st001.png\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/student/delete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"student",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Student photo [CREATE]",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDE3MzU4MDUsIm5iZiI6MTYwMTczNTgwNSwianRpIjoiY2M4MjI0YzItMDgxZS00NzQ5LTg2N2ItZmQ0MjMyNDQ0Y2JmIiwiZXhwIjoxNjAxODIyMjA1LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.7irMCxZ_L-5DnLl9OmKPrO3i02AicewyDDJEBBhMUjQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "img",
+							"value": null,
+							"type": "file"
+						},
+						{
+							"key": "student_id",
+							"value": "st003",
+							"type": "text"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/student/upload",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"student",
+						"upload"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Donation[GET][ID]",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDQyMjg2NzIsIm5iZiI6MTYwNDIyODY3MiwianRpIjoiZGVjNDRiYmQtZGQ2My00YTUxLTkzYWUtOTA1ODBjMjBlZGYzIiwiZXhwIjoxNjA0MzE1MDcyLCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.yQSpUGLGYwODDCQ27iG4UcM4ZzYwnLRfjZqIDdc7-TA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n      \"user_id\": 1,\n      \"attendance_id\": 2,\n      \"transfer_id\": 4,\n      \"month\": \"january\",\n      \"year\": 2020,\n      \"mmk_amount\": 3000.0,\n      \"jpy_amount\": 0.0,\n      \"paid_at\": \"2020-02-02\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/donations/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"donations",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Donation[GET][ALL]",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDQyMjg2MTMsIm5iZiI6MTYwNDIyODYxMywianRpIjoiY2I1MmRmMjgtOWZmNS00NTM0LTk1M2YtNzM5YzgwYWFkMzNmIiwiZXhwIjoxNjA0MzE1MDEzLCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.QGpOlsIcB_QdgBV4_-HKqchiBK1izb7gdaekmOFm2u0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n      \"user_id\": 1,\n      \"attendance_id\": 2,\n      \"transfer_id\": 4,\n      \"month\": \"january\",\n      \"year\": 2020,\n      \"mmk_amount\": 3000.0,\n      \"jpy_amount\": 0.0,\n      \"paid_at\": \"2020-02-02\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/donations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"donations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Donation[POST]",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDQyMjg2NzIsIm5iZiI6MTYwNDIyODY3MiwianRpIjoiZGVjNDRiYmQtZGQ2My00YTUxLTkzYWUtOTA1ODBjMjBlZGYzIiwiZXhwIjoxNjA0MzE1MDcyLCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.yQSpUGLGYwODDCQ27iG4UcM4ZzYwnLRfjZqIDdc7-TA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n      \"user_id\": 1,\n      \"attendance_id\": 2,\n      \"transfer_id\": 4,\n      \"month\": \"january\",\n      \"year\": 2020,\n      \"mmk_amount\": 3000.0,\n      \"jpy_amount\": 0.0,\n      \"paid_at\": \"2020-02-02\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/donations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"donations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Donation[DELETE]",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDQyMjg4NzEsIm5iZiI6MTYwNDIyODg3MSwianRpIjoiNTYwOGZjYWMtNjMwMi00ZTgxLWJkYTgtODcxMmE4OGJhMjZiIiwiZXhwIjoxNjA0MzE1MjcxLCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.SKjBlRkQ-up8CFXR85_GJWM7PQADwGIhZu6gVQSiL5I",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/donations/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"donations",
+						"4"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"protocolProfileBehavior": {}
