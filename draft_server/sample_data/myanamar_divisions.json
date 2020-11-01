@@ -1,0 +1,54 @@
+{
+  "data": {
+    "divisions": [
+      {
+        "division_name": "yangon",
+        "type": "division",
+        "districts": [
+          {
+            "district_name": "Eastern Yangon",
+            "type": "district",
+            "townships": [
+              {
+                "township_name": "Pazundaung",
+                "type": "township"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "division_name": "mandalay",
+        "type": "division",
+        "districts": [
+          {
+            "district_name": "Meikhtilar",
+            "type": "district",
+            "townships": [
+              {
+                "township_name": "Wan Dwin",
+                "type": "township"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "division_name": "ayeyarwaddy",
+        "type": "division",
+        "districts": [
+          {
+            "district_name": "Nyaung Done",
+            "type": "district",
+            "townships": [
+              {
+                "township_name": "Nyaung Done",
+                "type": "township"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
