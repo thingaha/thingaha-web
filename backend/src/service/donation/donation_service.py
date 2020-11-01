@@ -52,7 +52,6 @@ class DonationService(Service):
             raise RequestDataEmpty("donation data is empty")
         if not self.input_validate.validate_json(data, donation_schema):
             self.logger.error("All donation field input must be required.")
-            print(data)
             raise ValidateFail("Donation validation fail")
         try:
             return DonationModel.create_donation(DonationModel(

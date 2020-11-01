@@ -9,8 +9,8 @@ from service.donation.donation_service import DonationService
 donation_service = DonationService()
 
 @api.route("/donations", methods=["GET"])
-# @jwt_required
-# @cross_origin()
+@jwt_required
+@cross_origin()
 def get_donations():
     try:
         donations = donation_service.get_all_donations_records()
@@ -26,8 +26,8 @@ def get_donations():
 
 
 @api.route("/donations/<int:donation_id>", methods=["GET"])
-# @jwt_required
-# @cross_origin()
+@jwt_required
+@cross_origin()
 def get_donation_by_id(donation_id: int):
     """
     get donation by donation id
@@ -47,8 +47,8 @@ def get_donation_by_id(donation_id: int):
 
 
 @api.route("/donations", methods=["POST"])
-# @jwt_required
-# @cross_origin()
+@jwt_required
+@cross_origin()
 def create_donation():
     """
     create donation by post body
@@ -75,8 +75,8 @@ def create_donation():
 
 
 @api.route("/donations/<int:donation_id>", methods=["DELETE"])
-# @jwt_required
-# @cross_origin()
+@jwt_required
+@cross_origin()
 def delete_donation(donation_id):
     """
     delete donation  by ID
@@ -93,8 +93,8 @@ def delete_donation(donation_id):
         return jsonify({"errors": {"error": error.__dict__}}), 400
 
 @api.route("/donations/<int:donation_id>", methods=["PUT"])
-# @jwt_required
-# @cross_origin()
+@jwt_required
+@cross_origin()
 def update_donation(donation_id: int):
     """
     update donation by ID
