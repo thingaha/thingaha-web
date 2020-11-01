@@ -36,7 +36,6 @@ const UserForm = ({
   submitEditUserForm,
   editingUser,
 }) => {
-  console.log(values, editingUser)
   return (
     <ThingahaFormModal
       title={editingUser ? 'Edit User' : 'Add New User'}
@@ -134,10 +133,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const FormikUserForm = withFormik({
   mapPropsToValues: (props) => {
-    console.log(props.editingUser)
-
     if (props.editingUser) {
-      console.log('UserForm 140', props.editingUser)
       return props.editingUser
     } else {
       return { name: '', email: '', role: 'donator', country: 'jp' }

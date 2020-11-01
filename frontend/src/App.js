@@ -19,9 +19,15 @@ import NotFound from './pages/NotFound'
 import Users from './components/users/Users'
 import Donations from './components/donations/Donations'
 import Schools from './components/schools/Schools'
-import { ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+import Students from './components/students/Students'
+import StudentDetails from './components/students/StudentDetails'
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import Addresses from './components/addresses/Addresses'
+import { checkLoginState } from './store/actions/authentication'
+
+// Initial check for existing persisted login state. This will grab any existing persistent login state to the redux store before mounting components.
+store.dispatch(checkLoginState())
 
 const PrivateRouteComponent = ({
   component: Component,
@@ -35,7 +41,7 @@ const PrivateRouteComponent = ({
       <Route
         {...rest}
         render={(props) => {
-          if (!authentication.authenticated) {
+          if (!authentication.accessToken) {
             return (
               <Redirect
                 to={{
@@ -57,7 +63,9 @@ const mapStateToProps = (state) => ({
   authentication: state.authentication,
 })
 
-const mapDispatchToProps = (dispatch) => ({})
+const mapDispatchToProps = (dispatch) => ({
+  checkLoginState: () => dispatch(checkLoginState()),
+})
 
 const PrivateRoute = connect(
   mapStateToProps,
@@ -73,18 +81,11 @@ const AdminApp = () => {
         <PrivateRoute path="/users" exact component={Users} />
         <PrivateRoute path="/schools" exact component={Schools} />
         <PrivateRoute path="/addresses" exact component={Addresses} />
+        <PrivateRoute path="/students" exact component={Students} />
+        <PrivateRoute path="/students/:id" exact component={StudentDetails} />
+
         <Route path="*" component={NotFound} />
       </Switch>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
     </Router>
   )
 }
@@ -99,6 +100,16 @@ class App extends Component {
               <Normalize />
               <GlobalStyles />
               <AdminApp />
+              <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+              />
             </StylesProvider>
           </ThemeProvider>
         </MuiThemeProvider>
