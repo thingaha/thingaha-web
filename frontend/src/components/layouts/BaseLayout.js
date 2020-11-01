@@ -32,8 +32,8 @@ const RootDiv = styled.div`
 
   & .drawer {
     ${media.tabletPortraitUp} {
-    width: ${drawerWidth}px;
-    flex-shrink: 0;
+      width: ${drawerWidth}px;
+      flex-shrink: 0;
     }
   }
 
@@ -45,12 +45,12 @@ const RootDiv = styled.div`
     min-height: 56px;
   }
 
-  & .content{
+  & .content {
     flex-grow: 1;
     width: ${drawerWidth}px;
   }
 
-  & .titleToolbar{
+  & .titleToolbar {
     padding-right: 3rem;
   }
 
@@ -70,7 +70,7 @@ const BaseLayout = (props) => {
   const drawer = (
     <Grid className="drawerHeight" container direction="row">
       <Grid item xs={12}>
-        <Sidebar />
+        <Sidebar closeMobileDrawer={() => setMobileOpen(false)} />
       </Grid>
     </Grid>
   )
