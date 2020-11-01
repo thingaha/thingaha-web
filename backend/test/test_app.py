@@ -159,15 +159,15 @@ def test_post_attendance(init_app, client, json_access_token):
         "year": "2020",
         "enrolled_date": "2020-02-02"
     }, headers=json_access_token)
-    assert res.status_code == 200 # fix it after student create api done
-    res = client.put("/api/v1/attendances", json={
+    assert res.status_code == 400 # fix it after student create api done
+    res = client.put("/api/v1/attendances/1", json={
         "student_id": 1,
         "school_id": 1,
         "grade": "G-9",
         "year": "2020",
         "enrolled_date": "2020-02-01"
     }, headers=json_access_token)
-    assert res.status_code == 200 # fix it after student create api done
+    assert res.status_code == 400 # fix it after student create api done
 
 
 def test_get_transfer_by_id(init_app, client, json_access_token):
@@ -200,5 +200,46 @@ def test_create_update_transfer(init_app, client, json_access_token):
         "total_jpy": 35000
     }, headers=json_access_token)
     assert res.status_code == 200
+
+
+def test_create_update_donation(init_app, client, json_access_token):
+    res = client.post("/api/v1/transfers", json={
+        "year": 2020,
+        "month": "march",
+        "total_mmk": 3000,
+        "total_jpy": 0
+    }, headers=json_access_token)
+    assert res.status_code == 200
+    #attendance create in here
+    json = {
+        "user_id": 1,
+        "attendance_id": 2,
+        "transfer_id": 1,
+        "month": "january",
+        "year": 2020,
+        "mmk_amount": 3000.0,
+        "jpy_amount": 0.0,
+        "paid_at": "2020-02-02"
+    }
+    res = client.post("/api/v1/donations", json=json, headers=json_access_token)
+    assert res.status_code == 400
+    json = {
+        "user_id": 1,
+        "attendance_id": 1,
+        "transfer_id": 1,
+        "month": "january",
+        "year": 2020,
+        "mmk_amount": 5000.0,
+        "jpy_amount": 0.0,
+        "paid_at": "2020-02-02"
+    }
+    res = client.put("/api/v1/donations/1", json=json, headers=json_access_token)
+    assert res.status_code == 400 # fixed here after attendance create API testing done
+
+
+def test_donations(init_app, client, json_access_token):
+    res = client.get("/api/v1/donations", headers=json_access_token)
+    assert res.status_code == 200
+
 
 

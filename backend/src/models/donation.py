@@ -4,13 +4,15 @@ from __future__ import annotations
 from datetime import datetime
 from typing import List
 
+from flask_sqlalchemy import Pagination
 from sqlalchemy.exc import SQLAlchemyError
 
 from common.error import SQLCustomError
 from database import db
-from models.user import UserModel
-from models.student import StudentModel
 from models.attendance import AttendanceModel
+from models.student import StudentModel
+from models.user import UserModel
+
 
 class DonationModel(db.Model):
     __tablename__ = "donations"
@@ -47,11 +49,6 @@ class DonationModel(db.Model):
         :param student:
         :return:
         """
-
-        if self.paid_at is None:
-            status = 'pending'
-        else:
-            status = 'paid'
         return {
             "id": self.id,
             "user": user.as_dict(),
@@ -60,13 +57,13 @@ class DonationModel(db.Model):
             "student": student.student_dict(),
             "mmk_amount": self.mmk_amount,
             "jpy_amount": self.jpy_amount,
-            "status": status
+            "status": "pending" if self.paid_at is None else "paid"
         }
 
     @staticmethod
     def create_donation(new_donation) -> int:
         """
-        create  new_donation
+        create new_donation
         :param new_donation:
         :return: int
         """
@@ -78,7 +75,7 @@ class DonationModel(db.Model):
             raise error
 
     @staticmethod
-    def get_all_donations() -> List[DonationModel]:
+    def get_all_donations(page) -> Pagination:
         """
         get all donation records
         :return: donation list
@@ -87,10 +84,9 @@ class DonationModel(db.Model):
             return db.session.query(DonationModel, UserModel, StudentModel). \
                 filter(DonationModel.user_id == UserModel.id). \
                 filter(DonationModel.attendance_id == AttendanceModel.id). \
-                filter(AttendanceModel.id == StudentModel.id).all()
+                filter(AttendanceModel.id == StudentModel.id).paginate(page=page, error_out=False)
         except SQLAlchemyError as error:
             raise error
-
 
     @staticmethod
     def get_donation_by_id(donation_id: int) -> List[DonationModel]:
@@ -107,7 +103,6 @@ class DonationModel(db.Model):
                 filter(DonationModel.id == donation_id)
         except SQLAlchemyError as error:
             raise error
-
 
     @staticmethod
     def delete_donation_by_id(donation_id: int) -> bool:

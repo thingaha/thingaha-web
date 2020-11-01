@@ -8,6 +8,7 @@ from common.error import SQLCustomError, RequestDataEmpty, ValidateFail
 from models.donation import DonationModel
 from service.service import Service
 
+
 class DonationService(Service):
     """
     school service class for CRUD actions
@@ -16,28 +17,30 @@ class DonationService(Service):
     def __init__(self, logger=None) -> None:
         super().__init__(logger)
 
-    def get_all_donations_records(self) -> (List, Any):
+    def get_all_donations_records(self, page: int) -> (List, Any):
         """
         get all donation
         :return: donation list of dict
         """
         try:
             self.logger.info("Get Donation list")
-            return [donation.donation_dict(user, student) for donation, user, student in DonationModel.get_all_donations()]
+            donations = DonationModel.get_all_donations(page)
+            return [donation.donation_dict(user, student) for donation, user, student in donations.items], donations.total
         except SQLAlchemyError as error:
             self.logger.error("Error: {}".format(error))
             raise SQLCustomError(description="GET Donation SQL ERROR")
 
-    def get_donation_by_id(self, donation_id: int) -> Optional[List]:
+    def get_donation_by_id(self, donation_id: int) -> Optional[Dict]:
         """
         get donation info by id
         :param donation_id:
         :return: donation list of dict
         """
         try:
-            self.logger.info("get donation info by donation_id:{}".format(donation_id))
-            return [donation.donation_dict(user, student) for donation, user, student in
-                    DonationModel.get_donation_by_id(donation_id)]
+            self.logger.info("Get donation info by donation_id:{}".format(donation_id))
+            donations = [donation.donation_dict(user, student) for donation, user, student in
+                         DonationModel.get_donation_by_id(donation_id)]
+            return donations[0] if len(donations) > 0 else {}
         except SQLAlchemyError as error:
             self.logger.error("Error: {}".format(error))
             raise SQLCustomError(description="GET Donation by ID SQL ERROR")
@@ -49,7 +52,7 @@ class DonationService(Service):
         :return: created donation id
         """
         if not data:
-            raise RequestDataEmpty("donation data is empty")
+            raise RequestDataEmpty("Donation data is empty")
         if not self.input_validate.validate_json(data, donation_schema):
             self.logger.error("All donation field input must be required.")
             raise ValidateFail("Donation validation fail")
@@ -66,7 +69,6 @@ class DonationService(Service):
                 ))
         except SQLAlchemyError as error:
             self.logger.error("Donation create fail. error %s", error)
-            print(error)
             raise SQLCustomError("Donation create fail")
 
     def delete_donation_by_id(self, donation_id: int) -> bool:
@@ -76,7 +78,7 @@ class DonationService(Service):
         :return:
         """
         try:
-            self.logger.info("delete donation info by donation_id:{}".format(donation_id))
+            self.logger.info("Delete donation info by donation_id:{}".format(donation_id))
             return DonationModel.delete_donation_by_id(donation_id)
         except SQLAlchemyError as error:
             self.logger.error("Error: {}".format(error))
@@ -90,12 +92,12 @@ class DonationService(Service):
         :return:
         """
         if not data:
-            raise RequestDataEmpty("donation data is empty")
+            raise RequestDataEmpty("Donation data is empty")
         if not self.input_validate.validate_json(data, donation_schema):
             self.logger.error("All donation field input must be required.")
-            raise ValidateFail("donation update validation fail")
+            raise ValidateFail("Donation update validation fail")
         try:
-            self.logger.info("update donation info by donation_id:{}".format(donation_id))
+            self.logger.info("Update donation info by donation_id:{}".format(donation_id))
             return DonationModel.update_donation(donation_id, DonationModel(
                 user_id=data["user_id"],
                 attendance_id=data["attendance_id"],
