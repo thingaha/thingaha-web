@@ -2,7 +2,8 @@
 schema module for request body
 use python library Schema
 """
-from schema import Schema
+from schema import Schema, Or
+from datetime import datetime, date
 
 address_schema = Schema({
     "division": str,
@@ -41,4 +42,15 @@ transfer_schema = Schema({
     "month": str,
     "total_mmk": int,
     "total_jpy": int
+})
+
+student_schema = Schema({
+    "name": str,
+    "deactivated_at": Or(None, str),
+    "birth_date": str,
+    "father_name": str,
+    "mother_name": str,
+    "parents_occupation": str,
+    "photo": str,
+    "address_id": int
 })
