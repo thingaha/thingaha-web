@@ -1,31 +1,43 @@
-import { AUTH_FAILURE, LOGIN_FAILURE, LOGIN_SUCCESS } from '../actions/authentication'
+import {
+  AUTH_FAILURE,
+  LOG_OUT_FAILURE,
+  LOG_IN_SUCCESS,
+  SET_LOG_IN_STATE,
+  CLEAR_LOG_IN_STATE,
+} from '../actions/authentication'
 
-export default (
-  state = { authenticated: false, currentUser: null },
-  action
-) => {
+export default (state = { accessToken: null, currentUser: null }, action) => {
   switch (action.type) {
-    case LOGIN_FAILURE:
-      // TODO handle error
+    case SET_LOG_IN_STATE:
       return {
         ...state,
-        error: action.error,
+        accessToken: action.accessToken,
+        currentUser: action.currentUser,
+      }
+    case LOG_IN_SUCCESS:
+      return {
+        ...state,
+        accessToken: action.accessToken,
+        currentUser: action.currentUser,
+      }
+    case CLEAR_LOG_IN_STATE:
+      return {
+        ...state,
+        accessToken: null,
+        currentUser: null,
       }
     case AUTH_FAILURE:
-      // TODO handle error
       return {
         ...state,
-        authenticated: false,
+        accessToken: null,
         currentUser: null,
-        error: action.errorResponse,
       }
-    case LOGIN_SUCCESS:
-      const currentUser = action.currentUser
-
+    case LOG_OUT_FAILURE:
+      // For some reason, clearing local storage failed.
       return {
         ...state,
-        authenticated: true,
-        currentUser,
+        accessToken: null,
+        currentUser: null,
       }
     default:
       return state

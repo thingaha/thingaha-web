@@ -8,7 +8,7 @@ import {
   SUBMIT_USER_FORM,
   SUBMIT_EDIT_USER_FORM,
 } from './actions/users'
-import { LOGIN } from './actions/authentication'
+import { LOG_IN, LOG_OUT, CHECK_LOG_IN_STATE } from './actions/authentication'
 import {
   fetchAllUsers,
   submitUserForm,
@@ -33,7 +33,11 @@ import {
   submitNewSchoolForm,
   submitEditSchoolForm,
 } from './sagas/schools'
-import { loginUser } from './sagas/authentication'
+import {
+  logInUser,
+  getAuthenticationState,
+  logOutUser,
+} from './sagas/authentication'
 import { GET_ALL_ADDRESSES, GET_SEARCH_ADDRESSES } from './actions/addresses'
 import { fetchAddressesSaga, searchAddressesSaga } from './sagas/addresses'
 
@@ -50,6 +54,8 @@ export default function* rootSaga() {
     takeLatest(SUBMIT_EDIT_SCHOOL_FORM, submitEditSchoolForm),
     takeLatest(GET_ALL_ADDRESSES, fetchAddressesSaga),
     takeLatest(GET_SEARCH_ADDRESSES, searchAddressesSaga),
-    takeLatest(LOGIN, loginUser),
+    takeLatest(LOG_IN, logInUser),
+    takeLatest(LOG_OUT, logOutUser),
+    takeLatest(CHECK_LOG_IN_STATE, getAuthenticationState),
   ])
 }
