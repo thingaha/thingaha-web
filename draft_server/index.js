@@ -69,3 +69,26 @@ app.get('/addresses', (req, res) => {
   const json = require('./sample_data/addresses.json')
   res.json(json)
 })
+app.get('/students', (req, res) => {
+  const json = require('./sample_data/students.json')
+  res.json(json)
+})
+app.get('/students/:id', (req, res) => {
+  const json = require('./sample_data/studentdonator.json')
+  res.json(json)
+})
+app.post('/students', (req, res) => {
+  // This endpoint should actually create a user and return user document back
+  const json = {
+    data: {
+      id: 1,
+      user_name: 'naruto-stu1',
+      email: 'naruto@example.com',
+      address: '88, Strand Road, Kyauktada Township, Yangon.',
+      role: 'admin',
+      country: 'mm',
+    },
+  }
+  res.status(201)
+  res.json(json)
+})

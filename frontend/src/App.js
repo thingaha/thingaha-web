@@ -19,8 +19,10 @@ import NotFound from './pages/NotFound'
 import Users from './components/users/Users'
 import Donations from './components/donations/Donations'
 import Schools from './components/schools/Schools'
-import { ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+import Students from './components/students/Students'
+import StudentDetails from './components/students/StudentDetails'
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import Addresses from './components/addresses/Addresses'
 import { checkLoginState } from './store/actions/authentication'
 
@@ -79,6 +81,9 @@ const AdminApp = () => {
         <PrivateRoute path="/users" exact component={Users} />
         <PrivateRoute path="/schools" exact component={Schools} />
         <PrivateRoute path="/addresses" exact component={Addresses} />
+        <PrivateRoute path="/students" exact component={Students} />
+        <PrivateRoute path="/students/:id" exact component={StudentDetails} />
+
         <Route path="*" component={NotFound} />
       </Switch>
     </Router>

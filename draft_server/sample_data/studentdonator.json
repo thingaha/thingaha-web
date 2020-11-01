@@ -1,0 +1,46 @@
+{
+  "data": {
+    "studentdonator": [
+      {
+        "id": 1,
+        "donator":"Aye Aye",
+        "dateFrom": "2019-06-01",
+        "dateTo": "2020-06-01",
+        "name": "naruto-1",
+        "deactivated_at": null,
+        "birth_date": "1990-08-02",
+        "father_name": "U Aye",
+        "mother_name": "Daw Aye",
+        "parents_occupation": "Farmer",
+        "photo": "https://s3.(region).amazonaws.com/(bucketName)/ImageName",
+        "address": {
+          "id": 1,
+          "division": "ayeyarwaddy",
+          "district": "Maubin",
+          "township": "Nyaungdon",
+          "street_address": "Bo Min Road"
+        }
+      },
+      {
+        "id": 2,
+        "donator":"Maung Maung",
+        "dateFrom": "2019-06-01",
+        "dateTo": "2020-06-01",
+        "name": "naruto-1",
+        "deactivated_at": null,
+        "birth_date": "1990-08-02",
+        "father_name": "U Aye",
+        "mother_name": "Daw Aye",
+        "parents_occupation": "Farmer",
+        "photo": "https://s3.(region).amazonaws.com/(bucketName)/ImageName",
+        "address": {
+          "id": 1,
+          "division": "ayeyarwaddy",
+          "district": "Maubin",
+          "township": "Nyaungdon",
+          "street_address": "Bo Min Road"
+        }
+      }
+    ]
+  }
+}
