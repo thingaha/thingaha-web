@@ -14,10 +14,10 @@ export function* logInUser(action) {
   const { email, password } = action
 
   try {
-    const { user, accessToken } = yield login({ email, password })
+    const { currentUser, accessToken } = yield login({ email, password })
 
     toast.success('Login successful')
-    yield put({ type: LOG_IN_SUCCESS, currentUser: user, accessToken })
+    yield put({ type: LOG_IN_SUCCESS, currentUser, accessToken })
   } catch (error) {
     yield defaultErrorHandler(error, LOG_IN_FAILURE)
   }

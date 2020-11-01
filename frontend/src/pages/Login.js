@@ -15,6 +15,7 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import Button from '@material-ui/core/Button'
 import logoUrl from '../images/logo_transparent.png'
 import { Redirect } from 'react-router-dom'
+import { media } from '../styles/variables'
 
 const CenteredContainer = styled.main`
   display: flex;
@@ -25,8 +26,13 @@ const CenteredContainer = styled.main`
 const LoginPanel = styled(Paper)`
   padding: 2rem;
   width: 100%;
-  max-width: 500px;
-  min-width: 300px;
+  height: 100%;
+
+  ${media.tabletPortraitUp} {
+    max-width: 500px;
+    min-width: 300px;
+    height: auto;
+  }
 `
 
 const StyledLogoAvatar = styled(Avatar)`

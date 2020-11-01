@@ -147,7 +147,7 @@ const StyledUserDetailContainer = styled.div`
   }
 `
 
-const CurrentUserInformation = ({ authentication, logOutUser }) => {
+const CurrentUserInformation = ({ authentication }) => {
   const userEmail = get(authentication, ['currentUser', 'email'], null)
   if (!userEmail) {
     return <StyledUserDetailContainer>Not Logged In</StyledUserDetailContainer>
