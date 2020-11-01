@@ -37,10 +37,6 @@ const RootDiv = styled.div`
     }
   }
 
-  & .drawerHeight {
-    height: 100%;
-  }
-
   & .menuButton {
     margin-right: 1rem;
   }
