@@ -74,7 +74,7 @@ const BaseLayout = (props) => {
   const drawer = (
     <Grid className="drawerHeight" container direction="row">
       <Grid item xs={12}>
-        <Sidebar />
+        <Sidebar closeMobileDrawer={() => setMobileOpen(false)} />
       </Grid>
     </Grid>
   )

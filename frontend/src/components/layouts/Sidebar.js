@@ -82,41 +82,41 @@ const StyledNavLink = styled(NavLink)`
   }
 `
 
-const NavMenu = () => (
+const NavMenu = ({ closeMobileDrawer }) => (
   <StyledMenuContainer>
-    <StyledNavLink exact to={'/'}>
+    <StyledNavLink onClick={closeMobileDrawer} exact to={'/'}>
       <AirplayIcon className="nav-icon" />
       Dashboard
     </StyledNavLink>
-    <StyledNavLink to={'/donations'}>
+    <StyledNavLink onClick={closeMobileDrawer} to={'/donations'}>
       <MonetizationOnIcon className="nav-icon" />
       Donations
     </StyledNavLink>
-    <StyledNavLink to={'/users'}>
+    <StyledNavLink onClick={closeMobileDrawer} to={'/users'}>
       <PeopleIcon className="nav-icon" />
       Users
     </StyledNavLink>
-    <StyledNavLink to={'/students'}>
+    <StyledNavLink onClick={closeMobileDrawer} to={'/students'}>
       <SchoolIcon className="nav-icon" />
       Students
     </StyledNavLink>
-    <StyledNavLink to={'/schools'}>
+    <StyledNavLink onClick={closeMobileDrawer} to={'/schools'}>
       <LocationCityIcon className="nav-icon" />
       Schools
     </StyledNavLink>
-    <StyledNavLink to={'/attendances'}>
+    <StyledNavLink onClick={closeMobileDrawer} to={'/attendances'}>
       <HowToRegIcon className="nav-icon" />
       Attendances
     </StyledNavLink>
-    <StyledNavLink to={'/extrafunds'}>
+    <StyledNavLink onClick={closeMobileDrawer} to={'/extrafunds'}>
       <LocalAtmIcon className="nav-icon" />
       Extra Funds
     </StyledNavLink>
-    <StyledNavLink to={'/transfers'}>
+    <StyledNavLink onClick={closeMobileDrawer} to={'/transfers'}>
       <SyncAltIcon className="nav-icon" />
       Transfers
     </StyledNavLink>
-    <StyledNavLink to={'/addresses'}>
+    <StyledNavLink onClick={closeMobileDrawer} to={'/addresses'}>
       <HomeIcon className="nav-icon" />
       Addresses
     </StyledNavLink>
@@ -175,22 +175,26 @@ const StyledAccountActions = styled.div`
   }
 `
 
-const AccountActions = ({ logOutUser }) => {
+const AccountActions = ({ logOutUser, closeMobileDrawer }) => {
   return (
     <StyledAccountActions>
       <div className="settings-link">
-        <NavLink to={'/account'}>
+        <NavLink to={'/account'} onClick={closeMobileDrawer}>
           <SettingsIcon className="nav-icon" />
         </NavLink>
       </div>
       <div className="logout-link">
-        <ExitToAppIcon className="nav-icon" onClick={logOutUser} />
+        <ExitToAppIcon
+          className="nav-icon"
+          onClick={logOutUser}
+          onClick={closeMobileDrawer}
+        />
       </div>
     </StyledAccountActions>
   )
 }
 
-const Sidebar = ({ authentication, logOutUser }) => {
+const Sidebar = ({ authentication, logOutUser, closeMobileDrawer }) => {
   return (
     <SidebarContent>
       <Grid
@@ -233,7 +237,7 @@ const Sidebar = ({ authentication, logOutUser }) => {
             />
           </Grid>
         </Grid>
-        <NavMenu />
+        <NavMenu closeMobileDrawer={closeMobileDrawer} />
         <Grid
           container
           direction="row"
@@ -242,7 +246,10 @@ const Sidebar = ({ authentication, logOutUser }) => {
           className="account-menus-container"
         >
           <Grid item container alignItems="center" justify="center" xs={12}>
-            <AccountActions logOutUser={logOutUser} />
+            <AccountActions
+              logOutUser={logOutUser}
+              closeMobileDrawer={closeMobileDrawer}
+            />
           </Grid>
         </Grid>
       </Grid>
