@@ -184,11 +184,7 @@ const AccountActions = ({ logOutUser, closeMobileDrawer }) => {
         </NavLink>
       </div>
       <div className="logout-link">
-        <ExitToAppIcon
-          className="nav-icon"
-          onClick={logOutUser}
-          onClick={closeMobileDrawer}
-        />
+        <ExitToAppIcon className="nav-icon" onClick={logOutUser} />
       </div>
     </StyledAccountActions>
   )

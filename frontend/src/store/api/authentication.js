@@ -5,20 +5,16 @@ import config from '../../config'
 // Development only - fake login method
 // Just returning hardcoded values
 const draftLogin = ({ email, password }) => {
-  PersistentAuthentication.save({
+  const fakeCredentials = {
     accessToken: 'faketoken',
     currentUser: {
       email,
-    },
-  })
-
-  return {
-    user: {
-      id: 1,
-      email: email,
-      username: 'naruto',
+      name: 'Fake Login',
     },
   }
+  PersistentAuthentication.save(fakeCredentials)
+
+  return fakeCredentials
 }
 
 export const login = async ({ email, password }) => {
