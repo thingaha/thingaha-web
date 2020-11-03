@@ -119,5 +119,4 @@ class SchoolService(Service):
         :param page
         """
         schools_addresses = SchoolModel.get_all_school_address(page)
-        return [address.address_type_dict(school) for address, school in schools_addresses.items], \
-               schools_addresses.total
+        return [address.address_type_dict(school) for address, school in schools_addresses.items], schools_addresses.total

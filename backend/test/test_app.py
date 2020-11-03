@@ -2,6 +2,7 @@ import os
 import sys
 
 import pytest
+
 sys.path.append(os.path.join(os.path.dirname(__file__), "../src"))
 from models.user import UserModel
 from models.address import AddressModel
@@ -49,6 +50,83 @@ def json_access_token(init_app, client):
         }
 
 
+@pytest.fixture
+def student_json():
+    return {
+        "district": "မရမ်းကုန်းမြို့နယ်",
+        "division": "yangon",
+        "street_address": "ဉီးဘအိုလမ်း",
+        "township": "အမှတ်(၂)ရပ်ကွက်",
+        "type": "student",
+        "deactivated_at": "2020-07-26T03:37:05.836Z",
+        "birth_date": "12-08-2006",
+        "father_name": "ဉီးလှ",
+        "mother_name": "ဒေါ်မြ",
+        "name": "မောင်မောင်",
+        "parents_occupation": "လယ်သမား",
+        "photo": "https://i.aass.com/originals/a7/65/45/a7654580f501e9501e329978bebd051b.jpg"
+    }
+
+
+@pytest.fixture
+def address_json():
+    return {
+        "district": "yangon",
+        "division": "yangon",
+        "street_address": "11 street",
+        "township": "MyaeNiGone",
+        "type": "user"
+    }
+
+
+@pytest.fixture
+def school_json():
+    return {
+        "school_name": "No.(35) Nyanungdon",
+        "contact_info": "098",
+        "district": "yangon",
+        "division": "yangon",
+        "street_address": "18 street",
+        "township": "La Thar township",
+        "type": "school"
+    }
+
+
+@pytest.fixture
+def attendance_json():
+    return {
+        "student_id": 1,
+        "school_id": 1,
+        "grade": "G-10",
+        "year": "2020",
+        "enrolled_date": "2020-02-02"
+    }
+
+
+@pytest.fixture
+def transfer_json():
+    return {
+        "year": 2020,
+        "month": "march",
+        "total_mmk": 3000,
+        "total_jpy": 0
+    }
+
+
+@pytest.fixture
+def donation_json():
+    return {
+        "user_id": 1,
+        "attendance_id": 1,
+        "transfer_id": 1,
+        "month": "january",
+        "year": 2020,
+        "mmk_amount": 5000.0,
+        "jpy_amount": 0.0,
+        "paid_at": "2020-02-02"
+    }
+
+
 def test_config(init_app):
     assert init_app.config["TESTING"] == True
 
@@ -59,22 +137,10 @@ def test_address_get_id(init_app, client, json_access_token):
         assert res.status_code == 200
 
 
-def test_address_create_update(init_app, client, json_access_token):
-    res = client.post("/api/v1/addresses", json={
-        "district": "yangon",
-        "division": "yangon",
-        "street_address": "11 street",
-        "township": "MyaeNiGone",
-        "type": "user"
-    }, headers=json_access_token)
+def test_address_create_update(init_app, client, json_access_token, address_json):
+    res = client.post("/api/v1/addresses", json=address_json, headers=json_access_token)
     assert res.status_code == 200
-    res = client.put("/api/v1/addresses/1", json={
-        "district": "yangon",
-        "division": "yangon",
-        "street_address": "11 street",
-        "township": "MyaeNiGone",
-        "type": "user"
-    }, headers=json_access_token)
+    res = client.put("/api/v1/addresses/1", json=address_json, headers=json_access_token)
     assert res.status_code == 200
 
 
@@ -93,16 +159,8 @@ def test_delete_school_id(init_app, client, json_access_token):
     assert res.status_code == 200
 
 
-def test_create_update_school(init_app, client, json_access_token):
-    res = client.post("/api/v1/schools", json={
-        "school_name": "No.(35) Nyanungdon",
-        "contact_info": "098",
-        "district": "yangon",
-        "division": "yangon",
-        "street_address": "18 street",
-        "township": "La Thar township",
-        "type": "school"
-    }, headers=json_access_token)
+def test_create_update_school(init_app, client, json_access_token, school_json):
+    res = client.post("/api/v1/schools", json=school_json, headers=json_access_token)
     assert res.status_code == 200
     res = client.put("/api/v1/schools/1", json={
         "school_name": "No.(11)Nyanungdon",
@@ -137,37 +195,20 @@ def test_get_attendance_by_id(init_app, client, json_access_token):
     assert res.status_code == 200
 
 
-def test_post_attendance(init_app, client, json_access_token):
+def test_post_attendance(init_app, client, json_access_token, school_json, attendance_json, student_json):
     """ this task will modify when student create API done"""
     # create school
-    res = client.post("/api/v1/schools", json={
-        "school_name": "No.(35) Nyanungdon",
-        "contact_info": "098",
-        "district": "yangon",
-        "division": "yangon",
-        "street_address": "18 street",
-        "township": "La Thar township",
-        "type": "student"
-    }, headers=json_access_token)
+    res = client.post("/api/v1/schools", json=school_json, headers=json_access_token)
     assert res.status_code == 200
     # create student
-    # skip => will throw error
-    res = client.post("/api/v1/attendances", json={
-        "student_id": 1,
-        "school_id": 1,
-        "grade": "G-10",
-        "year": "2020",
-        "enrolled_date": "2020-02-02"
-    }, headers=json_access_token)
-    assert res.status_code == 400 # fix it after student create api done
-    res = client.put("/api/v1/attendances/1", json={
-        "student_id": 1,
-        "school_id": 1,
-        "grade": "G-9",
-        "year": "2020",
-        "enrolled_date": "2020-02-01"
-    }, headers=json_access_token)
-    assert res.status_code == 400 # fix it after student create api done
+    res = client.post("/api/v1/students", json=student_json, headers=json_access_token)
+    assert res.status_code == 200
+    # create attendances
+    res = client.post("/api/v1/attendances", json=attendance_json, headers=json_access_token)
+    assert res.status_code == 200
+    # update attendances
+    res = client.put("/api/v1/attendances/1", json=attendance_json, headers=json_access_token)
+    assert res.status_code == 200
 
 
 def test_get_transfer_by_id(init_app, client, json_access_token):
@@ -185,21 +226,12 @@ def test_delete_transfer_by_id(init_app, client, json_access_token):
     assert res.status_code == 200
 
 
-def test_create_update_transfer(init_app, client, json_access_token):
-    res = client.post("/api/v1/transfers", json={
-        "year": 2020,
-        "month": "march",
-        "total_mmk": 3000,
-        "total_jpy": 0
-    }, headers=json_access_token)
+def test_create_update_transfer(init_app, client, json_access_token, transfer_json):
+    res = client.post("/api/v1/transfers", json=transfer_json, headers=json_access_token)
     assert res.status_code == 200
-    res = client.put("/api/v1/transfers/1", json={
-        "year": 2020,
-        "month": "march",
-        "total_mmk": 3000,
-        "total_jpy": 35000
-    }, headers=json_access_token)
+    res = client.put("/api/v1/transfers/1", json=transfer_json, headers=json_access_token)
     assert res.status_code == 200
+
 
 def test_student(init_app, client, json_access_token):
     res = client.get("/api/v1/students", headers=json_access_token)
@@ -211,95 +243,54 @@ def test_student_id(init_app, client, json_access_token):
     assert res.status_code == 200
 
 
-def test_delete_student_id(init_app, client, json_access_token):
-    res = client.post("/api/v1/students", json={
-        "name": "naruto-test",
-        "birth_date": "1990-08-01",
-        "father_name": "U Aye Aye",
-        "mother_name": "Daw Aye Aye",
-        "parents_occupation": "Farmer",
-        "photo": "https://i.pinimg.com/originals/a7/65/45/a7654580f501e9501e329978bebd051b.jpg",
-        "district": "yangon",
-        "division": "yangon",
-        "street_address": "18 street",
-        "township": "La Thar township",
-        "type": "student"
-    }, headers=json_access_token)
+def test_delete_student_id(init_app, client, json_access_token, student_json):
+    res = client.post("/api/v1/students", json=student_json, headers=json_access_token)
     assert res.status_code == 200
     res = client.delete("/api/v1/students/1", headers=json_access_token)
     assert res.status_code == 200
 
 
-def test_create_update_student(init_app, client, json_access_token):
-    res = client.post("/api/v1/students", json={
-        "name": "naruto-test",
-        "birth_date": "1990-08-01",
-        "father_name": "U Aye Aye",
-        "mother_name": "Daw Aye Aye",
-        "parents_occupation": "Farmer",
-        "photo": "https://i.pinimg.com/originals/a7/65/45/a7654580f501e9501e329978bebd051b.jpg",
-        "district": "yangon",
-        "division": "yangon",
-        "street_address": "18 street",
-        "township": "La Thar township",
-        "type": "student"
-    }, headers=json_access_token)
+def test_create_update_student(init_app, client, json_access_token, student_json):
+    res = client.post("/api/v1/students", json=student_json, headers=json_access_token)
     assert res.status_code == 200
     res = client.put("/api/v1/students/1", json={
-        "name": "naruto-test",
-        "birth_date": "1990-08-01",
-        "father_name": "U Aye Aye",
-        "mother_name": "Daw Aye Aye",
-        "parents_occupation": "Farmer",
-        "photo": "https://i.pinimg.com/originals/a7/65/45/a7654580f501e9501e329978bebd051b.jpg",
-        "address_id": 1,
-        "district": "yangon",
+        "district": "မရမ်းကုန်းမြို့နယ်",
         "division": "yangon",
-        "street_address": "18 street",
-        "township": "La Thar township",
-        "type": "student"
+        "street_address": "ဉီးဘအိုလမ်း",
+        "township": "အမှတ်(၂)ရပ်ကွက်",
+        "type": "student",
+        "address_id": 1,
+        "deactivated_at": "2020-07-26T03:37:05.836Z",
+        "birth_date": "12-08-2006",
+        "father_name": "ဉီးလှ",
+        "mother_name": "ဒေါ်မြ",
+        "name": "မောင်မောင်",
+        "parents_occupation": "လယ်သမား",
+        "photo": "https://i.pinimg.com/originals/a7/65/45/a7654580f501e9501e329978bebd051b.jpg"
     }, headers=json_access_token)
     assert res.status_code == 200
 
 
-def test_create_update_donation(init_app, client, json_access_token):
-    res = client.post("/api/v1/transfers", json={
-        "year": 2020,
-        "month": "march",
-        "total_mmk": 3000,
-        "total_jpy": 0
-    }, headers=json_access_token)
+def test_create_update_donation(init_app, client, json_access_token, donation_json,
+                                transfer_json, school_json, student_json, attendance_json):
+    res = client.post("/api/v1/transfers", json=transfer_json, headers=json_access_token)
     assert res.status_code == 200
-    #attendance create in here
-    json = {
-        "user_id": 1,
-        "attendance_id": 2,
-        "transfer_id": 1,
-        "month": "january",
-        "year": 2020,
-        "mmk_amount": 3000.0,
-        "jpy_amount": 0.0,
-        "paid_at": "2020-02-02"
-    }
-    res = client.post("/api/v1/donations", json=json, headers=json_access_token)
-    assert res.status_code == 400
-    json = {
-        "user_id": 1,
-        "attendance_id": 1,
-        "transfer_id": 1,
-        "month": "january",
-        "year": 2020,
-        "mmk_amount": 5000.0,
-        "jpy_amount": 0.0,
-        "paid_at": "2020-02-02"
-    }
-    res = client.put("/api/v1/donations/1", json=json, headers=json_access_token)
-    assert res.status_code == 400 # fixed here after attendance create API testing done
+    # create school
+    res = client.post("/api/v1/schools", json=school_json, headers=json_access_token)
+    assert res.status_code == 200
+    # create student
+    res = client.post("/api/v1/students", json=student_json, headers=json_access_token)
+    assert res.status_code == 200
+    # create attendances
+    res = client.post("/api/v1/attendances", json=attendance_json, headers=json_access_token)
+    assert res.status_code == 200
+    # create donation
+    res = client.post("/api/v1/donations", json=donation_json, headers=json_access_token)
+    assert res.status_code == 200
+    res = client.put("/api/v1/donations/1", json=donation_json, headers=json_access_token)
+    assert res.status_code == 200
 
 
 def test_donations(init_app, client, json_access_token):
     res = client.get("/api/v1/donations", headers=json_access_token)
     assert res.status_code == 200
-
-
-

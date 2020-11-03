@@ -29,7 +29,7 @@ def get_students():
 
 
 @api.route("/students/<int:student_id>", methods=["GET"])
-# @jwt_required
+@jwt_required
 @cross_origin()
 def get_student_by_id(student_id: int):
     """
@@ -50,7 +50,7 @@ def get_student_by_id(student_id: int):
 
 
 @api.route("/students", methods=["POST"])
-# @jwt_required
+@jwt_required
 @cross_origin()
 def create_student():
     """
@@ -85,9 +85,9 @@ def create_student():
 
 
 @api.route("/students/<int:student_id>", methods=["DELETE"])
-# @jwt_required
+@jwt_required
 @cross_origin()
-def delete_students(student_id):
+def delete_students(student_id: int):
     """
     delete student  by ID
     :param student_id:
@@ -99,8 +99,8 @@ def delete_students(student_id):
         student = student_service.get_student_by_id(student_id)
 
         if len(student) == 0:
-            current_app.logger.error("No student id to Delete: {}".format(student_id))
-            return jsonify({"errors": ["No student id to Delete"]}), 404
+            current_app.logger.error("No student id to delete: {}".format(student_id))
+            return jsonify({"errors": ["No student id to delete"]}), 404
 
         if student_service.delete_student_by_id(student_id):
             student_delete_status = address_service.delete_address_by_id(student[0]["address"]["id"])
@@ -157,4 +157,3 @@ def update_student(student_id: int):
         current_app.logger.error("Error for student data update id {} Error: {}"
                                  .format(student_id, error))
         return jsonify({"errors": [error.__dict__]}), 400
-

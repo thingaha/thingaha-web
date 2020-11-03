@@ -2,14 +2,12 @@ import traceback
 from typing import List, Dict, Any, Optional
 
 from sqlalchemy.exc import SQLAlchemyError
-from werkzeug.security import generate_password_hash
 
 from common.data_schema import student_schema
 from common.error import SQLCustomError, RequestDataEmpty, ValidateFail
-from common.logger import get_common_logger
-from common.validate import InputValidate
 from models.student import StudentModel
 from service.service import Service
+
 
 class StudentService(Service):
     """
@@ -28,20 +26,19 @@ class StudentService(Service):
         """
         return [student.student_dict() for student in query]
 
-    @staticmethod
-    def get_all_student_address(page: int = 1) -> (List[Dict], int):
+    def get_all_student_address(self, page: int = 1) -> (List[Dict], int):
         """
         get all school address for get all address API
         :params page integer
         :return
         """
         try:
-            self.logger.info("Get All Student Address list")
+            self.logger.info("Get all student address list")
             students_address = StudentModel.get_all_student_address(page)
             return [address.address_type_dict(student) for address, student in students_address.items], students_address.total
         except SQLAlchemyError as error:
             self.logger.error("Error: {}".format(error))
-            raise SQLCustomError(description="GET STUDENT ADDRESS SQL ERROR")
+            raise SQLCustomError(description="GET student address SQL ERROR")
 
     def get_all_students(self, page: int = 1) -> (List, Any):
         """
@@ -68,7 +65,7 @@ class StudentService(Service):
             return self.__return_student_list(StudentModel.get_student_by_id(student_id))
         except SQLAlchemyError as error:
             self.logger.error("Error: {}".format(error))
-            raise SQLCustomError(description="GET Student by ID SQL ERROR")
+            raise SQLCustomError(description="GET student by ID SQL ERROR")
 
     def create_student(self, data: Dict[str, Any]) -> int:
         """
@@ -80,7 +77,6 @@ class StudentService(Service):
             raise RequestDataEmpty("Student data is empty")
         if not self.input_validate.validate_json(data, student_schema):
             self.logger.error("All student field input must be required.")
-            print(data)
             raise ValidateFail("Student validation fail")
         try:
             return StudentModel.create_student(StudentModel(
