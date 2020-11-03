@@ -12,6 +12,7 @@ api = Blueprint("api", __name__, url_prefix="/api/v1")
 
 jwt: JWTManager = None
 
+
 def post_request_empty():
     """
     helper function for post request empty
@@ -38,3 +39,4 @@ from controller.user import *
 from controller.donation import *
 from controller.transfer import *
 from controller.student import *
+from controller.extrafund import *

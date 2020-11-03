@@ -269,6 +269,34 @@ def test_create_update_student(init_app, client, json_access_token, student_json
     assert res.status_code == 200
 
 
+def test_extrafund_get_id(init_app, client, json_access_token):
+    res = client.get("/api/v1/extrafunds/1", headers=json_access_token)
+    assert res.status_code == 200
+
+
+def test_get_all_extrafund(init_app, client, json_access_token):
+    res = client.get("/api/v1/extrafunds", headers=json_access_token)
+    assert res.status_code == 200
+
+
+def test_delete_extrafunds_by_id(init_app, client, json_access_token):
+    res = client.delete("/api/v1/extrafunds/1", headers=json_access_token)
+    assert res.status_code == 200
+
+
+def test_create_update_extrafunds(init_app, client, json_access_token):
+    res = client.post("/api/v1/extrafunds", json={
+        "mmk_amount": 11111,
+        "transfer_id": 2
+    }, headers=json_access_token)
+    assert res.status_code == 200
+    res = client.put("/api/v1/extrafunds/1", json={
+        "mmk_amount": 22222,
+        "transfer_id": 1
+    }, headers=json_access_token)
+    assert res.status_code == 200
+
+
 def test_create_update_donation(init_app, client, json_access_token, donation_json,
                                 transfer_json, school_json, student_json, attendance_json):
     res = client.post("/api/v1/transfers", json=transfer_json, headers=json_access_token)
