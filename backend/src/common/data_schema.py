@@ -53,3 +53,14 @@ transfer_schema = Schema({
     "total_mmk": int,
     "total_jpy": int
 })
+
+student_schema = Schema({
+    "name": str,
+    "deactivated_at": Or(None, str),
+    "birth_date": str,
+    "father_name": str,
+    "mother_name": str,
+    "parents_occupation": str,
+    "photo": str,
+    "address_id": int
+})

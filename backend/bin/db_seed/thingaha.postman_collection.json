@@ -1200,8 +1200,8 @@
 					"formdata": [
 						{
 							"key": "img",
-							"value": null,
-							"type": "file"
+							"type": "file",
+							"src": []
 						},
 						{
 							"key": "student_id",
@@ -1210,9 +1210,7 @@
 						}
 					],
 					"options": {
-						"raw": {
-							"language": "json"
-						}
+						"formdata": {}
 					}
 				},
 				"url": {
@@ -1394,6 +1392,215 @@
 						"api",
 						"v1",
 						"donations",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Student[GET]",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDQzMjY1NDksIm5iZiI6MTYwNDMyNjU0OSwianRpIjoiMjRlZDU2YTAtMDlhYi00Y2FiLWI1OTEtNzFmZDM4N2MzMzhhIiwiZXhwIjoxNjA0NDEyOTQ5LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ._7V98IPd-OoS29wDqCgcLd1w-e4MZ_9A-WC3m-7FmSQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n      \"user_id\": 1,\n      \"attendance_id\": 2,\n      \"transfer_id\": 4,\n      \"month\": \"january\",\n      \"year\": 2020,\n      \"mmk_amount\": 3000.0,\n      \"jpy_amount\": 0.0,\n      \"paid_at\": \"2020-02-02\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/students",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"students"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Student[GET][ID]",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDQzMjY1NDksIm5iZiI6MTYwNDMyNjU0OSwianRpIjoiMjRlZDU2YTAtMDlhYi00Y2FiLWI1OTEtNzFmZDM4N2MzMzhhIiwiZXhwIjoxNjA0NDEyOTQ5LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ._7V98IPd-OoS29wDqCgcLd1w-e4MZ_9A-WC3m-7FmSQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n      \"user_id\": 1,\n      \"attendance_id\": 2,\n      \"transfer_id\": 4,\n      \"month\": \"january\",\n      \"year\": 2020,\n      \"mmk_amount\": 3000.0,\n      \"jpy_amount\": 0.0,\n      \"paid_at\": \"2020-02-02\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/students/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"students",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Student[POST]",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDQzMjY1NDksIm5iZiI6MTYwNDMyNjU0OSwianRpIjoiMjRlZDU2YTAtMDlhYi00Y2FiLWI1OTEtNzFmZDM4N2MzMzhhIiwiZXhwIjoxNjA0NDEyOTQ5LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ._7V98IPd-OoS29wDqCgcLd1w-e4MZ_9A-WC3m-7FmSQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"district\": \"မရမ်းကုန်းမြို့နယ်\", \n  \"division\": \"yangon\", \n  \"street_address\": \"ဉီးဘအိုလမ်း\", \n  \"township\": \"အမှတ်(၂)ရပ်ကွက်\",\n  \"type\" : \"student\",\n  \"deactivated_at\" : \"2020-07-26T03:37:05.836Z\",\n  \"birth_date\": \"12-08-2006\", \n  \"father_name\": \"ဉီးလှ\", \n  \"mother_name\": \"ဒေါ်မြ\", \n  \"name\": \"မောင်မောင်\", \n  \"parents_occupation\": \"လယ်သမား\", \n  \"photo\": \"https://i.pinimg.com/originals/a7/65/45/a7654580f501e9501e329978bebd051b.jpg\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/students",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"students"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Student[PUT]",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDQzMjY1NDksIm5iZiI6MTYwNDMyNjU0OSwianRpIjoiMjRlZDU2YTAtMDlhYi00Y2FiLWI1OTEtNzFmZDM4N2MzMzhhIiwiZXhwIjoxNjA0NDEyOTQ5LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ._7V98IPd-OoS29wDqCgcLd1w-e4MZ_9A-WC3m-7FmSQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"district\": \"မရမ်းကုန်းမြို့နယ်\", \n  \"division\": \"yangon\", \n  \"street_address\": \"ဉီးဘအိုလမ်း\", \n  \"township\": \"အမှတ်(၂)ရပ်ကွက်\",\n  \"type\" : \"student\",\n  \"address_id\": 1,\n  \"deactivated_at\" : \"2020-07-26T03:37:05.836Z\",\n  \"birth_date\": \"12-08-2006\", \n  \"father_name\": \"ဉီးလှ\", \n  \"mother_name\": \"ဒေါ်မြ\", \n  \"name\": \"မောင်မောင်\", \n  \"parents_occupation\": \"လယ်သမား\", \n  \"photo\": \"https://i.pinimg.com/originals/a7/65/45/a7654580f501e9501e329978bebd051b.jpg\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/students/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"students",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Student[DELETE]",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDQzMjY1NDksIm5iZiI6MTYwNDMyNjU0OSwianRpIjoiMjRlZDU2YTAtMDlhYi00Y2FiLWI1OTEtNzFmZDM4N2MzMzhhIiwiZXhwIjoxNjA0NDEyOTQ5LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ._7V98IPd-OoS29wDqCgcLd1w-e4MZ_9A-WC3m-7FmSQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"district\": \"မရမ်းကုန်းမြို့နယ်\", \n  \"division\": \"yangon\", \n  \"street_address\": \"ဉီးဘအိုလမ်း\", \n  \"township\": \"အမှတ်(၂)ရပ်ကွက်\",\n  \"type\" : \"student\",\n  \"address_id\": 1,\n  \"deactivated_at\" : \"2020-07-26T03:37:05.836Z\",\n  \"birth_date\": \"12-08-2006\", \n  \"father_name\": \"ဉီးလှ\", \n  \"mother_name\": \"ဒေါ်မြ\", \n  \"name\": \"မောင်မောင်\", \n  \"parents_occupation\": \"လယ်သမား\", \n  \"photo\": \"https://i.pinimg.com/originals/a7/65/45/a7654580f501e9501e329978bebd051b.jpg\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/students/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"students",
 						"4"
 					]
 				}

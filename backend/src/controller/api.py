@@ -37,3 +37,4 @@ from controller.school import *
 from controller.user import *
 from controller.donation import *
 from controller.transfer import *
+from controller.student import *
