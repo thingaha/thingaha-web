@@ -69,6 +69,7 @@ app.get('/addresses', (req, res) => {
   const json = require('./sample_data/addresses.json')
   res.json(json)
 })
+
 app.get('/students', (req, res) => {
   const json = require('./sample_data/students.json')
   res.json(json)
