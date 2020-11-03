@@ -149,12 +149,16 @@ def test_school(init_app, client, json_access_token):
     assert res.status_code == 200
 
 
-def test_school_id(init_app, client, json_access_token):
+def test_school_id(init_app, client, json_access_token, school_json):
+    res = client.post("/api/v1/schools", json=school_json, headers=json_access_token)
+    assert res.status_code == 200
     res = client.get("/api/v1/schools/1", headers=json_access_token)
     assert res.status_code == 200
 
 
-def test_delete_school_id(init_app, client, json_access_token):
+def test_delete_school_id(init_app, client, json_access_token, school_json):
+    res = client.post("/api/v1/schools", json=school_json, headers=json_access_token)
+    assert res.status_code == 200
     res = client.delete("/api/v1/schools/1", headers=json_access_token)
     assert res.status_code == 200
 
@@ -180,18 +184,8 @@ def test_user(init_app, client, json_access_token):
     assert res.status_code == 200
 
 
-def test_user_by_id(init_app, client, json_access_token):
-    res = client.get("/api/v1/users/1", headers=json_access_token)
-    assert res.status_code == 200
-
-
 def test_get_attendance(init_app, client, json_access_token):
     res = client.get("/api/v1/attendances", headers=json_access_token)
-    assert res.status_code == 200
-
-
-def test_get_attendance_by_id(init_app, client, json_access_token):
-    res = client.get("/api/v1/attendances/1", headers=json_access_token)
     assert res.status_code == 200
 
 
@@ -211,7 +205,9 @@ def test_post_attendance(init_app, client, json_access_token, school_json, atten
     assert res.status_code == 200
 
 
-def test_get_transfer_by_id(init_app, client, json_access_token):
+def test_get_transfer_by_id(init_app, client, json_access_token, transfer_json):
+    res = client.post("/api/v1/transfers", json=transfer_json, headers=json_access_token)
+    assert res.status_code == 200
     res = client.get("/api/v1/transfers/1", headers=json_access_token)
     assert res.status_code == 200
 
@@ -221,7 +217,9 @@ def test_get_all_transfer(init_app, client, json_access_token):
     assert res.status_code == 200
 
 
-def test_delete_transfer_by_id(init_app, client, json_access_token):
+def test_delete_transfer_by_id(init_app, client, json_access_token, transfer_json):
+    res = client.post("/api/v1/transfers", json=transfer_json, headers=json_access_token)
+    assert res.status_code == 200
     res = client.delete("/api/v1/transfers/1", headers=json_access_token)
     assert res.status_code == 200
 

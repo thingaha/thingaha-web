@@ -41,7 +41,6 @@ def get_attendance_by_id(attendance_id: int):
         current_app.logger.info("Return data for attendance_id: {}".format(attendance_id))
         return jsonify({
             "data": {
-                "count": len(attendance),
                 "attendance": attendance
             }}), 200
     except SQLCustomError as error:
