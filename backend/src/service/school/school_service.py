@@ -14,22 +14,25 @@ class SchoolService(Service):
     school service class for CRUD actions
     define specific params for school service in SchoolService Class
     """
+
     def __init__(self, logger=None) -> None:
         super().__init__(logger)
 
-    def get_all_schools(self) -> (List, Any):
+    def get_all_schools(self, page: int = 1) -> (List, Any):
         """
         get all school
+        :params:page : int
         :return: school list of dict
         """
         try:
             self.logger.info("Get school list")
-            return self.__return_school_list(SchoolModel.get_all_schools())
+            schools = SchoolModel.get_all_schools(page)
+            return self.__return_school_list(schools.items), schools.total
         except SQLAlchemyError as error:
             self.logger.error("Error: {}".format(error))
             raise SQLCustomError(description="GET School SQL ERROR")
 
-    def get_school_by_id(self, school_id: int) -> Optional[List]:
+    def get_school_by_id(self, school_id: int) -> Optional[Dict]:
         """
         get school info by id
         :param school_id:
@@ -37,7 +40,10 @@ class SchoolService(Service):
         """
         try:
             self.logger.info("Get school info by school_id:{}".format(school_id))
-            return self.__return_school_list(SchoolModel.get_school_by_id(school_id))
+            school = SchoolModel.get_school_by_id(school_id)
+            if not school:
+                raise SQLCustomError(description="No data for requested school id: {}".format(school_id))
+            return school.school_dict()
         except SQLAlchemyError as error:
             self.logger.error("Error: {}".format(error))
             raise SQLCustomError(description="GET School by ID SQL ERROR")
@@ -110,8 +116,10 @@ class SchoolService(Service):
             raise SQLCustomError(description="No record for requested school")
 
     @staticmethod
-    def get_all_school_address():
+    def get_all_school_address(page: int = 1) -> (Dict, int):
         """
         get all school address for get all address API
+        :param page
         """
-        return [address.address_type_dict(school) for address, school in SchoolModel.get_all_school_address()]
+        schools_addresses = SchoolModel.get_all_school_address(page)
+        return [address.address_type_dict(school) for address, school in schools_addresses.items], schools_addresses.total

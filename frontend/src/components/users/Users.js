@@ -8,6 +8,7 @@ import { Button } from '@material-ui/core'
 import AddCircleIcon from '@material-ui/icons/AddCircle'
 import UserCard from './UserCard'
 
+
 const Wrapper = styled.div`
   width: 70%;
   display: flex;
@@ -36,6 +37,7 @@ const UsersContainer = styled.ul`
 
 const Users = ({ users: { users }, getAllUsers }) => {
   const [userFormVisible, setUserFormVisible] = useState(false)
+  const [editingUser, setEditingUser] = useState(users[0])
 
   useEffect(() => {
     getAllUsers()
@@ -50,19 +52,31 @@ const Users = ({ users: { users }, getAllUsers }) => {
           color="primary"
           startIcon={<AddCircleIcon />}
           onClick={() => {
+          	setEditingUser(false)
             setUserFormVisible(true)
           }}
         >
           Add User
         </Button>
       </HeadingContainer>
-      <UserForm visible={userFormVisible} setVisible={setUserFormVisible} />
+      <UserForm 
+      visible={userFormVisible} 
+      setVisible={setUserFormVisible} 
+      editingUser={editingUser}
+      />
 
       <UsersContainer>
         {users.map((user) => {
           return (
             <li className="user-row">
-              <UserCard user={user} className="user" />
+              <UserCard 
+              user={user} 
+              className="user" 
+              onEdit={(editUser) => {
+                  setEditingUser(editUser)
+                  setUserFormVisible(true)
+                }}
+                />
             </li>
           )
         })}

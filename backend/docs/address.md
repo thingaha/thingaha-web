@@ -36,7 +36,9 @@ Output Sample:
 ### GET all Addresses
 | API      | Description | Action     |
 | :---        |    :----:   |          ---: |
-| /api/v1/addresses     | GET all addresses      | GET   |
+| /api/v1/addresses     | Get all addresses      | GET   |
+| /api/v1/addresses?page=XXX     | Get all addresses with pagination      | GET   |
+default count per page is 20.
 
 Output Sample
 ```json

@@ -15,15 +15,16 @@ school_service = SchoolService()
 @cross_origin()
 def get_school():
     """
-    get school from school table
+    get all school from school table
     :return:
     """
     try:
-        schools = school_service.get_all_schools()
+        page = request.args.get("page", 1, type=int)
+        schools, count = school_service.get_all_schools(page)
         current_app.logger.info("Get all school records")
         return jsonify({
             "data": {
-                "count": len(schools),
+                "count": count,
                 "schools": schools
             }}), 200
     except SQLCustomError as error:
@@ -44,7 +45,6 @@ def get_school_by_id(school_id: int):
         current_app.logger.info("Return data for school_id: {}".format(school_id))
         return jsonify({
             "data": {
-                "count": len(schools),
                 "school": schools
             }}), 200
     except SQLCustomError as error:
@@ -71,6 +71,7 @@ def create_school():
             "street_address": data.get("street_address"),
             "type": data.get("type")
         })
+        current_app.logger.debug("create address id: %s", address_id)
         school_id = school_service.create_school({
             "school_name": data.get("school_name"),
             "contact_info": data.get("contact_info"),

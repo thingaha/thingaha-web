@@ -8,6 +8,7 @@ import TextField from '@material-ui/core/TextField'
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 import ThingahaFormModal from '../common/ThingahaFormModal'
+//import InputLabel from '@material-ui/core/InputLabel'
 
 const FormContainer = styled.div`
   display: flex;
@@ -32,15 +33,21 @@ const UserForm = ({
   visible,
   setVisible,
   submitUserForm,
+  submitEditUserForm,
+  editingUser,
 }) => {
   return (
     <ThingahaFormModal
-      title="Add New User"
+      title={editingUser ? 'Edit User' : 'Add New User'}
       open={visible}
       onClose={() => setVisible(false)}
       onCancel={() => setVisible(false)}
       onSubmit={() => {
-        submitUserForm(values)
+        if (editingUser) {
+          submitEditUserForm(values)
+        } else {
+          submitUserForm(values)
+        }
         setVisible(false)
       }}
     >
@@ -99,6 +106,15 @@ const UserForm = ({
   )
 }
 
+const transformUserSchema = (user) => {
+  return {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    country: user.country,
+    role: user.role,
+  }
+}
 const mapStateToProps = (state) => ({
   users: state.users,
   error: state.error,
@@ -106,35 +122,37 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    submitUserForm: (newUserValues) =>
-      dispatch(actions.submitUserForm(newUserValues)),
+    submitUserForm: (newUserValues) => {
+      dispatch(actions.submitUserForm(newUserValues))
+    },
+    submitEditUserForm: (values) => {
+      dispatch(actions.submitEditUserForm(transformUserSchema(values)))
+    },
   }
 }
 
 const FormikUserForm = withFormik({
-  mapPropsToValues: () => ({
-    username: '',
-    email: '',
-    role: 'donator',
-    country: 'jp',
-  }),
+  mapPropsToValues: (props) => {
+    if (props.editingUser) {
+      return props.editingUser
+    } else {
+      return { username: '', email: '', role: 'donator', country: 'jp' }
+    }
+  },
 
   // Custom sync validation
   validate: (values) => {
     const errors = {}
 
-    if (!values.username) {
-      errors.username = 'Required'
+    if (!values.name) {
+      errors.name = 'Required'
     }
 
     return errors
   },
 
-  handleSubmit: (values, { submitUserForm }) => {
-    submitUserForm(values)
-  },
-
   displayName: 'UserForm',
+  enableReinitialize: true,
 })(UserForm)
 
 export default connect(mapStateToProps, mapDispatchToProps)(FormikUserForm)

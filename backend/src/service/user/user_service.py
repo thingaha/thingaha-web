@@ -87,14 +87,16 @@ class UserService(Service):
             self.logger.error("User delete fail. id %s, error %s", user_id, traceback.format_exc())
             raise SQLCustomError(description="Delete user by ID SQL ERROR")
 
-    def get_all_users(self) -> List[Dict[str, Any]]:
+    def get_all_users(self, page: int = 1) -> (List[Dict[str, Any]], int):
         """
         get all users
+        :params: page page count
         :return: users list of dict
         """
         self.logger.info("Get all users list")
         try:
-            return self.__return_user_list(UserModel.get_all_users())
+            users = UserModel.get_all_users(page)
+            return self.__return_user_list(users.items), users.total
         except SQLAlchemyError:
             self.logger.error("Get all users fail. error %s", traceback.format_exc())
             raise SQLCustomError(description="GET user SQL ERROR")
@@ -120,6 +122,8 @@ class UserService(Service):
         self.logger.info("Get users list by id %s", user_id)
         try:
             user = UserModel.get_user_by_id(user_id)
+            if not user:
+                raise SQLCustomError(description="No data for requested user id: {}".format(user_id))
             return user.as_dict() if user else {}
         except SQLAlchemyError:
             self.logger.error("Get users by id fail. id %s. error %s", user_id,
@@ -161,8 +165,9 @@ class UserService(Service):
         return [user.as_dict() for user in users]
 
     @staticmethod
-    def get_all_user_address():
+    def get_all_user_address(page: int=1) -> (Dict, int):
         """
         get all user address for get all address API
         """
-        return [address.address_type_dict(user) for address, user in UserModel.get_all_user_address()]
+        users_addresses = UserModel.get_all_user_address(page)
+        return [address.address_type_dict(user) for address, user in users_addresses.items], users_addresses.total

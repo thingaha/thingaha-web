@@ -40,6 +40,10 @@ try:
     with open("../bin/db_seed/extrafunds.csv", "r", encoding="utf-8") as f:
         CURSOR.copy_from(f, "extrafunds", sep=",")
         CONN.commit()
+
+    with open("../bin/db_seed/donations.csv", "r", encoding="utf-8") as f:
+        CURSOR.copy_from(f, "donations", sep=",")
+        CONN.commit()
     print("Input Sample Data Successfully")
 except psycopg2.OperationalError as e:
     print("Data Seed Error: %s", e)

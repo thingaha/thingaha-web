@@ -18,15 +18,17 @@ class AttendanceService(Service):
     def __init__(self, logger=None) -> None:
         super().__init__(logger)
 
-    def get_all_attendance_records(self) -> (List, Any):
+    def get_all_attendances(self, page) -> (List, Any):
         """
         get all attendance
+        :params page
         :return: attendance list of dict
         """
         try:
             self.logger.info("Get attendance list")
+            attendances = AttendanceModel.get_all_attendances(page)
             return [attendance.attendance_dict(school, student) for attendance, school, student in
-                    AttendanceModel.get_all_attendance()]
+                    attendances.items], attendances.total
         except SQLAlchemyError as error:
             self.logger.error("Error: {}".format(error))
             raise SQLCustomError(description="GET Attendance SQL ERROR")
@@ -39,9 +41,12 @@ class AttendanceService(Service):
         """
         try:
             self.logger.info("Get attendance info by attendance_id:{}".format(attendance_id))
-            return [attendance.attendance_dict(school, student) for attendance, school, student in
-                    AttendanceModel.get_attendance_by_id(attendance_id)]
-        except SQLAlchemyError as error:
+            attendance_by_id = AttendanceModel.get_attendance_by_id(attendance_id)
+            if not attendance_by_id:
+                raise SQLCustomError(description="No data for requested attendance id: {}".format(attendance_id))
+            attendance, school, student = attendance_by_id
+            return attendance.attendance_dict(school, student)
+        except SQLAlchemyError:
             self.logger.error("Error: {}".format(traceback.format_exc()))
             raise SQLCustomError(description="GET Attendance by ID SQL ERROR")
 

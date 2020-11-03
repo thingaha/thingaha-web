@@ -77,7 +77,9 @@ class TransferService(Service):
         self.logger.info("Get transfer record by id %s", transfer_id)
         try:
             transfer = TransferModel.get_transfer_by_id(transfer_id)
-            return transfer.as_dict() if transfer else {}
+            if not transfer:
+                raise SQLCustomError(description="No data for requested transfer id: {}".format(transfer_id))
+            return transfer.as_dict()
         except SQLAlchemyError:
             self.logger.error("Get transfer record by id fail. id %s. error %s", transfer_id, traceback.format_exc())
             raise SQLCustomError(description="GET transfer by ID SQL ERROR")
@@ -95,14 +97,16 @@ class TransferService(Service):
             self.logger.error("Transfer delete fail. id %s, error %s", transfer_id, traceback.format_exc())
             raise SQLCustomError(description="Delete transfer by ID SQL ERROR")
 
-    def get_all_transfers(self) -> List[Dict[str, Any]]:
+    def get_all_transfers(self, page: int = 1) -> (List[Dict[str, Any]], int):
         """
         get all transfers
+        :params: page
         :return:
         """
         self.logger.info("Get all transfers list")
         try:
-            return [transfer.as_dict() for transfer in TransferModel.get_all_transfers()]
+            transfers = TransferModel.get_all_transfers(page)
+            return [transfer.as_dict() for transfer in transfers.items], transfers.total
         except SQLAlchemyError:
             self.logger.error("Get all transfer fail. error %s", traceback.format_exc())
             raise SQLCustomError(description="GET transfer SQL ERROR")

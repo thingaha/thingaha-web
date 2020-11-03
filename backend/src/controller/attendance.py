@@ -15,11 +15,12 @@ attendance_service = AttendanceService()
 @cross_origin()
 def get_attendances():
     try:
-        attendance = attendance_service.get_all_attendance_records()
+        page = request.args.get("page", 1, type=int)
+        attendance, count = attendance_service.get_all_attendances(page)
         current_app.logger.info("Get all attendance records")
         return jsonify({
             "data": {
-                "count": len(attendance),
+                "count": count,
                 "attendances": attendance
             }}), 200
     except SQLCustomError as error:
@@ -40,7 +41,6 @@ def get_attendance_by_id(attendance_id: int):
         current_app.logger.info("Return data for attendance_id: {}".format(attendance_id))
         return jsonify({
             "data": {
-                "count": len(attendance),
                 "attendance": attendance
             }}), 200
     except SQLCustomError as error:

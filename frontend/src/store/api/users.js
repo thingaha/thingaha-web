@@ -41,11 +41,11 @@ const usersDb = [
 ]
 
 export const fetchUsers = async () => {
-  const response = await thingahaApiClient.get('/users')
+  const { data, error, status } = await thingahaApiClient.get('/users')
 
   return {
     data: {
-      users: response.data.data.users,
+      users: data.users,
     },
   }
 }
@@ -55,5 +55,12 @@ export const createUser = async (userFormValues) => {
   usersDb.push(newUser)
   return {
     data: newUser,
+  }
+}
+
+export const editUser = (values) => {
+  // TODO call backend users edit endpoint
+  return {
+    data: [...usersDb.filter((user) => user.id !== values.id), values],
   }
 }

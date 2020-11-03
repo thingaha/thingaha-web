@@ -11,7 +11,7 @@ import { Grid } from '@material-ui/core'
 import styled from 'styled-components'
 import { media } from '../../styles/variables'
 import ContentView from './ContentView'
-import logoUrl from '../../images/logo_transparent_vertical.png'
+import logoUrl from '../../images/logo_transparent_horizontal.png'
 
 const drawerWidth = 200
 
@@ -21,6 +21,10 @@ const DrawerStyled = styled(Drawer)`
   & .drawerPaper {
     width: ${drawerWidth}px;
   }
+
+  & .drawerHeight {
+    height: 100%;
+  }
 `
 
 const RootDiv = styled.div`
@@ -28,30 +32,25 @@ const RootDiv = styled.div`
 
   & .drawer {
     ${media.tabletPortraitUp} {
-    width: ${drawerWidth}px;
-    flex-shrink: 0;
+      width: ${drawerWidth}px;
+      flex-shrink: 0;
     }
-  }
-
-  $ .drawerHeight {
-    height: 100%;
   }
 
   & .menuButton {
     margin-right: 1rem;
-    }
   }
 
   & .toolbar {
     min-height: 56px;
   }
 
-  & .content{
+  & .content {
     flex-grow: 1;
     width: ${drawerWidth}px;
   }
 
-  & .titleToolbar{
+  & .titleToolbar {
     padding-right: 3rem;
   }
 
@@ -71,7 +70,7 @@ const BaseLayout = (props) => {
   const drawer = (
     <Grid className="drawerHeight" container direction="row">
       <Grid item xs={12}>
-        <Sidebar />
+        <Sidebar closeMobileDrawer={() => setMobileOpen(false)} />
       </Grid>
     </Grid>
   )

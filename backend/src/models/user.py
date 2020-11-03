@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from typing import Dict, Any, List
 
+from flask_sqlalchemy import Pagination
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import relationship
 
@@ -146,23 +147,27 @@ class UserModel(db.Model):
             raise error
 
     @staticmethod
-    def get_all_users() -> List[UserModel]:
+    def get_all_users(page: int) -> Pagination:
         """
         get all users
+        :page integer
         :return: users list of dict
         """
         try:
-            return db.session.query(UserModel).join(AddressModel).all()
+            return db.session.query(UserModel).join(AddressModel).paginate(page=page, error_out=False)
         except SQLAlchemyError as error:
             raise error
 
     @staticmethod
-    def get_all_user_address() -> dict:
+    def get_all_user_address(page: int = 1) -> Pagination:
         """
         get all user address for get all address API
+        :params page
+        :return Pagination Object
         """
         try:
             return db.session.query(AddressModel, UserModel). \
-                filter(AddressModel.id == UserModel.address_id).filter(AddressModel.type == "user").all()
+                filter(AddressModel.id == UserModel.address_id).filter(
+                AddressModel.type == "user").paginate(page=page, error_out=False)
         except SQLAlchemyError as error:
             raise error

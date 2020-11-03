@@ -1,8 +1,9 @@
 """school model class, include migrate and CRUD actions"""
 from __future__ import annotations
 
-from typing import List, Dict, Any
+from typing import Dict, Any
 
+from flask_sqlalchemy import Pagination
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import relationship
 
@@ -64,13 +65,14 @@ class SchoolModel(db.Model):
             raise error
 
     @staticmethod
-    def get_all_schools() -> List[SchoolModel]:
+    def get_all_schools(page) -> Pagination:
         """
         get all school records
-        :return: school list
+        :params page: int
+        :return: school Pagination iterator
         """
         try:
-            return db.session.query(SchoolModel).join(AddressModel).all()
+            return db.session.query(SchoolModel).join(AddressModel).paginate(page=page, error_out=False)
         except SQLAlchemyError as error:
             raise error
 
@@ -81,7 +83,7 @@ class SchoolModel(db.Model):
         :return: school list
         """
         try:
-            return db.session.query(SchoolModel).join(AddressModel).filter(SchoolModel.id == school_id)
+            return db.session.query(SchoolModel).join(AddressModel).filter(SchoolModel.id == school_id).first()
         except SQLAlchemyError as error:
             raise error
 
@@ -122,12 +124,15 @@ class SchoolModel(db.Model):
             raise error
 
     @staticmethod
-    def get_all_school_address() -> dict:
+    def get_all_school_address(page: int = 1) -> Pagination:
         """
         get all school address for get all address API
+        :params page integer
+        :return Pagination object
         """
         try:
             return db.session.query(AddressModel, SchoolModel). \
-                filter(AddressModel.id == SchoolModel.address_id).filter(AddressModel.type == "school").all()
+                filter(AddressModel.id == SchoolModel.address_id).filter(
+                AddressModel.type == "school").paginate(page=page, error_out=False)
         except SQLAlchemyError as error:
             raise error

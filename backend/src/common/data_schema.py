@@ -2,7 +2,7 @@
 schema module for request body
 use python library Schema
 """
-from schema import Schema
+from schema import Schema, Or
 
 address_schema = Schema({
     "division": str,
@@ -36,17 +36,36 @@ attendance_schema = Schema({
     "enrolled_date": str
 })
 
-<<<<<<< Updated upstream
-=======
-
 extrafunds_schema = Schema({
     "mmk_amount": int,
     "transfer_id": int
 })
->>>>>>> Stashed changes
+
+donation_schema = Schema({
+    "user_id": int,
+    "attendance_id": int,
+    "transfer_id": int,
+    "year": int,
+    "month": str,
+    "mmk_amount": float,
+    "jpy_amount": float,
+    "paid_at": Or(None, str)
+})
+
 transfer_schema = Schema({
     "year": int,
     "month": str,
     "total_mmk": int,
     "total_jpy": int
+})
+
+student_schema = Schema({
+    "name": str,
+    "deactivated_at": Or(None, str),
+    "birth_date": str,
+    "father_name": str,
+    "mother_name": str,
+    "parents_occupation": str,
+    "photo": str,
+    "address_id": int
 })

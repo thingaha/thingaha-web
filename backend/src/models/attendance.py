@@ -4,6 +4,7 @@ from __future__ import annotations
 from datetime import date
 from typing import List
 
+from flask_sqlalchemy import Pagination
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import relationship
 
@@ -69,15 +70,16 @@ class AttendanceModel(db.Model):
             raise error
 
     @staticmethod
-    def get_all_attendance() -> List[AttendanceModel]:
+    def get_all_attendances(page) -> Pagination:
         """
         get all Attendance records
+        :params page
         :return: Attendance list
         """
         try:
             return db.session.query(AttendanceModel, SchoolModel, StudentModel).\
                 filter(AttendanceModel.school_id == SchoolModel.id).\
-                filter(AttendanceModel.student_id == StudentModel.id).all()
+                filter(AttendanceModel.student_id == StudentModel.id).paginate(page=page, error_out=False)
         except SQLAlchemyError as error:
             raise error
 
@@ -92,7 +94,7 @@ class AttendanceModel(db.Model):
             return db.session.query(AttendanceModel, SchoolModel, StudentModel). \
                 filter(AttendanceModel.school_id == SchoolModel.id). \
                 filter(AttendanceModel.student_id == StudentModel.id).\
-                filter(AttendanceModel.id == attendance_id)
+                filter(AttendanceModel.id == attendance_id).first()
         except SQLAlchemyError as error:
             raise error
 
