@@ -69,3 +69,9 @@ app.get('/addresses', (req, res) => {
   const json = require('./sample_data/addresses.json')
   res.json(json)
 })
+
+//extrafunds
+app.get('/extrafunds', (req, res) => {
+  const json = require('./sample_data/extrafunds.json')
+  res.json(json)
+})
