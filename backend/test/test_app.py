@@ -167,7 +167,7 @@ def test_post_attendance(init_app, client, json_access_token):
         "year": "2020",
         "enrolled_date": "2020-02-01"
     }, headers=json_access_token)
-    assert res.status_code == 200 # fix it after student create api done
+    assert res.status_code == 200 # fix it after student create api done'''
 
 
 def test_get_transfer_by_id(init_app, client, json_access_token):
@@ -184,7 +184,6 @@ def test_delete_transfer_by_id(init_app, client, json_access_token):
     res = client.delete("/api/v1/transfers/1", headers=json_access_token)
     assert res.status_code == 200
 
-
 def test_create_update_transfer(init_app, client, json_access_token):
     res = client.post("/api/v1/transfers", json={
         "year": 2020,
@@ -200,5 +199,30 @@ def test_create_update_transfer(init_app, client, json_access_token):
         "total_jpy": 35000
     }, headers=json_access_token)
     assert res.status_code == 200
+
+def test_extrafund_get_id(init_app, client, json_access_token):
+    res = client.get("/api/v1/extrafunds/1", headers=json_access_token)
+    assert res.status_code == 200
+
+def test_get_all_extrafund(init_app, client, json_access_token):
+    res = client.get("/api/v1/extrafunds", headers=json_access_token)
+    assert res.status_code == 200
+
+def test_delete_extrafunds_by_id(init_app, client, json_access_token):
+    res = client.delete("/api/v1/extrafunds/1", headers=json_access_token)
+    assert res.status_code == 200
+
+def test_create_update_extrafunds(init_app, client, json_access_token):
+    res = client.post("/api/v1/extrafunds", json={
+        "mmk_amount": 11111,
+        "transfer_id": 2
+    }, headers=json_access_token)
+    assert res.status_code == 200
+    res = client.put("/api/v1/extrafunds/1", json={
+        "mmk_amount": 22222,
+        "transfer_id": 1
+    }, headers=json_access_token)
+    assert res.status_code == 200
+
 
 

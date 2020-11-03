@@ -36,6 +36,14 @@ attendance_schema = Schema({
     "enrolled_date": str
 })
 
+<<<<<<< Updated upstream
+=======
+
+extrafunds_schema = Schema({
+    "mmk_amount": int,
+    "transfer_id": int
+})
+>>>>>>> Stashed changes
 transfer_schema = Schema({
     "year": int,
     "month": str,
