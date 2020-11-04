@@ -152,7 +152,7 @@ Output Sample
 ```json
 {
     "data": {
-        "attendance": [
+        "attendance": 
             {
                 "enrolled_date": "02-02-2020",
                 "grade": "G-9",
@@ -187,8 +187,6 @@ Output Sample
                 },
                 "year": "2020"
             }
-        ],
-        "count": 1
     }
 }
 ```

@@ -77,7 +77,9 @@ class TransferService(Service):
         self.logger.info("Get transfer record by id %s", transfer_id)
         try:
             transfer = TransferModel.get_transfer_by_id(transfer_id)
-            return transfer.as_dict() if transfer else {}
+            if not transfer:
+                raise SQLCustomError(description="No data for requested transfer id: {}".format(transfer_id))
+            return transfer.as_dict()
         except SQLAlchemyError:
             self.logger.error("Get transfer record by id fail. id %s. error %s", transfer_id, traceback.format_exc())
             raise SQLCustomError(description="GET transfer by ID SQL ERROR")

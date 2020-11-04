@@ -122,6 +122,8 @@ class UserService(Service):
         self.logger.info("Get users list by id %s", user_id)
         try:
             user = UserModel.get_user_by_id(user_id)
+            if not user:
+                raise SQLCustomError(description="No data for requested user id: {}".format(user_id))
             return user.as_dict() if user else {}
         except SQLAlchemyError:
             self.logger.error("Get users by id fail. id %s. error %s", user_id,
