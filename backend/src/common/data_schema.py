@@ -47,7 +47,7 @@ donation_schema = Schema({
     "paid_at": Or(None, str)
 })
 
-extrafunds_schema = Schema({
+extra_funds_schema = Schema({
     "mmk_amount": int,
     "transfer_id": int
 })
