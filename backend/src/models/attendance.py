@@ -94,7 +94,7 @@ class AttendanceModel(db.Model):
             return db.session.query(AttendanceModel, SchoolModel, StudentModel). \
                 filter(AttendanceModel.school_id == SchoolModel.id). \
                 filter(AttendanceModel.student_id == StudentModel.id).\
-                filter(AttendanceModel.id == attendance_id)
+                filter(AttendanceModel.id == attendance_id).first()
         except SQLAlchemyError as error:
             raise error
 

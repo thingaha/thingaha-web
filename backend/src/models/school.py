@@ -83,7 +83,7 @@ class SchoolModel(db.Model):
         :return: school list
         """
         try:
-            return db.session.query(SchoolModel).join(AddressModel).filter(SchoolModel.id == school_id)
+            return db.session.query(SchoolModel).join(AddressModel).filter(SchoolModel.id == school_id).first()
         except SQLAlchemyError as error:
             raise error
 

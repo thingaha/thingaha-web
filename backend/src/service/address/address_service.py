@@ -80,7 +80,9 @@ class AddressService(Service):
         self.logger.info("Get address by id %s", address_id)
         try:
             address = AddressModel.get_address_by_id(address_id)
-            return address.as_dict() if address else {}
+            if not address:
+                raise SQLCustomError(description="No data for requested address id: {}".format(address_id))
+            return address.as_dict()
         except SQLAlchemyError:
             self.logger.error("Get address by id fail. id %s. error %s", address_id, traceback.format_exc())
             raise SQLCustomError(description="GET address by ID SQL ERROR")

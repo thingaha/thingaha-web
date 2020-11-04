@@ -45,7 +45,6 @@ def get_school_by_id(school_id: int):
         current_app.logger.info("Return data for school_id: {}".format(school_id))
         return jsonify({
             "data": {
-                "count": len(schools),
                 "school": schools
             }}), 200
     except SQLCustomError as error:
@@ -72,6 +71,7 @@ def create_school():
             "street_address": data.get("street_address"),
             "type": data.get("type")
         })
+        current_app.logger.debug("create address id: %s", address_id)
         school_id = school_service.create_school({
             "school_name": data.get("school_name"),
             "contact_info": data.get("contact_info"),

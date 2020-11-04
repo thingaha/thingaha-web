@@ -88,8 +88,7 @@ Output Sample
 ```json
 {
   "data": {
-    "count": 1,
-    "school": [
+    "school": 
       {
         "address": {
           "district": "yangon",
@@ -102,7 +101,6 @@ Output Sample
         "id": 10,
         "name": "No.(11)Nyanungdon"
       }
-    ]
   }
 }
 ```

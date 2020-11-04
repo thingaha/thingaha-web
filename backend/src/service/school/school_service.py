@@ -32,7 +32,7 @@ class SchoolService(Service):
             self.logger.error("Error: {}".format(error))
             raise SQLCustomError(description="GET School SQL ERROR")
 
-    def get_school_by_id(self, school_id: int) -> Optional[List]:
+    def get_school_by_id(self, school_id: int) -> Optional[Dict]:
         """
         get school info by id
         :param school_id:
@@ -40,7 +40,10 @@ class SchoolService(Service):
         """
         try:
             self.logger.info("Get school info by school_id:{}".format(school_id))
-            return self.__return_school_list(SchoolModel.get_school_by_id(school_id))
+            school = SchoolModel.get_school_by_id(school_id)
+            if not school:
+                raise SQLCustomError(description="No data for requested school id: {}".format(school_id))
+            return school.school_dict()
         except SQLAlchemyError as error:
             self.logger.error("Error: {}".format(error))
             raise SQLCustomError(description="GET School by ID SQL ERROR")
@@ -119,5 +122,4 @@ class SchoolService(Service):
         :param page
         """
         schools_addresses = SchoolModel.get_all_school_address(page)
-        return [address.address_type_dict(school) for address, school in schools_addresses.items], \
-               schools_addresses.total
+        return [address.address_type_dict(school) for address, school in schools_addresses.items], schools_addresses.total
