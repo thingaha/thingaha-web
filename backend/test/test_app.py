@@ -114,6 +114,14 @@ def transfer_json():
 
 
 @pytest.fixture
+def extra_fund_json():
+    return {
+        "mmk_amount": 11111,
+        "transfer_id": 1
+    }
+
+
+@pytest.fixture
 def donation_json():
     return {
         "user_id": 1,
@@ -321,6 +329,34 @@ def test_create_update_extrafunds(init_app, client, json_access_token):
     }, headers=json_access_token)
     assert res.status_code == 200
 
+
+
+def test_extra_fund_get_id(init_app, client, json_access_token, extra_fund_json, transfer_json):
+    res = client.post("/api/v1/transfers", json=transfer_json, headers=json_access_token)
+    assert res.status_code == 200
+    res = client.post("/api/v1/extra_funds", json=extra_fund_json, headers=json_access_token)
+    assert res.status_code == 200
+    res = client.get("/api/v1/extra_funds/1", headers=json_access_token)
+    assert res.status_code == 200
+
+
+def test_get_all_extra_fund(init_app, client, json_access_token):
+    res = client.get("/api/v1/extra_funds", headers=json_access_token)
+    assert res.status_code == 200
+
+
+def test_delete_extra_funds_by_id(init_app, client, json_access_token):
+    res = client.delete("/api/v1/extra_funds/1", headers=json_access_token)
+    assert res.status_code == 200
+
+
+def test_create_update_extra_funds(init_app, client, json_access_token, extra_fund_json, transfer_json):
+    res = client.post("/api/v1/transfers", json=transfer_json, headers=json_access_token)
+    assert res.status_code == 200
+    res = client.post("/api/v1/extra_funds", json=extra_fund_json, headers=json_access_token)
+    assert res.status_code == 200
+    res = client.put("/api/v1/extra_funds/1", json=extra_fund_json, headers=json_access_token)
+    assert res.status_code == 200
 
 
 def test_create_update_donation(init_app, client, json_access_token, donation_json,

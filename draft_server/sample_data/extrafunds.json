@@ -1,10 +1,10 @@
 {
   "data": {
-    "extrafunds": [
+    "extra_funds": [
       {
         "id": 1,
         "mmk_amount": "367865000",
-        "transfer_id": {
+        "transfer": {
         "id": 1,
         "year": "2020",
         "month": "january",
@@ -15,7 +15,7 @@
       {
         "id": 2,
         "mmk_amount": "367865000",
-        "transfer_id": {
+        "transfer": {
         "id": 2,
         "year": "2020",
         "month": "february",
@@ -26,7 +26,7 @@
       {
         "id": 3,
         "mmk_amount": "367865000",
-        "transfer_id": {
+        "transfer": {
         "id": 3,
         "year": "2020",
         "month": "march",
@@ -37,7 +37,7 @@
       {
         "id": 4,
         "mmk_amount": "367865000",
-        "transfer_id": {
+        "transfer": {
         "id": 4,
         "year": "2020",
         "month": "april",
