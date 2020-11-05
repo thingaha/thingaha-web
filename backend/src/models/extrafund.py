@@ -121,8 +121,8 @@ class ExtraFundsModel(db.Model):
         :return: Transfer list
         """
         try:
+            subquery = db.session.query(ExtraFundsModel.transfer_id)
             query = db.session.query(TransferModel)
-            subquery = db.session.query(ExtraFundsModel.id)
-            return query.filter(~TransferModel.id.notin_(subquery))
+            return query.filter(TransferModel.id.notin_(subquery))
         except SQLAlchemyError as error:
             raise error
