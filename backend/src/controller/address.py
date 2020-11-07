@@ -1,11 +1,13 @@
 """API route for address API"""
-from flask import request, current_app, jsonify
+from flask import request, current_app, jsonify,json
 from flask_cors import cross_origin
 from flask_jwt_extended import jwt_required
+from flask import json
 
 from common.error import SQLCustomError, RequestDataEmpty, ValidateFail
 from controller.api import api, post_request_empty
 from service.address.address_service import AddressService
+from pathlib import Path
 
 address_service = AddressService()
 
@@ -117,4 +119,27 @@ def get_all_addresses():
             }}), 200
     except SQLCustomError as error:
         current_app.logger.error("Fail to get all addresses: %s", error)
+        return jsonify({"errors": [error.__dict__]}), 400
+
+@api.route("/myanmar_divisions", methods=["GET"])
+@jwt_required
+@cross_origin()
+def get_mmdivisions():
+    """
+    get all divisions list
+    :return:
+    """
+    try:
+        path = Path(__file__).parent / "../data/division.json"
+
+        with open(path) as d:
+         mmdivisions = json.load(d)
+
+        current_app.logger.info("Return data from json")
+        return jsonify({
+            "data": {
+                "divisions": mmdivisions
+            }}), 200
+    except FileNotFoundError as error:
+
         return jsonify({"errors": [error.__dict__]}), 400
