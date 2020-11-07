@@ -7,3 +7,5 @@ common:
         conf: "logging_prod.yaml"
     aws:
         url: "https://{}.s3-ap-northeast-1.amazonaws.com/{}"
+    mm_division:
+        file_path: "/../../data/mm_division/division.json"

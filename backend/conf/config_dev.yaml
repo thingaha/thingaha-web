@@ -7,6 +7,8 @@ common:
         conf: "logging_dev.yaml"
     aws:
         url: "https://{}.s3-ap-northeast-1.amazonaws.com/{}"
+    mm_division:
+        file_path: "/../../data/mm_division/division.json"
 postgres:
     url: "postgresql://"
     host: "localhost"

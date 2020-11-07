@@ -1921,6 +1921,49 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "myanmar_divisions[GET][COMMON API]",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDQ4MDUzNzYsIm5iZiI6MTYwNDgwNTM3NiwianRpIjoiY2ZmNDIwMDMtYTNhNi00NjYyLTg0YjctZTIzNmE0N2ZhMDI0IiwiZXhwIjoxNjA0ODkxNzc2LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.bTGsj8pAzMEbRDdjomXmJGQoLq0IxECfgZG6sRIiwQ4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"mmk_amount\": 3000,\n    \"transfer_id\": 5\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/myanmar_divisions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"myanmar_divisions"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"protocolProfileBehavior": {}

@@ -359,6 +359,11 @@ def test_create_update_donation(init_app, client, json_access_token, donation_js
     assert res.status_code == 200
 
 
+def test_divisions(init_app, client, json_access_token):
+    res = client.get("/api/v1/myanmar_divisions", headers=json_access_token)
+    assert res.status_code == 200
+
+
 def test_donations(init_app, client, json_access_token):
     res = client.get("/api/v1/donations", headers=json_access_token)
     assert res.status_code == 200

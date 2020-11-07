@@ -1,11 +1,13 @@
 """API route for address API"""
-from flask import request, current_app, jsonify
+from flask import request, current_app, jsonify,json
 from flask_cors import cross_origin
 from flask_jwt_extended import jwt_required
+from flask import json
 
 from common.error import SQLCustomError, RequestDataEmpty, ValidateFail
 from controller.api import api, post_request_empty
 from service.address.address_service import AddressService
+from pathlib import Path
 
 address_service = AddressService()
 

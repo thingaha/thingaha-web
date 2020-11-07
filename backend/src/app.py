@@ -22,11 +22,13 @@ def create_app():
 
 conf = load_config()
 load_logging_conf(conf["common"]["log"]["conf"])
+division_file_path = conf["common"]["mm_division"]["file_path"]
 
 app = create_app()
 jwt = JWTManager(app)
 
 api.jwt = jwt
+api.division_file_path = division_file_path
 
 
 if __name__ == "__main__":
