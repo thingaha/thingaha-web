@@ -1777,78 +1777,26 @@
 			"response": []
 		},
 		{
-			"name": "Student photo [Update]",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDE3MzU4MDUsIm5iZiI6MTYwMTczNTgwNSwianRpIjoiY2M4MjI0YzItMDgxZS00NzQ5LTg2N2ItZmQ0MjMyNDQ0Y2JmIiwiZXhwIjoxNjAxODIyMjA1LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.7irMCxZ_L-5DnLl9OmKPrO3i02AicewyDDJEBBhMUjQ",
-							"type": "string"
-						}
-					]
-				},
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "img",
-							"type": "file",
-							"src": []
-						},
-						{
-							"key": "student_id",
-							"value": "st004",
-							"type": "text"
-						},
-						{
-							"key": "old_url",
-							"value": "https://thingaha.s3-ap-northeast-1.amazonaws.com/st004.png",
-							"type": "text"
-						}
-					],
-					"options": {
-						"formdata": {}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:5000/api/v1/student/upload",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "5000",
-					"path": [
-						"api",
-						"v1",
-						"student",
-						"upload"
-					]
-				}
+			"name": "User[GET][FILTER]",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
 			},
-			"response": []
-		},
-		{
-			"name": "Student Photo [Delete]",
 			"request": {
 				"auth": {
 					"type": "bearer",
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDE3MzU4MDUsIm5iZiI6MTYwMTczNTgwNSwianRpIjoiY2M4MjI0YzItMDgxZS00NzQ5LTg2N2ItZmQ0MjMyNDQ0Y2JmIiwiZXhwIjoxNjAxODIyMjA1LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.7irMCxZ_L-5DnLl9OmKPrO3i02AicewyDDJEBBhMUjQ",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDQ4MDUzNzYsIm5iZiI6MTYwNDgwNTM3NiwianRpIjoiY2ZmNDIwMDMtYTNhNi00NjYyLTg0YjctZTIzNmE0N2ZhMDI0IiwiZXhwIjoxNjA0ODkxNzc2LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.bTGsj8pAzMEbRDdjomXmJGQoLq0IxECfgZG6sRIiwQ4",
 							"type": "string"
 						}
 					]
 				},
-				"method": "DELETE",
+				"method": "GET",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"url\": \"https://thingaha.s3-ap-northeast-1.amazonaws.com/st001.png\"}",
+					"raw": "{\n    \"mmk_amount\": 3000,\n    \"transfer_id\": 5\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -1856,7 +1804,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:5000/api/v1/student/delete",
+					"raw": "http://localhost:5000/api/v1/users?country=mm&page=2",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -1865,42 +1813,43 @@
 					"path": [
 						"api",
 						"v1",
-						"student",
-						"delete"
+						"users"
+					],
+					"query": [
+						{
+							"key": "country",
+							"value": "mm"
+						},
+						{
+							"key": "page",
+							"value": "2"
+						}
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Student photo [Create]",
+			"name": "User[GET][SEARCH]",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"auth": {
 					"type": "bearer",
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDE3MzU4MDUsIm5iZiI6MTYwMTczNTgwNSwianRpIjoiY2M4MjI0YzItMDgxZS00NzQ5LTg2N2ItZmQ0MjMyNDQ0Y2JmIiwiZXhwIjoxNjAxODIyMjA1LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.7irMCxZ_L-5DnLl9OmKPrO3i02AicewyDDJEBBhMUjQ",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDQ4MDUzNzYsIm5iZiI6MTYwNDgwNTM3NiwianRpIjoiY2ZmNDIwMDMtYTNhNi00NjYyLTg0YjctZTIzNmE0N2ZhMDI0IiwiZXhwIjoxNjA0ODkxNzc2LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.bTGsj8pAzMEbRDdjomXmJGQoLq0IxECfgZG6sRIiwQ4",
 							"type": "string"
 						}
 					]
 				},
-				"method": "POST",
+				"method": "GET",
 				"header": [],
 				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "img",
-							"value": null,
-							"type": "file"
-						},
-						{
-							"key": "student_id",
-							"value": "st003",
-							"type": "text"
-						}
-					],
+					"mode": "raw",
+					"raw": "{\n    \"mmk_amount\": 3000,\n    \"transfer_id\": 5\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -1908,7 +1857,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:5000/api/v1/student/upload",
+					"raw": "http://localhost:5000/api/v1/users/search?query=moemoe@gmail.com",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -1917,8 +1866,57 @@
 					"path": [
 						"api",
 						"v1",
-						"student",
-						"upload"
+						"users",
+						"search"
+					],
+					"query": [
+						{
+							"key": "query",
+							"value": "moemoe@gmail.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[Common][MM-division]",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDQ1MDI4NzIsIm5iZiI6MTYwNDUwMjg3MiwianRpIjoiNGQ5YjI3Y2QtOGUyOC00NDJkLWE4YTItZGNlZTIzZTlmMTkyIiwiZXhwIjoxNjA0NTg5MjcyLCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.LSbOeBLteY90A-BGaO5fkaLQ89p6fKarmE5jqBc1w0s",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"mmk_amount\": 3000,\n    \"transfer_id\": 5\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/mm_divisions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"mm_divisions"
 					]
 				}
 			},
