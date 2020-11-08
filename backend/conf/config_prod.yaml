@@ -5,3 +5,5 @@ common:
         port: 5555
     log:
         conf: "logging_prod.yaml"
+    mm_division:
+        file_path: "/../../data/mm_division/division.json"

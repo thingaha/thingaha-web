@@ -120,26 +120,3 @@ def get_all_addresses():
     except SQLCustomError as error:
         current_app.logger.error("Fail to get all addresses: %s", error)
         return jsonify({"errors": [error.__dict__]}), 400
-
-@api.route("/myanmar_divisions", methods=["GET"])
-@jwt_required
-@cross_origin()
-def get_mmdivisions():
-    """
-    get all divisions list
-    :return:
-    """
-    try:
-        path = Path(__file__).parent / "../data/division.json"
-
-        with open(path) as d:
-         mmdivisions = json.load(d)
-
-        current_app.logger.info("Return data from json")
-        return jsonify({
-            "data": {
-                "divisions": mmdivisions
-            }}), 200
-    except FileNotFoundError as error:
-
-        return jsonify({"errors": [error.__dict__]}), 400

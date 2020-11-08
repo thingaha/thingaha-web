@@ -5,6 +5,8 @@ common:
         port: 5000
     log:
         conf: "logging_dev.yaml"
+    mm_division:
+        file_path: "/../../data/mm_division/division.json"
 postgres:
     url: "postgresql://"
     host: "localhost"

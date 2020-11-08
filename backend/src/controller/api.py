@@ -3,14 +3,41 @@ main api route module for thingaha app
 blueprint name: api
 current version: v1
 """
+import os
 
-from flask import Blueprint, current_app, jsonify
+from flask import Blueprint
+from flask_cors import cross_origin
 from flask_jwt_extended import JWTManager
-from common.error import ThingahaCustomError, RequestDataEmpty
+from flask_jwt_extended import jwt_required
+
+from common.error import ThingahaCustomError, FileNotFound
 
 api = Blueprint("api", __name__, url_prefix="/api/v1")
 
 jwt: JWTManager = None
+division_file_path = None
+
+
+@api.route("/myanmar_divisions", methods=["GET"])
+@jwt_required
+@cross_origin()
+def get_mm_divisions():
+    """
+    get all divisions list
+    :return:
+    """
+    try:
+        path = os.path.dirname(__file__) + division_file_path
+        with open(path) as d:
+            mm_divisions = json.load(d)
+        return jsonify({
+            "data": {
+                "divisions": mm_divisions
+            }}), 200
+    except FileNotFoundError:
+        current_app.logger.info("Divison json file not found:{}".format(division_file_path))
+        return jsonify({"errors": [FileNotFound("Division file not found").__dict__]}), 404
+
 
 def post_request_empty():
     """
