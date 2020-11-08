@@ -136,7 +136,7 @@ def donation_json():
 
 
 def test_config(init_app):
-    assert init_app.config["TESTING"] == True
+    assert init_app.config["TESTING"] is True
 
 
 def test_address_get_id(init_app, client, json_access_token):
@@ -187,8 +187,40 @@ def test_create_update_school(init_app, client, json_access_token, school_json):
     assert res.status_code == 200
 
 
-def test_user(init_app, client, json_access_token):
+def test_get_all_user(init_app, client, json_access_token):
     res = client.get("/api/v1/users", headers=json_access_token)
+    assert res.status_code == 200
+    res = client.get("/api/v1/users?role=admin", headers=json_access_token)
+    assert res.status_code == 200
+    res = client.get("/api/v1/users?role=user", headers=json_access_token)
+    assert res.status_code == 400
+    res = client.get("/api/v1/users?country=mm", headers=json_access_token)
+    assert res.status_code == 200
+    res = client.get("/api/v1/users?country=ja", headers=json_access_token)
+    assert res.status_code == 400
+
+
+def test_get_user_by_id(init_app, client, json_access_token):
+    res = client.get("/api/v1/users/1", headers=json_access_token)
+    assert res.status_code == 200
+
+
+def test_put_user_by_id(init_app, client, json_access_token):
+    res = client.get("/api/v1/users/1", headers=json_access_token)
+    assert res.status_code == 200
+
+
+def test_delete_user_by_id(init_app, client, json_access_token):
+    res = client.get("/api/v1/users/1", headers=json_access_token)
+    assert res.status_code == 200
+
+
+def test_search_users(init_app, client, json_access_token):
+    res = client.get("/api/v1/users/search?query=aa", headers=json_access_token)
+    assert res.status_code == 200
+    res = client.get("/api/v1/users/search?query=bb", headers=json_access_token)
+    assert res.status_code == 200
+    res = client.get("/api/v1/users/search?query=aa@gmail.com", headers=json_access_token)
     assert res.status_code == 200
 
 

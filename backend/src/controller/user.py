@@ -53,7 +53,9 @@ def get_all_users():
     """
     try:
         page = request.args.get("page", 1, type=int)
-        users, count = user_service.get_all_users(page)
+        role = request.args.get("role")
+        country = request.args.get("country")
+        users, count = user_service.get_all_users(page, role, country)
         current_app.logger.info("Get all users")
         return jsonify({
             "data": {
@@ -179,4 +181,22 @@ def delete_user(user_id: int):
         }), 200
     except SQLCustomError as error:
         current_app.logger.error("Fail to delete user : user_id: %s", user_id)
+        return jsonify({"errors": [error.__dict__]}), 400
+
+
+@api.route("/users/search", methods=["GET"])
+@jwt_required
+@cross_origin()
+def search_user():
+    """
+    search user by name , email
+    """
+    query = request.args.get("query")
+    try:
+        current_app.logger.info("search user : query: %s", query)
+        return jsonify({
+            "data": user_service.get_users_by_query(query)
+        }), 200
+    except SQLCustomError as error:
+        current_app.logger.error("Fail to search user : query: %s", query)
         return jsonify({"errors": [error.__dict__]}), 400
