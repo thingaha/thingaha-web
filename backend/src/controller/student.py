@@ -103,7 +103,7 @@ def delete_students(student_id: int):
             return jsonify({"errors": ["No student id to delete"]}), 404
 
         if student_service.delete_student_by_id(student_id):
-            student_delete_status = address_service.delete_address_by_id(student[0]["address"]["id"])
+            student_delete_status = address_service.delete_address_by_id(student["address"]["id"])
         return jsonify({
             "status": student_delete_status
             }), 200
