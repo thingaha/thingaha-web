@@ -176,8 +176,12 @@ def delete_user(user_id: int):
     """
     try:
         current_app.logger.info("Delete user : user_id: %s", user_id)
+        user_delete_status = False
+        user = user_service.get_user_by_id(user_id)
+        if user_service.delete_user_by_id(user_id):
+            user_delete_status = address_service.delete_address_by_id(user["address"]["id"])
         return jsonify({
-            "status": user_service.delete_user_by_id(user_id)
+            "status": user_delete_status
         }), 200
     except SQLCustomError as error:
         current_app.logger.error("Fail to delete user : user_id: %s", user_id)

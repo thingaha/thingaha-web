@@ -2,8 +2,7 @@
 from __future__ import annotations
 
 from datetime import datetime, date
-from typing import Dict, Any, List
-
+from typing import Dict, Any, List, Optional
 from flask_sqlalchemy import Pagination
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import relationship
@@ -65,7 +64,7 @@ class StudentModel(db.Model):
         }
 
     @staticmethod
-    def get_student_by_id(student_id: int) -> List[StudentModel]:
+    def get_student_by_id(student_id: int) -> Optional[StudentModel]:
         """
         get student by id
         :param student_id:
@@ -74,7 +73,7 @@ class StudentModel(db.Model):
         try:
             return db.session.query(StudentModel). \
                 join(AddressModel). \
-                filter(StudentModel.id == student_id)
+                filter(StudentModel.id == student_id).first()
         except SQLAlchemyError as error:
             raise error
 
@@ -109,7 +108,7 @@ class StudentModel(db.Model):
         :return: students list of dict
         """
         try:
-            return db.session.query(StudentModel).join(AddressModel). \
+            return db.session.query(StudentModel).join(AddressModel).\
                 paginate(page=page, error_out=False)
         except SQLAlchemyError as error:
             raise error

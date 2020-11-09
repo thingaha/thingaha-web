@@ -44,12 +44,10 @@ def get_student_by_id(student_id: int):
     :return:
     """
     try:
-        student = student_service.get_student_by_id(student_id)
         current_app.logger.info("Return data for student_id: {}".format(student_id))
         return jsonify({
             "data": {
-                "count": len(student),
-                "student": student
+                "student": student_service.get_student_by_id(student_id)
             }}), 200
     except SQLCustomError as error:
         current_app.logger.error("Return error for students: {}".format(student_id))
@@ -104,13 +102,8 @@ def delete_students(student_id: int):
         current_app.logger.info("Delete student id: {}".format(student_id))
         student_delete_status = False
         student = student_service.get_student_by_id(student_id)
-
-        if len(student) == 0:
-            current_app.logger.error("No student id to delete: {}".format(student_id))
-            return jsonify({"errors": ["No student id to delete"]}), 404
-
         if student_service.delete_student_by_id(student_id):
-            student_delete_status = address_service.delete_address_by_id(student[0]["address"]["id"])
+            student_delete_status = address_service.delete_address_by_id(student["address"]["id"])
         return jsonify({
             "status": student_delete_status
             }), 200

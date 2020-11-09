@@ -103,7 +103,7 @@ class UserModel(db.Model):
         :return: bool
         """
         try:
-            if not db.session.query(UserModel).get(user_id).delete():
+            if not db.session.query(UserModel).filter(UserModel.id == user_id).delete():
                 return False
             db.session.commit()
             return True
