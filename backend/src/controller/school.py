@@ -108,7 +108,7 @@ def delete_school(school_id):
             "status": school_delete_status
         }), 200
     except SQLCustomError as error:
-        current_app.logger.error("Fail to delete school_id: %s".format(school_id))
+        current_app.logger.error("Fail to delete school_id: {}".format(school_id))
         return jsonify({"errors": [error.__dict__]}), 400
 
 
