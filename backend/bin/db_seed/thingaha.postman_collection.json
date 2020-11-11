@@ -260,7 +260,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDA5MzI4OTUsIm5iZiI6MTYwMDkzMjg5NSwianRpIjoiM2UwMjdmNGYtZTBkYy00YmJlLThlNTgtNTAxYjllZjMxZTdkIiwiZXhwIjoxNjAxMDE5Mjk1LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.9FES3WdT0GL9Cvn0R6EoaK_AlvDHScIBJ4DnLCrg6Iw",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDQyMTY5MTUsIm5iZiI6MTYwNDIxNjkxNSwianRpIjoiMmY5ZTQxZWMtY2JiZC00YWUyLThkMjMtZDAyOGNmY2VhZmI2IiwiZXhwIjoxNjA0MzAzMzE1LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.K99hA47X4vkaM6nShCCtwy5EZ7hmpGoBZQLjn4DbbuI",
 							"type": "string"
 						}
 					]
@@ -269,7 +269,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "",
+					"raw": "{\n      \"user_id\": 1,\n      \"attendance_id\": 2,\n      \"transfer_id\": 1,\n      \"month\": \"january\",\n      \"year\": 2020,\n      \"mmk_amount\": 3000.0,\n      \"jpy_amount\": 0.0,\n      \"paid_at\": \"2020-02-02\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -277,7 +277,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:5000/api/v1/attendances/2",
+					"raw": "http://localhost:5000/api/v1/attendances/3",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -287,7 +287,7 @@
 						"api",
 						"v1",
 						"attendances",
-						"2"
+						"3"
 					]
 				}
 			},
@@ -1602,6 +1602,321 @@
 						"v1",
 						"students",
 						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ExtraFunds[GET][ID]",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDQyMTY5MTUsIm5iZiI6MTYwNDIxNjkxNSwianRpIjoiMmY5ZTQxZWMtY2JiZC00YWUyLThkMjMtZDAyOGNmY2VhZmI2IiwiZXhwIjoxNjA0MzAzMzE1LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.K99hA47X4vkaM6nShCCtwy5EZ7hmpGoBZQLjn4DbbuI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/extra_funds/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"extra_funds",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ExtraFunds[GET][ALL]",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDQyMTY5MTUsIm5iZiI6MTYwNDIxNjkxNSwianRpIjoiMmY5ZTQxZWMtY2JiZC00YWUyLThkMjMtZDAyOGNmY2VhZmI2IiwiZXhwIjoxNjA0MzAzMzE1LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.K99hA47X4vkaM6nShCCtwy5EZ7hmpGoBZQLjn4DbbuI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/extra_funds",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"extra_funds"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ExtraFunds[DELETE][ID]",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDQyMTY5MTUsIm5iZiI6MTYwNDIxNjkxNSwianRpIjoiMmY5ZTQxZWMtY2JiZC00YWUyLThkMjMtZDAyOGNmY2VhZmI2IiwiZXhwIjoxNjA0MzAzMzE1LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.K99hA47X4vkaM6nShCCtwy5EZ7hmpGoBZQLjn4DbbuI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/extra_funds/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"extra_funds",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ExtraFunds[PUT][ID]",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDQyMTY5MTUsIm5iZiI6MTYwNDIxNjkxNSwianRpIjoiMmY5ZTQxZWMtY2JiZC00YWUyLThkMjMtZDAyOGNmY2VhZmI2IiwiZXhwIjoxNjA0MzAzMzE1LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.K99hA47X4vkaM6nShCCtwy5EZ7hmpGoBZQLjn4DbbuI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"mmk_amount\": 100000,\n    \"transfer_id\": 4\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/extra_funds/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"extra_funds",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User[GET][FILTER]",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDQ4MDUzNzYsIm5iZiI6MTYwNDgwNTM3NiwianRpIjoiY2ZmNDIwMDMtYTNhNi00NjYyLTg0YjctZTIzNmE0N2ZhMDI0IiwiZXhwIjoxNjA0ODkxNzc2LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.bTGsj8pAzMEbRDdjomXmJGQoLq0IxECfgZG6sRIiwQ4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"mmk_amount\": 3000,\n    \"transfer_id\": 5\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/users?country=mm&page=2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"users"
+					],
+					"query": [
+						{
+							"key": "country",
+							"value": "mm"
+						},
+						{
+							"key": "page",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User[GET][SEARCH]",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDQ4MDUzNzYsIm5iZiI6MTYwNDgwNTM3NiwianRpIjoiY2ZmNDIwMDMtYTNhNi00NjYyLTg0YjctZTIzNmE0N2ZhMDI0IiwiZXhwIjoxNjA0ODkxNzc2LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.bTGsj8pAzMEbRDdjomXmJGQoLq0IxECfgZG6sRIiwQ4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"mmk_amount\": 3000,\n    \"transfer_id\": 5\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/users/search?query=moemoe@gmail.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"search"
+					],
+					"query": [
+						{
+							"key": "query",
+							"value": "moemoe@gmail.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[Common][MM-division]",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDQ1MDI4NzIsIm5iZiI6MTYwNDUwMjg3MiwianRpIjoiNGQ5YjI3Y2QtOGUyOC00NDJkLWE4YTItZGNlZTIzZTlmMTkyIiwiZXhwIjoxNjA0NTg5MjcyLCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.LSbOeBLteY90A-BGaO5fkaLQ89p6fKarmE5jqBc1w0s",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"mmk_amount\": 3000,\n    \"transfer_id\": 5\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/mm_divisions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"mm_divisions"
 					]
 				}
 			},

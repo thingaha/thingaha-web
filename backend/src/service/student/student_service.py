@@ -54,7 +54,7 @@ class StudentService(Service):
             self.logger.error("Error: {}".format(error))
             raise SQLCustomError(description="GET Student SQL ERROR")
 
-    def get_student_by_id(self, student_id: int) -> Optional[List]:
+    def get_student_by_id(self, student_id: int) -> Optional[Dict]:
         """
         get student info by id
         :param student_id:
@@ -62,7 +62,10 @@ class StudentService(Service):
         """
         try:
             self.logger.info("Get student info by student_id:{}".format(student_id))
-            return self.__return_student_list(StudentModel.get_student_by_id(student_id))
+            student = StudentModel.get_student_by_id(student_id)
+            if not student:
+                raise SQLCustomError(description="No data for requested student id: {}".format(student_id))
+            return student.student_dict()
         except SQLAlchemyError as error:
             self.logger.error("Error: {}".format(error))
             raise SQLCustomError(description="GET student by ID SQL ERROR")

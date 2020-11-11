@@ -95,11 +95,20 @@ def delete_school(school_id):
     """
     try:
         current_app.logger.info("Delete school id: {}".format(school_id))
+        school_delete_status = False
+        school = school_service.get_school_by_id(school_id)
+
+        if len(school) == 0:
+            current_app.logger.error("No school id to delete: {}".format(school_id))
+            return jsonify({"errors": ["No school id to delete"]}), 404
+
+        if school_service.delete_school_by_id(school_id):
+            school_delete_status = address_service.delete_address_by_id(school["address"]["id"])
         return jsonify({
-            "status": school_service.delete_school_by_id(school_id)
+            "status": school_delete_status
         }), 200
     except SQLCustomError as error:
-        current_app.logger.error("Fail to delete school_id: %s".format(school_id))
+        current_app.logger.error("Fail to delete school_id: {}".format(school_id))
         return jsonify({"errors": [error.__dict__]}), 400
 
 

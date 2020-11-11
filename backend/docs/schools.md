@@ -1,21 +1,25 @@
 ### CREATE School
-| API      | Description | Action     |
-| :---        |    :----:   |          ---: |
-| /api/v1/schools     | Create School       | POST   |
+
+| API             |  Description  | Action |
+| :-------------- | :-----------: | -----: |
+| /api/v1/schools | Create School |   POST |
 
 Input Sample:
+
 ```json
 {
-    "school_name": "No.(21)Nyanungdon",
-    "contact_info": "098",
-    "district": "yangon",
-    "division": "yangon",
-    "street_address": "18 street",
-    "township": "MyaeNiGone",
-    "type": "school"
+  "school_name": "No.(21)Nyanungdon",
+  "contact_info": "098",
+  "district": "yangon",
+  "division": "yangon",
+  "street_address": "18 street",
+  "township": "MyaeNiGone",
+  "type": "school"
 }
 ```
+
 Output Sample:
+
 ```json
 {
   "data": {
@@ -39,13 +43,16 @@ Output Sample:
 ```
 
 ### GET all Schools
-| API      | Description | Action     |
-| :---        |    :----:   |          ---: |
-| /api/v1/schools     | GET all school       | GET   |
-| /api/v1/schools?page=XXX     | GET all school with pagination      | GET   |
+
+| API                      |          Description           | Action |
+| :----------------------- | :----------------------------: | -----: |
+| /api/v1/schools          |         GET all school         |    GET |
+| /api/v1/schools?page=XXX | GET all school with pagination |    GET |
+
 default count per page is 20.
 
 Output Sample
+
 ```json
 {
   "data": {
@@ -81,68 +88,74 @@ Output Sample
 ```
 
 ### GET School by ID
-| API      | Description | Action     |
-| :---        |    :----:   |          ---: |
-| /api/v1/schools/id     | GET school by id     | GET   |
+
+| API                |   Description    | Action |
+| :----------------- | :--------------: | -----: |
+| /api/v1/schools/id | GET school by id |    GET |
+
 Output Sample
+
 ```json
 {
   "data": {
-    "school": 
-      {
-        "address": {
-          "district": "yangon",
-          "division": "yangon",
-          "id": 12,
-          "street_address": "18 street",
-          "township": "MyaeNiGone"
-        },
-        "contact_info": "098",
-        "id": 10,
-        "name": "No.(11)Nyanungdon"
-      }
+    "school": {
+      "address": {
+        "district": "yangon",
+        "division": "yangon",
+        "id": 12,
+        "street_address": "18 street",
+        "township": "MyaeNiGone"
+      },
+      "contact_info": "098",
+      "id": 10,
+      "name": "No.(11)Nyanungdon"
+    }
   }
 }
 ```
+
 ### UPDATE school
-| API      | Description | Action     |
-| :---        |    :----:   |          ---: |
-| /api/v1/schools/id     | update school info by id     | PUT  |
+
+| API                |       Description        | Action |
+| :----------------- | :----------------------: | -----: |
+| /api/v1/schools/id | update school info by id |    PUT |
+
 Input Sample:
+
 ```json
 {
-    "school_name": "No.(11)Nyanungdon",
-    "contact_info": "098",
-    "address_id": 11,
-    "district": "yangon",
-    "division": "yangon",
-    "street_address": "18 street",
-    "township": "MyaeNiGone",
-    "type": "school"
+  "school_name": "No.(11)Nyanungdon",
+  "contact_info": "098",
+  "address_id": 11,
+  "district": "yangon",
+  "division": "yangon",
+  "street_address": "18 street",
+  "township": "MyaeNiGone",
+  "type": "school"
 }
-
 ```
 
 Output Sample:
+
 ```json
 {
   "status": true
 }
 ```
-
 
 ### DELETE school
 
-| API      | Description | Action     |
-| :---        |    :----:   |          ---: |
-| /api/v1/schools/id     | Delete school by id     | DELETE  |
+| API                |     Description     | Action |
+| :----------------- | :-----------------: | -----: |
+| /api/v1/schools/id | Delete school by id | DELETE |
+
 ```json
 {
   "status": true
 }
 ```
 
-### ERROR 
+### ERROR
 
 ```json
 {
@@ -155,4 +168,5 @@ Output Sample:
   }
 }
 ```
-- ***for error detail description please reference error.md***
+
+- **_for error detail description please reference error.md_**

@@ -87,32 +87,41 @@ class UserService(Service):
             self.logger.error("User delete fail. id %s, error %s", user_id, traceback.format_exc())
             raise SQLCustomError(description="Delete user by ID SQL ERROR")
 
-    def get_all_users(self, page: int = 1) -> (List[Dict[str, Any]], int):
+    def get_all_users(self, page: int = 1, role: str = None, country: str = None) -> (List[Dict[str, Any]], int):
         """
         get all users
         :params: page page count
+        :params: role -> user role for filter
+        :params: country -> country for filter
         :return: users list of dict
         """
         self.logger.info("Get all users list")
         try:
-            users = UserModel.get_all_users(page)
+            if role and not country:
+                users = UserModel.get_users_by_role(page, role)
+            elif country and not role:
+                users = UserModel.get_users_by_country(page, country)
+            elif role and country:
+                users = UserModel.get_users_by_role_country(page, role, country)
+            else:
+                users = UserModel.get_all_users(page)
             return self.__return_user_list(users.items), users.total
         except SQLAlchemyError:
             self.logger.error("Get all users fail. error %s", traceback.format_exc())
             raise SQLCustomError(description="GET user SQL ERROR")
 
-    def get_users_by_name(self, name: int) -> List[Dict[str, Any]]:
+    def get_users_by_query(self, query: str) -> List[Dict[str, Any]]:
         """
-        get users by name
+        get users by query (name, email)
         :return: users list of dict
         """
-        self.logger.info("Get users list by name %s", name)
+        self.logger.info("Get users list by query %s", query)
         try:
-            return self.__return_user_list(UserModel.get_users_by_name(name))
+            return self.__return_user_list(UserModel.get_users_by_query(query))
         except SQLAlchemyError:
-            self.logger.error("Get users by name fail. name %s. error %s", name,
+            self.logger.error("Get users by name fail. query %s. error %s", query,
                               traceback.format_exc())
-            raise SQLCustomError(description="GET user by NAME SQL ERROR")
+            raise SQLCustomError(description="GET user by query SQL ERROR")
 
     def get_user_by_id(self, user_id: int) -> Dict[str, Any]:
         """
@@ -124,7 +133,7 @@ class UserService(Service):
             user = UserModel.get_user_by_id(user_id)
             if not user:
                 raise SQLCustomError(description="No data for requested user id: {}".format(user_id))
-            return user.as_dict() if user else {}
+            return user.as_dict()
         except SQLAlchemyError:
             self.logger.error("Get users by id fail. id %s. error %s", user_id,
                               traceback.format_exc())

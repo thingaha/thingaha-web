@@ -112,9 +112,9 @@ class SchoolModel(db.Model):
         :return: bool
         """
         try:
-            update_school = db.session.query(SchoolModel).filter(SchoolModel.id == school_id).first()
+            update_school = db.session.query(SchoolModel).get(school_id)
             if not update_school:
-                raise SQLCustomError(description="No record for requested school")
+                raise SQLCustomError(description="No record for requested school id: {}".format(school_id))
             update_school.name = school.name
             update_school.contact_info = school.contact_info
             db.session.commit()

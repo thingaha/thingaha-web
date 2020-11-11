@@ -1,80 +1,92 @@
 ### LOGIN API
-| API      | Description | Action     |
-| :---        |    :----:   |          ---: |
-| /api/v1/login     | Get token       | POST   |
+
+| API           | Description | Action |
+| :------------ | :---------: | -----: |
+| /api/v1/login |  Get token  |   POST |
 
 Input Sample:
+
 ```json
 {
-    "email": "moemoe@gmail.com",
-    "password": "123"
+  "email": "moemoe@gmail.com",
+  "password": "123"
 }
 ```
 
 Output Sample:
+
 ```json
 {
-    "access_token": "eyJ0eXAiOXXXXX"
+  "access_token": "eyJ0eXAiOXXXXX"
 }
 ```
 
 ### CREATE User
-| API      | Description | Action     |
-| :---        |    :----:   |          ---: |
-| /api/v1/users     | Create User       | POST   |
+
+| API           | Description | Action |
+| :------------ | :---------: | -----: |
+| /api/v1/users | Create User |   POST |
 
 Input Sample:
+
 ```json
 {
-    "name": "MoeMoe", 
-    "email": "moemoe@gmail.com",
-    "password" : "123", 
-    "role": "admin", 
-    "country": "mm",
-    "district": "pabedan",
-    "division": "yangon",
-    "donation_active": true,
-    "street_address": "18 street",
-    "township": "La Thar township",
-    "type": "user"
+  "name": "MoeMoe",
+  "email": "moemoe@gmail.com",
+  "password": "123",
+  "role": "admin",
+  "country": "mm",
+  "district": "pabedan",
+  "division": "yangon",
+  "donation_active": true,
+  "street_address": "18 street",
+  "township": "La Thar township",
+  "type": "user"
 }
 ```
+
 Output Sample:
+
 ```json
 {
-    "data": {
-        "count": 1,
-        "users": [
-            {
-                "address": {
-                    "district": "ညောင်တုန်းမြို့",
-                    "division": "ayeyarwady",
-                    "id": 1,
-                    "street_address": "အာဇာနည်လမ်း",
-                    "township": "အမှတ်(၈)ရပ်ကွက်"
-                },
-                "country": "mm",
-                "donation_active": true,
-                "email": "moemoe@gmail.com",
-                "formatted_address": "အာဇာနည်လမ်း, အမှတ်(၈)ရပ်ကွက်, ညောင်တုန်းမြို့, ayeyarwady",
-                "id": 1,
-                "name": "MoeMoe",
-                "role": "admin"
-            }
-        ]
-    }
+  "data": {
+    "count": 1,
+    "users": [
+      {
+        "address": {
+          "district": "ညောင်တုန်းမြို့",
+          "division": "ayeyarwady",
+          "id": 1,
+          "street_address": "အာဇာနည်လမ်း",
+          "township": "အမှတ်(၈)ရပ်ကွက်"
+        },
+        "country": "mm",
+        "donation_active": true,
+        "email": "moemoe@gmail.com",
+        "formatted_address": "အာဇာနည်လမ်း, အမှတ်(၈)ရပ်ကွက်, ညောင်တုန်းမြို့, ayeyarwady",
+        "id": 1,
+        "name": "MoeMoe",
+        "role": "admin"
+      }
+    ]
+  }
 }
 ```
 
 ### GET all Users
-| API      | Description | Action     |
-| :---        |    :----:   |          ---: |
-| /api/v1/users     | GET all users       | GET   |
-| /api/v1/users?page=XXX     | GET all users with pagination      | GET   |
-default count per page is 20.
+
+| API                              |                    Description                     | Action |
+| :------------------------------- | :------------------------------------------------: | -----: |
+| /api/v1/users                    |                   GET all users                    |    GET |
+| /api/v1/users?page=XXX           |           GET all users with pagination            |    GET |
+| /api/v1/users/search?query=xxx   |          Get user by search (name, email)          |    GET |
+| /api/v1/users?role=xx&country=xx | Get user by filter (country, role) with pagination |    GET |
+
+default count per page for pagination is 20.
 
 Output Sample
-``` json
+
+```json
 {
   "data": {
     "count": 3,
@@ -133,10 +145,13 @@ Output Sample
 ```
 
 ### GET User by ID
-| API      | Description | Action     |
-| :---        |    :----:   |          ---: |
-| /api/v1/users/id     | GET user by id     | GET   |
+
+| API              |  Description   | Action |
+| :--------------- | :------------: | -----: |
+| /api/v1/users/id | GET user by id |    GET |
+
 Output Sample
+
 ```json
 {
   "data": {
@@ -158,48 +173,53 @@ Output Sample
   }
 }
 ```
+
 ### UPDATE user
-| API      | Description | Action     |
-| :---        |    :----:   |          ---: |
-| /api/v1/users/id     | update user info by id     | PUT  |
+
+| API              |      Description       | Action |
+| :--------------- | :--------------------: | -----: |
+| /api/v1/users/id | update user info by id |    PUT |
+
 Input Sample:
+
 ```json
 {
-    "id": 1,
-    "name": "thingyan_test01",
-    "email": "thingyan_test01@gmail.com",
-    "password" : "1234", 
-    "role": "admin",
-    "country": "mm",
-    "address_id": 1,
-    "district": "pabedan",
-    "division": "yangon",
-    "street_address": "19 street",
-    "township": "La Thar township",
-    "type": "user"
+  "id": 1,
+  "name": "thingyan_test01",
+  "email": "thingyan_test01@gmail.com",
+  "password": "1234",
+  "role": "admin",
+  "country": "mm",
+  "address_id": 1,
+  "district": "pabedan",
+  "division": "yangon",
+  "street_address": "19 street",
+  "township": "La Thar township",
+  "type": "user"
 }
 ```
 
 Output Sample:
+
 ```json
 {
   "status": true
 }
 ```
-
 
 ### DELETE user
 
-| API      | Description | Action     |
-| :---        |    :----:   |          ---: |
-| /api/v1/users/id     | Delete user by id     | DELETE  |
+| API              |    Description    | Action |
+| :--------------- | :---------------: | -----: |
+| /api/v1/users/id | Delete user by id | DELETE |
+
 ```json
 {
   "status": true
 }
 ```
 
-### ERROR 
+### ERROR
 
 ```json
 {
@@ -212,4 +232,5 @@ Output Sample:
   }
 }
 ```
-- ***for error detail description please reference error.md*** 
+
+- **_for error detail description please reference error.md_**
