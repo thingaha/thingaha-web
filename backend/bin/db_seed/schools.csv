@@ -1,2 +1,4 @@
-1,No.(2)Nyanungdon,098909939,2
-2,No.(1)Nyanungdon,098909939,3
+NAME,CONTACT_INFO,ADDRESS_ID
+'No.(1)Nyanungdon','098909939','2'
+'No.(2)Nyanungdon','098909939','3'
+'No.(3)Nyanungdon','098909939','4'
