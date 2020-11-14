@@ -103,7 +103,7 @@ def create_user():
             "district": data.get("district"),
             "township": data.get("township"),
             "street_address": data.get("street_address"),
-            "type": data.get("type")
+            "type": "user"
         })
         user_id = user_service.create_user({
             "name": data.get("name"),
@@ -141,7 +141,7 @@ def update_user(user_id: int):
             "district": data.get("district"),
             "township": data.get("township"),
             "street_address": data.get("street_address"),
-            "type": data.get("type")
+            "type": "user"
         }):
             user_update_status = user_service.update_user_by_id(user_id, {
                 "name": data.get("name"),

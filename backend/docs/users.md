@@ -40,8 +40,7 @@ Input Sample:
   "division": "yangon",
   "donation_active": true,
   "street_address": "18 street",
-  "township": "La Thar township",
-  "type": "user"
+  "township": "La Thar township"
 }
 ```
 
@@ -184,7 +183,6 @@ Input Sample:
 
 ```json
 {
-  "id": 1,
   "name": "thingyan_test01",
   "email": "thingyan_test01@gmail.com",
   "password": "1234",
@@ -194,8 +192,7 @@ Input Sample:
   "district": "pabedan",
   "division": "yangon",
   "street_address": "19 street",
-  "township": "La Thar township",
-  "type": "user"
+  "township": "La Thar township"
 }
 ```
 

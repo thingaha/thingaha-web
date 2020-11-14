@@ -469,7 +469,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDA5MzQzNzYsIm5iZiI6MTYwMDkzNDM3NiwianRpIjoiMjg4NGU1ZDEtMThmNS00Y2YxLTgwYjItNjllMzhiNDlhZmVkIiwiZXhwIjoxNjAxMDIwNzc2LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.AWgVw1b6xyi6kOrJXCR3x_l6_lusW2_X16SMCOgyzeo",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDUzNjEwOTAsIm5iZiI6MTYwNTM2MTA5MCwianRpIjoiZjA4OGU2ZmUtNjUwZi00MDI3LWE0NDctZmMwMGY2MWY4NjBmIiwiZXhwIjoxNjA1NDQ3NDkwLCJpZGVudGl0eSI6Im1vZW1vZTRAZ21haWwuY29tIiwiZnJlc2giOmZhbHNlLCJ0eXBlIjoiYWNjZXNzIn0.iKGCBIREfbsiaeSAZsT3B0Z44upcPIYBbRuhxc5tF5E",
 							"type": "string"
 						}
 					]
@@ -478,7 +478,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"school_name\": \"No.(21)Nyanungdon\",\n    \"contact_info\": \"0988898754\",\n    \"district\": \"ayeyarwady\",\n    \"division\": \"ayeyarwady\",\n    \"street_address\": \"18th street\",\n    \"township\": \"MyaeNiGone\"\n}",
+					"raw": "{ \"school_name\": \"No.(21)Nyanungdon\",\n    \"contact_info\": \"098\",\n    \"district\": \"yangon\",\n    \"division\": \"yangon\",\n    \"street_address\": \"18 street\",\n    \"township\": \"MyaeNiGone\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -637,7 +637,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDIxNjA3NTAsIm5iZiI6MTYwMjE2MDc1MCwianRpIjoiMTRjYzZkZDgtOGI5Ny00MjFjLWE3YzktYjM2NmY3NWE1N2U3IiwiZXhwIjoxNjAyMjQ3MTUwLCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.r5lo4hoiTR9jeauerbQSovpwaBY24xL-HmREffaopRw",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDI4NTY3MzEsIm5iZiI6MTYwMjg1NjczMSwianRpIjoiYzA3ZDg0ZTktNDY4Yy00MWZlLTg1MjQtODc4YmZmYjc4ZDgxIiwiZXhwIjoxNjAyOTQzMTMxLCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.tPdZdUax3q6bcakPNJbtfOiSCOw9OxHFOpbohnQfrbI",
 							"type": "string"
 						}
 					]
@@ -646,7 +646,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"MoeMoe\", \n    \"email\": \"moemoe11@gmail.com\",\n    \"password\" : \"123\", \n    \"role\": \"admin\", \n    \"country\": \"mm\",\n    \"donation_active\": true,\n    \"district\": \"pabedan\",\n    \"division\": \"yangon\",\n    \"street_address\": \"18 street\",\n    \"township\": \"La Thar township\",\n    \"type\": \"user\"\n}",
+					"raw": "{\n    \"name\": \"MoeMoe\", \n    \"email\": \"moemoe111@gmail.com\",\n    \"password\" : \"123\", \n    \"role\": \"admin\", \n    \"country\": \"mm\",\n    \"donation_active\": true,\n    \"district\": \"pabedan\",\n    \"division\": \"yangon\",\n    \"street_address\": \"18 street\",\n    \"township\": \"La Thar township\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -686,7 +686,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": 2,\n    \"name\": \"Moemoe1\",\n    \"email\": \"moemoe1@gmail.com\",\n    \"password\" : \"1234\", \n    \"role\": \"admin\",\n    \"country\": \"mm\",\n    \"address_id\": 4,\n    \"district\": \"pabedan\",\n    \"division\": \"yangon\",\n    \"street_address\": \"19 street\",\n    \"township\": \"La Thar township\"\n}",
+					"raw": "{\n    \"name\": \"Moemoe1\",\n    \"email\": \"moemoe1@gmail.com\",\n    \"password\" : \"1234\", \n    \"role\": \"admin\",\n    \"country\": \"mm\",\n    \"address_id\": 4,\n    \"district\": \"pabedan\",\n    \"division\": \"yangon\",\n    \"street_address\": \"19 street\",\n    \"township\": \"La Thar township\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -1493,7 +1493,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDQzMjY1NDksIm5iZiI6MTYwNDMyNjU0OSwianRpIjoiMjRlZDU2YTAtMDlhYi00Y2FiLWI1OTEtNzFmZDM4N2MzMzhhIiwiZXhwIjoxNjA0NDEyOTQ5LCJpZGVudGl0eSI6Im1vZW1vZUBnbWFpbC5jb20iLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ._7V98IPd-OoS29wDqCgcLd1w-e4MZ_9A-WC3m-7FmSQ",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDUzNjIwMDksIm5iZiI6MTYwNTM2MjAwOSwianRpIjoiMWE4YjVjNmMtZDAzNC00YmI3LTg3ZDEtNTA2NDQ4OGUzNTQxIiwiZXhwIjoxNjA1NDQ4NDA5LCJpZGVudGl0eSI6Im1vZW1vZTRAZ21haWwuY29tIiwiZnJlc2giOmZhbHNlLCJ0eXBlIjoiYWNjZXNzIn0.XlemInDnel6tkY9wYlRW4zlebfxDyZBzTjlG1eDVYFg",
 							"type": "string"
 						}
 					]

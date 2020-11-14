@@ -71,7 +71,7 @@ def create_student():
             "district": data.get("district"),
             "township": data.get("township"),
             "street_address": data.get("street_address"),
-            "type": data.get("type")
+            "type": "student"
         })
         student_id = student_service.create_student({
             "name": data.get("name"),
@@ -132,7 +132,7 @@ def update_student(student_id: int):
             "district": data.get("district"),
             "township": data.get("township"),
             "street_address": data.get("street_address"),
-            "type": data.get("type")
+            "type": "student"
         }):
             student_update_status = student_service.update_student_by_id(student_id, {
                 "name": data.get("name"),

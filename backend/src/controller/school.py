@@ -69,7 +69,7 @@ def create_school():
             "district": data.get("district"),
             "township": data.get("township"),
             "street_address": data.get("street_address"),
-            "type": data.get("type")
+            "type": "school"
         })
         current_app.logger.debug("create address id: %s", address_id)
         school_id = school_service.create_school({
@@ -132,7 +132,7 @@ def update_school(school_id: int):
             "district": data.get("district"),
             "township": data.get("township"),
             "street_address": data.get("street_address"),
-            "type": data.get("type")
+            "type": "school"
         }):
             school_update_status = school_service.update_school_by_id(school_id, {
                 "school_name": data.get("school_name"),
