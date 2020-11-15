@@ -82,7 +82,7 @@ def address_json():
 @pytest.fixture
 def school_json():
     return {
-        "school_name": "No.(35) Nyanungdon",
+        "name": "No.(35) Nyanungdon",
         "contact_info": "098",
         "district": "yangon",
         "division": "yangon",
@@ -175,7 +175,7 @@ def test_create_update_school(init_app, client, json_access_token, school_json):
     res = client.post("/api/v1/schools", json=school_json, headers=json_access_token)
     assert res.status_code == 200
     res = client.put("/api/v1/schools/1", json={
-        "school_name": "No.(11)Nyanungdon",
+        "name": "No.(11)Nyanungdon",
         "contact_info": "098",
         "address_id": 1,
         "district": "yangon",

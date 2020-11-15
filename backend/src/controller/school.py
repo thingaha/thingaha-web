@@ -133,29 +133,39 @@ def update_school(school_id: int):
         return post_request_empty()
     school_update_status = False
     try:
-        address_id = int(data.get("address_id"))
-        if address_service.update_address_by_id(address_id, {
+        school = school_service.get_school_by_id(school_id)
+        if not school:
+            return custom_error("Invalid school id supplied.")
+
+        updated = address_service.update_address_by_id(school["address"]["id"], {
             "division": data.get("division"),
             "district": data.get("district"),
             "township": data.get("township"),
             "street_address": data.get("street_address"),
             "type": "school"
-        }):
+        })
+
+        if updated:
             school_update_status = school_service.update_school_by_id(school_id, {
-                "school_name": data.get("school_name"),
+                "name": data.get("name"),
                 "contact_info": data.get("contact_info"),
-                "address_id": address_id
+                "address_id": school["address"]["id"]
             })
+        else:
+            return custom_error("Failed to update address.")
+
         current_app.logger.info("Update success for school_id: {}".format(school_id)) \
             if school_update_status else current_app.logger.error("Update fail for school_id: {}"
                                                                   .format(school_id))
         return jsonify({
             "status": school_update_status
         }), 200
+
     except ValueError as error:
         current_app.logger.error(
             "Value error for address id. error: %s", error)
         return jsonify({"errors": [error.__dict__]}), 400
+
     except (SQLCustomError, ValidateFail, RequestDataEmpty) as error:
         current_app.logger.error("Error for school data update id {} Error: {}"
                                  .format(school_id, error))

@@ -8,7 +8,7 @@ Input Sample:
 
 ```json
 {
-  "school_name": "No.(21)Nyanungdon",
+  "name": "No.(21)Nyanungdon",
   "contact_info": "098",
   "district": "yangon",
   "division": "yangon",
@@ -120,7 +120,7 @@ Input Sample:
 
 ```json
 {
-  "school_name": "No.(11)Nyanungdon",
+  "name": "No.(11)Nyanungdon",
   "contact_info": "098",
   "address_id": 11,
   "district": "yangon",

@@ -109,7 +109,7 @@ class SchoolService(Service):
             self.logger.info(
                 "update school info by school_id:{}".format(school_id))
             return SchoolModel.update_school(school_id, SchoolModel(
-                name=data["school_name"],
+                name=data["name"],
                 contact_info=data["contact_info"],
                 address_id=data["address_id"]))
         except SQLAlchemyError as error:
