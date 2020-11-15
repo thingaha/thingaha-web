@@ -11,8 +11,10 @@ const axiosInstance = axios.create({
 })
 
 const createThingahaJsonResponse = (axiosResponse, httpErrorMessage = null) => {
+  let status = axiosResponse.status || null
+
   return {
-    status: axiosResponse.status,
+    status: status,
     data: axiosResponse.data.data,
     errors: axiosResponse.data.errors,
     httpErrorMessage: httpErrorMessage,

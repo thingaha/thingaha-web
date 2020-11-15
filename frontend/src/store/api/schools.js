@@ -1,6 +1,4 @@
-import last from 'lodash/last'
 import thingahaApiClient from '../../utils/thingahaApiClient'
-import config from '../../config'
 
 const schoolsDb = [
   {
@@ -64,19 +62,22 @@ export const fetchSchools = async () => {
 }
 
 export const createSchool = async (values) => {
-  const { data, status, error } = await thingahaApiClient.post(
-    '/schools',
-    values
-  )
+  const { data } = await thingahaApiClient.post('/schools', values)
 
   return {
     school: data.school,
   }
 }
 
-export const editSchool = (values) => {
-  // TODO call backend schools edit endpoint
+export const updateSchool = async (values) => {
+  const { data } = await thingahaApiClient.put(`/schools/${values.id}`, values)
+
+  // Until api returns updated school data, we will just need to call the api again for now.
+  const { data: schoolData } = await thingahaApiClient.get(
+    `/schools/${values.id}`
+  )
+
   return {
-    data: [...schoolsDb.filter((school) => school.id !== values.id), values],
+    school: schoolData.school,
   }
 }
