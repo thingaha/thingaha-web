@@ -22,21 +22,18 @@ Output Sample:
 ```json
 {
   "data": {
-    "count": 1,
-    "schools": [
-      {
-        "address": {
-          "district": "yangon",
-          "division": "yangon",
-          "id": 15,
-          "street_address": "18 street",
-          "township": "MyaeNiGone"
-        },
-        "contact_info": "098",
-        "id": 12,
-        "name": "No.(21)Nyanungdon"
-      }
-    ]
+    "school": {
+      "address": {
+        "district": "yangon",
+        "division": "yangon",
+        "id": 15,
+        "street_address": "18 street",
+        "township": "MyaeNiGone"
+      },
+      "contact_info": "098",
+      "id": 12,
+      "name": "No.(21)Nyanungdon"
+    }
   }
 }
 ```

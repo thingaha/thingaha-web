@@ -18,6 +18,7 @@ class AddressService(Service):
     address service class for CRUD actions
     define specific params for address service in AddressService Class
     """
+
     def __init__(self, logger=None) -> None:
         super().__init__(logger)
 
@@ -27,6 +28,7 @@ class AddressService(Service):
         :param data: data dict includes division, district, township, street_address
         :return: True if creation success else False
         """
+
         if not data:
             raise RequestDataEmpty("Address data is empty")
         if not self.input_validate.validate_json(data, address_schema):
@@ -40,7 +42,8 @@ class AddressService(Service):
                 street_address=data["street_address"],
                 type=data["type"]))
         except SQLAlchemyError:
-            self.logger.error("Address create fail. error %s", traceback.format_exc())
+            self.logger.error("Address create fail. error %s",
+                              traceback.format_exc())
             raise SQLCustomError("Address create fail")
 
     def update_address_by_id(self, address_id: int, data: Dict[str, str]) -> bool:
@@ -81,10 +84,12 @@ class AddressService(Service):
         try:
             address = AddressModel.get_address_by_id(address_id)
             if not address:
-                raise SQLCustomError(description="No data for requested address id: {}".format(address_id))
+                raise SQLCustomError(
+                    description="No data for requested address id: {}".format(address_id))
             return address.as_dict()
         except SQLAlchemyError:
-            self.logger.error("Get address by id fail. id %s. error %s", address_id, traceback.format_exc())
+            self.logger.error(
+                "Get address by id fail. id %s. error %s", address_id, traceback.format_exc())
             raise SQLCustomError(description="GET address by ID SQL ERROR")
 
     def delete_address_by_id(self, address_id: int) -> bool:
@@ -97,7 +102,8 @@ class AddressService(Service):
             self.logger.info("Delete address by id", address_id)
             return AddressModel.delete_address(address_id)
         except SQLAlchemyError:
-            self.logger.error("Address delete fail. id %s, error %s", address_id, traceback.format_exc())
+            self.logger.error("Address delete fail. id %s, error %s",
+                              address_id, traceback.format_exc())
             raise SQLCustomError(description="Delete address by ID SQL ERROR")
 
     def get_all_addresses(self, page: int = 1) -> (List[Dict[str, Any]], int):
@@ -110,10 +116,12 @@ class AddressService(Service):
         try:
             schools, schools_count = SchoolService.get_all_school_address(page)
             users, users_count = UserService.get_all_user_address(page)
-            student, students_count = StudentService.get_all_student_address(page)
+            student, students_count = StudentService.get_all_student_address(
+                page)
             return schools + users + student, schools_count+users_count+students_count
         except SQLAlchemyError:
-            self.logger.error("Get all addresses fail. error %s", traceback.format_exc())
+            self.logger.error(
+                "Get all addresses fail. error %s", traceback.format_exc())
             raise SQLCustomError(description="GET address SQL ERROR")
 
     @staticmethod

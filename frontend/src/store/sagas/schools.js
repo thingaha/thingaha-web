@@ -22,9 +22,10 @@ export function* fetchAllSchools(action) {
 
 export function* submitNewSchoolForm(action) {
   try {
-    const json = yield createSchool(action.school)
-    toast.success("New school successfully added!")
-    yield put({ type: SUBMIT_NEW_SCHOOL_FORM_SUCCESS, school: json.data })
+    const { school } = yield createSchool(action.school)
+
+    toast.success('New school successfully added!')
+    yield put({ type: SUBMIT_NEW_SCHOOL_FORM_SUCCESS, school })
   } catch (error) {
     yield defaultErrorHandler(error, SUBMIT_NEW_SCHOOL_FORM_FAILURE)
   }
@@ -32,7 +33,7 @@ export function* submitNewSchoolForm(action) {
 export function* submitEditSchoolForm(action) {
   try {
     const json = yield editSchool(action.school)
-    toast.success("School successfully updated!")
+    toast.success('School successfully updated!')
     yield put({ type: SUBMIT_EDIT_SCHOOL_FORM_SUCCESS, schools: json.data })
   } catch (error) {
     yield defaultErrorHandler(error, SUBMIT_EDIT_SCHOOL_FORM_FAILURE)

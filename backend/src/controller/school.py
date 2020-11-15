@@ -42,13 +42,15 @@ def get_school_by_id(school_id: int):
     """
     try:
         schools = school_service.get_school_by_id(school_id)
-        current_app.logger.info("Return data for school_id: {}".format(school_id))
+        current_app.logger.info(
+            "Return data for school_id: {}".format(school_id))
         return jsonify({
             "data": {
                 "school": schools
             }}), 200
     except SQLCustomError as error:
-        current_app.logger.error("Return error for school_id: {}".format(school_id))
+        current_app.logger.error(
+            "Return error for school_id: {}".format(school_id))
         return jsonify({"errors": [error.__dict__]}), 400
 
 
@@ -61,6 +63,7 @@ def create_school():
     :return:
     """
     data = request.get_json()
+
     if data is None:
         return post_request_empty()
     try:
@@ -73,11 +76,12 @@ def create_school():
         })
         current_app.logger.debug("create address id: %s", address_id)
         school_id = school_service.create_school({
-            "school_name": data.get("school_name"),
+            "name": data.get("name"),
             "contact_info": data.get("contact_info"),
             "address_id": address_id
         })
-        current_app.logger.info("Create school success. school_name %s", data.get("school_name"))
+        current_app.logger.info(
+            "Create school success. name %s", data.get("name"))
         return get_school_by_id(school_id)
     except (RequestDataEmpty, SQLCustomError, ValidateFail) as error:
         current_app.logger.error("Create school request fail")
@@ -99,16 +103,19 @@ def delete_school(school_id):
         school = school_service.get_school_by_id(school_id)
 
         if len(school) == 0:
-            current_app.logger.error("No school id to delete: {}".format(school_id))
+            current_app.logger.error(
+                "No school id to delete: {}".format(school_id))
             return jsonify({"errors": ["No school id to delete"]}), 404
 
         if school_service.delete_school_by_id(school_id):
-            school_delete_status = address_service.delete_address_by_id(school["address"]["id"])
+            school_delete_status = address_service.delete_address_by_id(
+                school["address"]["id"])
         return jsonify({
             "status": school_delete_status
         }), 200
     except SQLCustomError as error:
-        current_app.logger.error("Fail to delete school_id: {}".format(school_id))
+        current_app.logger.error(
+            "Fail to delete school_id: {}".format(school_id))
         return jsonify({"errors": [error.__dict__]}), 400
 
 
@@ -146,7 +153,8 @@ def update_school(school_id: int):
             "status": school_update_status
         }), 200
     except ValueError as error:
-        current_app.logger.error("Value error for address id. error: %s", error)
+        current_app.logger.error(
+            "Value error for address id. error: %s", error)
         return jsonify({"errors": [error.__dict__]}), 400
     except (SQLCustomError, ValidateFail, RequestDataEmpty) as error:
         current_app.logger.error("Error for school data update id {} Error: {}"

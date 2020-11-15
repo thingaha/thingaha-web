@@ -161,10 +161,10 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => {
   return {
     submitNewSchoolForm: (values) => {
-      dispatch(actions.submitNewSchoolForm(transformSchoolSchema(values)))
+      dispatch(actions.submitNewSchoolForm(values))
     },
     submitEditSchoolForm: (values) => {
-      dispatch(actions.submitEditSchoolForm(transformSchoolSchema(values)))
+      dispatch(actions.submitEditSchoolForm(values))
     },
   }
 }

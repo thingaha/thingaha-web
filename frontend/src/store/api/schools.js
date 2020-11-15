@@ -1,5 +1,6 @@
 import last from 'lodash/last'
 import thingahaApiClient from '../../utils/thingahaApiClient'
+import config from '../../config'
 
 const schoolsDb = [
   {
@@ -53,23 +54,23 @@ const schoolsDb = [
 ]
 
 export const fetchSchools = async () => {
-  const response = await thingahaApiClient.get('/schools')
+  const { data } = await thingahaApiClient.get('/schools')
+
   return {
     data: {
-      schools: response.data.data.schools,
+      schools: data.schools,
     },
   }
 }
 
-export const createSchool = (values) => {
-  // TODO call backend schools create endpoint
-  const newSchool = {
-    ...values,
-    id: last(schoolsDb).id + 1,
-  }
-  schoolsDb.push(newSchool)
+export const createSchool = async (values) => {
+  const { data, status, error } = await thingahaApiClient.post(
+    '/schools',
+    values
+  )
+
   return {
-    data: newSchool,
+    school: data.school,
   }
 }
 

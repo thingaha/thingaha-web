@@ -39,10 +39,12 @@ class SchoolService(Service):
         :return: school list of dict
         """
         try:
-            self.logger.info("Get school info by school_id:{}".format(school_id))
+            self.logger.info(
+                "Get school info by school_id:{}".format(school_id))
             school = SchoolModel.get_school_by_id(school_id)
             if not school:
-                raise SQLCustomError(description="No data for requested school id: {}".format(school_id))
+                raise SQLCustomError(
+                    description="No data for requested school id: {}".format(school_id))
             return school.school_dict()
         except SQLAlchemyError as error:
             self.logger.error("Error: {}".format(error))
@@ -70,7 +72,7 @@ class SchoolService(Service):
             raise ValidateFail("School validation fail")
         try:
             return SchoolModel.create_school(SchoolModel(
-                name=data["school_name"],
+                name=data["name"],
                 contact_info=data["contact_info"],
                 address_id=int(data["address_id"])))
         except SQLAlchemyError as error:
@@ -84,7 +86,8 @@ class SchoolService(Service):
         :return:
         """
         try:
-            self.logger.info("Delete school info by school_id:{}".format(school_id))
+            self.logger.info(
+                "Delete school info by school_id:{}".format(school_id))
             return SchoolModel.delete_school_by_id(school_id)
         except SQLAlchemyError as error:
             self.logger.error("Error: {}".format(error))
@@ -103,7 +106,8 @@ class SchoolService(Service):
             self.logger.error("All school field input must be required.")
             raise ValidateFail("School update validation fail")
         try:
-            self.logger.info("update school info by school_id:{}".format(school_id))
+            self.logger.info(
+                "update school info by school_id:{}".format(school_id))
             return SchoolModel.update_school(school_id, SchoolModel(
                 name=data["school_name"],
                 contact_info=data["contact_info"],
