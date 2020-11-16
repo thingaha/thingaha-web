@@ -4,7 +4,7 @@ from flask_cors import cross_origin
 from flask_jwt_extended import jwt_required
 
 from common.error import SQLCustomError, RequestDataEmpty, ValidateFail
-from controller.api import api, post_request_empty, address_service
+from controller.api import api, post_request_empty, address_service, custom_error
 from service.school.school_service import SchoolService
 
 school_service = SchoolService()
@@ -131,7 +131,6 @@ def update_school(school_id: int):
     data = request.get_json()
     if data is None:
         return post_request_empty()
-    school_update_status = False
     try:
         school = school_service.get_school_by_id(school_id)
         if not school:

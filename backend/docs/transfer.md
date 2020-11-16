@@ -130,7 +130,15 @@ Output Sample:
 
 ```json
 {
-  "status": true
+  "data": {
+    "transfer": {
+      "id": 1,
+      "month": "march",
+      "total_jpy": 200.0,
+      "total_mmk": 3000.0,
+      "year": 2020
+    }
+  }
 }
 ```
 

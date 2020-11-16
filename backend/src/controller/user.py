@@ -112,7 +112,7 @@ def create_user():
             "password": data.get("password"),
             "role": data.get("role"),
             "country": data.get("country"),
-            "donation_active": data.get("donation_active")
+            "donation_active": True if data.get("donation_active") else False
         })
         current_app.logger.info(
             "Create user success. user_name %s", data.get("name"))
@@ -131,31 +131,37 @@ def update_user(user_id: int):
     update user info by id
     """
     data = request.get_json()
-    user_update_status = False
     if data is None:
         return post_request_empty()
     try:
-        address_id = int(data.get("address_id"))
-        if address_service.update_address_by_id(address_id, {
+        user = user_service.get_user_by_id(user_id)
+        if not user:
+            return custom_error("Invalid user id supplied.")
+
+        updated = address_service.update_address_by_id(user["address"]["id"], {
             "division": data.get("division"),
             "district": data.get("district"),
             "township": data.get("township"),
             "street_address": data.get("street_address"),
             "type": "user"
-        }):
+        })
+
+        if updated:
             user_update_status = user_service.update_user_by_id(user_id, {
                 "name": data.get("name"),
                 "email": data.get("email"),
-                "address_id": address_id,
+                "address_id": int(user["address"]["id"]),
                 "password": data.get("password"),
                 "role": data.get("role"),
                 "country": data.get("country"),
-                "donation_active": data.get("donation_active")
+                "donation_active": True if data.get("donation_active") else False
             })
-        current_app.logger.info("Success user update for user_id: %s", user_id)
-        return jsonify({
-            "status": user_update_status
-        }), 200
+            if user_update_status:
+                current_app.logger.info("Success user update for user_id: %s", user_id)
+            else:
+                current_app.logger.error("Fail user update for user_id: %s", user_id)
+                return custom_error("Update fail for user_id: %s", user_id)
+        return get_user_by_id(user_id)
     except ValueError as error:
         current_app.logger.error(
             "Value error for address id. error: %s", error)

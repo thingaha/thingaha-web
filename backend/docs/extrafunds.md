@@ -139,7 +139,21 @@ Output Sample:
 
 ```json
 {
-  "status": true
+  "data": {
+    "extra_funds": [
+      {
+        "id": 2,
+        "mmk_amount": 100000,
+        "transfer_id": {
+          "id": 2,
+          "year": "2020",
+          "month": "january",
+          "total_mmk": "35000",
+          "total_jpy": "3000"
+        }
+      }
+    ]
+  }
 }
 ```
 

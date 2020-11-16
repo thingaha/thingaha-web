@@ -122,7 +122,6 @@ Input Sample:
 {
   "name": "No.(11)Nyanungdon",
   "contact_info": "098",
-  "address_id": 11,
   "district": "yangon",
   "division": "yangon",
   "street_address": "18 street",
@@ -134,7 +133,20 @@ Output Sample:
 
 ```json
 {
-  "status": true
+  "data": {
+    "school": {
+      "address": {
+        "district": "yangon",
+        "division": "yangon",
+        "id": 12,
+        "street_address": "18 street",
+        "township": "MyaeNiGone"
+      },
+      "contact_info": "098",
+      "id": 10,
+      "name": "No.(11)Nyanungdon"
+    }
+  }
 }
 ```
 

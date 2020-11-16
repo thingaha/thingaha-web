@@ -3,7 +3,7 @@ from flask_cors import cross_origin
 from flask_jwt_extended import jwt_required
 
 from common.error import SQLCustomError, RequestDataEmpty, ValidateFail
-from controller.api import api, post_request_empty
+from controller.api import api, post_request_empty, custom_error
 from service.transfer.transfer_service import TransferService
 
 transfer_service = TransferService()
@@ -27,11 +27,7 @@ def get_transfer_by_id(transfer_id: int):
             }}), 200
     except SQLCustomError as error:
         current_app.logger.error("Return error for transfer_id: {}".format(transfer_id))
-        return jsonify({
-            "errors": {
-                "error": error.__dict__
-            }
-        }), 400
+        return jsonify({"errors": [error.__dict__]}), 400
 
 
 @api.route("/transfers", methods=["POST"])
@@ -56,11 +52,7 @@ def create_transfers():
         current_app.logger.info("Create transfer success. transfer %s", data.get("month"))
         return get_transfer_by_id(transfer_id)
     except (SQLCustomError, ValidateFail, RequestDataEmpty) as error:
-        return jsonify({
-            "errors": {
-                "error": error.__dict__
-            }
-        }), 400
+        return jsonify({"errors": [error.__dict__]}), 400
 
 
 @api.route("/transfers/<int:transfer_id>", methods=["PUT"])
@@ -76,17 +68,16 @@ def update_transfers(transfer_id: int):
     if data is None:
         return post_request_empty()
     try:
-        current_app.logger.info("Update transfer for transfer_id: %s", transfer_id)
-        return jsonify({
-            "status": transfer_service.update_transfer_by_id(transfer_id, data)
-        }), 200
+        status = transfer_service.update_transfer_by_id(transfer_id, data)
+        if status:
+            current_app.logger.info("Success update for transfer_id: %s", transfer_id)
+            return get_transfer_by_id(transfer_id)
+        else:
+            current_app.logger.error("Fail update for transfer_id: %s", transfer_id)
+            return custom_error("Update Fail for transfer_id: %s", transfer_id)
     except (SQLCustomError, ValidateFail, RequestDataEmpty) as error:
         current_app.logger.error("Update transfer fail: transfer_id: %s", transfer_id)
-        return jsonify({
-            "errors": {
-                "error": error.__dict__
-            }
-        }), 400
+        return jsonify({"errors": [error.__dict__]}), 400
 
 
 @api.route("/transfers/<int:transfer_id>", methods=["DELETE"])
@@ -105,11 +96,7 @@ def delete_transfers(transfer_id: int):
         }), 200
     except SQLCustomError as error:
         current_app.logger.error("Fail to delete transfer : transfer_id: %s", transfer_id)
-        return jsonify({
-            "errors": {
-                "error": error.__dict__
-            }
-        }), 400
+        return jsonify({"errors": [error.__dict__]}), 400
 
 
 @api.route("/transfers", methods=["GET"])
@@ -131,8 +118,4 @@ def get_all_transfers():
             }}), 200
     except SQLCustomError as error:
         current_app.logger.error("Fail to get all transfers: %s", error)
-        return jsonify({
-            "errors": {
-                "error": error.__dict__
-            }
-        }), 400
+        return jsonify({"errors": [error.__dict__]}), 400

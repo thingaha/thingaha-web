@@ -188,7 +188,6 @@ Input Sample:
   "password": "1234",
   "role": "admin",
   "country": "mm",
-  "address_id": 1,
   "district": "pabedan",
   "division": "yangon",
   "street_address": "19 street",
@@ -200,7 +199,23 @@ Output Sample:
 
 ```json
 {
-  "status": true
+  "data": {
+    "user": {
+      "address": {
+        "district": "yangon",
+        "division": "yangon",
+        "id": 1,
+        "street_address": "11 street",
+        "township": "MyaeNiGone"
+      },
+      "country": "mm",
+      "email": "kzt1@gmail.com",
+      "formatted_address": "11 street, MyaeNiGone, yangon, yangon",
+      "id": 2,
+      "name": "khinezar1",
+      "role": "donator"
+    }
+  }
 }
 ```
 

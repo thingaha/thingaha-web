@@ -124,16 +124,21 @@ def update_student(student_id: int):
     data = request.get_json()
     if data is None:
         return post_request_empty()
-    student_update_status = False
+
+    student = student_service.get_student_by_id(student_id)
+    if not student:
+        return custom_error("Invalid student id supplied.")
+
     try:
-        address_id = int(data.get("address_id"))
-        if address_service.update_address_by_id(address_id, {
+        updated = address_service.update_address_by_id(student["address"]["id"], {
             "division": data.get("division"),
             "district": data.get("district"),
             "township": data.get("township"),
             "street_address": data.get("street_address"),
             "type": "student"
-        }):
+        })
+
+        if updated:
             student_update_status = student_service.update_student_by_id(student_id, {
                 "name": data.get("name"),
                 "deactivated_at": data.get("deactivated_at"),
@@ -142,17 +147,19 @@ def update_student(student_id: int):
                 "mother_name": data.get("mother_name"),
                 "parents_occupation": data.get("parents_occupation"),
                 "photo": data.get("photo"),
-                "address_id": address_id
+                "address_id": student["address"]["id"]
             })
-        current_app.logger.info("Update success for student_id: {}".format(student_id)) \
-            if student_update_status else current_app.logger.error("Update fail for student_id: {}"
-                                                                  .format(student_id))
-        return jsonify({
-            "status": student_update_status
-        }), 200
+            if student_update_status:
+                current_app.logger.info("Update success for student_id: {}".format(student_id))
+                return get_student_by_id(student_id)
+            else:
+                current_app.logger.error("Update fail for student_id: {}".format(student_id))
+                custom_error("Update Fail for student id: {}".format(student_id))
+
     except ValueError as error:
         current_app.logger.error("Value error for address id. error: %s", error)
         return jsonify({"errors": [error.__dict__]}), 400
+
     except (SQLCustomError, ValidateFail, RequestDataEmpty) as error:
         current_app.logger.error("Error for student data update id {} Error: {}"
                                  .format(student_id, error))

@@ -212,7 +212,49 @@ Output Sample:
 
 ```json
 {
-  "status": true
+    "data": {
+        "donation": {
+            "id": 1,
+            "jpy_amount": 0.0,
+            "mmk_amount": 3000.0,
+            "month": "january",
+            "status": "paid",
+            "student": {
+                "address": {
+                    "district": "မရမ်းကုန်းမြို့နယ်",
+                    "division": "yangon",
+                    "id": 6,
+                    "street_address": "ဉီးဘအိုလမ်း",
+                    "township": "အမှတ်(၂)ရပ်ကွက်"
+                },
+                "birth_date": "11-08-2006",
+                "deactivated_at": "09-06-2020",
+                "father_name": "ဉီးအောင်အောင်",
+                "id": 2,
+                "mother_name": "ဒေါ်အေးမြ",
+                "name": "မြမြ",
+                "parents_occupation": "ဈေးရောင်း",
+                "photo": "https://kzt.com/51b.jpg"
+            },
+            "user": {
+                "address": {
+                    "district": "pabedan",
+                    "division": "yangon",
+                    "id": 1,
+                    "street_address": "19 street",
+                    "township": "La Thar township"
+                },
+                "country": "mm",
+                "donation_active": true,
+                "email": "moemoe1@gmail.com",
+                "formatted_address": "19 street, La Thar township, pabedan, yangon",
+                "id": 1,
+                "name": "Moemoe1",
+                "role": "admin"
+            },
+            "year": 2020
+        }
+    }
 }
 ```
 

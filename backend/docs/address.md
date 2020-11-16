@@ -131,7 +131,15 @@ Output Sample:
 
 ```json
 {
-  "status": true
+    "data": {
+        "address": {
+            "district": "yangon",
+            "division": "yangon",
+            "id": 2,
+            "street_address": "21th street",
+            "township": "Latha"
+        }
+    }
 }
 ```
 

@@ -1,13 +1,11 @@
 """API route for address API"""
-from flask import request, current_app, jsonify,json
+from flask import request, current_app, jsonify
 from flask_cors import cross_origin
 from flask_jwt_extended import jwt_required
-from flask import json
 
 from common.error import SQLCustomError, RequestDataEmpty, ValidateFail
-from controller.api import api, post_request_empty
+from controller.api import api, post_request_empty, custom_error
 from service.address.address_service import AddressService
-from pathlib import Path
 
 address_service = AddressService()
 
@@ -72,10 +70,13 @@ def update_address(address_id: int):
     if data is None:
         return post_request_empty()
     try:
-        current_app.logger.info("Update address for address_id: %s", address_id)
-        return jsonify({
-            "status": address_service.update_address_by_id(address_id, data)
-        }), 200
+        status = address_service.update_address_by_id(address_id, data)
+        if status:
+            current_app.logger.info("Success update address for address_id: %s", address_id)
+            return get_address_by_id(address_id)
+        else:
+            current_app.logger.error("Fail update address for address_id: %s", address_id)
+            return custom_error("Fail update address for address_id: %s", address_id)
     except (SQLCustomError, ValidateFail, RequestDataEmpty) as error:
         current_app.logger.error("Update address fail: address_id: %s", address_id)
         return jsonify({"errors": [error.__dict__]}), 400
