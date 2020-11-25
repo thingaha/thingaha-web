@@ -17,7 +17,12 @@ Output Sample:
 
 ```json
 {
-  "access_token": "eyJ0eXAiOXXXXX"
+  "access_token": "eyJ0eXAiOXXXXX",
+  "user": {
+            "id": 1,
+            "email": "moemoe@gmail.com",
+            "username": "Moe Moe"
+          }
 }
 ```
 

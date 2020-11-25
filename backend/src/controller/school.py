@@ -4,7 +4,7 @@ from flask_cors import cross_origin
 from flask_jwt_extended import jwt_required
 
 from common.error import SQLCustomError, RequestDataEmpty, ValidateFail
-from controller.api import api, post_request_empty, address_service, custom_error
+from controller.api import api, post_request_empty, address_service, custom_error, full_admin, sub_admin
 from service.school.school_service import SchoolService
 
 school_service = SchoolService()
@@ -56,6 +56,7 @@ def get_school_by_id(school_id: int):
 
 @api.route("/schools", methods=["POST"])
 @jwt_required
+@sub_admin
 @cross_origin()
 def create_school():
     """
@@ -90,6 +91,7 @@ def create_school():
 
 @api.route("/schools/<int:school_id>", methods=["DELETE"])
 @jwt_required
+@full_admin
 @cross_origin()
 def delete_school(school_id):
     """
@@ -121,6 +123,7 @@ def delete_school(school_id):
 
 @api.route("/schools/<int:school_id>", methods=["PUT"])
 @jwt_required
+@sub_admin
 @cross_origin()
 def update_school(school_id: int):
     """

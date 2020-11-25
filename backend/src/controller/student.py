@@ -10,7 +10,7 @@ from common.aws_client import get_client, get_s3_url, get_bucket
 from common.config import S3_BUCKET
 from common.error import SQLCustomError, RequestDataEmpty, ValidateFail
 from controller.api import address_service
-from controller.api import api, post_request_empty, custom_error
+from controller.api import api, post_request_empty, custom_error, sub_admin, full_admin
 from service.student.student_service import StudentService
 
 student_service = StudentService()
@@ -56,6 +56,7 @@ def get_student_by_id(student_id: int):
 
 @api.route("/students", methods=["POST"])
 @jwt_required
+@sub_admin
 @cross_origin()
 def create_student():
     """
@@ -91,6 +92,7 @@ def create_student():
 
 @api.route("/students/<int:student_id>", methods=["DELETE"])
 @jwt_required
+@full_admin
 @cross_origin()
 def delete_students(student_id: int):
     """
@@ -114,6 +116,7 @@ def delete_students(student_id: int):
 
 @api.route("/students/<int:student_id>", methods=["PUT"])
 @jwt_required
+@sub_admin
 @cross_origin()
 def update_student(student_id: int):
     """
@@ -212,6 +215,7 @@ def upload_file(img, file_name: str) -> bool:
 
 @api.route("/student/upload", methods=["POST"])
 @jwt_required
+@sub_admin
 @cross_origin()
 def upload_s3_file():
     """
@@ -237,6 +241,7 @@ def upload_s3_file():
 
 @api.route("/student/upload", methods=["PUT"])
 @jwt_required
+@sub_admin
 @cross_origin()
 def update_file():
     """
@@ -254,6 +259,7 @@ def update_file():
 
 @api.route("/student/delete", methods=["DELETE"])
 @jwt_required
+@sub_admin
 @cross_origin()
 def delete_s3_file():
     """

@@ -4,7 +4,7 @@ from flask_cors import cross_origin
 from flask_jwt_extended import jwt_required
 
 from common.error import SQLCustomError, RequestDataEmpty, ValidateFail
-from controller.api import api, post_request_empty, custom_error
+from controller.api import api, post_request_empty, custom_error, full_admin, sub_admin
 from service.address.address_service import AddressService
 
 address_service = AddressService()
@@ -33,6 +33,7 @@ def get_address_by_id(address_id: int):
 
 @api.route("/addresses", methods=["POST"])
 @jwt_required
+@sub_admin
 @cross_origin()
 def create_address():
     """
@@ -59,6 +60,7 @@ def create_address():
 
 @api.route("/addresses/<int:address_id>", methods=["PUT"])
 @jwt_required
+@sub_admin
 @cross_origin()
 def update_address(address_id: int):
     """
@@ -84,6 +86,7 @@ def update_address(address_id: int):
 
 @api.route("/addresses/<int:address_id>", methods=["DELETE"])
 @jwt_required
+@full_admin
 @cross_origin()
 def delete_address(address_id: int):
     """

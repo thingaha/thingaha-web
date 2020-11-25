@@ -4,7 +4,7 @@ from flask_cors import cross_origin
 from flask_jwt_extended import jwt_required
 
 from common.error import SQLCustomError, RequestDataEmpty, ValidateFail
-from controller.api import api, post_request_empty, custom_error
+from controller.api import api, post_request_empty, custom_error, full_admin, sub_admin
 from service.attendance.attendance_service import AttendanceService
 
 attendance_service = AttendanceService()
@@ -49,6 +49,7 @@ def get_attendance_by_id(attendance_id: int):
 
 @api.route("/attendances", methods=["POST"])
 @jwt_required
+@sub_admin
 @cross_origin()
 def create_attendance():
     """
@@ -74,6 +75,7 @@ def create_attendance():
 
 @api.route("/attendances/<int:attendance_id>", methods=["DELETE"])
 @jwt_required
+@full_admin
 @cross_origin()
 def delete_attendances(attendance_id):
     """
@@ -93,6 +95,7 @@ def delete_attendances(attendance_id):
 
 @api.route("/attendances/<int:attendance_id>", methods=["PUT"])
 @jwt_required
+@sub_admin
 @cross_origin()
 def update_attendance(attendance_id: int):
     """
