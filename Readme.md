@@ -47,6 +47,7 @@ pip install -r ~/thingaha/backend/requirements.txt
 
 - DB migrate
 
+create table and insert data to table
 ```shell script
 for linux, macOS -> go backend/bin and run -> ./db_migrate.sh
 for windows -> go to backend\bin and run -> db_migrate.bat
@@ -56,13 +57,6 @@ for windows -> go to backend\bin and run -> db_migrate.bat
 postgres url be like [DB_TYPE]+[DB_CONNECTOR]://[USERNAME]:[PASSWORD]@[HOST]:[PORT]/[DB_NAME]
 ```
 
-- DB Seed
-
-```shell script
-for linux, macOS -> go backend/bin and run -> ./db_seed.sh
-for windows -> go to backend\bin and run -> db_seed.bat
-
-```
 
 - ERD Diagram for Thingaha Project
 

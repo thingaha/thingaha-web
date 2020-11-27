@@ -4,7 +4,7 @@ from flask_cors import cross_origin
 from flask_jwt_extended import jwt_required
 
 from common.error import SQLCustomError, RequestDataEmpty, ValidateFail
-from controller.api import api, post_request_empty
+from controller.api import api, post_request_empty, custom_error, full_admin, sub_admin
 from service.attendance.attendance_service import AttendanceService
 
 attendance_service = AttendanceService()
@@ -37,11 +37,10 @@ def get_attendance_by_id(attendance_id: int):
     :return:
     """
     try:
-        attendance = attendance_service.get_attendance_by_id(attendance_id)
         current_app.logger.info("Return data for attendance_id: {}".format(attendance_id))
         return jsonify({
             "data": {
-                "attendance": attendance
+                "attendance": attendance_service.get_attendance_by_id(attendance_id)
             }}), 200
     except SQLCustomError as error:
         current_app.logger.error("Return error for attendances: {}".format(attendance_id))
@@ -50,6 +49,7 @@ def get_attendance_by_id(attendance_id: int):
 
 @api.route("/attendances", methods=["POST"])
 @jwt_required
+@sub_admin
 @cross_origin()
 def create_attendance():
     """
@@ -75,6 +75,7 @@ def create_attendance():
 
 @api.route("/attendances/<int:attendance_id>", methods=["DELETE"])
 @jwt_required
+@full_admin
 @cross_origin()
 def delete_attendances(attendance_id):
     """
@@ -94,6 +95,7 @@ def delete_attendances(attendance_id):
 
 @api.route("/attendances/<int:attendance_id>", methods=["PUT"])
 @jwt_required
+@sub_admin
 @cross_origin()
 def update_attendance(attendance_id: int):
     """
@@ -104,14 +106,16 @@ def update_attendance(attendance_id: int):
     data = request.get_json()
     if data is None:
         return post_request_empty()
-    data = request.get_json()
-    if data is None:
-        return post_request_empty()
+
     try:
-        current_app.logger.info("Update attendance for attendance_id: %s", attendance_id)
-        return jsonify({
-            "status": attendance_service.update_attendance_by_id(attendance_id, data)
-        }), 200
+        status = attendance_service.update_attendance_by_id(attendance_id, data)
+
+        if status:
+            current_app.logger.info("Success update attendance for attendance_id: %s", attendance_id)
+            return get_attendance_by_id(attendance_id)
+        else:
+            current_app.logger.error("Fail update attendance for attendance_id: %s", attendance_id)
+            return custom_error("Fail to update attendance id : %", attendance_id)
     except (SQLCustomError, ValidateFail, RequestDataEmpty) as error:
         current_app.logger.error("Update attendance fail: attendance_id: %s", attendance_id)
         return jsonify({"errors": [error.__dict__]}), 400

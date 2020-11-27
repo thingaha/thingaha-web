@@ -6,6 +6,7 @@ import {
   SUBMIT_EDIT_SCHOOL_FORM_SUCCESS,
   SUBMIT_EDIT_SCHOOL_FORM_FAILURE,
 } from '../actions/schools'
+import updateObjectInArray from '../../utils/updateObjectInArray'
 
 export default (state = { schools: [] }, action) => {
   switch (action.type) {
@@ -31,9 +32,14 @@ export default (state = { schools: [] }, action) => {
         error: action.error,
       }
     case SUBMIT_EDIT_SCHOOL_FORM_SUCCESS:
+      const updatedSchools = updateObjectInArray(
+        state.schools,
+        action.school,
+        (school, updatedSchool) => school.id == updatedSchool.id
+      )
       return {
         ...state,
-        schools: [...action.schools],
+        schools: [...updatedSchools],
       }
     case SUBMIT_EDIT_SCHOOL_FORM_FAILURE:
       return {

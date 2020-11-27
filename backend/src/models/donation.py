@@ -89,7 +89,7 @@ class DonationModel(db.Model):
             raise error
 
     @staticmethod
-    def get_donation_by_id(donation_id: int) -> List[DonationModel]:
+    def get_donation_by_id(donation_id: int) -> DonationModel:
         """
         get all donation records
         :param donation_id
@@ -100,7 +100,7 @@ class DonationModel(db.Model):
                 filter(DonationModel.user_id == UserModel.id). \
                 filter(DonationModel.attendance_id == AttendanceModel.id). \
                 filter(AttendanceModel.id == StudentModel.id). \
-                filter(DonationModel.id == donation_id)
+                filter(DonationModel.id == donation_id).first()
         except SQLAlchemyError as error:
             raise error
 

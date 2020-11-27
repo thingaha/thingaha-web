@@ -13,7 +13,7 @@ address_schema = Schema({
 })
 
 school_schema = Schema({
-    "school_name": str,
+    "name": str,
     "contact_info": str,
     "address_id": int
 })

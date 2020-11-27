@@ -4,7 +4,7 @@ from flask_cors import cross_origin
 from flask_jwt_extended import jwt_required
 
 from common.error import SQLCustomError, RequestDataEmpty, ValidateFail
-from controller.api import api, post_request_empty
+from controller.api import api, post_request_empty, custom_error, full_admin, sub_admin
 from service.extrafund.extrafunds_service import ExtraFundsService
 from service.transfer.transfer_service import TransferService
 
@@ -30,11 +30,12 @@ def get_extra_funds_by_id(extra_fund_id: int):
             }}), 200
     except SQLCustomError as error:
         current_app.logger.error("Return error for extra_funds_id: {}".format(extra_fund_id))
-        return jsonify({"errors": {"error": error.__dict__}}), 400
+        return jsonify({"errors": [error.__dict__]}), 400
 
 
 @api.route("/extra_funds", methods=["POST"])
 @jwt_required
+@sub_admin
 @cross_origin()
 def create_extra_funds():
     """
@@ -53,11 +54,12 @@ def create_extra_funds():
         current_app.logger.info("Create extra_funds success. extra_funds %s", data.get("extra_fund_id"))
         return get_extra_funds_by_id(extra_fund_id)
     except (SQLCustomError, ValidateFail, RequestDataEmpty) as error:
-        return jsonify({"errors": {"error": error.__dict__}}), 400
+        return jsonify({"errors": [error.__dict__]}), 400
 
 
 @api.route("/extra_funds/<int:extra_fund_id>", methods=["PUT"])
 @jwt_required
+@sub_admin
 @cross_origin()
 def update_extra_funds(extra_fund_id: int):
     """
@@ -69,17 +71,22 @@ def update_extra_funds(extra_fund_id: int):
     if data is None:
         return post_request_empty()
     try:
-        current_app.logger.info("Update extra_funds for extra_funds_id: %s", extra_fund_id)
-        return jsonify({
-            "status": extra_funds_service.update_extra_fund_by_id(extra_fund_id, data)
-        }), 200
+        status = extra_funds_service.update_extra_fund_by_id(extra_fund_id, data)
+        if status:
+            current_app.logger.info("Success update extra_funds for extra_funds_id: %s", extra_fund_id)
+            return get_extra_funds_by_id(extra_fund_id)
+        else:
+            current_app.logger.error("Fail update extra_funds for extra_funds_id: %s", extra_fund_id)
+            return custom_error("Fail to update extra fund id: {}".format(extra_fund_id))
+
     except (SQLCustomError, ValidateFail, RequestDataEmpty) as error:
         current_app.logger.error("Update extra_funds fail: extra_funds_id: %s", extra_fund_id)
-        return jsonify({"errors": {"error": error.__dict__}}), 400
+        return jsonify({"errors": [error.__dict__]}), 400
 
 
 @api.route("/extra_funds/<int:extra_fund_id>", methods=["DELETE"])
 @jwt_required
+@full_admin
 @cross_origin()
 def delete_extra_funds(extra_fund_id: int):
     """
@@ -94,7 +101,7 @@ def delete_extra_funds(extra_fund_id: int):
         }), 200
     except SQLCustomError as error:
         current_app.logger.error("Fail to delete extra_funds : extra_funds_id: %s", extra_fund_id)
-        return jsonify({"errors": {"error": error.__dict__}}), 400
+        return jsonify({"errors": [error.__dict__]}), 400
 
 
 @api.route("/extra_funds", methods=["GET"])
@@ -118,4 +125,4 @@ def get_all_extra_funds():
             }}), 200
     except SQLCustomError as error:
         current_app.logger.error("Fail to get all extra_funds: %s", error)
-        return jsonify({"errors": {"error": error.__dict__}}), 400
+        return jsonify({"errors": [error.__dict__]}), 400

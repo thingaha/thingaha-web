@@ -7,7 +7,7 @@ import {
   SUBMIT_EDIT_SCHOOL_FORM_SUCCESS,
   SUBMIT_EDIT_SCHOOL_FORM_FAILURE,
 } from '../actions/schools'
-import { fetchSchools, createSchool, editSchool } from '../api/schools'
+import { fetchSchools, createSchool, updateSchool } from '../api/schools'
 import defaultErrorHandler from './defaultErrorHandler'
 import { toast } from 'react-toastify'
 
@@ -22,18 +22,21 @@ export function* fetchAllSchools(action) {
 
 export function* submitNewSchoolForm(action) {
   try {
-    const json = yield createSchool(action.school)
-    toast.success("New school successfully added!")
-    yield put({ type: SUBMIT_NEW_SCHOOL_FORM_SUCCESS, school: json.data })
+    const { school } = yield createSchool(action.school)
+
+    toast.success('New school successfully added!')
+    yield put({ type: SUBMIT_NEW_SCHOOL_FORM_SUCCESS, school })
   } catch (error) {
     yield defaultErrorHandler(error, SUBMIT_NEW_SCHOOL_FORM_FAILURE)
   }
 }
+
 export function* submitEditSchoolForm(action) {
   try {
-    const json = yield editSchool(action.school)
-    toast.success("School successfully updated!")
-    yield put({ type: SUBMIT_EDIT_SCHOOL_FORM_SUCCESS, schools: json.data })
+    const { school } = yield updateSchool(action.school)
+
+    toast.success('School successfully updated!')
+    yield put({ type: SUBMIT_EDIT_SCHOOL_FORM_SUCCESS, school })
   } catch (error) {
     yield defaultErrorHandler(error, SUBMIT_EDIT_SCHOOL_FORM_FAILURE)
   }

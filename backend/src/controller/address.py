@@ -4,7 +4,7 @@ from flask_cors import cross_origin
 from flask_jwt_extended import jwt_required
 
 from common.error import SQLCustomError, RequestDataEmpty, ValidateFail
-from controller.api import api, post_request_empty
+from controller.api import api, post_request_empty, custom_error, full_admin, sub_admin
 from service.address.address_service import AddressService
 
 address_service = AddressService()
@@ -33,6 +33,7 @@ def get_address_by_id(address_id: int):
 
 @api.route("/addresses", methods=["POST"])
 @jwt_required
+@sub_admin
 @cross_origin()
 def create_address():
     """
@@ -59,6 +60,7 @@ def create_address():
 
 @api.route("/addresses/<int:address_id>", methods=["PUT"])
 @jwt_required
+@sub_admin
 @cross_origin()
 def update_address(address_id: int):
     """
@@ -70,10 +72,13 @@ def update_address(address_id: int):
     if data is None:
         return post_request_empty()
     try:
-        current_app.logger.info("Update address for address_id: %s", address_id)
-        return jsonify({
-            "status": address_service.update_address_by_id(address_id, data)
-        }), 200
+        status = address_service.update_address_by_id(address_id, data)
+        if status:
+            current_app.logger.info("Success update address for address_id: %s", address_id)
+            return get_address_by_id(address_id)
+        else:
+            current_app.logger.error("Fail update address for address_id: %s", address_id)
+            return custom_error("Fail update address for address_id: %s", address_id)
     except (SQLCustomError, ValidateFail, RequestDataEmpty) as error:
         current_app.logger.error("Update address fail: address_id: %s", address_id)
         return jsonify({"errors": [error.__dict__]}), 400
@@ -81,6 +86,7 @@ def update_address(address_id: int):
 
 @api.route("/addresses/<int:address_id>", methods=["DELETE"])
 @jwt_required
+@full_admin
 @cross_origin()
 def delete_address(address_id: int):
     """

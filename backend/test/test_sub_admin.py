@@ -18,7 +18,7 @@ def init_app():
 
     @jwt.user_claims_loader
     def add_claims_to_access_token(user):
-        return "admin"
+        return "sub_admin"
     yield app
 
 
@@ -177,15 +177,14 @@ def test_address_create_update(client, json_access_token, address_json):
 def test_address_delete(client, json_access_token, address_json):
     res = client.post("/api/v1/addresses", json=address_json, headers=json_access_token)
     assert res.status_code == 200
-    res = client.delete("/api/v1/addresses/2", headers=json_access_token)
-    assert res.status_code == 200
-
+    res = client.delete("/api/v1/addresses/1", json=address_json, headers=json_access_token)
+    assert res.status_code == 403
 
 # End Address #
 # Start School #
 
 
-def test_school(client, json_access_token):
+def test_school(init_app, client, json_access_token):
     res = client.get("/api/v1/schools", headers=json_access_token)
     assert res.status_code == 200
 
@@ -201,7 +200,7 @@ def test_delete_school_id(client, json_access_token, school_json):
     res = client.post("/api/v1/schools", json=school_json, headers=json_access_token)
     assert res.status_code == 200
     res = client.delete("/api/v1/schools/1", headers=json_access_token)
-    assert res.status_code == 200
+    assert res.status_code == 403
 
 
 def test_create_update_school(client, json_access_token, school_json):
@@ -258,13 +257,11 @@ def test_put_user_by_id(client, json_access_token, user_json):
     assert res.status_code == 200
 
 
-def test_delete_user_by_id(client, json_access_token, user_json, address_json):
-    res = client.post("/api/v1/addresses", json=address_json, headers=json_access_token)
-    assert res.status_code == 200
+def test_delete_user_by_id(client, json_access_token, user_json):
     res = client.post("/api/v1/users", json=user_json, headers=json_access_token)
     assert res.status_code == 200
-    res = client.delete("/api/v1/users/1", headers=json_access_token)
-    assert res.status_code == 200
+    res = client.delete("/api/v1/users/2", headers=json_access_token)
+    assert res.status_code == 403
 
 
 def test_search_users(client, json_access_token):
@@ -291,25 +288,6 @@ def test_post_attendance(client, json_access_token, school_json, attendance_json
     res = client.post("/api/v1/schools", json=school_json, headers=json_access_token)
     assert res.status_code == 200
     # create student
-
-    # skip => will throw error
-    res = client.post("/api/v1/attendances", json={
-        "student_id": 1,
-        "school_id": 1,
-        "grade": "G-10",
-        "year": "2020",
-        "enrolled_date": "2020-02-02"
-    }, headers=json_access_token)
-    assert res.status_code == 200 # fix it after student create api done
-    res = client.put("/api/v1/attendances", json={
-        "student_id": 1,
-        "school_id": 1,
-        "grade": "G-9",
-        "year": "2020",
-        "enrolled_date": "2020-02-01"
-    }, headers=json_access_token)
-    assert res.status_code == 200 # fix it after student create api done'''
-
     res = client.post("/api/v1/students", json=student_json, headers=json_access_token)
     assert res.status_code == 200
     # create attendances
@@ -333,7 +311,7 @@ def test_delete_attendance(client, json_access_token, school_json, attendance_js
     assert res.status_code == 200
     # update attendances
     res = client.delete("/api/v1/attendances/1", json=attendance_json, headers=json_access_token)
-    assert res.status_code == 200
+    assert res.status_code == 403
 
 # End Attendance #
 # Start Transfer #
@@ -355,20 +333,10 @@ def test_delete_transfer_by_id(client, json_access_token, transfer_json):
     res = client.post("/api/v1/transfers", json=transfer_json, headers=json_access_token)
     assert res.status_code == 200
     res = client.delete("/api/v1/transfers/1", headers=json_access_token)
-    assert res.status_code == 200
+    assert res.status_code == 403
 
-
-
-def test_create_update_transfer(init_app, client, json_access_token):
-    res = client.post("/api/v1/transfers", json={
-        "year": 2020,
-        "month": "march",
-        "total_mmk": 3000,
-        "total_jpy": 0
-    }, headers=json_access_token)
 
 def test_create_update_transfer(client, json_access_token, transfer_json):
-
     res = client.post("/api/v1/transfers", json=transfer_json, headers=json_access_token)
     assert res.status_code == 200
     res = client.put("/api/v1/transfers/1", json=transfer_json, headers=json_access_token)
@@ -396,7 +364,7 @@ def test_delete_student_id(client, json_access_token, student_json):
     res = client.post("/api/v1/students", json=student_json, headers=json_access_token)
     assert res.status_code == 200
     res = client.delete("/api/v1/students/1", headers=json_access_token)
-    assert res.status_code == 200
+    assert res.status_code == 403
 
 
 def test_create_update_student(client, json_access_token, student_json):
@@ -419,64 +387,9 @@ def test_create_update_student(client, json_access_token, student_json):
     }, headers=json_access_token)
     assert res.status_code == 200
 
-def test_extrafund_get_id(init_app, client, json_access_token):
-    res = client.get("/api/v1/extrafunds/1", headers=json_access_token)
-    assert res.status_code == 200
-
-def test_get_all_extrafund(init_app, client, json_access_token):
-    res = client.get("/api/v1/extrafunds", headers=json_access_token)
-    assert res.status_code == 200
-
-def test_delete_extrafunds_by_id(init_app, client, json_access_token):
-    res = client.delete("/api/v1/extrafunds/1", headers=json_access_token)
-    assert res.status_code == 200
-
-def test_create_update_extrafunds(init_app, client, json_access_token):
-    res = client.post("/api/v1/extrafunds", json={
-        "mmk_amount": 11111,
-        "transfer_id": 2
-    }, headers=json_access_token)
-    assert res.status_code == 200
-    res = client.put("/api/v1/extrafunds/1", json={
-        "mmk_amount": 22222,
-        "transfer_id": 1
-    }, headers=json_access_token)
-    assert res.status_code == 200
-
-
-
-def test_extra_fund_get_id(init_app, client, json_access_token, extra_fund_json, transfer_json):
-    res = client.post("/api/v1/transfers", json=transfer_json, headers=json_access_token)
-    assert res.status_code == 200
-    res = client.post("/api/v1/extra_funds", json=extra_fund_json, headers=json_access_token)
-    assert res.status_code == 200
-    res = client.get("/api/v1/extra_funds/1", headers=json_access_token)
-    assert res.status_code == 200
-
-
-def test_get_all_extra_fund(init_app, client, json_access_token):
-    res = client.get("/api/v1/extra_funds", headers=json_access_token)
-    assert res.status_code == 200
-
-
-def test_delete_extra_funds_by_id(init_app, client, json_access_token):
-    res = client.delete("/api/v1/extra_funds/1", headers=json_access_token)
-    assert res.status_code == 200
-
-
-def test_create_update_extra_funds(init_app, client, json_access_token, extra_fund_json, transfer_json):
-    res = client.post("/api/v1/transfers", json=transfer_json, headers=json_access_token)
-    assert res.status_code == 200
-    res = client.post("/api/v1/extra_funds", json=extra_fund_json, headers=json_access_token)
-    assert res.status_code == 200
-    res = client.put("/api/v1/extra_funds/1", json=extra_fund_json, headers=json_access_token)
-    assert res.status_code == 200
-
-
 # End Transfer #
 
 # Start Extra Fund #
-
 
 
 def test_extra_fund_get_id(client, json_access_token, extra_fund_json, transfer_json):
@@ -499,7 +412,7 @@ def test_delete_extra_funds_by_id(client, json_access_token, transfer_json, extr
     res = client.post("/api/v1/extra_funds", json=extra_fund_json, headers=json_access_token)
     assert res.status_code == 200
     res = client.delete("/api/v1/extra_funds/1", headers=json_access_token)
-    assert res.status_code == 200
+    assert res.status_code == 403
 
 
 def test_create_update_extra_funds(client, json_access_token, extra_fund_json, transfer_json):
@@ -535,8 +448,7 @@ def test_create_update_donation(client, json_access_token, donation_json,
     assert res.status_code == 200
 
 
-def test_delete_donation(client, json_access_token, donation_json,
-                                transfer_json, school_json, student_json, attendance_json):
+def test_delete_donation(client, json_access_token, donation_json, transfer_json, school_json, student_json, attendance_json):
     res = client.post("/api/v1/transfers", json=transfer_json, headers=json_access_token)
     assert res.status_code == 200
     # create school
@@ -552,7 +464,7 @@ def test_delete_donation(client, json_access_token, donation_json,
     res = client.post("/api/v1/donations", json=donation_json, headers=json_access_token)
     assert res.status_code == 200
     res = client.delete("/api/v1/donations/1", json=donation_json, headers=json_access_token)
-    assert res.status_code == 200
+    assert res.status_code == 403
 
 
 def test_divisions(client, json_access_token):

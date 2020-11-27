@@ -36,74 +36,148 @@ const UserForm = ({
   submitEditUserForm,
   editingUser,
 }) => {
-  return (
-    <ThingahaFormModal
-      title={editingUser ? 'Edit User' : 'Add New User'}
-      open={visible}
-      onClose={() => setVisible(false)}
-      onCancel={() => setVisible(false)}
-      onSubmit={() => {
-        if (editingUser) {
+  if (editingUser) {
+    return (
+      <ThingahaFormModal
+        title={'Edit User'}
+        open={visible}
+        onClose={() => setVisible(false)}
+        onCancel={() => setVisible(false)}
+        onSubmit={() => {
           submitEditUserForm(values)
-        } else {
+          setVisible(false)
+        }}
+      >
+        <form>
+          <FormContainer>
+            <StyledFormControl>
+              <TextField
+                id="name"
+                name="name"
+                placeholder="Jane"
+                label="User Name"
+                onChange={handleChange}
+                value={values.name}
+              />
+            </StyledFormControl>
+            <StyledFormControl>
+              <TextField
+                id="email"
+                name="email"
+                placeholder="jane@acme.com"
+                label="Email"
+                type="email"
+                onChange={handleChange}
+                value={values.email}
+              />
+            </StyledFormControl>
+            <StyledFormControl>
+              <Select
+                onChange={handleChange}
+                value={values.role}
+                id="role"
+                name="role"
+                label="Role"
+              >
+                <MenuItem value="donator">Donator</MenuItem>
+                <MenuItem value="admin">Admin</MenuItem>
+                <MenuItem value="superadmin">Super Admin</MenuItem>
+              </Select>
+            </StyledFormControl>
+            <StyledFormControl>
+              <Select
+                onChange={handleChange}
+                value={values.country}
+                id="country"
+                name="country"
+                label="Country"
+              >
+                <MenuItem value="jp">Japan</MenuItem>
+                <MenuItem value="mm">Myanmar</MenuItem>
+                <MenuItem value="sg">Singapore</MenuItem>
+              </Select>
+            </StyledFormControl>
+          </FormContainer>
+        </form>
+      </ThingahaFormModal>
+    )
+  } else {
+    return (
+      <ThingahaFormModal
+        title={'Add New User'}
+        open={visible}
+        onClose={() => setVisible(false)}
+        onCancel={() => setVisible(false)}
+        onSubmit={() => {
           submitUserForm(values)
-        }
-        setVisible(false)
-      }}
-    >
-      <form>
-        <FormContainer>
-          <StyledFormControl>
-            <TextField
-              id="username"
-              name="username"
-              placeholder="Jane"
-              label="User Name"
-              onChange={handleChange}
-              value={values.username}
-            />
-          </StyledFormControl>
-          <StyledFormControl>
-            <TextField
-              id="email"
-              name="email"
-              placeholder="jane@acme.com"
-              label="Email"
-              type="email"
-              onChange={handleChange}
-              value={values.email}
-            />
-          </StyledFormControl>
-          <StyledFormControl>
-            <Select
-              onChange={handleChange}
-              value={values.role}
-              id="role"
-              name="role"
-              label="Role"
-            >
-              <MenuItem value="donator">Donator</MenuItem>
-              <MenuItem value="admin">Admin</MenuItem>
-              <MenuItem value="superadmin">Super Admin</MenuItem>
-            </Select>
-          </StyledFormControl>
-          <StyledFormControl>
-            <Select
-              onChange={handleChange}
-              value={values.country}
-              id="country"
-              name="country"
-              label="Country"
-            >
-              <MenuItem value="jp">Japan</MenuItem>
-              <MenuItem value="mm">Myanmar</MenuItem>
-              <MenuItem value="sg">Singapore</MenuItem>
-            </Select>
-          </StyledFormControl>
-        </FormContainer>
-      </form>
-    </ThingahaFormModal>
-  )
+          setVisible(false)
+        }}
+      >
+        <form>
+          <FormContainer>
+            <StyledFormControl>
+              <TextField
+                id="name"
+                name="name"
+                placeholder="Jane"
+                label="User Name"
+                onChange={handleChange}
+                value={values.name}
+              />
+            </StyledFormControl>
+            <StyledFormControl>
+              <TextField
+                id="email"
+                name="email"
+                placeholder="jane@acme.com"
+                label="Email"
+                type="email"
+                onChange={handleChange}
+                value={values.email}
+              />
+            </StyledFormControl>
+            <StyledFormControl>
+              <TextField
+                id="password"
+                name="password"
+                placeholder="********"
+                label="Password"
+                type="password"
+                onChange={handleChange}
+                value={values.password}
+              />
+            </StyledFormControl>
+            <StyledFormControl>
+              <Select
+                onChange={handleChange}
+                value={values.role}
+                id="role"
+                name="role"
+                label="Role"
+              >
+                <MenuItem value="donator">Donator</MenuItem>
+                <MenuItem value="admin">Admin</MenuItem>
+                <MenuItem value="superadmin">Super Admin</MenuItem>
+              </Select>
+            </StyledFormControl>
+            <StyledFormControl>
+              <Select
+                onChange={handleChange}
+                value={values.country}
+                id="country"
+                name="country"
+                label="Country"
+              >
+                <MenuItem value="jp">Japan</MenuItem>
+                <MenuItem value="mm">Myanmar</MenuItem>
+                <MenuItem value="sg">Singapore</MenuItem>
+              </Select>
+            </StyledFormControl>
+          </FormContainer>
+        </form>
+      </ThingahaFormModal>
+    )
+  }
 }
 
 const transformUserSchema = (user) => {
@@ -136,7 +210,13 @@ const FormikUserForm = withFormik({
     if (props.editingUser) {
       return props.editingUser
     } else {
-      return { username: '', email: '', role: 'donator', country: 'jp' }
+      return {
+        name: '',
+        email: '',
+        password: '',
+        role: 'donator',
+        country: 'jp',
+      }
     }
   },
 
@@ -144,7 +224,7 @@ const FormikUserForm = withFormik({
   validate: (values) => {
     const errors = {}
 
-    if (!values.name) {
+    if (values.name == '') {
       errors.name = 'Required'
     }
 

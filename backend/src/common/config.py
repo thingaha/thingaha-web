@@ -9,7 +9,11 @@ import yaml
 
 from common.error import FileNotFound
 
-current_dir = os.path.join(os.path.dirname(__file__), "../../conf/")
+
+CURRENT_DIR = os.path.join(os.path.dirname(__file__), "../../conf/")
+S3_BUCKET = os.environ.get("S3_BUCKET")
+S3_KEY = os.environ.get("S3_KEY")
+S3_SECRET = os.environ.get("S3_SECRET_ACCESS_KEY")
 
 
 def load_logging_conf(log_file_path: str):
@@ -19,7 +23,7 @@ def load_logging_conf(log_file_path: str):
     :return:
     """
     try:
-        with open(current_dir + "{}".format(log_file_path), "r", encoding="utf-8") as log_conf_f:
+        with open(CURRENT_DIR + "{}".format(log_file_path), "r", encoding="utf-8") as log_conf_f:
             config.dictConfig(yaml.safe_load(log_conf_f))
     except FileNotFoundError:
         raise FileNotFound("loading log conf load error")
@@ -40,7 +44,7 @@ def load_config() -> dict:
     elif os.environ.get("SCRIPT_ENV") == "docker":
         env = "docker"
     try:
-        with open(current_dir + "config_{}.yaml".format(env), "r", encoding="utf-8") as conf_f:
+        with open(CURRENT_DIR + "config_{}.yaml".format(env), "r", encoding="utf-8") as conf_f:
             conf = yaml.safe_load(conf_f)
         return conf
     except FileNotFoundError:
