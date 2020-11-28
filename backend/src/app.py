@@ -36,6 +36,11 @@ def add_claims_to_access_token(user):
     return user.role
 
 
+@jwt.user_identity_loader
+def user_identity_lookup(user):
+    return user.name
+
+
 if __name__ == "__main__":
     try:
         app.run(host=conf["common"]["server"]["host"], port=conf["common"]["server"]["port"], threaded=True, debug=True)
