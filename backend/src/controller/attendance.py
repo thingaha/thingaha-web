@@ -16,7 +16,9 @@ attendance_service = AttendanceService()
 def get_attendances():
     try:
         page = request.args.get("page", 1, type=int)
-        attendance, count = attendance_service.get_all_attendances(page)
+        grade = request.args.get("grade")
+        year = request.args.get("year")
+        attendance, count = attendance_service.get_all_attendances(page, grade, year)
         current_app.logger.info("Get all attendance records")
         return jsonify({
             "data": {

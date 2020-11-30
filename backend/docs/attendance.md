@@ -64,10 +64,13 @@ Output Sample:
 
 ### GET all Attendances
 
-| API                          |             Description             | Action |
-| :--------------------------- | :---------------------------------: | -----: |
-| /api/v1/attendances          |         Get all attendances         |    GET |
-| /api/v1/attendances?page=XXX | Get all attendances with pagination |    GET |
+| API                                    |                       Description                       | Action |
+| :------------------------------------- | :-----------------------------------------------------: | -----: |
+| /api/v1/attendances                    |                   Get all attendances                   |    GET |
+| /api/v1/attendances?page=XXX           |           Get all attendances with pagination           |    GET |
+| /api/v1/attendances?year=XXX           |    Get attendances by filter (year) with pagination     |    GET |
+| /api/v1/attendances?grade=XXX          |    Get attendances by filter (grade) with pagination    |    GET |
+| /api/v1/attendances?grade=XXX&year=XXX | Get attendances by filter (grade, year) with pagination |    GET |
 
 default count per page is 20.
 
@@ -222,43 +225,43 @@ Output Sample:
 
 ```json
 {
-    "data": {
-        "attendance": {
-            "enrolled_date": "02-02-2020",
-            "grade": "G-8",
-            "id": 3,
-            "school": {
-                "address": {
-                    "district": "ညောင်တုန်းမြို့",
-                    "division": "ayeyarwady",
-                    "id": 2,
-                    "street_address": "အောင်သုခလမ်း",
-                    "township": "အမှတ်(၈)ရပ်ကွက်"
-                },
-                "contact_info": "098909939",
-                "id": 1,
-                "name": "No.(1)Nyanungdon"
-            },
-            "student": {
-                "address": {
-                    "district": "မရမ်းကုန်းမြို့နယ်",
-                    "division": "yangon",
-                    "id": 8,
-                    "street_address": "ဉီးဘအိုလမ်း",
-                    "township": "အမှတ်(၂)ရပ်ကွက်"
-                },
-                "birth_date": "11-08-2006",
-                "deactivated_at": "09-06-2020",
-                "father_name": "ဉီးအေး",
-                "id": 4,
-                "mother_name": "ဒေါ်အေးအေး",
-                "name": "စုစု",
-                "parents_occupation": "ဈေးရောင်း",
-                "photo": "https://kzt.com/51b.jpg"
-            },
-            "year": 2019
-        }
+  "data": {
+    "attendance": {
+      "enrolled_date": "02-02-2020",
+      "grade": "G-8",
+      "id": 3,
+      "school": {
+        "address": {
+          "district": "ညောင်တုန်းမြို့",
+          "division": "ayeyarwady",
+          "id": 2,
+          "street_address": "အောင်သုခလမ်း",
+          "township": "အမှတ်(၈)ရပ်ကွက်"
+        },
+        "contact_info": "098909939",
+        "id": 1,
+        "name": "No.(1)Nyanungdon"
+      },
+      "student": {
+        "address": {
+          "district": "မရမ်းကုန်းမြို့နယ်",
+          "division": "yangon",
+          "id": 8,
+          "street_address": "ဉီးဘအိုလမ်း",
+          "township": "အမှတ်(၂)ရပ်ကွက်"
+        },
+        "birth_date": "11-08-2006",
+        "deactivated_at": "09-06-2020",
+        "father_name": "ဉီးအေး",
+        "id": 4,
+        "mother_name": "ဒေါ်အေးအေး",
+        "name": "စုစု",
+        "parents_occupation": "ဈေးရောင်း",
+        "photo": "https://kzt.com/51b.jpg"
+      },
+      "year": 2019
     }
+  }
 }
 ```
 

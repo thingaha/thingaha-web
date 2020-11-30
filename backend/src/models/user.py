@@ -143,7 +143,9 @@ class UserModel(db.Model):
         :return: user info list
         """
         try:
-            return db.session.query(UserModel).join(AddressModel).filter(or_(UserModel.name.ilike(query), UserModel.email.ilike(query))).all()
+            return db.session.query(UserModel).\
+                join(AddressModel).filter(or_(UserModel.name.ilike(query),
+                                              UserModel.email.ilike(query))).all()
         except SQLAlchemyError as error:
             raise error
 
