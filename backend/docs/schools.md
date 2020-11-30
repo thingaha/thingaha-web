@@ -40,10 +40,13 @@ Output Sample:
 
 ### GET all Schools
 
-| API                      |          Description           | Action |
-| :----------------------- | :----------------------------: | -----: |
-| /api/v1/schools          |         GET all school         |    GET |
-| /api/v1/schools?page=XXX | GET all school with pagination |    GET |
+| API                              |                        Description                         | Action |
+| :------------------------------- | :--------------------------------------------------------: | -----: |
+| /api/v1/schools                  |                       GET all school                       |    GET |
+| /api/v1/schools?page=XXX         |               GET all school with pagination               |    GET |
+| /api/v1/schools/search?query=XXX | Get schools by search (name, contact info) with pagination |    GET |
+
+Get user by search (name, email)
 
 default count per page is 20.
 

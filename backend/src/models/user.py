@@ -136,16 +136,19 @@ class UserModel(db.Model):
             raise error
 
     @staticmethod
-    def get_users_by_query(query) -> List[UserModel]:
+    def get_users_by_query(page: int, query: str) -> Pagination:
         """
         get users by name (as name is not unique, multiple records can be returned)
+        :param page:
         :param query:
         :return: user info list
         """
         try:
             return db.session.query(UserModel).\
-                join(AddressModel).filter(or_(UserModel.name.ilike(query),
-                                              UserModel.email.ilike(query))).all()
+                join(AddressModel).filter(or_(UserModel.name.ilike('%' + query + '%'),
+                                              UserModel.email.ilike('%' + query + '%'))).paginate(
+                page=page,
+                error_out=False)
         except SQLAlchemyError as error:
             raise error
 

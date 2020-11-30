@@ -83,7 +83,7 @@ Output Sample:
 | :------------------------------- | :------------------------------------------------: | -----: |
 | /api/v1/users                    |                   GET all users                    |    GET |
 | /api/v1/users?page=XXX           |           GET all users with pagination            |    GET |
-| /api/v1/users/search?query=xxx   |          Get user by search (name, email)          |    GET |
+| /api/v1/users/search?query=xxx   |  Get user by search (name, email) with pagination  |    GET |
 | /api/v1/users?role=xx            |     Get user by filter (role) with pagination      |    GET |
 | /api/v1/users?country=xx         |    Get user by filter (country) with pagination    |    GET |
 | /api/v1/users?role=xx&country=xx | Get user by filter (country, role) with pagination |    GET |

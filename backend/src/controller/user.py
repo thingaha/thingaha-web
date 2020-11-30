@@ -174,11 +174,15 @@ def search_user():
     search user by name , email
     """
     query = request.args.get("query")
+    page = request.args.get("page", 1, type=int)
     try:
         current_app.logger.info("search user : query: %s", query)
+        users, count = user_service.get_users_by_query(page, query)
         return jsonify({
-            "data": user_service.get_users_by_query(query)
-        }), 200
+            "data": {
+                "count": count,
+                "users": users
+            }}), 200
     except SQLCustomError as error:
         current_app.logger.error("Fail to search user : query: %s", query)
         return jsonify({"errors": [error.__dict__]}), 400

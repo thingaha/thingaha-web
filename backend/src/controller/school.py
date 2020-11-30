@@ -172,3 +172,25 @@ def update_school(school_id: int):
         current_app.logger.error("Error for school data update id {} Error: {}"
                                  .format(school_id, error))
         return jsonify({"errors": [error.__dict__]}), 400
+
+
+@api.route("/schools/search", methods=["GET"])
+@jwt_required
+@cross_origin()
+def search_school():
+    """
+    search school by school name and contact info
+    """
+    query = request.args.get("query")
+    page = request.args.get("page", 1, type=int)
+    schools, count = school_service.get_schools_by_query(page, query)
+    try:
+        current_app.logger.info("search school : query: %s", query)
+        return jsonify({
+            "data": {
+                "count": count,
+                "schools": schools
+            }}), 200
+    except SQLCustomError as error:
+        current_app.logger.error("Fail to search school : query: %s", query)
+        return jsonify({"errors": [error.__dict__]}), 400

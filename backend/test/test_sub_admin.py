@@ -187,6 +187,8 @@ def test_address_delete(client, json_access_token, address_json):
 def test_school(init_app, client, json_access_token):
     res = client.get("/api/v1/schools", headers=json_access_token)
     assert res.status_code == 200
+    res = client.get("/api/v1/schools?query=ABC", headers=json_access_token)
+    assert res.status_code == 200
 
 
 def test_school_id(client, json_access_token, school_json):
@@ -279,6 +281,14 @@ def test_search_users(client, json_access_token):
 
 def test_get_attendance(client, json_access_token):
     res = client.get("/api/v1/attendances", headers=json_access_token)
+    assert res.status_code == 200
+    res = client.get("/api/v1/attendances?page=2", headers=json_access_token)
+    assert res.status_code == 200
+    res = client.get("/api/v1/attendances?year=2020", headers=json_access_token)
+    assert res.status_code == 200
+    res = client.get("/api/v1/attendances?grade=G-10", headers=json_access_token)
+    assert res.status_code == 200
+    res = client.get("/api/v1/attendances?grade=G-10&year=2020", headers=json_access_token)
     assert res.status_code == 200
 
 

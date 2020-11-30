@@ -4,6 +4,7 @@ from __future__ import annotations
 from typing import Dict, Any
 
 from flask_sqlalchemy import Pagination
+from sqlalchemy import or_
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import relationship
 
@@ -134,5 +135,23 @@ class SchoolModel(db.Model):
             return db.session.query(AddressModel, SchoolModel). \
                 filter(AddressModel.id == SchoolModel.address_id).filter(
                 AddressModel.type == "school").paginate(page=page, error_out=False)
+        except SQLAlchemyError as error:
+            raise error
+
+    @staticmethod
+    def get_schools_by_query(page: int, query: str) -> Pagination:
+        """
+        search school info by query (name and contact info)
+        :param page:
+        :param query:
+        :return: user info list
+        """
+
+        try:
+            return db.session.query(SchoolModel).join(AddressModel).filter(
+                or_(SchoolModel.name.ilike('%' + query + '%'),
+                    SchoolModel.contact_info.ilike('%' + query + '%'))).paginate(
+                page=page,
+                error_out=False)
         except SQLAlchemyError as error:
             raise error
