@@ -20,13 +20,12 @@ def get_school():
     """
     try:
         page = request.args.get("page", 1, type=int)
-        schools, count = school_service.get_all_schools(page)
-        current_app.logger.info("Get all school records")
+        per_page = request.args.get("per_page", 20, type=int)
+        result = school_service.get_all_schools(page, per_page)
+        current_app.logger.info("Get all school records.")
         return jsonify({
-            "data": {
-                "count": count,
-                "schools": schools
-            }}), 200
+                "data": result
+            }), 200
     except SQLCustomError as error:
         current_app.logger.error("Error in get all school records")
         return jsonify({"errors": [error.__dict__]}), 400

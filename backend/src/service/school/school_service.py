@@ -19,7 +19,7 @@ class SchoolService(Service):
     def __init__(self, logger=None) -> None:
         super().__init__(logger)
 
-    def get_all_schools(self, page: int = 1) -> (List, Any):
+    def get_all_schools(self, page: int = 1, per_page: int = 20) -> Dict:
         """
         get all school
         :params:page : int
@@ -27,8 +27,15 @@ class SchoolService(Service):
         """
         try:
             self.logger.info("Get school list")
-            schools = SchoolModel.get_all_schools(page)
-            return self.__return_school_list(schools.items), schools.total
+            schools = SchoolModel.get_all_schools(page, per_page)
+            return {
+                "schools": self.__return_school_list(schools.items),
+                "total_count": schools.total,
+                "current_page": schools.page,
+                "next_page": schools.next_num,
+                "prev_page": schools.prev_num,
+                "pages": schools.pages
+            }
         except SQLAlchemyError as error:
             self.logger.error("Error: {}".format(error))
             raise SQLCustomError(description="GET School SQL ERROR")

@@ -66,14 +66,14 @@ class SchoolModel(db.Model):
             raise error
 
     @staticmethod
-    def get_all_schools(page) -> Pagination:
+    def get_all_schools(page, per_page) -> Pagination:
         """
         get all school records
         :params page: int
         :return: school Pagination iterator
         """
         try:
-            return db.session.query(SchoolModel).join(AddressModel).paginate(page=page, error_out=False)
+            return db.session.query(SchoolModel).join(AddressModel).paginate(page=page, per_page=per_page, error_out=False)
         except SQLAlchemyError as error:
             raise error
 
