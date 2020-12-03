@@ -2,7 +2,7 @@
 
 from flask import request, current_app, jsonify
 from flask_cors import cross_origin
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from common.error import SQLCustomError, RequestDataEmpty, ValidateFail
 from controller.api import api, custom_error, post_request_empty, sub_admin, full_admin
@@ -181,4 +181,37 @@ def search_user():
         }), 200
     except SQLCustomError as error:
         current_app.logger.error("Fail to search user : query: %s", query)
+        return jsonify({"errors": [error.__dict__]}), 400
+
+
+@api.route("/users/password", methods=["PUT"])
+@jwt_required
+@cross_origin()
+def change_password():
+    """
+    change password by userid
+    """
+    data = request.get_json()
+    user_id = get_jwt_identity()
+    if data is None or user_id is None:
+        return post_request_empty()
+    try:
+        current_pwd = data.get("current_password")
+        new_pwd = data.get("new_password")
+        new_confirm_pwd = data.get("new_confirm_password")
+        user_data = user_service.get_user_by_id(user_id)
+        user = user_service.get_user_by_email(user_data["email"])
+        if not user_service.check_password(current_pwd, user):
+            return custom_error("Current password is incorrect.")
+        if new_pwd == new_confirm_pwd:
+            current_app.logger.info("All fields are valid!")
+            password_update_status = user_service.change_password_by_id(user_id, new_pwd)
+            return jsonify({
+                "status": password_update_status
+            }), 200
+        else:
+            return custom_error("Two fields of new password does not match.")
+    except SQLCustomError as error:
+        current_app.logger.error(
+            "Fail to change user password for user id:%s", user_id)
         return jsonify({"errors": [error.__dict__]}), 400

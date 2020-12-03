@@ -204,3 +204,19 @@ class UserService(Service):
         :return:
         """
         return [user.as_dict() for user in users]
+
+    def change_password_by_id(self, user_id: int, new_pwd: str) -> bool:
+        """
+        change password by userid
+        :param user_id:
+        :param new_pwd:
+        :return:
+        """
+        self.logger.info("Change user password by id %s", user_id)
+        try:
+            return UserModel.change_password(user_id, generate_password_hash(new_pwd))
+        except SQLAlchemyError:
+            self.logger.error("Password change fail. id %s, error %s", user_id,
+                              traceback.format_exc())
+            raise SQLCustomError(description="Change password by ID SQL ERROR")
+

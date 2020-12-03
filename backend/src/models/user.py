@@ -240,3 +240,20 @@ class UserModel(db.Model):
                 AddressModel.type == "user").paginate(page=page, per_page=per_page, error_out=False)
         except SQLAlchemyError as error:
             raise error
+
+    @staticmethod
+    def change_password(user_id: int, new_pwd: str) -> bool:
+        """
+        change password by userid
+        :param user_id:
+        :param new_pwd:
+        :return: bool
+        """
+        try:
+            db.session.query(UserModel).filter(UserModel.id == user_id).\
+                         update({UserModel.hashed_password: new_pwd})
+            db.session.commit()
+            return True
+        except SQLAlchemyError as error:
+            db.session.rollback()
+            raise error

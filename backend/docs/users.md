@@ -201,8 +201,9 @@ Input Sample:
   "country": "mm",
   "district": "pabedan",
   "division": "yangon",
-  "street_address": "19 street",
-  "township": "La Thar township"
+  "township": "La Thar township",
+  "donation_active": true
+
 }
 ```
 
@@ -255,5 +256,28 @@ Output Sample:
   }
 }
 ```
+### User update password
+ 
+| API              |    Description    | Action |
+| :--------------- | :---------------: | -----: |
+| /api/v1/users/password | Delete user by id | DELETE |
+
+Input Sample:
+```
+{
+    "current_password": "1234",
+    "new_password": "1234",
+    "new_confirm_password": "1234"
+}
+```
+
+Output Sample:
+
+```json
+{
+  "status": true
+}
+```
+
 
 - **_for error detail description please reference error.md_**

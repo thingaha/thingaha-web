@@ -71,7 +71,7 @@ class AttendanceModel(db.Model):
             raise error
 
     @staticmethod
-    def get_all_attendances(page: int = 20, per_page: int = 20) -> Pagination:
+    def get_all_attendances(page: int = 1, per_page: int = 20) -> Pagination:
         """
         get all Attendance records
         :params page

@@ -38,7 +38,7 @@ def add_claims_to_access_token(user):
 
 @jwt.user_identity_loader
 def user_identity_lookup(user):
-    return user.name
+    return user.id
 
 
 if __name__ == "__main__":
