@@ -155,13 +155,12 @@ def update_school(school_id: int):
             })
         else:
             return custom_error("Failed to update address.")
-
-        current_app.logger.info("Update success for school_id: {}".format(school_id)) \
-            if school_update_status else current_app.logger.error("Update fail for school_id: {}"
-                                                                  .format(school_id))
-        return jsonify({
-            "status": school_update_status
-        }), 200
+        if school_update_status:
+            current_app.logger.info("Update success for school_id: {}:".format(school_id))
+            return get_school_by_id(school_id)
+        else:
+            current_app.logger.error("Update fail for school_id: {}".format(school_id))
+            return custom_error("Fail to update school id: {}".format(school_id))
 
     except ValueError as error:
         current_app.logger.error(
