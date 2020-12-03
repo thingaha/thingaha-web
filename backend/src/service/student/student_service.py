@@ -144,3 +144,67 @@ class StudentService(Service):
         except SQLCustomError as error:
             self.logger.error("Error: {}".format(error))
             raise SQLCustomError(description="No record for requested student")
+
+    def get_students_by_name(self, student_name: str) -> List:
+        """
+        get student info by name
+        :param student_name:
+        :return: student lists of dict
+        """
+        try:
+            self.logger.info("Get students info by student_name:{}".format(student_name))
+            students = StudentModel.get_students_by_name(student_name)
+            if not students:
+                raise SQLCustomError(description="No students info by name: {}".format(student_name))
+            return [student.student_dict() for student in students]
+        except SQLAlchemyError as error:
+            self.logger.error("Error: {}".format(error))
+            raise SQLCustomError(description="GET students by Name SQL ERROR")
+
+    def get_students_by_father_name(self, father_name: str) -> List:
+        """
+        get student info by father name
+        :param father_name:
+        :return: student lists of dict
+        """
+        try:
+            self.logger.info("Get students info by father_name:{}".format(father_name))
+            students = StudentModel.get_students_by_father_name(father_name)
+            if not students:
+                raise SQLCustomError(description="No student info by father_name: {}".format(father_name))
+            return [student.student_dict() for student in students]
+        except SQLAlchemyError as error:
+            self.logger.error("Error: {}".format(error))
+            raise SQLCustomError(description="GET students by father Name SQL ERROR")
+
+    def get_students_by_mother_name(self, mother_name: str) -> List:
+        """
+        get student info by mother name
+        :param mother_name:
+        :return: student list of dict
+        """
+        try:
+            self.logger.info("Get students info by mother_name:{}".format(mother_name))
+            students = StudentModel.get_students_by_mother_name(mother_name)
+            if not students:
+                raise SQLCustomError(description="No student info by mother_name: {}".format(mother_name))
+            return [student.student_dict() for student in students]
+        except SQLAlchemyError as error:
+            self.logger.error("Error: {}".format(error))
+            raise SQLCustomError(description="GET students by mother Name SQL ERROR")
+
+    def get_students_by_parents_occupation(self, parents_occupation: str) -> List:
+        """
+        get student info by parents occupation
+        :param parents_occupation:
+        :return: student list of dict
+        """
+        try:
+            self.logger.info("Get students info by parents_occupation:{}".format(parents_occupation))
+            students = StudentModel.get_students_by_parents_occupation(parents_occupation)
+            if not students:
+                raise SQLCustomError(description="No student info by parents_occupation: {}".format(parents_occupation))
+            return [student.student_dict() for student in students]
+        except SQLAlchemyError as error:
+            self.logger.error("Error: {}".format(error))
+            raise SQLCustomError(description="GET students by parents occupation SQL ERROR")

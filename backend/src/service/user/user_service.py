@@ -274,10 +274,7 @@ class UserService(Service):
         new_confirm_pwd = data.get("new_confirm_password")
         user = self.get_user_model_by_id(user_id)
         if not self.check_password(current_pwd, user):
-            print(current_pwd)
-            print("here")
             raise ThingahaCustomError("Current password is incorrect.")
-        print("pass")
         if new_pwd == new_confirm_pwd:
             return self.change_password_by_id(user_id, new_pwd)
         self.logger.error("Password and confirm password are different")

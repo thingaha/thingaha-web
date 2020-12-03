@@ -90,8 +90,7 @@ def user_json():
             "street_address": "18 street",
             "township": "La Thar township"
         },
-        "donation_active": True,
-
+        "donation_active": True
     }
 
 

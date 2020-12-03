@@ -97,7 +97,48 @@ class StudentModel(db.Model):
         :return: student info list
         """
         try:
-            return db.session.query(StudentModel).join(AddressModel).filter(StudentModel.name == name)
+            return db.session.query(StudentModel).\
+                join(AddressModel).filter(StudentModel.name.ilike('%' + name + '%')).all()
+        except SQLAlchemyError as error:
+            raise error
+
+    @staticmethod
+    def get_students_by_father_name(father_name) -> List[StudentModel]:
+        """
+        get students by father_name (as father_name is not unique, multiple records can be returned)
+        :param father_name:
+        :return: student info list
+        """
+        try:
+            return db.session.query(StudentModel).\
+                join(AddressModel).filter(StudentModel.father_name.ilike('%' + father_name + '%')).all()
+        except SQLAlchemyError as error:
+            raise error
+
+    @staticmethod
+    def get_students_by_mother_name(mother_name) -> List[StudentModel]:
+        """
+        get students by mother_name (as mother_name is not unique, multiple records can be returned)
+        :param mother_name:
+        :return: student info list
+        """
+        try:
+            return db.session.query(StudentModel). \
+                join(AddressModel).filter(StudentModel.mother_name.ilike('%' + mother_name + '%')).all()
+        except SQLAlchemyError as error:
+            raise error
+
+    @staticmethod
+    def get_students_by_parents_occupation(parents_occupation) -> List[StudentModel]:
+        """
+        get students by parents_occupation
+        (as parents_occupation is not unique, multiple records can be returned)
+        :param parents_occupation:
+        :return: student info list
+        """
+        try:
+            return db.session.query(StudentModel). \
+                join(AddressModel).filter(StudentModel.parents_occupation.ilike('%' + parents_occupation + '%')).all()
         except SQLAlchemyError as error:
             raise error
 
