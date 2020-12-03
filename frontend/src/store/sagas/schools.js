@@ -13,8 +13,13 @@ import { toast } from 'react-toastify'
 
 export function* fetchAllSchools(action) {
   try {
-    const json = yield call(fetchSchools)
-    yield put({ type: GET_ALL_SCHOOLS_SUCCESS, schools: json.data.schools })
+    const json = yield call(fetchSchools, { page: action.page })
+    yield put({
+      type: GET_ALL_SCHOOLS_SUCCESS,
+      schools: json.data.schools,
+      totalCount: json.data.total_count,
+      totalPages: json.data.total_pages,
+    })
   } catch (error) {
     yield defaultErrorHandler(error, GET_ALL_SCHOOLS_FAILURE)
   }

@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { Button } from '@material-ui/core'
 import Paper from '@material-ui/core/Paper'
+import Pagination from '@material-ui/lab/Pagination'
 import AddCircleIcon from '@material-ui/icons/AddCircle'
 
 import * as actions from '../../store/actions'
@@ -15,6 +16,11 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   padding: 0 20px;
+
+  & .pagination-container {
+    display: flex;
+    justify-content: flex-end;
+  }
 `
 
 const HeadingContainer = styled.div`
@@ -35,13 +41,16 @@ const SchoolsContainer = styled.ul`
   }
 `
 
-const Schools = ({ schools: { schools }, getAllSchools }) => {
+const Schools = ({
+  schools: { schools, totalCount, totalPages },
+  fetchSchools,
+}) => {
   const [schoolFormVisible, setSchoolFormVisible] = useState(false)
   const [editingSchool, setEditingSchool] = useState(null)
 
   useEffect(() => {
-    getAllSchools()
-  }, [getAllSchools])
+    fetchSchools()
+  }, [fetchSchools])
 
   return (
     <Wrapper component={Paper}>
@@ -60,11 +69,13 @@ const Schools = ({ schools: { schools }, getAllSchools }) => {
         </Button>
       </HeadingContainer>
 
-      <SchoolForm
-        visible={schoolFormVisible}
-        setVisible={setSchoolFormVisible}
-        editingSchool={editingSchool}
-      />
+      {schoolFormVisible ? (
+        <SchoolForm
+          visible={schoolFormVisible}
+          setVisible={setSchoolFormVisible}
+          editingSchool={editingSchool}
+        />
+      ) : null}
 
       <SchoolsContainer>
         {schools.map((school) => {
@@ -81,17 +92,29 @@ const Schools = ({ schools: { schools }, getAllSchools }) => {
           )
         })}
       </SchoolsContainer>
+      <div className="pagination-container">
+        <Pagination
+          count={totalPages} // need to pass in total pages instead of total count
+          color="primary"
+          onChange={(_event, page) => {
+            fetchSchools({ page })
+          }}
+        />
+      </div>
     </Wrapper>
   )
 }
 
 const mapStateToProps = (state) => ({
   schools: state.schools,
+  totalCount: state.totalCount,
+  totalPages: state.totalPages,
 })
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getAllSchools: () => dispatch(actions.fetchSchools()),
+    fetchSchools: ({ page } = { page: 1 }) =>
+      dispatch(actions.fetchSchools({ page })),
   }
 }
 

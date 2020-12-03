@@ -8,12 +8,16 @@ import {
 } from '../actions/schools'
 import updateObjectInArray from '../../utils/updateObjectInArray'
 
-export default (state = { schools: [] }, action) => {
+let initialState = { schools: [], totalCount: 0, totalPages: 0 }
+
+export default (state = initialState, action) => {
   switch (action.type) {
     case GET_ALL_SCHOOLS_SUCCESS:
       return {
         ...state,
         schools: [...action.schools],
+        totalCount: action.totalCount,
+        totalPages: action.totalPages,
       }
     case GET_ALL_SCHOOLS_FAILURE:
       return {
