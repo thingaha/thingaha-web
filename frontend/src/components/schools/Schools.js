@@ -69,11 +69,13 @@ const Schools = ({
         </Button>
       </HeadingContainer>
 
-      <SchoolForm
-        visible={schoolFormVisible}
-        setVisible={setSchoolFormVisible}
-        editingSchool={editingSchool}
-      />
+      {schoolFormVisible ? (
+        <SchoolForm
+          visible={schoolFormVisible}
+          setVisible={setSchoolFormVisible}
+          editingSchool={editingSchool}
+        />
+      ) : null}
 
       <SchoolsContainer>
         {schools.map((school) => {
