@@ -3,6 +3,8 @@ services:
   web:
     image: thingha-web:0.1
     build: .
+    environment:
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
     ports:
       - '5000:5000'
     volumes:

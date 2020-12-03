@@ -139,20 +139,6 @@ const transformSchoolSchemaFlat = (school) => {
   }
 }
 
-const transformSchoolSchema = (school) => {
-  return {
-    id: school.id,
-    name: school.name,
-    contact_info: school.contact_info,
-    address: {
-      division: school.division,
-      district: school.district,
-      township: school.township,
-      street_address: school.street_address,
-    },
-  }
-}
-
 const mapStateToProps = (state) => ({
   schools: state.schools,
   error: state.error,
