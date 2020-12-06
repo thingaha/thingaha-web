@@ -113,13 +113,11 @@ def get_all_transfers():
     """
     try:
         page = request.args.get("page", 1, type=int)
-        transfers, count = transfer_service.get_all_transfers(page)
+        per_page = request.args.get("per_page", 20, type=int)
         current_app.logger.info("Get all transfers")
         return jsonify({
-            "data": {
-                "count": count,
-                "transfers": transfers
-            }}), 200
+            "data": transfer_service.get_all_transfers(page, per_page)
+        }), 200
     except SQLCustomError as error:
         current_app.logger.error("Fail to get all transfers: %s", error)
         return jsonify({"errors": [error.__dict__]}), 400

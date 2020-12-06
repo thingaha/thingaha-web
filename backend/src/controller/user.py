@@ -24,13 +24,11 @@ def get_all_users():
         page = request.args.get("page", 1, type=int)
         role = request.args.get("role")
         country = request.args.get("country")
-        users, count = user_service.get_all_users(page, role, country)
+        per_page = request.args.get("per_page", 20, type=int)
         current_app.logger.info("Get all users")
         return jsonify({
-            "data": {
-                "count": count,
-                "users": users
-            }}), 200
+            "data": user_service.get_all_users(page, role, country, per_page)
+        }), 200
     except SQLCustomError as error:
         current_app.logger.error("Fail to get all users: %s", error)
         return jsonify({"errors": [error.__dict__]}), 400
@@ -175,14 +173,12 @@ def search_user():
     """
     query = request.args.get("query")
     page = request.args.get("page", 1, type=int)
+    per_page = request.args.get("page", 20, type=int)
     try:
         current_app.logger.info("search user : query: %s", query)
-        users, count = user_service.get_users_by_query(page, query)
         return jsonify({
-            "data": {
-                "count": count,
-                "users": users
-            }}), 200
+            "data": user_service.get_users_by_query(page, query, per_page)
+        }), 200
     except SQLCustomError as error:
         current_app.logger.error("Fail to search user : query: %s", query)
         return jsonify({"errors": [error.__dict__]}), 400

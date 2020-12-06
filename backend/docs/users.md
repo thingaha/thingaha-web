@@ -95,7 +95,11 @@ Output Sample
 ```json
 {
   "data": {
-    "count": 3,
+    "current_page": 1,
+    "next_page": null,
+    "pages": 0,
+    "prev_page": null,
+    "total_count": 3,
     "users": [
       {
         "address": {

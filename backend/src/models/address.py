@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from typing import Dict, Any
 
+from flask_sqlalchemy import Pagination
 from sqlalchemy.exc import SQLAlchemyError
 
 from common.error import SQLCustomError
@@ -52,28 +53,10 @@ class AddressModel(db.Model):
         return {
             "id": self.id,
             "division": self.division,
+            "type": self.type,
             "district": self.district,
             "township": self.township,
             "street_address": self.street_address
-        }
-
-    def address_type_dict(self, obj):
-        """
-        Return object data for viewing easily serializable format
-        :param obj: addressable object from query
-        :return:
-        """
-        return {
-            "id": self.id,
-            "addressable": {
-                "id": obj.id,
-                "name": obj.name,
-                "type": self.type
-            },
-            "division": self.division,
-            "district": self.district,
-            "township": self.township,
-            "street_address": self.street_address,
         }
 
     @staticmethod
@@ -123,6 +106,19 @@ class AddressModel(db.Model):
         """
         try:
             return db.session.query(AddressModel).filter(AddressModel.id == address_id).first()
+        except SQLAlchemyError as error:
+            raise error
+
+    @staticmethod
+    def get_all_addresses(page: int = 1, per_page: int = 20) -> Pagination:
+        """
+        get all address record
+        :param page:
+        :param per_page:
+        :return: get all address info
+        """
+        try:
+            return db.session.query(AddressModel).paginate(page=page, per_page=per_page, error_out=False)
         except SQLAlchemyError as error:
             raise error
 

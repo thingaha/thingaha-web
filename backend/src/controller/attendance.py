@@ -16,15 +16,14 @@ attendance_service = AttendanceService()
 def get_attendances():
     try:
         page = request.args.get("page", 1, type=int)
+        per_page = request.args.get("per_page", 20, type=int)
         grade = request.args.get("grade")
         year = request.args.get("year")
-        attendance, count = attendance_service.get_all_attendances(page, grade, year)
+        attendances = attendance_service.get_all_attendances(page, grade, year, per_page)
         current_app.logger.info("Get all attendance records")
         return jsonify({
-            "data": {
-                "count": count,
-                "attendances": attendance
-            }}), 200
+            "data": attendances
+        }), 200
     except SQLCustomError as error:
         current_app.logger.error("Error in get all attendance records")
         return jsonify({"errors": [error.__dict__]}), 400

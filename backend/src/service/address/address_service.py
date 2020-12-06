@@ -106,20 +106,44 @@ class AddressService(Service):
                               address_id, traceback.format_exc())
             raise SQLCustomError(description="Delete address by ID SQL ERROR")
 
-    def get_all_addresses(self, page: int = 1) -> (List[Dict[str, Any]], int):
+    def get_all_addresses(self, page: int = 1, per_page: int = 20) -> (List[Dict[str, Any]], int):
         """
         get all addresses
-        :params page
+        :params page int
+        :params per_page int
         :return:
         """
         self.logger.info("Get all addresses list")
         try:
-            schools, schools_count = SchoolService.get_all_school_address(page)
-            users, users_count = UserService.get_all_user_address(page)
-            student, students_count = StudentService.get_all_student_address(
-                page)
-            return schools + users + student, schools_count+users_count+students_count
-        except SQLAlchemyError:
+            addresses = AddressModel.get_all_addresses(page, per_page)
+            schools_address_ids = [address.id for address in addresses.items if address.type == "school"]
+            users_address_ids = [address.id for address in addresses.items if address.type == "user"]
+            students_address_ids = [address.id for address in addresses.items if address.type == "student"]
+            address_records = {
+                "school": SchoolService.get_schools_by_address_ids(tuple(schools_address_ids)),
+                "user": UserService.get_user_by_address_ids(tuple(users_address_ids)),
+                "student": StudentService.get_students_by_address_ids(tuple(students_address_ids))
+            }
+            return {
+                "addresses": [{
+                    "id": address.id,
+                    "addressable": {
+                        "id": address_records[address.type][address.id].id,
+                        "name": address_records[address.type][address.id].name,
+                        "type": address.type
+                    },
+                    "division": address.division,
+                    "district": address.district,
+                    "township": address.township,
+                    "street_address": address.street_address,
+                } for address in addresses.items],
+                "total_count": addresses.total,
+                "current_page": addresses.page,
+                "next_page": addresses.next_num,
+                "prev_page": addresses.prev_num,
+                "pages": addresses.pages
+            }
+        except (SQLAlchemyError, KeyError):
             self.logger.error(
                 "Get all addresses fail. error %s", traceback.format_exc())
             raise SQLCustomError(description="GET address SQL ERROR")

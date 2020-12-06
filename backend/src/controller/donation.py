@@ -16,13 +16,11 @@ donation_service = DonationService()
 def get_donations():
     try:
         page = request.args.get("page", 1, type=int)
-        donations, count = donation_service.get_all_donations_records(page)
+        per_page = request.args.get("per_page", 20, type=int)
         current_app.logger.info("Get all donation records")
         return jsonify({
-            "data": {
-                "count": count,
-                "donations": donations
-            }}), 200
+            "data": donation_service.get_all_donations_records(page, per_page)
+        }), 200
     except SQLCustomError as error:
         current_app.logger.error("Error in get all donation records")
         return jsonify({"errors": [error.__dict__]}), 400

@@ -149,7 +149,11 @@ Output Sample
         "year": "2020"
       }
     ],
-    "count": 2
+    "current_page": 1,
+    "next_page": null,
+    "pages": 1,
+    "prev_page": null,
+    "total_count": 3
   }
 }
 ```

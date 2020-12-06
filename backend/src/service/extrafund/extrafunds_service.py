@@ -93,15 +93,25 @@ class ExtraFundsService(Service):
             self.logger.error("Extra fund delete fail. id %s, error %s", extra_fund_id, traceback.format_exc())
             raise SQLCustomError(description="Delete extra fund by ID SQL ERROR")
 
-    def get_all_extra_funds(self, page: int) -> (List[Dict[str, Any]], int):
+    def get_all_extra_funds(self, page: int = 1, per_page: int = 20) -> (List[Dict[str, Any]], int):
         """
         get all extra_funds
+        :params page
+        :params per_page
         :return:
         """
         self.logger.info("Get all extra funds list")
         try:
-            extra_funds = ExtraFundsModel.get_all_extra_funds(page)
-            return [extra_funds.as_dict() for extra_funds in extra_funds.items], extra_funds.total
+            extra_funds = ExtraFundsModel.get_all_extra_funds(page, per_page)
+            return {
+                "extra_funds": [extra_funds.as_dict() for extra_funds in extra_funds.items],
+                "total_count": extra_funds.total,
+                "current_page": extra_funds.page,
+                "next_page": extra_funds.next_num,
+                "prev_page": extra_funds.prev_num,
+                "pages": extra_funds.pages,
+                "new_transfers": self.get_new_transfers()
+            }
         except SQLAlchemyError:
             self.logger.error("Get all extra funds fail. error %s", traceback.format_exc())
             raise SQLCustomError(description="GET extra funds SQL ERROR")

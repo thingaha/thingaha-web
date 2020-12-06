@@ -1,6 +1,6 @@
 """user service layer for CRUD action"""
 import traceback
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Union
 
 from sqlalchemy.exc import SQLAlchemyError
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -87,40 +87,56 @@ class UserService(Service):
             self.logger.error("User delete fail. id %s, error %s", user_id, traceback.format_exc())
             raise SQLCustomError(description="Delete user by ID SQL ERROR")
 
-    def get_all_users(self, page: int = 1, role: str = None, country: str = None) -> (List[Dict[str, Any]], int):
+    def get_all_users(self, page: int = 1, role: str = None, country: str = None, per_page: int = 20) -> (List[Dict[str, Any]], int):
         """
         get all users
         :params: page page count
         :params: role -> user role for filter
         :params: country -> country for filter
+        :params: per_page
         :return: users list of dict
         """
         self.logger.info("Get all users list")
         try:
             if role and not country:
-                users = UserModel.get_users_by_role(page, role)
+                users = UserModel.get_users_by_role(page, role, per_page)
             elif country and not role:
-                users = UserModel.get_users_by_country(page, country)
+                users = UserModel.get_users_by_country(page, country, per_page)
             elif role and country:
-                users = UserModel.get_users_by_role_country(page, role, country)
+                users = UserModel.get_users_by_role_country(page, role, country, per_page)
             else:
-                users = UserModel.get_all_users(page)
-            return self.__return_user_list(users.items), users.total
+                users = UserModel.get_all_users(page, per_page)
+            return {
+                "users": self.__return_user_list(users.items),
+                "total_count": users.total,
+                "current_page": users.page,
+                "next_page": users.next_num,
+                "prev_page": users.prev_num,
+                "pages": users.pages
+            }
         except SQLAlchemyError:
             self.logger.error("Get all users fail. error %s", traceback.format_exc())
             raise SQLCustomError(description="GET user SQL ERROR")
 
-    def get_users_by_query(self, page: int, query: str) -> (List[Dict[str, Any]], int):
+    def get_users_by_query(self, page: int, query: str, per_page: int = 20) -> (List[Dict[str, Any]], int):
         """
         get users by query (name, email)
         :param query
         :param page
+        :param per_page
         :return: users list of dict
         """
         self.logger.info("Get users list by query %s", query)
         try:
-            users = UserModel.get_users_by_query(page, query)
-            return self.__return_user_list(users.items), users.total
+            users = UserModel.get_users_by_query(page, query, per_page)
+            return {
+                "users": self.__return_user_list(users.items),
+                "total_count": users.total,
+                "current_page": users.page,
+                "next_page": users.next_num,
+                "prev_page": users.prev_num,
+                "pages": users.pages
+            }
         except SQLAlchemyError:
             self.logger.error("Get users by name fail. query %s. error %s", query,
                               traceback.format_exc())
@@ -141,6 +157,19 @@ class UserService(Service):
             self.logger.error("Get users by id fail. id %s. error %s", user_id,
                               traceback.format_exc())
             raise SQLCustomError(description="GET user by ID SQL ERROR")
+
+    @staticmethod
+    def get_user_by_address_ids(address_ids: tuple) -> Dict[int, UserModel]:
+        """
+        get users by address ids
+        :params: address_ids
+        :return: users list of dict
+        """
+        try:
+            users = UserModel.get_users_by_address_ids(address_ids)
+            return {user.address_id: user for user in users}
+        except SQLAlchemyError:
+            raise SQLCustomError(description="GET users by ids query SQL ERROR")
 
     @staticmethod
     def check_password(password: str, user: UserModel):
@@ -175,11 +204,3 @@ class UserService(Service):
         :return:
         """
         return [user.as_dict() for user in users]
-
-    @staticmethod
-    def get_all_user_address(page: int = 1) -> (Dict, int):
-        """
-        get all user address for get all address API
-        """
-        users_addresses = UserModel.get_all_user_address(page)
-        return [address.address_type_dict(user) for address, user in users_addresses.items], users_addresses.total

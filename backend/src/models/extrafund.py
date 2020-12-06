@@ -53,14 +53,16 @@ class ExtraFundsModel(db.Model):
             raise error
 
     @staticmethod
-    def get_all_extra_funds(page: int) -> Pagination:
+    def get_all_extra_funds(page: int = 1, per_page: int = 20) -> Pagination:
         """
         get all Extra funds records
         :params page
+        :params per_page
         :return: Extra funds list
         """
         try:
-            return db.session.query(ExtraFundsModel).join(TransferModel).paginate(page=page, error_out=False)
+            return db.session.query(ExtraFundsModel).join(TransferModel).paginate(page=page, per_page=per_page,
+                                                                                  error_out=False)
         except SQLAlchemyError as error:
             raise error
 

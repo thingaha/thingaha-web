@@ -124,6 +124,18 @@ class UserModel(db.Model):
             raise error
 
     @staticmethod
+    def get_users_by_address_ids(address_ids: tuple) -> List[UserModel]:
+        """
+        get user by ids
+        :param address_ids:
+        :return: user infos
+        """
+        try:
+            return db.session.query(UserModel).filter(UserModel.address_id.in_(address_ids)).all()
+        except SQLAlchemyError as error:
+            raise error
+
+    @staticmethod
     def get_user_by_email(email: str) -> UserModel:
         """
         get user by email
@@ -136,11 +148,12 @@ class UserModel(db.Model):
             raise error
 
     @staticmethod
-    def get_users_by_query(page: int, query: str) -> Pagination:
+    def get_users_by_query(page: int, query: str, per_page: int = 20) -> Pagination:
         """
         get users by name (as name is not unique, multiple records can be returned)
         :param page:
         :param query:
+        :param per_page int
         :return: user info list
         """
         try:
@@ -148,67 +161,74 @@ class UserModel(db.Model):
                 join(AddressModel).filter(or_(UserModel.name.ilike('%' + query + '%'),
                                               UserModel.email.ilike('%' + query + '%'))).paginate(
                 page=page,
+                per_page=per_page,
                 error_out=False)
         except SQLAlchemyError as error:
             raise error
 
     @staticmethod
-    def get_all_users(page: int) -> Pagination:
+    def get_all_users(page: int = 1, per_page: int = 20) -> Pagination:
         """
         get all users
         :page integer
+        :per_page int
         :return: users list of dict
         """
         try:
-            return db.session.query(UserModel).join(AddressModel).paginate(page=page, error_out=False)
+            return db.session.query(UserModel).join(AddressModel).paginate(page=page, per_page=per_page,
+                                                                           error_out=False)
         except SQLAlchemyError as error:
             raise error
 
     @staticmethod
-    def get_users_by_role(page: int, role: str) -> Pagination:
+    def get_users_by_role(page: int, role: str, per_page: int = 20) -> Pagination:
         """
         get all users by role
         :params integer
         :role str
-        :return: users list of dict
+        :per_page int
+        :return: users list of Pagination
         """
         try:
             return db.session.query(UserModel).join(AddressModel).filter(
-                UserModel.role == role).paginate(page=page, error_out=False)
+                UserModel.role == role).paginate(page=page, per_page=per_page, error_out=False)
         except SQLAlchemyError as error:
             raise error
 
     @staticmethod
-    def get_users_by_country(page: int, country: str) -> Pagination:
+    def get_users_by_country(page: int, country: str, per_page: int = 20) -> Pagination:
         """
         get all users by country
         :params integer
         :country str
+        :per_page int
         :return: users list of dict
         """
         try:
             return db.session.query(UserModel).join(AddressModel).filter(
-                UserModel.country == country).paginate(page=page, error_out=False)
+                UserModel.country == country).paginate(page=page, per_page=per_page, error_out=False)
         except SQLAlchemyError as error:
             raise error
 
     @staticmethod
-    def get_users_by_role_country(page: int, role: str, country: str) -> List[UserModel]:
+    def get_users_by_role_country(page: int, role: str, country: str, per_page: int = 20) -> Pagination:
         """
         get all users by role and country
         :params page
         :params role
         :country role
+        :per_page int
         :return: user info list
         """
         try:
             return db.session.query(UserModel).join(AddressModel).filter(
-                and_(UserModel.country == country, UserModel.role == role)).paginate(page=page, error_out=False)
+                and_(UserModel.country == country, UserModel.role == role)).paginate(page=page, per_page=per_page,
+                                                                                     error_out=False)
         except SQLAlchemyError as error:
             raise error
 
     @staticmethod
-    def get_all_user_address(page: int = 1) -> Pagination:
+    def get_all_user_address(page: int = 1, per_page: int = 20) -> Pagination:
         """
         get all user address for get all address API
         :params page
@@ -217,6 +237,6 @@ class UserModel(db.Model):
         try:
             return db.session.query(AddressModel, UserModel). \
                 filter(AddressModel.id == UserModel.address_id).filter(
-                AddressModel.type == "user").paginate(page=page, error_out=False)
+                AddressModel.type == "user").paginate(page=page, per_page=per_page, error_out=False)
         except SQLAlchemyError as error:
             raise error

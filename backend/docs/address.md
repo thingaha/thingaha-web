@@ -50,35 +50,123 @@ Output Sample
 
 ```json
 {
-  "data": {
-    "count": 2,
-    "addresses": [
-      {
-        "district": "Yangon",
-        "division": "yangon",
-        "id": 1,
-        "addressable": {
-          "id": 1,
-          "name": "Maung Maung",
-          "type": "user"
-        },
-        "street_address": "Thanlan street",
-        "township": "Hlaing"
-      },
-      {
-        "district": "Yangon",
-        "division": "yangon",
-        "id": 2,
-        "addressable": {
-          "id": 1,
-          "name": "Maung Maung",
-          "type": "student"
-        },
-        "street_address": "19th street",
-        "township": "Latha"
-      }
-    ]
-  }
+    "data": {
+        "addresses": [
+            {
+                "addressable": {
+                    "id": 1,
+                    "name": "MoeMoe",
+                    "type": "user"
+                },
+                "district": "ညောင်တုန်းမြို့",
+                "division": "ayeyarwady",
+                "id": 1,
+                "street_address": "အာဇာနည်လမ်း",
+                "township": "အမှတ်(၈)ရပ်ကွက်"
+            },
+            {
+                "addressable": {
+                    "id": 1,
+                    "name": "No.(1)Nyanungdon",
+                    "type": "school"
+                },
+                "district": "ညောင်တုန်းမြို့",
+                "division": "ayeyarwady",
+                "id": 2,
+                "street_address": "အောင်သုခလမ်း",
+                "township": "အမှတ်(၈)ရပ်ကွက်"
+            },
+            {
+                "addressable": {
+                    "id": 2,
+                    "name": "No.(2)Nyanungdon",
+                    "type": "school"
+                },
+                "district": "ညောင်တုန်းမြို့",
+                "division": "ayeyarwady",
+                "id": 3,
+                "street_address": "ဘောဂလမ်း",
+                "township": "အမှတ်(၈)ရပ်ကွက်"
+            },
+            {
+                "addressable": {
+                    "id": 3,
+                    "name": "No.(3)Nyanungdon",
+                    "type": "school"
+                },
+                "district": "မရမ်းကုန်းမြို့နယ်",
+                "division": "yangon",
+                "id": 4,
+                "street_address": "ဉီးဘအိုလမ်း",
+                "township": "အမှတ်(၂)ရပ်ကွက်"
+            },
+            {
+                "addressable": {
+                    "id": 1,
+                    "name": "မောင်မောင်",
+                    "type": "student"
+                },
+                "district": "သာကေတမြို့နယ်",
+                "division": "yangon",
+                "id": 5,
+                "street_address": "၃၆လမ်း",
+                "township": "အမှတ်(၄)ရပ်ကွက်"
+            },
+            {
+                "addressable": {
+                    "id": 2,
+                    "name": "မြမြ",
+                    "type": "student"
+                },
+                "district": "မရမ်းကုန်းမြို့နယ်",
+                "division": "yangon",
+                "id": 6,
+                "street_address": "ဉီးဘအိုလမ်း",
+                "township": "အမှတ်(၂)ရပ်ကွက်"
+            },
+            {
+                "addressable": {
+                    "id": 3,
+                    "name": "လှလှ",
+                    "type": "student"
+                },
+                "district": "သာကေတမြို့နယ်",
+                "division": "yangon",
+                "id": 7,
+                "street_address": "၃၆လမ်း",
+                "township": "အမှတ်(၄)ရပ်ကွက်"
+            },
+            {
+                "addressable": {
+                    "id": 4,
+                    "name": "စုစု",
+                    "type": "student"
+                },
+                "district": "မရမ်းကုန်းမြို့နယ်",
+                "division": "yangon",
+                "id": 8,
+                "street_address": "ဉီးဘအိုလမ်း",
+                "township": "အမှတ်(၂)ရပ်ကွက်"
+            },
+            {
+                "addressable": {
+                    "id": 5,
+                    "name": "မောင်လှအောင်",
+                    "type": "student"
+                },
+                "district": "ညောင်တုန်းမြို့",
+                "division": "ayeyarwady",
+                "id": 9,
+                "street_address": "ဘောဂလမ်း",
+                "township": "အမှတ်(၈)ရပ်ကွက်"
+            }
+        ],
+        "current_page": 1,
+        "next_page": null,
+        "pages": 1,
+        "prev_page": null,
+        "total_count": 9
+    }
 }
 ```
 

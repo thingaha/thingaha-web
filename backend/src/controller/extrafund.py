@@ -114,15 +114,11 @@ def get_all_extra_funds():
     """
     try:
         page = request.args.get("page", 1, type=int)
-        extra_funds, total = extra_funds_service.get_all_extra_funds(page)
-        new_transfers = extra_funds_service.get_new_transfers()
+        per_page = request.args.get("per_page", 20, type=int)
         current_app.logger.info("Get all extra_funds amount")
         return jsonify({
-            "data": {
-                "count": total,
-                "extra_funds": extra_funds,
-                "new_transfers": new_transfers
-            }}), 200
+            "data": extra_funds_service.get_all_extra_funds(page, per_page)
+        }), 200
     except SQLCustomError as error:
         current_app.logger.error("Fail to get all extra_funds: %s", error)
         return jsonify({"errors": [error.__dict__]}), 400

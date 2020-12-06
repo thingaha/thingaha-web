@@ -114,13 +114,10 @@ def get_all_addresses():
     """
     try:
         page = request.args.get("page", 1, type=int)
-        addresses, count = address_service.get_all_addresses(page)
-        current_app.logger.info("Get all addresses")
+        per_page = request.args.get("per_page", 20, type=int)
         return jsonify({
-            "data": {
-                "count": count,
-                "addresses": addresses
-            }}), 200
+            "data": address_service.get_all_addresses(page, per_page)
+        }), 200
     except SQLCustomError as error:
         current_app.logger.error("Fail to get all addresses: %s", error)
         return jsonify({"errors": [error.__dict__]}), 400

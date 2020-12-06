@@ -55,7 +55,11 @@ Output Sample
 ```json
 {
   "data": {
-    "count": 2,
+    "total_count": 2,
+    "current_page": 1,
+    "next_page": null,
+    "pages": 1,
+    "prev_page": null,
     "schools": [
       {
         "address": {
