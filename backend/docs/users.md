@@ -49,12 +49,15 @@ Input Sample:
   "password": "123",
   "role": "admin",
   "country": "mm",
-  "district": "pabedan",
-  "division": "yangon",
-  "donation_active": true,
-  "street_address": "18 street",
-  "township": "La Thar township"
+  "address": {
+    "district": "pabedan",
+    "division": "yangon",
+    "street_address": "18 street",
+    "township": "La Thar township"
+  }
 }
+
+* NOTE: address is optional. If no address key is supplied in data, system will create a default address.
 ```
 
 Output Sample:

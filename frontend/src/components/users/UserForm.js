@@ -187,6 +187,7 @@ const transformUserSchema = (user) => {
     email: user.email,
     country: user.country,
     role: user.role,
+    addressId: user.address_id,
   }
 }
 const mapStateToProps = (state) => ({
