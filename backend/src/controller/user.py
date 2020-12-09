@@ -66,13 +66,24 @@ def create_user():
     if data is None:
         return post_request_empty()
     try:
+        address_data = data.get("address")
+        if address_data is None:
+            # TODO: Replace this default address with data from config
+            address_data = {
+                "division": "ayeyarwady",
+                "district": "nyaungdone",
+                "township": "nyaungdone",
+                "street_address": "တိုက်သစ်ကျောင်း",
+            }
+
         address_id = address_service.create_address({
-            "division": data.get("division"),
-            "district": data.get("district"),
-            "township": data.get("township"),
-            "street_address": data.get("street_address"),
+            "division": address_data.get("division"),
+            "district": address_data.get("district"),
+            "township": address_data.get("township"),
+            "street_address": address_data.get("street_address"),
             "type": "user"
         })
+
         user_id = user_service.create_user({
             "username": data.get("username"),
             "display_name": data.get("display_name"),
@@ -108,30 +119,34 @@ def update_user(user_id: int):
         if not user:
             return custom_error("Invalid user id supplied.")
 
-        updated = address_service.update_address_by_id(user["address"]["id"], {
-            "division": data.get("division"),
-            "district": data.get("district"),
-            "township": data.get("township"),
-            "street_address": data.get("street_address"),
-            "type": "user"
-        })
+        address_data = data.get("address")
+        address_updated = True
+        if address_data:
+            address_updated = address_service.update_address_by_id(user["address"]["id"], {
+                "division": address_data.get("division"),
+                "district": address_data.get("district"),
+                "township": address_data.get("township"),
+                "street_address": address_data.get("street_address"),
+                "type": "user"
+            })
 
-        if updated:
+        if address_updated:
             user_update_status = user_service.update_user_by_id(user_id, {
                 "username": data.get("username"),
                 "display_name": data.get("display_name"),
                 "email": data.get("email"),
-                "address_id": int(user["address"]["id"]),
-                "password": data.get("password"),
                 "role": data.get("role"),
+                "address_id": user["address"]["id"],
                 "country": data.get("country"),
                 "donation_active": True if data.get("donation_active") else False
             })
+
             if user_update_status:
                 current_app.logger.info("Success user update for user_id: %s", user_id)
             else:
                 current_app.logger.error("Fail user update for user_id: %s", user_id)
                 return custom_error("Update fail for user_id: %s", user_id)
+
         return get_user_by_id(user_id)
     except ValueError as error:
         current_app.logger.error(
@@ -140,7 +155,7 @@ def update_user(user_id: int):
             "errors": {[error.__dict__]}}), 400
     except (SQLCustomError, ValidateFail, RequestDataEmpty) as error:
         current_app.logger.error(
-            "Fail to update user: %s, error: %s", user_id, error)
+            "Fail to update user: %s, error: %s", user_id, error.description)
         return jsonify({"errors": [error.__dict__]}), 400
 
 

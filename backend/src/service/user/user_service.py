@@ -5,7 +5,7 @@ from typing import List, Dict, Any, Optional, Union
 from sqlalchemy.exc import SQLAlchemyError
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from common.data_schema import user_schema
+from common.data_schema import user_schema, user_update_schema
 from common.error import SQLCustomError, RequestDataEmpty, ValidateFail
 from models.user import UserModel
 from service.service import Service
@@ -54,7 +54,7 @@ class UserService(Service):
         """
         if not data:
             raise RequestDataEmpty("user data is empty")
-        if not self.input_validate.validate_json(data, user_schema):
+        if not self.input_validate.validate_json(data, user_update_schema):
             self.logger.error("All user field input must be required.")
             raise ValidateFail("User update validation fail")
         try:
@@ -64,7 +64,6 @@ class UserService(Service):
                 username=data["username"],
                 email=data["email"],
                 address_id=data["address_id"],
-                hashed_password=generate_password_hash(data["password"]),
                 role=data["role"],
                 country=data["country"],
                 donation_active=data["donation_active"]))
@@ -236,4 +235,3 @@ class UserService(Service):
             self.logger.error("Password change fail. id %s, error %s", user_id,
                               traceback.format_exc())
             raise SQLCustomError(description="Change password by ID SQL ERROR")
-

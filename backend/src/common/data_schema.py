@@ -22,9 +22,18 @@ user_schema = Schema({
     "username": str,
     "display_name": str,
     "email": str,
-    "address_id": int,
+    "address_id": Or(None, str),
     "password": str,
     "role": str,
+    "country": str,
+    "donation_active": bool
+})
+
+user_update_schema = Schema({
+    "name": str,
+    "email": str,
+    "role": str,
+    "address_id": Or(None, int),
     "country": str,
     "donation_active": bool
 })

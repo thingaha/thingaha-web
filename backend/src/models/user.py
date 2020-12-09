@@ -90,7 +90,6 @@ class UserModel(db.Model):
             target_user.display_name = user.display_name
             target_user.username = user.username
             target_user.email = user.email
-            target_user.address_id = user.address_id
             target_user.country = user.country
             target_user.donation_active = user.donation_active
             db.session.commit()
