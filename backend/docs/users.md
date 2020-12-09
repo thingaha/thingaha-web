@@ -217,7 +217,6 @@ Input Sample:
   "division": "yangon",
   "township": "La Thar township",
   "donation_active": true
-
 }
 ```
 
@@ -271,11 +270,12 @@ Output Sample:
   }
 }
 ```
+
 ### User update password
- 
-| API              |    Description    | Action |
-| :--------------- | :---------------: | -----: |
-| /api/v1/users/password | Delete user by id | DELETE |
+
+| API                    |     Description      | Action |
+| :--------------------- | :------------------: | -----: |
+| /api/v1/users/password | Update user password |    PUT |
 
 Input Sample:
 ```json
@@ -293,6 +293,5 @@ Output Sample:
   "status": true
 }
 ```
-
 
 - **_for error detail description please reference error.md_**
