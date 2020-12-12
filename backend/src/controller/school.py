@@ -4,7 +4,8 @@ from flask_cors import cross_origin
 from flask_jwt_extended import jwt_required
 
 from common.error import SQLCustomError, RequestDataEmpty, ValidateFail
-from controller.api import api, post_request_empty, address_service, custom_error, full_admin, sub_admin
+from controller.api import api, post_request_empty, address_service, custom_error, full_admin, sub_admin, \
+    get_default_address
 from service.school.school_service import SchoolService
 
 school_service = SchoolService()
@@ -65,12 +66,14 @@ def create_school():
 
     if data is None:
         return post_request_empty()
+
+    address_data = data.get("address") if data.get("address") else get_default_address()
     try:
         address_id = address_service.create_address({
-            "division": data.get("division"),
-            "district": data.get("district"),
-            "township": data.get("township"),
-            "street_address": data.get("street_address"),
+            "division": address_data.get("division"),
+            "district": address_data.get("district"),
+            "township": address_data.get("township"),
+            "street_address": address_data.get("street_address"),
             "type": "school"
         })
         current_app.logger.debug("create address id: %s", address_id)
@@ -133,19 +136,22 @@ def update_school(school_id: int):
     if data is None:
         return post_request_empty()
     try:
+        address_data = data.get("address")
+        address_updated = True
+
         school = school_service.get_school_by_id(school_id)
         if not school:
             return custom_error("Invalid school id supplied.")
+        if address_data:
+            address_updated = address_service.update_address_by_id(school["address"]["id"], {
+                "division": address_data.get("division"),
+                "district": address_data.get("district"),
+                "township": address_data.get("township"),
+                "street_address": address_data.get("street_address"),
+                "type": "school"
+            })
 
-        updated = address_service.update_address_by_id(school["address"]["id"], {
-            "division": data.get("division"),
-            "district": data.get("district"),
-            "township": data.get("township"),
-            "street_address": data.get("street_address"),
-            "type": "school"
-        })
-
-        if updated:
+        if address_updated:
             school_update_status = school_service.update_school_by_id(school_id, {
                 "name": data.get("name"),
                 "contact_info": data.get("contact_info"),

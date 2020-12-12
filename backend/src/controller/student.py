@@ -10,7 +10,7 @@ from common.aws_client import get_client, get_s3_url, get_bucket
 from common.config import S3_BUCKET
 from common.error import SQLCustomError, RequestDataEmpty, ValidateFail
 from controller.api import address_service
-from controller.api import api, post_request_empty, custom_error, sub_admin, full_admin
+from controller.api import api, post_request_empty, custom_error, sub_admin, full_admin, get_default_address
 from service.student.student_service import StudentService
 
 student_service = StudentService()
@@ -65,11 +65,12 @@ def create_student():
     if data is None:
         return post_request_empty()
     try:
+        address_data = data.get("address") if data.get("address") else get_default_address()
         address_id = address_service.create_address({
-            "division": data.get("division"),
-            "district": data.get("district"),
-            "township": data.get("township"),
-            "street_address": data.get("street_address"),
+            "division": address_data.get("division"),
+            "district": address_data.get("district"),
+            "township": address_data.get("township"),
+            "street_address": address_data.get("street_address"),
             "type": "student"
         })
         student_id = student_service.create_student({
@@ -131,15 +132,18 @@ def update_student(student_id: int):
         return custom_error("Invalid student id supplied.")
 
     try:
-        updated = address_service.update_address_by_id(student["address"]["id"], {
-            "division": data.get("division"),
-            "district": data.get("district"),
-            "township": data.get("township"),
-            "street_address": data.get("street_address"),
-            "type": "student"
-        })
+        address_data = data.get("address")
+        address_updated = True
+        if address_data:
+            address_updated = address_service.update_address_by_id(student["address"]["id"], {
+                "division": address_data.get("division"),
+                "district": address_data.get("district"),
+                "township": address_data.get("township"),
+                "street_address": address_data.get("street_address"),
+                "type": "student"
+            })
 
-        if updated:
+        if address_updated:
             student_update_status = student_service.update_student_by_id(student_id, {
                 "name": data.get("name"),
                 "deactivated_at": data.get("deactivated_at"),

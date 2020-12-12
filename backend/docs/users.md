@@ -216,9 +216,12 @@ Input Sample:
   "password": "1234",
   "role": "admin",
   "country": "mm",
-  "district": "pabedan",
-  "division": "yangon",
-  "township": "La Thar township",
+  "address": {
+    "district": "pabedan",
+    "division": "yangon",
+    "street_address": "18 street",
+    "township": "La Thar township"
+  },
   "donation_active": true
 }
 ```

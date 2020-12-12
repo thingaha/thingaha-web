@@ -59,11 +59,12 @@ def json_access_token(init_app):
 @pytest.fixture
 def student_json():
     return {
-        "district": "မရမ်းကုန်းမြို့နယ်",
-        "division": "yangon",
-        "street_address": "ဉီးဘအိုလမ်း",
-        "township": "အမှတ်(၂)ရပ်ကွက်",
-        "type": "student",
+        "address": {
+            "district": "မရမ်းကုန်းမြို့နယ်",
+            "division": "yangon",
+            "street_address": "ဉီးဘအိုလမ်း",
+            "township": "အမှတ်(၂)ရပ်ကွက်",
+        },
         "deactivated_at": "2020-07-26T03:37:05.836Z",
         "birth_date": "12-08-2006",
         "father_name": "ဉီးလှ",
@@ -83,11 +84,14 @@ def user_json():
         "password": "123",
         "role": "admin",
         "country": "mm",
-        "district": "pabedan",
-        "division": "yangon",
+        "address": {
+            "district": "pabedan",
+            "division": "yangon",
+            "street_address": "18 street",
+            "township": "La Thar township"
+        },
         "donation_active": True,
-        "street_address": "18 street",
-        "township": "La Thar township"
+
     }
 
 
@@ -107,11 +111,12 @@ def school_json():
     return {
         "name": "No.(35) Nyanungdon",
         "contact_info": "098",
-        "district": "yangon",
-        "division": "yangon",
-        "street_address": "18 street",
-        "township": "La Thar township",
-        "type": "school"
+        "address": {
+            "district": "yangon",
+            "division": "yangon",
+            "street_address": "18 street",
+            "township": "La Thar township"
+        }
     }
 
 
@@ -213,12 +218,12 @@ def test_create_update_school(client, json_access_token, school_json):
     res = client.put("/api/v1/schools/1", json={
         "name": "No.(11)Nyanungdon",
         "contact_info": "098",
-        "address_id": 1,
-        "district": "yangon",
-        "division": "yangon",
-        "street_address": "18 street",
-        "township": "MyaeNiGone",
-        "type": "school"
+        "address": {
+            "district": "yangon",
+            "division": "yangon",
+            "street_address": "18 street",
+            "township": "MyaeNiGone"
+        }
     }, headers=json_access_token)
     assert res.status_code == 200
 
@@ -254,10 +259,12 @@ def test_put_user_by_id(client, json_access_token, user_json):
         "password": "1234",
         "role": "admin",
         "country": "mm",
-        "district": "pabedan",
-        "division": "yangon",
-        "street_address": "19 street",
-        "township": "La Thar township"
+        "address": {
+            "district": "pabedan",
+            "division": "yangon",
+            "street_address": "19 street",
+            "township": "La Thar township"
+        }
     }, headers=json_access_token)
     assert res.status_code == 200
 
@@ -384,12 +391,12 @@ def test_create_update_student(client, json_access_token, student_json):
     res = client.post("/api/v1/students", json=student_json, headers=json_access_token)
     assert res.status_code == 200
     res = client.put("/api/v1/students/1", json={
-        "district": "မရမ်းကုန်းမြို့နယ်",
-        "division": "yangon",
-        "street_address": "ဉီးဘအိုလမ်း",
-        "township": "အမှတ်(၂)ရပ်ကွက်",
-        "type": "student",
-        "address_id": 1,
+        "address":{
+            "district": "မရမ်းကုန်းမြို့နယ်",
+            "division": "yangon",
+            "street_address": "ဉီးဘအိုလမ်း",
+            "township": "အမှတ်(၂)ရပ်ကွက်"
+        },
         "deactivated_at": "2020-07-26T03:37:05.836Z",
         "birth_date": "12-08-2006",
         "father_name": "ဉီးလှ",

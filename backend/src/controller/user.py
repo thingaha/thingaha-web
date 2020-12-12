@@ -5,7 +5,7 @@ from flask_cors import cross_origin
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from common.error import SQLCustomError, RequestDataEmpty, ValidateFail
-from controller.api import api, custom_error, post_request_empty, sub_admin, full_admin
+from controller.api import api, custom_error, post_request_empty, sub_admin, full_admin, get_default_address
 from service.address.address_service import AddressService
 from service.user.user_service import UserService
 
@@ -66,16 +66,7 @@ def create_user():
     if data is None:
         return post_request_empty()
     try:
-        address_data = data.get("address")
-        if address_data is None:
-            # TODO: Replace this default address with data from config
-            address_data = {
-                "division": "ayeyarwady",
-                "district": "nyaungdone",
-                "township": "nyaungdone",
-                "street_address": "တိုက်သစ်ကျောင်း",
-            }
-
+        address_data = data.get("address") if data.get("address") else get_default_address()
         address_id = address_service.create_address({
             "division": address_data.get("division"),
             "district": address_data.get("district"),
