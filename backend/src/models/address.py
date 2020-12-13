@@ -18,10 +18,7 @@ class AddressModel(db.Model):
     __tablename__ = "addresses"
 
     id = db.Column(db.Integer, primary_key=True)
-    division = db.Column(db.Enum("yangon", "ayeyarwady", "chin", "kachin", "kayah",
-                                 "kayin", "mon", "rakhine", "shan", "bago", "magway",
-                                 "mandalay", "sagaing", "tanintharyi",
-                                 name="division"))
+    division = db.Column(db.UnicodeText())
     district = db.Column(db.UnicodeText())
     township = db.Column(db.UnicodeText())
     street_address = db.Column(db.UnicodeText())

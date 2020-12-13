@@ -74,7 +74,8 @@ def create_user():
             "type": "user"
         })
         user_id = user_service.create_user({
-            "name": data.get("name"),
+            "username": data.get("username"),
+            "display_name": data.get("display_name"),
             "email": data.get("email"),
             "address_id": address_id,
             "password": data.get("password"),
@@ -83,11 +84,11 @@ def create_user():
             "donation_active": True if data.get("donation_active") else False
         })
         current_app.logger.info(
-            "Create user success. user_name %s", data.get("name"))
+            "Create user success. user_name %s", data.get("username"))
         return get_user_by_id(user_id)
     except (RequestDataEmpty, SQLCustomError, ValidateFail) as error:
         current_app.logger.error("Create user fail. user_name %s, error: %s",
-                                 data.get("name"), error)
+                                 data.get("username"), error.description)
         return jsonify({"errors": [error.__dict__]}), 400
 
 
@@ -117,7 +118,8 @@ def update_user(user_id: int):
 
         if updated:
             user_update_status = user_service.update_user_by_id(user_id, {
-                "name": data.get("name"),
+                "username": data.get("username"),
+                "display_name": data.get("display_name"),
                 "email": data.get("email"),
                 "address_id": int(user["address"]["id"]),
                 "password": data.get("password"),

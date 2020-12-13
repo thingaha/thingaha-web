@@ -19,7 +19,8 @@ school_schema = Schema({
 })
 
 user_schema = Schema({
-    "name": str,
+    "username": str,
+    "display_name": str,
     "email": str,
     "address_id": int,
     "password": str,

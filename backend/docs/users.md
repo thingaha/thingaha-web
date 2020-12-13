@@ -12,6 +12,13 @@ Input Sample:
   "password": "123"
 }
 ```
+OR
+```json
+{
+  "username": "moemoe@gmail.com",
+  "password": "123"
+}
+```
 
 Output Sample:
 
@@ -36,7 +43,8 @@ Input Sample:
 
 ```json
 {
-  "name": "MoeMoe",
+  "username": "MoeMoe",
+  "display_name": "Khine Zar Thwe",
   "email": "moemoe@gmail.com",
   "password": "123",
   "role": "admin",
@@ -69,7 +77,8 @@ Output Sample:
         "email": "moemoe@gmail.com",
         "formatted_address": "အာဇာနည်လမ်း, အမှတ်(၈)ရပ်ကွက်, ညောင်တုန်းမြို့, ayeyarwady",
         "id": 1,
-        "name": "MoeMoe",
+        "username": "MoeMoe",
+        "display_name": "Khine Zar Thwe",
         "role": "admin"
       }
     ]
@@ -114,7 +123,8 @@ Output Sample
         "email": "kzt1@gmail.com",
         "formatted_address": "11 street, MyaeNiGone, yangon, yangon",
         "id": 2,
-        "name": "khinezar1",
+        "username": "khinezar1",
+        "display_name": "Khine Zar Thwe",
         "role": "donator"
       },
       {
@@ -130,7 +140,8 @@ Output Sample
         "email": "kzt2@gmail.com",
         "formatted_address": "12 street, MyaeNiGone, yangon, yangon",
         "id": 3,
-        "name": "khinezar2",
+        "username": "khinezar2",
+        "display_name": "Khine Zar Thwe",
         "role": "donator"
       },
       {
@@ -146,7 +157,8 @@ Output Sample
         "email": "thingyan_test01@gmail.com",
         "formatted_address": "18 street, La Thar township, yangon, yangon",
         "id": 4,
-        "name": "thingyan_test01",
+        "username": "thingyan_test01",
+        "display_name": "Khine Zar Thwe",
         "role": "admin"
       }
     ]
@@ -177,7 +189,8 @@ Output Sample
       "email": "kzt1@gmail.com",
       "formatted_address": "11 street, MyaeNiGone, yangon, yangon",
       "id": 2,
-      "name": "khinezar1",
+      "username": "khinezar1",
+      "display_name": "Khine Zar Thwe",
       "role": "donator"
     }
   }
@@ -194,7 +207,8 @@ Input Sample:
 
 ```json
 {
-  "name": "thingyan_test01",
+  "username": "thingyan_test01",
+  "display_name": "Khine Zar Thwe",
   "email": "thingyan_test01@gmail.com",
   "password": "1234",
   "role": "admin",
@@ -224,7 +238,8 @@ Output Sample:
       "email": "kzt1@gmail.com",
       "formatted_address": "11 street, MyaeNiGone, yangon, yangon",
       "id": 2,
-      "name": "khinezar1",
+      "username": "khinezar1",
+      "display_name": "Khine Zar Thwe",
       "role": "donator"
     }
   }
@@ -263,7 +278,7 @@ Output Sample:
 | /api/v1/users/password | Delete user by id | DELETE |
 
 Input Sample:
-```
+```json
 {
     "current_password": "1234",
     "new_password": "1234",

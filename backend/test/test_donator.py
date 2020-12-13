@@ -41,7 +41,8 @@ def json_access_token(init_app):
             street_address="aa",
             type="user"))
         user = UserModel.create_user(UserModel(
-            name="aa",
+            display_name="aa",
+            username="aa",
             email="aa@gmail.com",
             address_id=address_id,
             hashed_password="pass",
@@ -76,7 +77,8 @@ def student_json():
 @pytest.fixture
 def user_json():
     return {
-        "name": "MoeMoe",
+        "username": "MoeMoe",
+        "display_name": "MoeMoe",
         "email": "moemoe1@gmail.com",
         "password": "123",
         "role": "admin",
@@ -235,7 +237,7 @@ def test_get_all_user(client, json_access_token):
     res = client.get("/api/v1/users?country=mm", headers=json_access_token)
     assert res.status_code == 200
     res = client.get("/api/v1/users?country=ja", headers=json_access_token)
-    assert res.status_code == 400
+    assert res.status_code == 200
 
 
 def test_get_user_by_id(client, json_access_token):
@@ -247,7 +249,8 @@ def test_put_user_by_id(client, json_access_token, user_json):
     res = client.post("/api/v1/users", json=user_json, headers=json_access_token)
     assert res.status_code == 403
     res = client.put("/api/v1/users/1", json={
-        "name": "test01",
+        "username": "test01",
+        "display_name": "test01",
         "email": "test01@gmail.com",
         "password": "1234",
         "role": "admin",

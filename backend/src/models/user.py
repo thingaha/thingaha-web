@@ -20,18 +20,20 @@ class UserModel(db.Model):
     """
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(), nullable=False)
+    display_name = db.Column(db.String(), nullable=False)
+    username = db.Column(db.String(), unique=True, nullable=False)
     email = db.Column(db.String(), unique=True, nullable=False)
     hashed_password = db.Column(db.Text(), nullable=True)
     role = db.Column(db.Enum("sub_admin", "donator", "admin", name="role"))
-    country = db.Column(db.Enum("jp", "mm", "sg", "th", name="country"))
+    country = db.Column(db.String(), nullable=True)
     donation_active = db.Column(db.Boolean, default=False)
     address_id = db.Column(db.Integer, db.ForeignKey("addresses.id"), nullable=False)
     address = relationship("AddressModel", foreign_keys=[address_id])
 
-    def __init__(self, name: str, email: str, address_id: int, role: str, country: str,
-                 hashed_password: str = None, donation_active: bool =False) -> None:
-        self.name = name
+    def __init__(self, display_name: str, username: str, email: str, address_id: int, role: str, country: str,
+                 hashed_password: str = None, donation_active: bool = False) -> None:
+        self.display_name = display_name
+        self.username = username
         self.email = email
         self.address_id = address_id
         self.hashed_password = hashed_password
@@ -40,7 +42,7 @@ class UserModel(db.Model):
         self.donation_active = donation_active
 
     def __repr__(self):
-        return f"<User {self.name}>"
+        return f"<User {self.username}>"
 
     def as_dict(self) -> Dict[str, Any]:
         """
@@ -48,7 +50,8 @@ class UserModel(db.Model):
         """
         return {
                 "id": self.id,
-                "name": self.name,
+                "display_name": self.display_name,
+                "username": self.username,
                 "email": self.email,
                 "formatted_address": self.address.format_address(),
                 "address": self.address.as_dict(),
@@ -73,7 +76,7 @@ class UserModel(db.Model):
             raise error
 
     @staticmethod
-    def update_user(user_id, user) -> bool:
+    def update_user(user_id: int, user: UserModel) -> bool:
         """
         update user info by id
         :param user_id:
@@ -84,7 +87,8 @@ class UserModel(db.Model):
             target_user = db.session.query(UserModel).get(user_id)
             if not target_user:
                 raise SQLCustomError("No record for requested school")
-            target_user.name = user.name
+            target_user.display_name = user.display_name
+            target_user.username = user.username
             target_user.email = user.email
             target_user.address_id = user.address_id
             target_user.country = user.country
@@ -148,6 +152,18 @@ class UserModel(db.Model):
             raise error
 
     @staticmethod
+    def get_user_by_username(username: str) -> UserModel:
+        """
+        get user by username
+        :param username:
+        :return: user info
+        """
+        try:
+            return db.session.query(UserModel).filter(UserModel.username == username).first()
+        except SQLAlchemyError as error:
+            raise error
+
+    @staticmethod
     def get_users_by_query(page: int, query: str, per_page: int = 20) -> Pagination:
         """
         get users by name (as name is not unique, multiple records can be returned)
@@ -158,7 +174,7 @@ class UserModel(db.Model):
         """
         try:
             return db.session.query(UserModel).\
-                join(AddressModel).filter(or_(UserModel.name.ilike('%' + query + '%'),
+                join(AddressModel).filter(or_(UserModel.display_name.ilike('%' + query + '%'),
                                               UserModel.email.ilike('%' + query + '%'))).paginate(
                 page=page,
                 per_page=per_page,

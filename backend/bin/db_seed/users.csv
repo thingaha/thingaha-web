@@ -1,2 +1,2 @@
-NAME,EMAIL,HASHED_PASSWORD,ROLE,COUNTRY,DONATION_ACTIVE,ADDRESS_ID
-'MoeMoe','moemoe@gmail.com','pbkdf2:sha256:150000$D1rba2ca$84049dfc1ca9fee60910edde180caea785f06eedaf6e1774c0fcc76cdf662831','admin','mm','True',1
+USERNAME, DISPLAY_NAME,EMAIL,HASHED_PASSWORD,ROLE,COUNTRY,DONATION_ACTIVE,ADDRESS_ID
+'MoeMoe','ခိုင်ဇာသွယ်','moemoe@gmail.com','pbkdf2:sha256:150000$D1rba2ca$84049dfc1ca9fee60910edde180caea785f06eedaf6e1774c0fcc76cdf662831','admin','mm','True',1

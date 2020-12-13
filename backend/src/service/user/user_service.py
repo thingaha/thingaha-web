@@ -32,7 +32,8 @@ class UserService(Service):
             raise ValidateFail("User validation fail")
         try:
             return UserModel.create_user(UserModel(
-                name=data["name"],
+                display_name=data["display_name"],
+                username=data["username"],
                 email=data["email"],
                 address_id=data["address_id"],
                 hashed_password=generate_password_hash(data["password"]),
@@ -59,7 +60,8 @@ class UserService(Service):
         try:
             self.logger.info("update user info by id %s", user_id)
             return UserModel.update_user(user_id, UserModel(
-                name=data["name"],
+                display_name=data["display_name"],
+                username=data["username"],
                 email=data["email"],
                 address_id=data["address_id"],
                 hashed_password=generate_password_hash(data["password"]),
@@ -195,6 +197,21 @@ class UserService(Service):
             self.logger.error("Get users by id fail. email %s. error %s", email,
                               traceback.format_exc())
             raise SQLCustomError(description="Get user by email SQL ERROR")
+
+    def get_user_by_username(self, username: str) -> Optional[UserModel]:
+        """
+
+        :param username:
+        :return:
+        """
+        self.logger.info("Get users list by username %s", username)
+        try:
+            user = UserModel.get_user_by_username(username)
+            return user if user else None
+        except SQLAlchemyError:
+            self.logger.error("Get users by id fail. usename %s. error %s", username,
+                              traceback.format_exc())
+            raise SQLCustomError(description="Get user by username SQL ERROR")
 
     @staticmethod
     def __return_user_list(users: List[UserModel]) -> List[Dict[str, Any]]:
