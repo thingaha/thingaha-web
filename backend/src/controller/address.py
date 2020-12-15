@@ -3,7 +3,7 @@ from flask import request, current_app, jsonify
 from flask_cors import cross_origin
 from flask_jwt_extended import jwt_required
 
-from common.error import SQLCustomError, RequestDataEmpty, ValidateFail
+from common.error import SQLCustomError, RequestDataEmpty, ValidateFail, ThingahaCustomError
 from controller.api import api, post_request_empty, custom_error, full_admin, sub_admin
 from service.address.address_service import AddressService
 
@@ -115,9 +115,30 @@ def get_all_addresses():
     try:
         page = request.args.get("page", 1, type=int)
         per_page = request.args.get("per_page", 20, type=int)
+        address_type = request.args.get("type", None, type=str)
         return jsonify({
-            "data": address_service.get_all_addresses(page, per_page)
+            "data": address_service.get_all_addresses(page, per_page, address_type)
+        }), 200
+    except (SQLCustomError, ThingahaCustomError) as error:
+        current_app.logger.error("Fail to get all addresses: %s", error.description)
+        return jsonify({"errors": [error.__dict__]}), 400
+
+
+@api.route("/addresses/search", methods=["GET"])
+@jwt_required
+@cross_origin()
+def search_addresses():
+    """
+    search addresses by string [ search all in  division district township street_address ]
+    """
+    query = request.args.get("query")
+    page = request.args.get("page", 1, type=int)
+    per_page = request.args.get("page", 20, type=int)
+    try:
+        current_app.logger.info("search addresses : query: %s", query)
+        return jsonify({
+            "data": address_service.search_address_by_query(page, query, per_page)
         }), 200
     except SQLCustomError as error:
-        current_app.logger.error("Fail to get all addresses: %s", error)
+        current_app.logger.error("Fail to search addresses : query: %s", query)
         return jsonify({"errors": [error.__dict__]}), 400

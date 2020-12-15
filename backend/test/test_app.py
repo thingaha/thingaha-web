@@ -167,6 +167,12 @@ def test_config(init_app):
 def test_address_get_id(client, json_access_token):
     res = client.get("/api/v1/addresses/1", headers=json_access_token)
     assert res.status_code == 200
+    res = client.get("/api/v1/addresses/search?query=XXX", headers=json_access_token)
+    assert res.status_code == 200
+    res = client.get("/api/v1/addresses?type=user", headers=json_access_token)
+    assert res.status_code == 200
+    res = client.get("/api/v1/addresses?type=bb", headers=json_access_token)
+    assert res.status_code == 400
 
 
 def test_address_create_update(client, json_access_token, address_json):

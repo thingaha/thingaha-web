@@ -125,21 +125,6 @@ class SchoolModel(db.Model):
             raise error
 
     @staticmethod
-    def get_all_school_address(page: int = 1, per_page: int = 20) -> Pagination:
-        """
-        get all school address for get all address API
-        :params page integer
-        :params per_page integer
-        :return Pagination object
-        """
-        try:
-            return db.session.query(AddressModel, SchoolModel). \
-                filter(AddressModel.id == SchoolModel.address_id).filter(
-                AddressModel.type == "school").paginate(page=page, per_page=per_page, error_out=False)
-        except SQLAlchemyError as error:
-            raise error
-
-    @staticmethod
     def get_schools_by_query(page: int, query: str, per_page: int = 20) -> Pagination:
         """
         search school info by query (name and contact info)
