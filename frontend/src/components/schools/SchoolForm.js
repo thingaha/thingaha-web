@@ -5,10 +5,10 @@ import styled from 'styled-components'
 import * as actions from '../../store/actions'
 import FormControl from '@material-ui/core/FormControl'
 import TextField from '@material-ui/core/TextField'
-import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
-import ThingahaFormModal from '../common/ThingahaFormModal'
 import InputLabel from '@material-ui/core/InputLabel'
+import ThingahaFormModal from '../common/ThingahaFormModal'
+import ThingahaSelect from '../common/ThingahaSelect'
 
 const FormContainer = styled.div`
   display: flex;
@@ -71,7 +71,7 @@ const SchoolForm = ({
           </StyledFormControl>
           <StyledFormControl>
             <InputLabel id="division">Division</InputLabel>
-            <Select
+            <ThingahaSelect
               onChange={handleChange}
               value={values.division}
               id="division"
@@ -81,11 +81,11 @@ const SchoolForm = ({
               <MenuItem value="yangon">Yangon</MenuItem>
               <MenuItem value="mandalay">Mandalay</MenuItem>
               <MenuItem value="ayeyarwaddy">Ayeyarwaddy</MenuItem>
-            </Select>
+            </ThingahaSelect>
           </StyledFormControl>
           <StyledFormControl>
             <InputLabel id="district">District</InputLabel>
-            <Select
+            <ThingahaSelect
               onChange={handleChange}
               value={values.district}
               id="district"
@@ -95,11 +95,11 @@ const SchoolForm = ({
               <MenuItem value="hlaingtharyar">Hlaing Thar yar</MenuItem>
               <MenuItem value="Maubin">Maubin</MenuItem>
               <MenuItem value="botahtaung">Bo Ta Htaung</MenuItem>
-            </Select>
+            </ThingahaSelect>
           </StyledFormControl>
           <StyledFormControl>
             <InputLabel id="township">Township</InputLabel>
-            <Select
+            <ThingahaSelect
               onChange={handleChange}
               value={values.township}
               id="township"
@@ -109,7 +109,7 @@ const SchoolForm = ({
               <MenuItem value="hlaingtharyar">Hlaing Thar yar</MenuItem>
               <MenuItem value="thamine">Ahlone</MenuItem>
               <MenuItem value="Nyaungdon">Nyaung Don</MenuItem>
-            </Select>
+            </ThingahaSelect>
           </StyledFormControl>
           <StyledFormControl>
             <TextField

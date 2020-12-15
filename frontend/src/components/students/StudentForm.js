@@ -6,15 +6,14 @@ import styled from 'styled-components'
 import * as actions from '../../store/actions'
 import FormControl from '@material-ui/core/FormControl'
 import TextField from '@material-ui/core/TextField'
-import Select from '@material-ui/core/Select'
+import ThingahaSelect from '../common/ThingahaSelect'
 import MenuItem from '@material-ui/core/MenuItem'
 import ThingahaFormModal from '../common/ThingahaFormModal'
 import InputLabel from '@material-ui/core/InputLabel'
-import CheckCircleRoundedIcon from '@material-ui/icons/CheckCircleRounded';
-import Checkbox from '@material-ui/core/Checkbox';
+import CheckCircleRoundedIcon from '@material-ui/icons/CheckCircleRounded'
+import Checkbox from '@material-ui/core/Checkbox'
 
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-
+import FormControlLabel from '@material-ui/core/FormControlLabel'
 
 const FormContainer = styled.div`
   display: flex;
@@ -43,7 +42,22 @@ const AddressContainer = styled.div`
   margin-bottom: 0.8rem;
 `
 
-const Divisions = ["Yangon", "Mandalay", "Bago", "Sagaing", "Magwe", "Ayeyarwaddy", "Thaninthayi", "Kachin", "Kayah", "Kayin", "Chin", "Mon", "Rakhine", "Shan"]
+const Divisions = [
+  'Yangon',
+  'Mandalay',
+  'Bago',
+  'Sagaing',
+  'Magwe',
+  'Ayeyarwaddy',
+  'Thaninthayi',
+  'Kachin',
+  'Kayah',
+  'Kayin',
+  'Chin',
+  'Mon',
+  'Rakhine',
+  'Shan',
+]
 
 const StudentForm = ({
   visible,
@@ -54,7 +68,6 @@ const StudentForm = ({
   submitNewStudentForm,
   submitEditStudentForm,
 }) => {
-
   return (
     <ThingahaFormModal
       title={editingStudent ? 'Edit Student' : 'Add New Student'}
@@ -132,17 +145,19 @@ const StudentForm = ({
           </AddressContainer>
           <StyledFormControl>
             <InputLabel id="division">Division</InputLabel>
-            <Select
+            <ThingahaSelect
               onChange={handleChange}
               value={values.division}
               id="division"
               name="division"
               label="Division"
             >
-              {Divisions.map((value, index) =>
-                <MenuItem key={index} value={value}>{value}</MenuItem>
-              )}
-            </Select>
+              {Divisions.map((value, index) => (
+                <MenuItem key={index} value={value}>
+                  {value}
+                </MenuItem>
+              ))}
+            </ThingahaSelect>
           </StyledFormControl>
           <StyledFormControl>
             <TextField
@@ -155,7 +170,6 @@ const StudentForm = ({
             />
           </StyledFormControl>
           <StyledFormControl>
-
             <TextField
               id="township"
               name="township"
@@ -178,14 +192,16 @@ const StudentForm = ({
           <StyledFormControl>
             <div className="icon">
               <FormControlLabel
-                control={<Checkbox
-                  checked={values.isActivate}
-                  onChange={handleChange}
-                  name="isActivate"
-                  id="isActivate"
-                  value={values.isActivate}
-                  color="primary"
-                />}
+                control={
+                  <Checkbox
+                    checked={values.isActivate}
+                    onChange={handleChange}
+                    name="isActivate"
+                    id="isActivate"
+                    value={values.isActivate}
+                    color="primary"
+                  />
+                }
                 label="Active?"
               />
             </div>
@@ -195,7 +211,6 @@ const StudentForm = ({
     </ThingahaFormModal>
   )
 }
-
 
 const transformStudentSchemaFlat = (student) => {
   return {
@@ -215,7 +230,6 @@ const transformStudentSchemaFlat = (student) => {
 }
 
 const transformStudentSchema = (student) => {
-
   return {
     id: student.id,
     name: student.name,
