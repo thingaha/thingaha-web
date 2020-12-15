@@ -12,7 +12,9 @@ Input Sample:
   "password": "123"
 }
 ```
+
 OR
+
 ```json
 {
   "username": "moemoe@gmail.com",
@@ -43,7 +45,7 @@ Input Sample:
 
 ```json
 {
-  "username": "MoeMoe",
+  "username": "moemoe",
   "display_name": "Khine Zar Thwe",
   "email": "moemoe@gmail.com",
   "password": "123",
@@ -55,6 +57,16 @@ Input Sample:
   "street_address": "18 street",
   "township": "La Thar township"
 }
+```
+
+##### username format
+
+```
+username is 8-20 characters long
+no _ or . at the beginning
+no __ or _. or ._ or .. inside
+allowed characters
+no _ or . at the end
 ```
 
 Output Sample:
@@ -217,7 +229,6 @@ Input Sample:
   "division": "yangon",
   "township": "La Thar township",
   "donation_active": true
-
 }
 ```
 
@@ -271,18 +282,20 @@ Output Sample:
   }
 }
 ```
+
 ### User update password
- 
-| API              |    Description    | Action |
-| :--------------- | :---------------: | -----: |
+
+| API                    |    Description    | Action |
+| :--------------------- | :---------------: | -----: |
 | /api/v1/users/password | Delete user by id | DELETE |
 
 Input Sample:
+
 ```json
 {
-    "current_password": "1234",
-    "new_password": "1234",
-    "new_confirm_password": "1234"
+  "current_password": "1234",
+  "new_password": "1234",
+  "new_confirm_password": "1234"
 }
 ```
 
@@ -293,6 +306,5 @@ Output Sample:
   "status": true
 }
 ```
-
 
 - **_for error detail description please reference error.md_**
