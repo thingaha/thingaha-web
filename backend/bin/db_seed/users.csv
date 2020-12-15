@@ -1,2 +1,23 @@
-USERNAME, DISPLAY_NAME,EMAIL,HASHED_PASSWORD,ROLE,COUNTRY,DONATION_ACTIVE,ADDRESS_ID
-'MoeMoe','ခိုင်ဇာသွယ်','moemoe@gmail.com','pbkdf2:sha256:150000$D1rba2ca$84049dfc1ca9fee60910edde180caea785f06eedaf6e1774c0fcc76cdf662831','admin','mm','True',1
+USERNAME,DISPLAY_NAME,EMAIL,HASHED_PASSWORD,ROLE,COUNTRY,DONATION_ACTIVE,ADDRESS_ID
+'MoeMoe','မခိုင်ဇာသွယ်','moemoe@gmail.com','pbkdf2:sha256:150000$D1rba2ca$84049dfc1ca9fee60910edde180caea785f06eedaf6e1774c0fcc76cdf662831','admin','mm','True',46
+'thandarkhineaye','မသန္တာခိုင်အေး','thandarkhineaye@gmail.com','pbkdf2:sha256:150000$D1rba2ca$84049dfc1ca9fee60910edde180caea785f06eedaf6e1774c0fcc76cdf662831','donator','mm','True',25
+'winlaeaye','မဝင်းလဲ့အေး','winlaeaye@gmail.com','pbkdf2:sha256:150000$D1rba2ca$84049dfc1ca9fee60910edde180caea785f06eedaf6e1774c0fcc76cdf662831','donator','mm','False',26
+'yeemonaung','မရည်မွန်အောင်','yeemonaung4@gmail.com','pbkdf2:sha256:150000$D1rba2ca$84049dfc1ca9fee60910edde180caea785f06eedaf6e1774c0fcc76cdf662831','donator','mm','True',27
+'khinesabalhan','မခင်စံပါယ်ဟန်','khinesabalhan@gmail.com','pbkdf2:sha256:150000$D1rba2ca$84049dfc1ca9fee60910edde180caea785f06eedaf6e1774c0fcc76cdf662831','donator','mm','True',28
+'noelnoelsawlwin','မနိုနိုစောလွင်','noelnoelsawlwin@gmail.com','pbkdf2:sha256:150000$D1rba2ca$84049dfc1ca9fee60910edde180caea785f06eedaf6e1774c0fcc76cdf662831','donator','mm','True',29
+'northeingiaung','နော်သိင်္ဂီအောင်','northeingiaung@gmail.com','pbkdf2:sha256:150000$D1rba2ca$84049dfc1ca9fee60910edde180caea785f06eedaf6e1774c0fcc76cdf662831','donator','mm','True',30
+'thetzinzin','မသက်ဇင်ဇင်','thetzinzin@gmail.com','pbkdf2:sha256:150000$D1rba2ca$84049dfc1ca9fee60910edde180caea785f06eedaf6e1774c0fcc76cdf662831','donator','mm','True',31
+'thinzarlynn','မသဉ္ဇာလင်း','thinzarlynn@gmail.com','pbkdf2:sha256:150000$D1rba2ca$84049dfc1ca9fee60910edde180caea785f06eedaf6e1774c0fcc76cdf662831','donator','mm','True',32
+'khinesuthein','မခိုင်စုသိမ်း မဆုနှင်းဝေ','khinesuthein@gmail.com','pbkdf2:sha256:150000$D1rba2ca$84049dfc1ca9fee60910edde180caea785f06eedaf6e1774c0fcc76cdf662831','donator','mm','False',33
+'ayethanthtoo','ကိုကျော်ရဲလင်း မအေးသန့်ထူး','yeemonaung4@gmail.com','pbkdf2:sha256:150000$D1rba2ca$84049dfc1ca9fee60910edde180caea785f06eedaf6e1774c0fcc76cdf662831','donator','mm','True',34
+'tinmoeaye','မတင်မိုးအေး','tinmoeaye@gmail.com','pbkdf2:sha256:150000$D1rba2ca$84049dfc1ca9fee60910edde180caea785f06eedaf6e1774c0fcc76cdf662831','donator','mm','False',35
+'khineshwewar','မခိုင်ရွှေဝါ','khineshwewar@gmail.com','pbkdf2:sha256:150000$D1rba2ca$84049dfc1ca9fee60910edde180caea785f06eedaf6e1774c0fcc76cdf662831','donator','mm','True',36
+'thazinoo','မသဇင်ဦး','thazinoo@gmail.com','pbkdf2:sha256:150000$D1rba2ca$84049dfc1ca9fee60910edde180caea785f06eedaf6e1774c0fcc76cdf662831','donator','mm','False',37
+'supansin','မဆုပန်စင်','supansin@gmail.com','pbkdf2:sha256:150000$D1rba2ca$84049dfc1ca9fee60910edde180caea785f06eedaf6e1774c0fcc76cdf662831','donator','mm','True',38
+'maythulwin','ကိုသက်လှိုင် မမေသူလွင် သား မောင်သုတရှင်းသန့်','maythulwin@gmail.com','pbkdf2:sha256:150000$D1rba2ca$84049dfc1ca9fee60910edde180caea785f06eedaf6e1774c0fcc76cdf62831','donator','mm','False',39
+'khinhtaykyi','မခင်ဌေးကြည်','khinhtaykyi@gmail.com','pbkdf2:sha256:150000$D1rba2ca$84049dfc1ca9fee60910edde180caea785f06eedaf6e1774c0fcc76cdf662831','donator','mm','False',40
+'yawaitint','မရဝေတင့်','yawaitint@gmail.com','pbkdf2:sha256:150000$D1rba2ca$84049dfc1ca9fee60910edde180caea785f06eedaf6e1774c0fcc76cdf662831','donator','mm','False',41
+'aungpaing','မောင်အောင်ပိုင်','aungpaing@gmail.com','pbkdf2:sha256:150000$D1rba2ca$84049dfc1ca9fee60910edde180caea785f06eedaf6e1774c0fcc76cdf662831','donator','mm','False',42
+'myatthetkhaing','မမြတ်သက်ခိုင်','myatthetkhaing@gmail.com','pbkdf2:sha256:150000$D1rba2ca$84049dfc1ca9fee60910edde180caea785f06eedaf6e1774c0fcc76cdf662831','donator','mm','False',43
+'nilarzawmin','မနီလာဇော်မင်း','nilarzawmin@gmail.com','pbkdf2:sha256:150000$D1rba2ca$84049dfc1ca9fee60910edde180caea785f06eedaf6e1774c0fcc76cdf662831','donator','mm','True',44
+'winlaeyeethein','မဝင်းလဲ့ရည်သိန်း','winlaeyeethein@gmail.com','pbkdf2:sha256:150000$D1rba2ca$84049dfc1ca9fee60910edde180caea785f06eedaf6e1774c0fcc76cdf662831','donator','mm','False',45
