@@ -12,7 +12,9 @@ Input Sample:
   "password": "123"
 }
 ```
+
 OR
+
 ```json
 {
   "username": "moemoe@gmail.com",
@@ -284,11 +286,12 @@ Output Sample:
 | /api/v1/users/password | Update user password |    PUT |
 
 Input Sample:
+
 ```json
 {
-    "current_password": "1234",
-    "new_password": "1234",
-    "new_confirm_password": "1234"
+  "current_password": "1234",
+  "new_password": "1234",
+  "new_confirm_password": "1234"
 }
 ```
 

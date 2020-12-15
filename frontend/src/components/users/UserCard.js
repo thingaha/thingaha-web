@@ -52,10 +52,11 @@ const UserCard = ({ user, onEdit }) => {
         <Avatar>{user.country}</Avatar>
       </div>
       <div className="col2">
-        <div className="name">{user.name}</div>
+        <div className="name">{user.display_name}</div>
         <div className="email">{user.email}</div>
       </div>
       <div className="col3">
+        <div className="name">{user.username}</div>
         <Chip
           label={user.role}
           variant="default"

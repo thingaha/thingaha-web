@@ -30,7 +30,8 @@ user_schema = Schema({
 })
 
 user_update_schema = Schema({
-    "name": str,
+    "username": str,
+    "display_name": str,
     "email": str,
     "role": str,
     "address_id": Or(None, int),

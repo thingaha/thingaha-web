@@ -11,9 +11,17 @@ export const fetchUsers = async () => {
   }
 }
 
-export const createUser = async ({ name, email, password, role, country }) => {
+export const createUser = async ({
+  username,
+  display_name,
+  email,
+  password,
+  role,
+  country,
+}) => {
   const { data } = await thingahaApiClient.post('/users', {
-    name,
+    username,
+    display_name,
     email,
     password,
     role,
@@ -25,9 +33,17 @@ export const createUser = async ({ name, email, password, role, country }) => {
   }
 }
 
-export const editUser = async ({ id, name, email, role, country }) => {
+export const editUser = async ({
+  id,
+  username,
+  display_name,
+  email,
+  role,
+  country,
+}) => {
   const { data } = await thingahaApiClient.put(`/users/${id}`, {
-    name,
+    username,
+    display_name,
     email,
     role,
     country,
