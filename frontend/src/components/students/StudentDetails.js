@@ -109,8 +109,8 @@ const StudentDetails = ({
   const studentId = params.id
 
   useEffect(() => {
-    getStudentInfo(params.id)
-  }, [getStudentInfo])
+    getStudentInfo(studentId)
+  }, [getStudentInfo, studentId])
 
   useEffect(
     (state) => {
@@ -164,7 +164,7 @@ const StudentDetails = ({
             <div className="smallText">{Address}</div>
           </div>
         </div>
-        <img src={student.photo} className="photo" />
+        <img src={student.photo} className="photo" alt={student.name} />
       </StudentDetailWrapper>
     )
   }
@@ -184,7 +184,7 @@ const StudentDetails = ({
   const [studentFormVisible, setStudentFormVisible] = useState(false)
 
   const studentDetail = students.find((student) => {
-    return student.id == studentId
+    return student.id === studentId
   })
 
   if (!studentDetail) return null

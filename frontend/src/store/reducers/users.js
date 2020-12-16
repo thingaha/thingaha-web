@@ -38,7 +38,7 @@ export default (state = { users: [] }, action) => {
       const updatedUsers = updateObjectInArray(
         state.users,
         action.user,
-        (user, updatedUser) => user.id == updatedUser.id
+        (user, updatedUser) => user.id === updatedUser.id
       )
 
       return {

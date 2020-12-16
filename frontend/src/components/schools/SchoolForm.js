@@ -5,12 +5,8 @@ import styled from 'styled-components'
 import * as actions from '../../store/actions'
 import FormControl from '@material-ui/core/FormControl'
 import TextField from '@material-ui/core/TextField'
-import MenuItem from '@material-ui/core/MenuItem'
-import InputLabel from '@material-ui/core/InputLabel'
 import ThingahaFormModal from '../common/ThingahaFormModal'
-import ThingahaSelect from '../common/ThingahaSelect'
 import ThingahaAddressFields from '../common/ThingahaAddressFields'
-import SelectInput from '@material-ui/core/Select/SelectInput'
 
 const FormContainer = styled.div`
   display: flex;

@@ -193,11 +193,11 @@ const FormikUserForm = withFormik({
   validate: (values) => {
     const errors = {}
 
-    if (values.username == '') {
+    if (values.username === '') {
       errors.usernme = 'Required'
     }
 
-    if (values.display_name == '') {
+    if (values.display_name === '') {
       errors.display_name = 'Required'
     }
 

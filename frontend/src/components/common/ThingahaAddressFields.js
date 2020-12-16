@@ -22,7 +22,7 @@ const ThingahaAddressFields = ({
   setFieldValue,
 }) => {
   useEffect(() => {
-    if (Object.keys(configData.divisionMapping).length == 0) {
+    if (Object.keys(configData.divisionMapping).length === 0) {
       getMyanmarDivisionData()
     }
   }, [configData, getMyanmarDivisionData])
@@ -63,7 +63,11 @@ const ThingahaAddressFields = ({
           label="Division"
         >
           {divisionNames.map((divisionName) => {
-            return <MenuItem value={divisionName}>{divisionName}</MenuItem>
+            return (
+              <MenuItem value={divisionName} key={divisionName}>
+                {divisionName}
+              </MenuItem>
+            )
           })}
         </ThingahaSelect>
       </StyledFormControl>
@@ -82,7 +86,11 @@ const ThingahaAddressFields = ({
           label="District"
         >
           {districtNames.map((districtName) => {
-            return <MenuItem value={districtName}>{districtName}</MenuItem>
+            return (
+              <MenuItem value={districtName} key={districtName}>
+                {districtName}
+              </MenuItem>
+            )
           })}
         </ThingahaSelect>
       </StyledFormControl>
@@ -96,7 +104,11 @@ const ThingahaAddressFields = ({
           label="Township"
         >
           {townshipNames.map((townshipName) => {
-            return <MenuItem value={townshipName}>{townshipName}</MenuItem>
+            return (
+              <MenuItem value={townshipName} key={townshipName}>
+                {townshipName}
+              </MenuItem>
+            )
           })}
         </ThingahaSelect>
       </StyledFormControl>

@@ -1,8 +1,7 @@
-import last from 'lodash/last'
 import thingahaApiClient from '../../utils/thingahaApiClient'
 
 export const fetchUsers = async () => {
-  const { data, error, status } = await thingahaApiClient.get('/users')
+  const { data } = await thingahaApiClient.get('/users')
 
   return {
     data: {
