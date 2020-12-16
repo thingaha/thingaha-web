@@ -9,6 +9,8 @@ import MenuItem from '@material-ui/core/MenuItem'
 import InputLabel from '@material-ui/core/InputLabel'
 import ThingahaFormModal from '../common/ThingahaFormModal'
 import ThingahaSelect from '../common/ThingahaSelect'
+import ThingahaAddressFields from '../common/ThingahaAddressFields'
+import SelectInput from '@material-ui/core/Select/SelectInput'
 
 const FormContainer = styled.div`
   display: flex;
@@ -26,6 +28,7 @@ const StyledFormControl = styled(FormControl)`
 const SchoolForm = ({
   values,
   handleChange,
+  setFieldValue,
   visible,
   setVisible,
   submitNewSchoolForm,
@@ -69,58 +72,11 @@ const SchoolForm = ({
               value={values.contact_info}
             />
           </StyledFormControl>
-          <StyledFormControl>
-            <InputLabel id="division">Division</InputLabel>
-            <ThingahaSelect
-              onChange={handleChange}
-              value={values.division}
-              id="division"
-              name="division"
-              label="Division"
-            >
-              <MenuItem value="yangon">Yangon</MenuItem>
-              <MenuItem value="mandalay">Mandalay</MenuItem>
-              <MenuItem value="ayeyarwaddy">Ayeyarwaddy</MenuItem>
-            </ThingahaSelect>
-          </StyledFormControl>
-          <StyledFormControl>
-            <InputLabel id="district">District</InputLabel>
-            <ThingahaSelect
-              onChange={handleChange}
-              value={values.district}
-              id="district"
-              name="district"
-              label="District"
-            >
-              <MenuItem value="hlaingtharyar">Hlaing Thar yar</MenuItem>
-              <MenuItem value="Maubin">Maubin</MenuItem>
-              <MenuItem value="botahtaung">Bo Ta Htaung</MenuItem>
-            </ThingahaSelect>
-          </StyledFormControl>
-          <StyledFormControl>
-            <InputLabel id="township">Township</InputLabel>
-            <ThingahaSelect
-              onChange={handleChange}
-              value={values.township}
-              id="township"
-              name="township"
-              label="Township"
-            >
-              <MenuItem value="hlaingtharyar">Hlaing Thar yar</MenuItem>
-              <MenuItem value="thamine">Ahlone</MenuItem>
-              <MenuItem value="Nyaungdon">Nyaung Don</MenuItem>
-            </ThingahaSelect>
-          </StyledFormControl>
-          <StyledFormControl>
-            <TextField
-              id="street_address"
-              name="street_address"
-              placeholder="enter street address..."
-              label="Street Address"
-              onChange={handleChange}
-              value={values.street_address}
-            />
-          </StyledFormControl>
+          <ThingahaAddressFields
+            values={values}
+            handleChange={handleChange}
+            setFieldValue={setFieldValue}
+          />
         </FormContainer>
       </form>
     </ThingahaFormModal>
@@ -139,6 +95,20 @@ const transformSchoolSchemaFlat = (school) => {
   }
 }
 
+const transformSchoolSchemaNested = (school) => {
+  return {
+    id: school.id,
+    name: school.name,
+    contact_info: school.contact_info,
+    address: {
+      division: school.division,
+      district: school.district,
+      township: school.township,
+      street_address: school.street_address,
+    },
+  }
+}
+
 const mapStateToProps = (state) => ({
   schools: state.schools,
   error: state.error,
@@ -147,10 +117,12 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => {
   return {
     submitNewSchoolForm: (values) => {
-      dispatch(actions.submitNewSchoolForm(values))
+      dispatch(actions.submitNewSchoolForm(transformSchoolSchemaNested(values)))
     },
     submitEditSchoolForm: (values) => {
-      dispatch(actions.submitEditSchoolForm(values))
+      dispatch(
+        actions.submitEditSchoolForm(transformSchoolSchemaNested(values))
+      )
     },
   }
 }
