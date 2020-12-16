@@ -9,19 +9,15 @@ import {
   SUBMIT_EDIT_STUDENT_FORM_FAILURE,
 } from '../actions/students'
 
-export default (state = { students: [] , studentdonator : [] },  action) => {
-  // console.log("action.type")
-  // console.log(action)
-
+export default (state = { students: [], studentdonator: [] }, action) => {
   switch (action.type) {
     case GET_STUDENT_INFO_SUCCESS:
-        return {
+      return {
         ...state,
-        studentdonator:[...action.studentdonator],
+        studentdonator: [...action.studentdonator],
       }
     case GET_STUDENT_INFO_FAILURE:
       return {
-        // returnState = {
         ...state,
         error: action.error,
       }
