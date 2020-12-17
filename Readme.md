@@ -20,6 +20,7 @@ For project background and current goals for v1.0, please read the [Wiki Home Pa
 
   - cd into the `backend` directory and run `docker-compose up`. (Note: all the following commands assume we're in `backend` directory as working directory)
   - it should create `backend_web_1` container and `backend_db_1` containers.
+  - you can check using `docker ps` command for 2 containers.
   - Then, optionally, seed database using the following command:
     `docker exec backend_web_1 /usr/bin/python3 ../src/db_seed.py`
   - You should be able to go to `http://localhost:5000/api/v1/users` and should see a json error message.
@@ -116,3 +117,7 @@ Main UI framework is [Material UI](https://material-ui.com/). For component styl
   - To set up for windows developmemt, please update frontend\package.json
     - `"start": "PORT=5001 react-scripts start"` to `"start": "set PORT=5001 && react-scripts start"`
   - The frontend dev server is configured to run on port `5001`. Try navigating to [http://localhost:5001/](http://localhost:5001/) to see the app in action.
+
+  - initial login information
+    - username: `moemoe@gmail.com`
+    - password: `123`
