@@ -75,16 +75,18 @@ class DonationModel(db.Model):
             raise error
 
     @staticmethod
-    def get_all_donations(page) -> Pagination:
+    def get_all_donations(page: int = 1, per_page: int = 20) -> Pagination:
         """
         get all donation records
+        :params page
+        :params per_page
         :return: donation list
         """
         try:
             return db.session.query(DonationModel, UserModel, StudentModel). \
                 filter(DonationModel.user_id == UserModel.id). \
                 filter(DonationModel.attendance_id == AttendanceModel.id). \
-                filter(AttendanceModel.id == StudentModel.id).paginate(page=page, error_out=False)
+                filter(AttendanceModel.id == StudentModel.id).paginate(page=page, per_page=per_page, error_out=False)
         except SQLAlchemyError as error:
             raise error
 

@@ -23,13 +23,11 @@ ALLOWED_EXTENSIONS = ["png", "jpg", "jpeg"]
 def get_students():
     try:
         page = request.args.get("page", 1, type=int)
-        student, count = student_service.get_all_students(page)
+        per_page = request.args.get("per_page", 20, type=int)
         current_app.logger.info("Get all student records")
         return jsonify({
-            "data": {
-                "count": count,
-                "students": student
-            }}), 200
+            "data": student_service.get_all_students(page, per_page)
+        }), 200
     except SQLCustomError as error:
         current_app.logger.error("Error in get all student records")
         return jsonify({"errors": [error.__dict__]}), 400

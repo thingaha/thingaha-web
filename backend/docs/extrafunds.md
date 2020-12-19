@@ -46,49 +46,79 @@ Output Sample
 
 ```json
 {
-  "data": {
-    "count": 2,
-    "extra_funds": [
-      {
-        "id": 1,
-        "mmk_amount": 100000,
-        "transfer": {
-          "id": 1,
-          "year": "2020",
-          "month": "january",
-          "total_mmk": "35000",
-          "total_jpy": "3000"
-        }
-      },
-      {
-        "id": 2,
-        "mmk_amount": 200000,
-        "transfer": {
-          "id": 2,
-          "year": "2020",
-          "month": "february",
-          "total_mmk": "35000",
-          "total_jpy": "3000"
-        }
-      }
-    ],
-    "new_transfers": [
-      {
-        "id": 4,
-        "month": "march",
-        "total_jpy": 200.0,
-        "total_mmk": 3000.0,
-        "year": 2020
-      },
-      {
-        "id": 5,
-        "month": "march",
-        "total_jpy": 200.0,
-        "total_mmk": 3000.0,
-        "year": 2020
-      }
-    ]
-  }
+    "data": {
+        "current_page": 1,
+        "extra_funds": [
+            {
+                "id": 1,
+                "mmk_amount": 80000.0,
+                "transfer": {
+                    "id": 1,
+                    "month": "january",
+                    "total_jpy": 0.0,
+                    "total_mmk": 30000.0,
+                    "year": 2020
+                }
+            },
+            {
+                "id": 3,
+                "mmk_amount": 60000.0,
+                "transfer": {
+                    "id": 3,
+                    "month": "april",
+                    "total_jpy": 0.0,
+                    "total_mmk": 3000.0,
+                    "year": 2020
+                }
+            },
+            {
+                "id": 4,
+                "mmk_amount": 50000.0,
+                "transfer": {
+                    "id": 4,
+                    "month": "april",
+                    "total_jpy": 3000.0,
+                    "total_mmk": 0.0,
+                    "year": 2020
+                }
+            },
+            {
+                "id": 5,
+                "mmk_amount": 40000.0,
+                "transfer": {
+                    "id": 5,
+                    "month": "may",
+                    "total_jpy": 0.0,
+                    "total_mmk": 35000.0,
+                    "year": 2020
+                }
+            },
+            {
+                "id": 2,
+                "mmk_amount": 10000.0,
+                "transfer": {
+                    "id": 4,
+                    "month": "april",
+                    "total_jpy": 3000.0,
+                    "total_mmk": 0.0,
+                    "year": 2020
+                }
+            }
+        ],
+        "new_transfers": [
+            {
+                "id": 2,
+                "month": "february",
+                "total_jpy": 3000.0,
+                "total_mmk": 0.0,
+                "year": 2020
+            }
+        ],
+        "next_page": null,
+        "pages": 1,
+        "prev_page": null,
+        "total_count": 5
+    }
 }
 ```
 

@@ -78,6 +78,18 @@ class StudentModel(db.Model):
             raise error
 
     @staticmethod
+    def get_student_by_address_ids(addresses_ids: tuple) -> List[StudentModel]:
+        """
+        get student by ids
+        :param addresses_ids:
+        :return: student info
+        """
+        try:
+            return db.session.query(StudentModel).filter(StudentModel.address_id.in_(addresses_ids)).all()
+        except SQLAlchemyError as error:
+            raise error
+
+    @staticmethod
     def get_students_by_name(name) -> List[StudentModel]:
         """
         get students by name (as name is not unique, multiple records can be returned)
@@ -102,28 +114,31 @@ class StudentModel(db.Model):
             raise error
 
     @staticmethod
-    def get_all_students(page) -> Pagination:
+    def get_all_students(page: int = 1, per_page: int = 20) -> Pagination:
         """
         get all students
+        :param page:
+        :param per_page:
         :return: students list of dict
         """
         try:
             return db.session.query(StudentModel).join(AddressModel).\
-                paginate(page=page, error_out=False)
+                paginate(page=page, per_page=per_page, error_out=False)
         except SQLAlchemyError as error:
             raise error
 
     @staticmethod
-    def get_all_student_address(page) -> Pagination:
+    def get_all_student_address(page: int = 1, per_page: int = 20) -> Pagination:
         """
         get all school address for get all address API
         :params page
+        :params per_page
         :return
         """
         try:
             return db.session.query(AddressModel, StudentModel). \
                 filter(AddressModel.id == StudentModel.address_id).filter(
-                AddressModel.type == "student").paginate(page=page, error_out=False)
+                AddressModel.type == "student").paginate(page=page, per_page=per_page,error_out=False)
         except SQLAlchemyError as error:
             raise error
 

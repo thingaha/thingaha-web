@@ -711,6 +711,47 @@
 			"response": []
 		},
 		{
+			"name": "User[PUT][ID]",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDcyNDM0MzAsIm5iZiI6MTYwNzI0MzQzMCwianRpIjoiN2RiYjlkYTAtNWEzYS00ZjljLWFkZjctNzEzNmMwOGExMzgyIiwiZXhwIjoxNjA3MzI5ODMwLCJpZGVudGl0eSI6MiwiZnJlc2giOmZhbHNlLCJ0eXBlIjoiYWNjZXNzIiwidXNlcl9jbGFpbXMiOiJhZG1pbiJ9.lGsUELVcAiQRCiB7zSBEYZbHlWUS8PKnFi-WBC0HD94",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"current_password\": \"123\",\n    \"new_password\": \"456\",\n    \"new_confirm_password\": \"456\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/users/password/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"password"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "User[DELETE]",
 			"request": {
 				"auth": {

@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from typing import Dict, Any
 
+from flask_sqlalchemy import Pagination
+from sqlalchemy import or_
 from sqlalchemy.exc import SQLAlchemyError
 
 from common.error import SQLCustomError
@@ -17,10 +19,7 @@ class AddressModel(db.Model):
     __tablename__ = "addresses"
 
     id = db.Column(db.Integer, primary_key=True)
-    division = db.Column(db.Enum("yangon", "ayeyarwady", "chin", "kachin", "kayah",
-                                 "kayin", "mon", "rakhine", "shan", "bago", "magway",
-                                 "mandalay", "sagaing", "tanintharyi",
-                                 name="division"))
+    division = db.Column(db.UnicodeText())
     district = db.Column(db.UnicodeText())
     township = db.Column(db.UnicodeText())
     street_address = db.Column(db.UnicodeText())
@@ -52,28 +51,10 @@ class AddressModel(db.Model):
         return {
             "id": self.id,
             "division": self.division,
+            "type": self.type,
             "district": self.district,
             "township": self.township,
             "street_address": self.street_address
-        }
-
-    def address_type_dict(self, obj):
-        """
-        Return object data for viewing easily serializable format
-        :param obj: addressable object from query
-        :return:
-        """
-        return {
-            "id": self.id,
-            "addressable": {
-                "id": obj.id,
-                "name": obj.name,
-                "type": self.type
-            },
-            "division": self.division,
-            "district": self.district,
-            "township": self.township,
-            "street_address": self.street_address,
         }
 
     @staticmethod
@@ -127,6 +108,35 @@ class AddressModel(db.Model):
             raise error
 
     @staticmethod
+    def get_all_addresses(page: int = 1, per_page: int = 20) -> Pagination:
+        """
+        get all address record
+        :param page:
+        :param per_page:
+        :return: get all address info
+        """
+        try:
+            return db.session.query(AddressModel).paginate(page=page, per_page=per_page, error_out=False)
+        except SQLAlchemyError as error:
+            raise error
+
+    @staticmethod
+    def get_all_addresses_by_type(page: int, per_page: int, address_type: str) -> Pagination:
+        """
+        get all address record by address type
+        :param page:
+        :param per_page:
+        :param address_type:
+        :return: get all address info by address type
+        """
+        try:
+            return db.session.query(AddressModel).filter(AddressModel.type == address_type).paginate(page=page,
+                                                                                                     per_page=per_page,
+                                                                                                     error_out=False)
+        except SQLAlchemyError as error:
+            raise error
+
+    @staticmethod
     def delete_address(address_id) -> bool:
         """
         delete address by id
@@ -140,4 +150,25 @@ class AddressModel(db.Model):
             return True
         except SQLAlchemyError as error:
             db.session.rollback()
+            raise error
+
+    @staticmethod
+    def search_address_by_query(page: int, per_page: int, query: str) -> Pagination:
+        """
+        delete address by id
+        :param page:
+        :param per_page:
+        :param query:
+        :return: Pagination
+        """
+        try:
+            return db.session.query(AddressModel).filter(or_(AddressModel.division.ilike('%' + query + '%'),
+                                                             AddressModel.district.ilike('%' + query + '%'),
+                                                             AddressModel.township.ilike('%' + query + '%'),
+                                                             AddressModel.street_address.ilike('%' + query + '%'),
+                                                             )).paginate(
+                page=page,
+                per_page=per_page,
+                error_out=False)
+        except SQLAlchemyError as error:
             raise error

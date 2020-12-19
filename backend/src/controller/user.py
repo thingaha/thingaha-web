@@ -2,7 +2,7 @@
 
 from flask import request, current_app, jsonify
 from flask_cors import cross_origin
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from common.error import SQLCustomError, RequestDataEmpty, ValidateFail
 from controller.api import api, custom_error, post_request_empty, sub_admin, full_admin
@@ -24,13 +24,11 @@ def get_all_users():
         page = request.args.get("page", 1, type=int)
         role = request.args.get("role")
         country = request.args.get("country")
-        users, count = user_service.get_all_users(page, role, country)
+        per_page = request.args.get("per_page", 20, type=int)
         current_app.logger.info("Get all users")
         return jsonify({
-            "data": {
-                "count": count,
-                "users": users
-            }}), 200
+            "data": user_service.get_all_users(page, role, country, per_page)
+        }), 200
     except SQLCustomError as error:
         current_app.logger.error("Fail to get all users: %s", error)
         return jsonify({"errors": [error.__dict__]}), 400
@@ -76,7 +74,8 @@ def create_user():
             "type": "user"
         })
         user_id = user_service.create_user({
-            "name": data.get("name"),
+            "username": data.get("username"),
+            "display_name": data.get("display_name"),
             "email": data.get("email"),
             "address_id": address_id,
             "password": data.get("password"),
@@ -85,11 +84,11 @@ def create_user():
             "donation_active": True if data.get("donation_active") else False
         })
         current_app.logger.info(
-            "Create user success. user_name %s", data.get("name"))
+            "Create user success. user_name %s", data.get("username"))
         return get_user_by_id(user_id)
     except (RequestDataEmpty, SQLCustomError, ValidateFail) as error:
         current_app.logger.error("Create user fail. user_name %s, error: %s",
-                                 data.get("name"), error)
+                                 data.get("username"), error.description)
         return jsonify({"errors": [error.__dict__]}), 400
 
 
@@ -119,7 +118,8 @@ def update_user(user_id: int):
 
         if updated:
             user_update_status = user_service.update_user_by_id(user_id, {
-                "name": data.get("name"),
+                "username": data.get("username"),
+                "display_name": data.get("display_name"),
                 "email": data.get("email"),
                 "address_id": int(user["address"]["id"]),
                 "password": data.get("password"),
@@ -178,11 +178,46 @@ def search_user():
     search user by name , email
     """
     query = request.args.get("query")
+    page = request.args.get("page", 1, type=int)
+    per_page = request.args.get("page", 20, type=int)
     try:
         current_app.logger.info("search user : query: %s", query)
         return jsonify({
-            "data": user_service.get_users_by_query(query)
+            "data": user_service.get_users_by_query(page, query, per_page)
         }), 200
     except SQLCustomError as error:
         current_app.logger.error("Fail to search user : query: %s", query)
+        return jsonify({"errors": [error.__dict__]}), 400
+
+
+@api.route("/users/password", methods=["PUT"])
+@jwt_required
+@cross_origin()
+def change_password():
+    """
+    change password by userid
+    """
+    data = request.get_json()
+    user_id = get_jwt_identity()
+    if data is None or user_id is None:
+        return post_request_empty()
+    try:
+        current_pwd = data.get("current_password")
+        new_pwd = data.get("new_password")
+        new_confirm_pwd = data.get("new_confirm_password")
+        user_data = user_service.get_user_by_id(user_id)
+        user = user_service.get_user_by_email(user_data["email"])
+        if not user_service.check_password(current_pwd, user):
+            return custom_error("Current password is incorrect.")
+        if new_pwd == new_confirm_pwd:
+            current_app.logger.info("All fields are valid!")
+            password_update_status = user_service.change_password_by_id(user_id, new_pwd)
+            return jsonify({
+                "status": password_update_status
+            }), 200
+        else:
+            return custom_error("Two fields of new password does not match.")
+    except SQLCustomError as error:
+        current_app.logger.error(
+            "Fail to change user password for user id:%s", user_id)
         return jsonify({"errors": [error.__dict__]}), 400

@@ -18,17 +18,33 @@ class AttendanceService(Service):
     def __init__(self, logger=None) -> None:
         super().__init__(logger)
 
-    def get_all_attendances(self, page) -> (List, Any):
+    def get_all_attendances(self, page: int, grade: str, year: int, per_page: int = 20) -> (List, Any):
         """
         get all attendance
         :params page
+        :params grade
+        :params year
+        :params per_page
         :return: attendance list of dict
         """
         try:
-            self.logger.info("Get attendance list")
-            attendances = AttendanceModel.get_all_attendances(page)
-            return [attendance.attendance_dict(school, student) for attendance, school, student in
-                    attendances.items], attendances.total
+            if year and not grade:
+                attendances = AttendanceModel.get_attendances_by_year(page, year, per_page)
+            elif grade and not year:
+                attendances = AttendanceModel.get_attendances_by_grade(page, grade, per_page)
+            elif year and grade:
+                attendances = AttendanceModel.get_attendances_by_grade_year(page, grade, year, per_page)
+            else:
+                attendances = AttendanceModel.get_all_attendances(page, per_page)
+            return {
+                "attendances": [attendance.attendance_dict(school, student) for attendance, school, student in
+                                attendances.items],
+                "total_count": attendances.total,
+                "current_page": attendances.page,
+                "next_page": attendances.next_num,
+                "prev_page": attendances.prev_num,
+                "pages": attendances.pages
+            }
         except SQLAlchemyError as error:
             self.logger.error("Error: {}".format(error))
             raise SQLCustomError(description="GET Attendance SQL ERROR")

@@ -20,18 +20,20 @@ class UserModel(db.Model):
     """
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(), nullable=False)
+    display_name = db.Column(db.String(), nullable=False)
+    username = db.Column(db.String(), unique=True, nullable=False)
     email = db.Column(db.String(), unique=True, nullable=False)
     hashed_password = db.Column(db.Text(), nullable=True)
     role = db.Column(db.Enum("sub_admin", "donator", "admin", name="role"))
-    country = db.Column(db.Enum("jp", "mm", "sg", "th", name="country"))
+    country = db.Column(db.String(), nullable=True)
     donation_active = db.Column(db.Boolean, default=False)
     address_id = db.Column(db.Integer, db.ForeignKey("addresses.id"), nullable=False)
     address = relationship("AddressModel", foreign_keys=[address_id])
 
-    def __init__(self, name: str, email: str, address_id: int, role: str, country: str,
-                 hashed_password: str = None, donation_active: bool =False) -> None:
-        self.name = name
+    def __init__(self, display_name: str, username: str, email: str, address_id: int, role: str, country: str,
+                 hashed_password: str = None, donation_active: bool = False) -> None:
+        self.display_name = display_name
+        self.username = username
         self.email = email
         self.address_id = address_id
         self.hashed_password = hashed_password
@@ -40,7 +42,7 @@ class UserModel(db.Model):
         self.donation_active = donation_active
 
     def __repr__(self):
-        return f"<User {self.name}>"
+        return f"<User {self.username}>"
 
     def as_dict(self) -> Dict[str, Any]:
         """
@@ -48,7 +50,8 @@ class UserModel(db.Model):
         """
         return {
                 "id": self.id,
-                "name": self.name,
+                "display_name": self.display_name,
+                "username": self.username,
                 "email": self.email,
                 "formatted_address": self.address.format_address(),
                 "address": self.address.as_dict(),
@@ -73,7 +76,7 @@ class UserModel(db.Model):
             raise error
 
     @staticmethod
-    def update_user(user_id, user) -> bool:
+    def update_user(user_id: int, user: UserModel) -> bool:
         """
         update user info by id
         :param user_id:
@@ -84,7 +87,8 @@ class UserModel(db.Model):
             target_user = db.session.query(UserModel).get(user_id)
             if not target_user:
                 raise SQLCustomError("No record for requested school")
-            target_user.name = user.name
+            target_user.display_name = user.display_name
+            target_user.username = user.username
             target_user.email = user.email
             target_user.address_id = user.address_id
             target_user.country = user.country
@@ -124,6 +128,18 @@ class UserModel(db.Model):
             raise error
 
     @staticmethod
+    def get_users_by_address_ids(address_ids: tuple) -> List[UserModel]:
+        """
+        get user by ids
+        :param address_ids:
+        :return: user infos
+        """
+        try:
+            return db.session.query(UserModel).filter(UserModel.address_id.in_(address_ids)).all()
+        except SQLAlchemyError as error:
+            raise error
+
+    @staticmethod
     def get_user_by_email(email: str) -> UserModel:
         """
         get user by email
@@ -136,74 +152,99 @@ class UserModel(db.Model):
             raise error
 
     @staticmethod
-    def get_users_by_query(query) -> List[UserModel]:
+    def get_user_by_username(username: str) -> UserModel:
+        """
+        get user by username
+        :param username:
+        :return: user info
+        """
+        try:
+            return db.session.query(UserModel).filter(UserModel.username == username).first()
+        except SQLAlchemyError as error:
+            raise error
+
+    @staticmethod
+    def get_users_by_query(page: int, query: str, per_page: int = 20) -> Pagination:
         """
         get users by name (as name is not unique, multiple records can be returned)
+        :param page:
         :param query:
+        :param per_page int
         :return: user info list
         """
         try:
-            return db.session.query(UserModel).join(AddressModel).filter(or_(UserModel.name.ilike(query), UserModel.email.ilike(query))).all()
+            return db.session.query(UserModel).\
+                join(AddressModel).filter(or_(UserModel.display_name.ilike('%' + query + '%'),
+                                              UserModel.email.ilike('%' + query + '%'))).paginate(
+                page=page,
+                per_page=per_page,
+                error_out=False)
         except SQLAlchemyError as error:
             raise error
 
     @staticmethod
-    def get_all_users(page: int) -> Pagination:
+    def get_all_users(page: int = 1, per_page: int = 20) -> Pagination:
         """
         get all users
         :page integer
+        :per_page int
         :return: users list of dict
         """
         try:
-            return db.session.query(UserModel).join(AddressModel).paginate(page=page, error_out=False)
+            return db.session.query(UserModel).join(AddressModel).paginate(page=page, per_page=per_page,
+                                                                           error_out=False)
         except SQLAlchemyError as error:
             raise error
 
     @staticmethod
-    def get_users_by_role(page: int, role: str) -> Pagination:
+    def get_users_by_role(page: int, role: str, per_page: int = 20) -> Pagination:
         """
         get all users by role
         :params integer
         :role str
-        :return: users list of dict
+        :per_page int
+        :return: users list of Pagination
         """
         try:
             return db.session.query(UserModel).join(AddressModel).filter(
-                UserModel.role == role).paginate(page=page, error_out=False)
+                UserModel.role == role).paginate(page=page, per_page=per_page, error_out=False)
         except SQLAlchemyError as error:
             raise error
 
     @staticmethod
-    def get_users_by_country(page: int, country: str) -> Pagination:
+    def get_users_by_country(page: int, country: str, per_page: int = 20) -> Pagination:
         """
         get all users by country
         :params integer
         :country str
+        :per_page int
         :return: users list of dict
         """
         try:
             return db.session.query(UserModel).join(AddressModel).filter(
-                UserModel.country == country).paginate(page=page, error_out=False)
+                UserModel.country == country).paginate(page=page, per_page=per_page, error_out=False)
         except SQLAlchemyError as error:
             raise error
 
     @staticmethod
-    def get_users_by_role_country(page: int, role: str, country: str) -> List[UserModel]:
+    def get_users_by_role_country(page: int, role: str, country: str, per_page: int = 20) -> Pagination:
         """
         get all users by role and country
         :params page
         :params role
         :country role
+        :per_page int
         :return: user info list
         """
         try:
             return db.session.query(UserModel).join(AddressModel).filter(
-                and_(UserModel.country == country, UserModel.role == role)).paginate(page=page, error_out=False)
+                and_(UserModel.country == country, UserModel.role == role)).paginate(page=page, per_page=per_page,
+                                                                                     error_out=False)
         except SQLAlchemyError as error:
             raise error
 
     @staticmethod
-    def get_all_user_address(page: int = 1) -> Pagination:
+    def get_all_user_address(page: int = 1, per_page: int = 20) -> Pagination:
         """
         get all user address for get all address API
         :params page
@@ -212,6 +253,23 @@ class UserModel(db.Model):
         try:
             return db.session.query(AddressModel, UserModel). \
                 filter(AddressModel.id == UserModel.address_id).filter(
-                AddressModel.type == "user").paginate(page=page, error_out=False)
+                AddressModel.type == "user").paginate(page=page, per_page=per_page, error_out=False)
         except SQLAlchemyError as error:
+            raise error
+
+    @staticmethod
+    def change_password(user_id: int, new_pwd: str) -> bool:
+        """
+        change password by userid
+        :param user_id:
+        :param new_pwd:
+        :return: bool
+        """
+        try:
+            db.session.query(UserModel).filter(UserModel.id == user_id).\
+                         update({UserModel.hashed_password: new_pwd})
+            db.session.commit()
+            return True
+        except SQLAlchemyError as error:
+            db.session.rollback()
             raise error

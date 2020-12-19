@@ -56,14 +56,15 @@ class TransferModel(db.Model):
             raise error
 
     @staticmethod
-    def get_all_transfers(page: int) -> Pagination:
+    def get_all_transfers(page: int, per_page:int = 20) -> Pagination:
         """
         get all Transfer records
         :param: int
+        :param: per_page
         :return: Transfer list
         """
         try:
-            return db.session.query(TransferModel).paginate(page=page, error_out=False)
+            return db.session.query(TransferModel).paginate(page=page, per_page=per_page, error_out=False)
         except SQLAlchemyError as error:
             raise error
 

@@ -2,7 +2,7 @@
 schema module for request body
 use python library Schema
 """
-from schema import Schema, Or
+from schema import Schema, Or, Regex
 
 address_schema = Schema({
     "division": str,
@@ -19,7 +19,8 @@ school_schema = Schema({
 })
 
 user_schema = Schema({
-    "name": str,
+    "username": Regex("^(?=[a-zA-Z0-9._]{6,20}$)(?!.*[_.]{2})[^_.].*[^_.]$"),
+    "display_name": str,
     "email": str,
     "address_id": int,
     "password": str,

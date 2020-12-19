@@ -45,7 +45,11 @@ Output Sample
 ```json
 {
   "data": {
-    "count": 5,
+    "current_page": 1,
+    "next_page": null,
+    "pages": 1,
+    "prev_page": null,
+    "total_count": 5,
     "transfers": [
       {
         "id": 4,
