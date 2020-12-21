@@ -33,7 +33,7 @@ app.get('/schools', (req, res) => {
 })
 
 app.post('/schools', (req, res) => {
-  // This endpoint should actually create a user and return user document back
+  // This endpoint should actually create a school record and return school document back
   const json = {
     data: {
       id: 1,
@@ -92,6 +92,27 @@ app.post('/students', (req, res) => {
       country: 'mm',
     },
   }
+  res.status(201)
+  res.json(json)
+})
+
+app.get('/transfers', (req, res) => {
+  const json = require('./sample_data/transfers.json')
+  res.json(json)
+})
+
+app.post('/transfers', (req, res) => {
+  // This endpoint should actually create a transfer record and return transfer document back
+  const json = {
+    data: {
+      id: 1,
+      year: '2020',
+      month: 'january',
+      total_mmk: '35000',
+      total_jpy: '3000',
+    },
+  }
+
   res.status(201)
   res.json(json)
 })

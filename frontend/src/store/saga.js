@@ -33,18 +33,28 @@ import {
   submitNewSchoolForm,
   submitEditSchoolForm,
 } from './sagas/schools'
-import { 
+import {
   GET_STUDENT_INFO,
   GET_ALL_STUDENTS,
-  SUBMIT_NEW_STUDENT_FORM ,
+  SUBMIT_NEW_STUDENT_FORM,
   SUBMIT_EDIT_STUDENT_FORM,
 } from './actions/students'
-import { 
+import {
   fetchStudentInfo,
   fetchAllStudents,
-  submitNewStudentForm ,
+  submitNewStudentForm,
   submitEditStudentForm,
 } from './sagas/students'
+import {
+  GET_ALL_TRANSFER,
+  SUBMIT_TRANSFER_FORM,
+  SUBMIT_EDIT_TRANSFER_FORM,
+} from './actions/transfers'
+import {
+  fetchAllTransfers,
+  submitTransferForm,
+  submitEditTransferForm,
+} from './sagas/transfers'
 import {
   logInUser,
   getAuthenticationState,
@@ -52,6 +62,7 @@ import {
 } from './sagas/authentication'
 import { GET_ALL_ADDRESSES, GET_SEARCH_ADDRESSES } from './actions/addresses'
 import { fetchAddressesSaga, searchAddressesSaga } from './sagas/addresses'
+//import { GET_ALL_TRANSFER } from './actions'
 
 // add Saga below
 export default function* rootSaga() {
@@ -73,5 +84,8 @@ export default function* rootSaga() {
     takeLatest(LOG_IN, logInUser),
     takeLatest(LOG_OUT, logOutUser),
     takeLatest(CHECK_LOG_IN_STATE, getAuthenticationState),
+    takeLatest(GET_ALL_TRANSFER, fetchAllTransfers),
+    takeLatest(SUBMIT_TRANSFER_FORM, submitTransferForm),
+    takeLatest(SUBMIT_EDIT_TRANSFER_FORM, submitEditTransferForm),
   ])
 }
