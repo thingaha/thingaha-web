@@ -50,20 +50,18 @@ const TransferCardWrapper = styled(Paper)`
     cursor: pointer;
   }
 `
-
 const TransferCard = ({ transfer, onEdit }) => {
   return (
     <TransferCardWrapper>
       <div className="col2">
-        <Avatar>{transfer.id}</Avatar>
         <div className="month">{transfer.month}</div>
-        <div className="year">{transfer.year}</div>
-      </div>
-      <div className="col2">
-        <div className="total_mmk">{'mmk ' + transfer.total_mmk}</div>
-      </div>
-      <div className="col2">
         <div className="total_jpy">{'jpy ' + transfer.total_jpy}</div>
+      </div>
+      <div className="col2">
+        <div className="year">{transfer.year}</div>
+        <div className="col2">
+          <div className="total_mmk">{'mmk ' + transfer.total_mmk}</div>
+        </div>
       </div>
       <div className="col4">
         <EditIcon

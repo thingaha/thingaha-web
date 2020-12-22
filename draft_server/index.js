@@ -81,7 +81,7 @@ app.get('/students/:id', (req, res) => {
 })
 
 app.post('/students', (req, res) => {
-  // This endpoint should actually create a user and return user document back
+  // This endpoint should actually create a student record and return student document back
   const json = {
     data: {
       id: 1,

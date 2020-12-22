@@ -8,7 +8,7 @@ import TextField from '@material-ui/core/TextField'
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 import ThingahaFormModal from '../common/ThingahaFormModal'
-//import InputLabel from '@material-ui/core/InputLabel'
+import InputLabel from '@material-ui/core/InputLabel'
 
 const FormContainer = styled.div`
   display: flex;
@@ -28,8 +28,6 @@ const TransferForm = ({
   touched,
   errors,
   handleChange,
-  handleBlur,
-  handleSubmit,
   visible,
   setVisible,
   submitTransferForm,
@@ -67,7 +65,7 @@ const TransferForm = ({
             <TextField
               id="month"
               name="month"
-              placeholder="00"
+              placeholder="Please enter month..."
               label="Month"
               onChange={handleChange}
               value={values.month}
@@ -99,7 +97,7 @@ const TransferForm = ({
   )
 }
 
-const transformTransferSchema = (transfer) => {
+const transformTransferSchemaFlat = (transfer) => {
   return {
     year: transfer.year,
     month: transfer.month,
@@ -118,24 +116,22 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actions.submitTransferForm(values))
     },
     submitEditTransferForm: (values) => {
-      dispatch(actions.submitEditTransferForm(transformTransferSchema(values)))
+      dispatch(actions.submitEditTransferForm(values))
     },
   }
 }
 
 const FormikTransferForm = withFormik({
   mapPropsToValues: (props) => {
-    if (props.editingTransfer) {
-      return props.editingTransfer
-    } else {
-      return {
+    return transformTransferSchemaFlat(
+      props.editingTransfer || {
         id: '',
         year: '',
         month: '',
         total_mmk: '',
         total_jpy: '',
       }
-    }
+    )
   },
 
   // Custom sync validation

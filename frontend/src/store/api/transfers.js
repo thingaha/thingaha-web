@@ -24,9 +24,12 @@ export const createTransfer = async (values) => {
 }
 
 export const editTransfer = async (values) => {
-  // TODO call backend transfers edit endpoint
-  // Until api rFeturns updated transfer data, we will just need to call the api again for now.
-  const { data: transferData } = await thingahaApiClient.put(
+  const { data } = await thingahaApiClient.put(
+    `/transfers/${values.id}`,
+    values
+  )
+  // Until api returns updated transfer data, we will just need to call the api again for now.
+  const { data: transferData } = await thingahaApiClient.get(
     `/transfers/${values.id}`
   )
   return {

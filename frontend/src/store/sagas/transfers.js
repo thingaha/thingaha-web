@@ -29,11 +29,9 @@ export function* fetchAllTransfers(action) {
 
 export function* submitTransferForm(action) {
   try {
-    // const { backendResponse: json } = yield call([axios, 'get'], '/transfers') // TODO to call api endpoint
-    console.log('saga transfer ' + json.transfer)
-    const json = yield createTransfer(action.transfer)
-    toast.success('Transfer successfully created.')
-    yield put({ type: SUBMIT_TRANSFER_FORM_SUCCESS, transfer: json.data })
+    const { transfer } = yield createTransfer(action.transfer)
+    toast.success('New transfer data successfully added!')
+    yield put({ type: SUBMIT_TRANSFER_FORM_SUCCESS, transfer })
   } catch (error) {
     yield defaultErrorHandler(error, SUBMIT_TRANSFER_FORM_FAILURE)
   }
@@ -41,9 +39,9 @@ export function* submitTransferForm(action) {
 
 export function* submitEditTransferForm(action) {
   try {
-    const json = yield editTransfer(action.transfer)
+    const { transfer } = yield editTransfer(action.transfer)
     toast.success('Transfer successfully updated!')
-    yield put({ type: SUBMIT_EDIT_TRANSFER_FORM_SUCCESS, transfers: json.data })
+    yield put({ type: SUBMIT_EDIT_TRANSFER_FORM_SUCCESS, transfer })
   } catch (error) {
     yield defaultErrorHandler(error, SUBMIT_EDIT_TRANSFER_FORM_FAILURE)
   }

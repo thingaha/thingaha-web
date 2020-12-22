@@ -25,7 +25,7 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Addresses from './components/addresses/Addresses'
 import { checkLoginState } from './store/actions/authentication'
-import Transfers from './components/transfer/Transfers'
+import Transfers from './components/transfers/Transfers'
 
 // Initial check for existing persisted login state. This will grab any existing persistent login state to the redux store before mounting components.
 store.dispatch(checkLoginState())

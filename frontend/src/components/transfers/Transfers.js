@@ -24,7 +24,7 @@ const HeadingContainer = styled.div`
   margin-bottom: 1rem;
 `
 
-const TransferDataContainer = styled.ul`
+const TransferContainer = styled.ul`
   list-style: none;
   margin: 0;
   padding: 0;
@@ -39,7 +39,7 @@ const TransferDataContainer = styled.ul`
 `
 const Transfers = ({ transfers: { transfers }, getAllTranfers }) => {
   const [transferFormVisible, setTransferFormVisible] = useState(false)
-  const [editingTransfer, setEditingTransfer] = useState(transfers[0])
+  const [editingTransfer, setEditingTransfer] = useState(null)
 
   useEffect(() => {
     getAllTranfers()
@@ -62,19 +62,20 @@ const Transfers = ({ transfers: { transfers }, getAllTranfers }) => {
         </Button>
       </HeadingContainer>
 
-      <TransferForm
-        visible={transferFormVisible}
-        setVisible={setTransferFormVisible}
-        editingTransfer={editingTransfer}
-      />
+      {transferFormVisible ? (
+        <TransferForm
+          visible={transferFormVisible}
+          setVisible={setTransferFormVisible}
+          editingTransfer={editingTransfer}
+        />
+      ) : null}
 
-      <TransferDataContainer>
+      <TransferContainer>
         {transfers.map((transfer) => {
           return (
-            <li className="transfer-row">
+            <li Name="transfer-row">
               <TransferCard
                 transfer={transfer}
-                className="transfer"
                 onEdit={(edit) => {
                   setEditingTransfer(edit)
                   setTransferFormVisible(true)
@@ -83,7 +84,7 @@ const Transfers = ({ transfers: { transfers }, getAllTranfers }) => {
             </li>
           )
         })}
-      </TransferDataContainer>
+      </TransferContainer>
     </Wrapper>
   )
 }

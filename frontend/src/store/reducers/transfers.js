@@ -6,6 +6,7 @@ import {
   SUBMIT_EDIT_TRANSFER_FORM_SUCCESS,
   SUBMIT_EDIT_TRANSFER_FORM_FAILURE,
 } from '../actions/transfers'
+import updateObjectInArray from '../../utils/updateObjectInArray'
 
 export default (state = { transfers: [] }, action) => {
   switch (action.type) {
@@ -34,6 +35,11 @@ export default (state = { transfers: [] }, action) => {
         error: action.error,
       }
     case SUBMIT_EDIT_TRANSFER_FORM_SUCCESS:
+      const updatedTransfers = updateObjectInArray(
+        state.transfers,
+        action.transfers,
+        (transfer, updatedTransfer) => transfer.id == updatedTransfer.id
+      )
       return {
         ...state,
         transfers: [...action.transfers],
@@ -47,5 +53,3 @@ export default (state = { transfers: [] }, action) => {
       return state
   }
 }
-
-//edittransfer
