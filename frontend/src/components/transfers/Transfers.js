@@ -39,7 +39,7 @@ const TransferContainer = styled.ul`
 `
 const Transfers = ({ transfers: { transfers }, getAllTranfers }) => {
   const [transferFormVisible, setTransferFormVisible] = useState(false)
-  const [editingTransfer, setEditingTransfer] = useState(null)
+  const [editingTransfer, setEditingTransfer] = useState(transfers[0])
 
   useEffect(() => {
     getAllTranfers()
