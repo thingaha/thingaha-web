@@ -45,7 +45,7 @@ Input Sample:
 
 ```json
 {
-  "username": "MoeMoe",
+  "username": "moemoe",
   "display_name": "Khine Zar Thwe",
   "email": "moemoe@gmail.com",
   "password": "123",
@@ -60,6 +60,16 @@ Input Sample:
 }
 
 * NOTE: address is optional. If no address key is supplied in data, system will create a default address.
+```
+
+##### username format
+
+```
+username is 8-20 characters long
+no _ or . at the beginning
+no __ or _. or ._ or .. inside
+allowed characters
+no _ or . at the end
 ```
 
 Output Sample:
