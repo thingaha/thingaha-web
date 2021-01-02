@@ -37,7 +37,7 @@ For project background and current goals for v1.0, please read the [Wiki Home Pa
       - Run `dropdb -U thingaha thingaha_dev` (Using default username thingaha and password thingaha here. Replace with your credentials if you happen to have overriden it.)
     - Then, to recreate db:
       - Run `createdb -U thingaha thingaha_dev` (Using default username thingaha and password thingaha here. Replace with your credentials if you happen to have overriden it.)
-    - After db is created, exit the db container shell and restart currently running `docker-compose up`.
+    - After db is created, exit the db container shell using `exit` command and restart currently running `docker-compose up`.
     - Once it's up and migrated, run the db seeding command back again into the backend_web_1 container.
       - `docker exec backend_web_1 /usr/bin/python3 ../src/db_seed.py`
 
