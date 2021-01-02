@@ -2,6 +2,7 @@ import React from 'react'
 import { withFormik } from 'formik'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
+import * as yup from 'yup'
 import * as actions from '../../store/actions'
 import FormControl from '@material-ui/core/FormControl'
 import TextField from '@material-ui/core/TextField'
@@ -25,8 +26,16 @@ const SchoolForm = ({
   values,
   handleChange,
   setFieldValue,
+  setValues,
+  errors,
+  touched,
+  setFieldTouched,
+  setTouched,
   visible,
   setVisible,
+  submitForm,
+  handleSubmit,
+  validateForm,
   submitNewSchoolForm,
   submitEditSchoolForm,
   editingSchool,
@@ -37,16 +46,12 @@ const SchoolForm = ({
       open={visible}
       onClose={() => setVisible(false)}
       onCancel={() => setVisible(false)}
-      onSubmit={() => {
-        if (editingSchool) {
-          submitEditSchoolForm(values)
-        } else {
-          submitNewSchoolForm(values)
-        }
-        setVisible(false)
+      onSubmit={(e) => {
+        console.log('Trying to submit')
+        submitForm(e)
       }}
     >
-      <form>
+      <form onSubmit={handleSubmit}>
         <FormContainer>
           <StyledFormControl>
             <TextField
@@ -56,6 +61,8 @@ const SchoolForm = ({
               label="School Name"
               onChange={handleChange}
               value={values.name}
+              error={Boolean(errors.name)}
+              helperText={errors.name}
             />
           </StyledFormControl>
           <StyledFormControl>
@@ -66,12 +73,17 @@ const SchoolForm = ({
               label="Contact Info"
               onChange={handleChange}
               value={values.contact_info}
+              error={Boolean(errors.contact_info)}
+              helperText={errors.contact_info}
             />
           </StyledFormControl>
           <ThingahaAddressFields
             values={values}
             handleChange={handleChange}
             setFieldValue={setFieldValue}
+            setValues={setValues}
+            errors={errors}
+            validateForm={validateForm}
           />
         </FormContainer>
       </form>
@@ -140,16 +152,25 @@ const FormikSchoolForm = withFormik({
     )
   },
 
-  // Custom sync validation
-  validate: (values) => {
-    const errors = {}
-
-    if (!values.name) {
-      errors.name = 'Required'
+  handleSubmit: (values, { props }) => {
+    console.log('Handling submit')
+    if (props.editingSchool) {
+      props.submitEditSchoolForm(values)
+    } else {
+      props.submitNewSchoolForm(values)
     }
 
-    return errors
+    props.setVisible(false)
   },
+
+  validationSchema: yup.object().shape({
+    name: yup.string().label('Name').required(),
+    contact_info: yup.string().label('Contact Info').required(),
+    division: yup.string().label('Division').required(),
+    district: yup.string().label('District').required(),
+    township: yup.string().label('Township').required(),
+    street_address: yup.string().label('Street Address').required(),
+  }),
 
   displayName: 'SchoolForm',
   enableReinitialize: true,

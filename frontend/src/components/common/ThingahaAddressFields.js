@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
+import { ErrorMessage } from 'formik'
 import FormControl from '@material-ui/core/FormControl'
 import TextField from '@material-ui/core/TextField'
 import MenuItem from '@material-ui/core/MenuItem'
 import InputLabel from '@material-ui/core/InputLabel'
+import FormHelperText from '@material-ui/core/FormHelperText'
 import ThingahaSelect from '../common/ThingahaSelect'
 import * as actions from '../../store/actions'
 import get from 'lodash/get'
@@ -14,13 +16,18 @@ const StyledFormControl = styled(FormControl)`
   margin-bottom: 1rem;
 `
 
-const ThingahaAddressFields = ({
-  configData,
-  getMyanmarDivisionData,
-  handleChange,
-  values,
-  setFieldValue,
-}) => {
+const ThingahaAddressFields = (props) => {
+  const {
+    configData,
+    getMyanmarDivisionData,
+    handleChange,
+    values,
+    setValues,
+    setFieldValue,
+    errors,
+    validateForm,
+  } = props
+
   useEffect(() => {
     if (Object.keys(configData.divisionMapping).length === 0) {
       getMyanmarDivisionData()
@@ -47,13 +54,12 @@ const ThingahaAddressFields = ({
 
   return (
     <>
-      <StyledFormControl>
+      <StyledFormControl error={Boolean(errors.division)}>
         <InputLabel id="division">Division</InputLabel>
         <ThingahaSelect
           onChange={(e) => {
             if (e.target.value !== values.division) {
-              setFieldValue('district', '')
-              setFieldValue('township', '')
+              setValues({ ...values, district: '', township: '' }, true)
             }
             handleChange(e)
           }}
@@ -70,13 +76,17 @@ const ThingahaAddressFields = ({
             )
           })}
         </ThingahaSelect>
+        <FormHelperText>
+          <ErrorMessage name="division" />
+        </FormHelperText>
       </StyledFormControl>
-      <StyledFormControl>
+      <StyledFormControl error={Boolean(errors.district)}>
         <InputLabel id="district">District</InputLabel>
         <ThingahaSelect
           onChange={(e) => {
             if (e.target.value !== values.district) {
               setFieldValue('township', '')
+              validateForm()
             }
             handleChange(e)
           }}
@@ -93,8 +103,11 @@ const ThingahaAddressFields = ({
             )
           })}
         </ThingahaSelect>
+        <FormHelperText>
+          <ErrorMessage name="district" />
+        </FormHelperText>
       </StyledFormControl>
-      <StyledFormControl>
+      <StyledFormControl error={Boolean(errors.township)}>
         <InputLabel id="township">Township</InputLabel>
         <ThingahaSelect
           onChange={handleChange}
@@ -114,12 +127,14 @@ const ThingahaAddressFields = ({
       </StyledFormControl>
       <StyledFormControl>
         <TextField
+          error={Boolean(errors.street_address)}
           id="street_address"
           name="street_address"
           placeholder="enter street address..."
           label="Street Address"
           onChange={handleChange}
           value={values.street_address}
+          helperText={errors.street_address}
         />
       </StyledFormControl>
     </>
