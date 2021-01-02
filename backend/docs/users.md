@@ -51,12 +51,15 @@ Input Sample:
   "password": "123",
   "role": "admin",
   "country": "mm",
-  "district": "pabedan",
-  "division": "yangon",
-  "donation_active": true,
-  "street_address": "18 street",
-  "township": "La Thar township"
+  "address": {
+    "district": "pabedan",
+    "division": "yangon",
+    "street_address": "18 street",
+    "township": "La Thar township"
+  }
 }
+
+* NOTE: address is optional. If no address key is supplied in data, system will create a default address.
 ```
 
 ##### username format
@@ -225,9 +228,12 @@ Input Sample:
   "password": "1234",
   "role": "admin",
   "country": "mm",
-  "district": "pabedan",
-  "division": "yangon",
-  "township": "La Thar township",
+  "address": {
+    "district": "pabedan",
+    "division": "yangon",
+    "street_address": "18 street",
+    "township": "La Thar township"
+  },
   "donation_active": true
 }
 ```
@@ -285,9 +291,9 @@ Output Sample:
 
 ### User update password
 
-| API                    |    Description    | Action |
-| :--------------------- | :---------------: | -----: |
-| /api/v1/users/password | Delete user by id | DELETE |
+| API                    |     Description      | Action |
+| :--------------------- | :------------------: | -----: |
+| /api/v1/users/password | Update user password |    PUT |
 
 Input Sample:
 

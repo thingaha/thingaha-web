@@ -7,6 +7,11 @@ common:
         conf: "logging_dev.yaml"
     mm_division:
         file_path: "/../../data/mm_division/division.json"
+    default_address:
+        division: "ayeyarwady"
+        district: "maubin"
+        township: "nyaungdone"
+        street_address: "တိုက်သစ်ကျောင်း"
 postgres:
     url: "postgresql://"
     host: "localhost"

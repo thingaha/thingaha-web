@@ -2,13 +2,12 @@ import React from 'react'
 import { withFormik } from 'formik'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
+import * as yup from 'yup'
 import * as actions from '../../store/actions'
 import FormControl from '@material-ui/core/FormControl'
 import TextField from '@material-ui/core/TextField'
-import Select from '@material-ui/core/Select'
-import MenuItem from '@material-ui/core/MenuItem'
 import ThingahaFormModal from '../common/ThingahaFormModal'
-import InputLabel from '@material-ui/core/InputLabel'
+import ThingahaAddressFields from '../common/ThingahaAddressFields'
 
 const FormContainer = styled.div`
   display: flex;
@@ -26,8 +25,17 @@ const StyledFormControl = styled(FormControl)`
 const SchoolForm = ({
   values,
   handleChange,
+  setFieldValue,
+  setValues,
+  errors,
+  touched,
+  setFieldTouched,
+  setTouched,
   visible,
   setVisible,
+  submitForm,
+  handleSubmit,
+  validateForm,
   submitNewSchoolForm,
   submitEditSchoolForm,
   editingSchool,
@@ -38,16 +46,12 @@ const SchoolForm = ({
       open={visible}
       onClose={() => setVisible(false)}
       onCancel={() => setVisible(false)}
-      onSubmit={() => {
-        if (editingSchool) {
-          submitEditSchoolForm(values)
-        } else {
-          submitNewSchoolForm(values)
-        }
-        setVisible(false)
+      onSubmit={(e) => {
+        console.log('Trying to submit')
+        submitForm(e)
       }}
     >
-      <form>
+      <form onSubmit={handleSubmit}>
         <FormContainer>
           <StyledFormControl>
             <TextField
@@ -57,6 +61,8 @@ const SchoolForm = ({
               label="School Name"
               onChange={handleChange}
               value={values.name}
+              error={Boolean(errors.name)}
+              helperText={errors.name}
             />
           </StyledFormControl>
           <StyledFormControl>
@@ -67,60 +73,18 @@ const SchoolForm = ({
               label="Contact Info"
               onChange={handleChange}
               value={values.contact_info}
+              error={Boolean(errors.contact_info)}
+              helperText={errors.contact_info}
             />
           </StyledFormControl>
-          <StyledFormControl>
-            <InputLabel id="division">Division</InputLabel>
-            <Select
-              onChange={handleChange}
-              value={values.division}
-              id="division"
-              name="division"
-              label="Division"
-            >
-              <MenuItem value="yangon">Yangon</MenuItem>
-              <MenuItem value="mandalay">Mandalay</MenuItem>
-              <MenuItem value="ayeyarwaddy">Ayeyarwaddy</MenuItem>
-            </Select>
-          </StyledFormControl>
-          <StyledFormControl>
-            <InputLabel id="district">District</InputLabel>
-            <Select
-              onChange={handleChange}
-              value={values.district}
-              id="district"
-              name="district"
-              label="District"
-            >
-              <MenuItem value="hlaingtharyar">Hlaing Thar yar</MenuItem>
-              <MenuItem value="Maubin">Maubin</MenuItem>
-              <MenuItem value="botahtaung">Bo Ta Htaung</MenuItem>
-            </Select>
-          </StyledFormControl>
-          <StyledFormControl>
-            <InputLabel id="township">Township</InputLabel>
-            <Select
-              onChange={handleChange}
-              value={values.township}
-              id="township"
-              name="township"
-              label="Township"
-            >
-              <MenuItem value="hlaingtharyar">Hlaing Thar yar</MenuItem>
-              <MenuItem value="thamine">Ahlone</MenuItem>
-              <MenuItem value="Nyaungdon">Nyaung Don</MenuItem>
-            </Select>
-          </StyledFormControl>
-          <StyledFormControl>
-            <TextField
-              id="street_address"
-              name="street_address"
-              placeholder="enter street address..."
-              label="Street Address"
-              onChange={handleChange}
-              value={values.street_address}
-            />
-          </StyledFormControl>
+          <ThingahaAddressFields
+            values={values}
+            handleChange={handleChange}
+            setFieldValue={setFieldValue}
+            setValues={setValues}
+            errors={errors}
+            validateForm={validateForm}
+          />
         </FormContainer>
       </form>
     </ThingahaFormModal>
@@ -139,6 +103,20 @@ const transformSchoolSchemaFlat = (school) => {
   }
 }
 
+const transformSchoolSchemaNested = (school) => {
+  return {
+    id: school.id,
+    name: school.name,
+    contact_info: school.contact_info,
+    address: {
+      division: school.division,
+      district: school.district,
+      township: school.township,
+      street_address: school.street_address,
+    },
+  }
+}
+
 const mapStateToProps = (state) => ({
   schools: state.schools,
   error: state.error,
@@ -147,10 +125,12 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => {
   return {
     submitNewSchoolForm: (values) => {
-      dispatch(actions.submitNewSchoolForm(values))
+      dispatch(actions.submitNewSchoolForm(transformSchoolSchemaNested(values)))
     },
     submitEditSchoolForm: (values) => {
-      dispatch(actions.submitEditSchoolForm(values))
+      dispatch(
+        actions.submitEditSchoolForm(transformSchoolSchemaNested(values))
+      )
     },
   }
 }
@@ -172,16 +152,25 @@ const FormikSchoolForm = withFormik({
     )
   },
 
-  // Custom sync validation
-  validate: (values) => {
-    const errors = {}
-
-    if (!values.name) {
-      errors.name = 'Required'
+  handleSubmit: (values, { props }) => {
+    console.log('Handling submit')
+    if (props.editingSchool) {
+      props.submitEditSchoolForm(values)
+    } else {
+      props.submitNewSchoolForm(values)
     }
 
-    return errors
+    props.setVisible(false)
   },
+
+  validationSchema: yup.object().shape({
+    name: yup.string().label('Name').required(),
+    contact_info: yup.string().label('Contact Info').required(),
+    division: yup.string().label('Division').required(),
+    district: yup.string().label('District').required(),
+    township: yup.string().label('Township').required(),
+    street_address: yup.string().label('Street Address').required(),
+  }),
 
   displayName: 'SchoolForm',
   enableReinitialize: true,
