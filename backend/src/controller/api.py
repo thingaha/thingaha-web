@@ -28,16 +28,17 @@ default_address: dict = None
 def login():
     if not request.is_json:
         return custom_error("Missing JSON in request")
-    email = request.json.get("email", None)
-    username = request.json.get("username", None)
+    email_or_username = request.json.get("email_or_username", None)
     password = request.json.get("password", None)
-    if email is None and username is None:
-        return custom_error("One of email or username required")
+    if email_or_username is None:
+        return custom_error("Email or username required")
     if not password:
         return custom_error("Missing password parameter")
-    user = user_service.get_user_by_email(email) if email else user_service.get_user_by_username(username)
+    user = user_service.get_user_by_email(email_or_username)
+    if user is None:
+        user = user_service.get_user_by_username(email_or_username)
     if not user:
-        return custom_error("Requested {} is not a registered member".format(email if email else username))
+        return custom_error("Requested {} is not a registered member".format(email_or_username))
     if user_service.check_password(password, user):
         access_token = create_access_token(
             identity=user, expires_delta=timedelta(days=1))
