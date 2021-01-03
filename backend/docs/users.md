@@ -313,4 +313,29 @@ Output Sample:
 }
 ```
 
+/users/reset_password
+
+### reset password
+
+| API                          |                 Description                 | Action |
+| :--------------------------- | :-----------------------------------------: | -----: |
+| /api/v1/users/reset_password | reset user password(only full admin can do) |    PUT |
+
+Input Sample:
+
+```json
+{
+  "user_id": 1,
+  "password": "1234"
+}
+```
+
+Output Sample:
+
+```json
+{
+  "status": true
+}
+```
+
 - **_for error detail description please reference error.md_**

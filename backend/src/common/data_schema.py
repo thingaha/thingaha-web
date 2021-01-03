@@ -39,6 +39,17 @@ user_update_schema = Schema({
     "donation_active": bool
 })
 
+password_reset_schema = Schema({
+    "user_id": int,
+    "password": str
+})
+
+password_change_schema = Schema({
+    "current_password": str,
+    "new_password": str,
+    "new_confirm_password": str
+})
+
 attendance_schema = Schema({
     "student_id": int,
     "school_id": int,
