@@ -8,6 +8,7 @@ import schoolsReducer from './reducers/schools'
 import addressesReducer from './reducers/addresses'
 import studentsReducer from './reducers/students'
 import transfersReducer from './reducers/transfers'
+import configDataReducer from './reducers/configData'
 
 export default combineReducers({
   authentication: authenticationReducer,
@@ -17,4 +18,5 @@ export default combineReducers({
   addresses: addressesReducer,
   students: studentsReducer,
   transfers: transfersReducer,
+  configData: configDataReducer,
 })

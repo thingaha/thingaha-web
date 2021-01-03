@@ -20,7 +20,8 @@ from common.error import ThingahaCustomError, FileNotFound
 api = Blueprint("api", __name__, url_prefix="/api/v1")
 
 jwt: JWTManager = None
-division_file_path = None
+division_file_path: str = None
+default_address: dict = None
 
 
 @api.route("/login", methods=["POST"])
@@ -124,6 +125,13 @@ def custom_error(error_message: str, status_code: int = 400):
     :return:
     """
     return jsonify({"errors": [ThingahaCustomError(error_message).__dict__]}), status_code
+
+
+def get_default_address() -> dict:
+    """
+    return default addresses from conf
+    """
+    return default_address
 
 
 from controller.address import *

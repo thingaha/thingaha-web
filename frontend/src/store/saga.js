@@ -63,6 +63,8 @@ import {
 import { GET_ALL_ADDRESSES, GET_SEARCH_ADDRESSES } from './actions/addresses'
 import { fetchAddressesSaga, searchAddressesSaga } from './sagas/addresses'
 //import { GET_ALL_TRANSFER } from './actions'
+import { GET_CONFIG_DATA_DIVISIONS } from './actions/configData'
+import { fetchMyanamrDivisionDataSaga } from './sagas/configData'
 
 // add Saga below
 export default function* rootSaga() {
@@ -79,6 +81,7 @@ export default function* rootSaga() {
     takeLatest(GET_SEARCH_ADDRESSES, searchAddressesSaga),
     takeLatest(GET_STUDENT_INFO, fetchStudentInfo),
     takeLatest(GET_ALL_STUDENTS, fetchAllStudents),
+    takeLatest(GET_CONFIG_DATA_DIVISIONS, fetchMyanamrDivisionDataSaga),
     takeLatest(SUBMIT_NEW_STUDENT_FORM, submitNewStudentForm),
     takeLatest(SUBMIT_EDIT_STUDENT_FORM, submitEditStudentForm),
     takeLatest(LOG_IN, logInUser),

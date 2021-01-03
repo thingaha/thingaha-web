@@ -67,7 +67,7 @@ const Users = ({ users: { users }, getAllUsers }) => {
       <UsersContainer>
         {users.map((user) => {
           return (
-            <li className="user-row">
+            <li className="user-row" key={user.id}>
               <UserCard
                 user={user}
                 className="user"

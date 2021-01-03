@@ -1,0 +1,9 @@
+export const GET_CONFIG_DATA_DIVISIONS = 'CONFIG_DATA/GET_ALL'
+export const GET_CONFIG_DATA_DIVISIONS_SUCCESS = 'CONFIG_DATA/GET_ALL_SUCCESS'
+export const GET_CONFIG_DATA_DIVISIONS_FAILURE = 'CONFIG_DATA/GET_ALL_FAILURE'
+
+export const getMyanmarDivisionData = () => {
+  return {
+    type: GET_CONFIG_DATA_DIVISIONS,
+  }
+}

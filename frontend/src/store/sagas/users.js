@@ -39,7 +39,7 @@ export function* submitEditUserForm(action) {
   try {
     const json = yield editUser(action.user)
     toast.success('User successfully updated!')
-    yield put({ type: SUBMIT_EDIT_USER_FORM_SUCCESS, users: json.data })
+    yield put({ type: SUBMIT_EDIT_USER_FORM_SUCCESS, user: json.data })
   } catch (error) {
     yield defaultErrorHandler(error, SUBMIT_EDIT_USER_FORM_FAILURE)
   }

@@ -10,10 +10,12 @@ Input Sample:
 {
   "name": "No.(21)Nyanungdon",
   "contact_info": "098",
-  "district": "yangon",
-  "division": "yangon",
-  "street_address": "18 street",
-  "township": "MyaeNiGone"
+  "address": {
+    "district": "yangon",
+    "division": "yangon",
+    "street_address": "18 street",
+    "township": "MyaeNiGone"
+  }
 }
 ```
 
@@ -129,10 +131,12 @@ Input Sample:
 {
   "name": "No.(11)Nyanungdon",
   "contact_info": "098",
-  "district": "yangon",
-  "division": "yangon",
-  "street_address": "18 street",
-  "township": "MyaeNiGone"
+  "address": {
+    "district": "yangon",
+    "division": "yangon",
+    "street_address": "18 street",
+    "township": "MyaeNiGone"
+  }
 }
 ```
 

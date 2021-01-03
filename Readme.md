@@ -30,6 +30,18 @@ For project background and current goals for v1.0, please read the [Wiki Home Pa
   - If there is any change in `requirements.txt`, we will need to rebuild the containers. To rebuild containers, we use:
     `docker-compose build` command.
 
+  Troubleshooting with docker FAQ
+
+  - I need to delete the database and recreate it again. What do I do?
+    - Run `docker exec -it backend_db_1 /bin/sh` to get into the shell of db container.
+    - TO delete the db:
+      - Run `dropdb -U thingaha thingaha_dev` (Using default username thingaha and password thingaha here. Replace with your credentials if you happen to have overriden it.)
+    - Then, to recreate db:
+      - Run `createdb -U thingaha thingaha_dev` (Using default username thingaha and password thingaha here. Replace with your credentials if you happen to have overriden it.)
+    - After db is created, exit the db container shell using `exit` command and restart currently running `docker-compose up`.
+    - Once it's up and migrated, run the db seeding command back again into the backend_web_1 container.
+      - `docker exec backend_web_1 /usr/bin/python3 ../src/db_seed.py`
+
 #### Native env setup using Anaconda
 
 - Install anaconda from [anaconda](https://docs.anaconda.com/anaconda/install/) webpage
@@ -49,6 +61,7 @@ pip install -r ~/thingaha/backend/requirements.txt
 - DB migrate
 
 create table and insert data to table
+
 ```shell script
 for linux, macOS -> go backend/bin and run -> ./db_migrate.sh
 for windows -> go to backend\bin and run -> db_migrate.bat
@@ -57,7 +70,6 @@ for windows -> go to backend\bin and run -> db_migrate.bat
 #memo
 postgres url be like [DB_TYPE]+[DB_CONNECTOR]://[USERNAME]:[PASSWORD]@[HOST]:[PORT]/[DB_NAME]
 ```
-
 
 - ERD Diagram for Thingaha Project
 

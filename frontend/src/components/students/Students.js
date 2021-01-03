@@ -11,8 +11,6 @@ import InputAdornment from '@material-ui/core/InputAdornment'
 import SearchIcon from '@material-ui/icons/Search'
 import Input from '@material-ui/core/Input'
 
-import { link } from 'react-router-dom'
-
 const Wrapper = styled.div`
   width: 80%;
   display: flex;
@@ -52,8 +50,6 @@ const SearchInput = () => {
   )
 }
 
-
-
 const Students = ({ students: { students }, getAllStudents }) => {
   const [studentFormVisible, setStudentFormVisible] = useState(false)
   const [editingStudent, setEditingStudent] = useState(null)
@@ -83,11 +79,14 @@ const Students = ({ students: { students }, getAllStudents }) => {
       <StudentsContainer>
         {students.map((student) => {
           return (
-            <StudentCard student={student} className="student"
+            <StudentCard
+              student={student}
+              className="student"
               onEdit={(edit) => {
                 setEditingStudent(edit)
                 setStudentFormVisible(true)
-              }} />
+              }}
+            />
           )
         })}
       </StudentsContainer>
@@ -95,18 +94,17 @@ const Students = ({ students: { students }, getAllStudents }) => {
       <StudentForm
         visible={studentFormVisible}
         setVisible={setStudentFormVisible}
-        editingStudent={editingStudent} />
+        editingStudent={editingStudent}
+      />
     </Wrapper>
   )
 }
 
-const mapStateToProps = (state) => (
-  {
-    students: state.students,
-  })
+const mapStateToProps = (state) => ({
+  students: state.students,
+})
 
 const mapDispatchToProps = (dispatch) => {
-
   return {
     getAllStudents: () => dispatch(actions.fetchStudents()),
   }
