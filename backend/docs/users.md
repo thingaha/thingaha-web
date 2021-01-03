@@ -8,7 +8,7 @@ Input Sample:
 
 ```json
 {
-  "email": "moemoe@gmail.com",
+  "email_or_username": "moemoe@gmail.com",
   "password": "123"
 }
 ```
