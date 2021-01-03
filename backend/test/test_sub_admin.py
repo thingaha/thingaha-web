@@ -45,7 +45,7 @@ def json_access_token(init_app):
             username="aa",
             email="aa@gmail.com",
             address_id=address_id,
-            hashed_password="pass",
+            hashed_password="pbkdf2:sha256:150000$D1rba2ca$84049dfc1ca9fee60910edde180caea785f06eedaf6e1774c0fcc76cdf662831",
             role="admin",
             country="mm"))
 
@@ -248,6 +248,26 @@ def test_get_all_user(client, json_access_token):
     assert res.status_code == 200
     res = client.get("/api/v1/users?country=ja", headers=json_access_token)
     assert res.status_code == 200
+
+
+def test_change_password(client, json_access_token):
+    data = {
+              "current_password": "123",
+              "new_password": "1234",
+              "new_confirm_password": "1234"
+            }
+    res = client.put("/api/v1/users/password", json=data, headers=json_access_token)
+    assert res.status_code == 200
+
+
+def test_reset_password(client, json_access_token):
+    # only full admin can do
+    data = {
+              "user_id": 1,
+              "password": "123"
+            }
+    res = client.put("/api/v1/users/reset_password", json=data, headers=json_access_token)
+    assert res.status_code == 403
 
 
 def test_get_user_by_id(client, json_access_token):
