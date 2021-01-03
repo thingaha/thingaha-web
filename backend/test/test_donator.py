@@ -405,6 +405,8 @@ def test_student(client, json_access_token):
 def test_student_id(client, json_access_token, student_json):
     res = client.post("/api/v1/students", json=student_json, headers=json_access_token)
     assert res.status_code == 403
+    res = client.get("/api/v1/students/search?query=mgmg", headers=json_access_token)
+    assert res.status_code == 200
 
 
 def test_delete_student_id(client, json_access_token, student_json):

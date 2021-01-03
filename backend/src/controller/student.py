@@ -281,77 +281,22 @@ def delete_s3_file():
         return "", 400
 
 
-@api.route("/students/name/<string:student_name>", methods=["GET"])
+@api.route("/students/search", methods=["GET"])
 @jwt_required
 @cross_origin()
-def get_students_by_name(student_name: str):
+def search_student():
     """
-    get students by name
-    :return:
+    search student with query
+    search keyword in name, father_name, mother_name and parents_occupation
     """
+    query = request.args.get("query")
+    page = request.args.get("page", 1, type=int)
+    per_page = request.args.get("page", 20, type=int)
     try:
-        current_app.logger.info("Return data by student_name :{}".format(student_name))
+        current_app.logger.info("search student : query: %s", query)
         return jsonify({
-            "data": {
-                "students": student_service.get_students_by_name(student_name)
-            }}), 200
+            "data": student_service.get_students_by_query(page, query, per_page)
+        }), 200
     except SQLCustomError as error:
-        current_app.logger.error("Return error for search by name: {}".format(student_name))
-        return jsonify({"errors": [error.__dict__]}), 400
-
-
-@api.route("/students/fatherName/<string:father_name>", methods=["GET"])
-@jwt_required
-@cross_origin()
-def get_students_by_father_name(father_name: str):
-    """
-    get students by father name
-    :return:
-    """
-    try:
-        current_app.logger.info("Return students data for father_name :{}".format(father_name))
-        return jsonify({
-            "data": {
-                "students": student_service.get_students_by_father_name(father_name)
-            }}), 200
-    except SQLCustomError as error:
-        current_app.logger.error("Return error for search by father name: {}".format(father_name))
-        return jsonify({"errors": [error.__dict__]}), 400
-
-
-@api.route("/students/motherName/<string:mother_name>", methods=["GET"])
-@jwt_required
-@cross_origin()
-def get_students_by_mother_name(mother_name: str):
-    """
-    get students by mother name
-    :return:
-    """
-    try:
-        current_app.logger.info("Return students data for mother_name :{}".format(mother_name))
-        return jsonify({
-            "data": {
-                "students": student_service.get_students_by_mother_name(mother_name)
-            }}), 200
-    except SQLCustomError as error:
-        current_app.logger.error("Return error for search by mother name: {}".format(mother_name))
-        return jsonify({"errors": [error.__dict__]}), 400
-
-
-@api.route("/students/parentsOccupation/<string:parents_occupation>", methods=["GET"])
-@jwt_required
-@cross_origin()
-def get_students_by_parents_occupation(parents_occupation: str):
-    """
-    get students by parents_occupation
-    :return:
-    """
-    try:
-        current_app.logger.info("Return students data for parents_occupation :{}".format(parents_occupation))
-        return jsonify({
-            "data": {
-                "students": student_service.get_students_by_parents_occupation(parents_occupation)
-            }}), 200
-    except SQLCustomError as error:
-        current_app.logger.error("Return error for search by parents_occupation: {}".format(parents_occupation))
+        current_app.logger.error("Fail to search student : query: %s", query)
         return jsonify({"errors": [error.__dict__]}), 400

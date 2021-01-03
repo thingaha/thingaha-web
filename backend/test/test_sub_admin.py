@@ -403,6 +403,8 @@ def test_student_id(client, json_access_token, student_json):
     assert res.status_code == 200
     res = client.get("/api/v1/students/1", headers=json_access_token)
     assert res.status_code == 200
+    res = client.get("/api/v1/students/search?query=mgmg", headers=json_access_token)
+    assert res.status_code == 200
 
 
 def test_delete_student_id(client, json_access_token, student_json):
