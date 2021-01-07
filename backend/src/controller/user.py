@@ -73,8 +73,9 @@ def create_user():
             "township": address_data.get("township"),
             "street_address": address_data.get("street_address"),
             "type": "user"
-        })
-
+        }, flush=True)
+        if not address_id:
+            raise ThingahaCustomError("User address create fail")
         user_id = user_service.create_user({
             "username": data.get("username"),
             "display_name": data.get("display_name"),

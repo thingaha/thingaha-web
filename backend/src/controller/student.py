@@ -8,7 +8,7 @@ from flask_jwt_extended import jwt_required
 
 from common.aws_client import get_client, get_s3_url, get_bucket
 from common.config import S3_BUCKET
-from common.error import SQLCustomError, RequestDataEmpty, ValidateFail
+from common.error import SQLCustomError, RequestDataEmpty, ValidateFail, ThingahaCustomError
 from controller.api import address_service
 from controller.api import api, post_request_empty, custom_error, sub_admin, full_admin, get_default_address
 from service.student.student_service import StudentService
@@ -72,7 +72,10 @@ def create_student():
             "township": address_data.get("township"),
             "street_address": address_data.get("street_address"),
             "type": "student"
-        })
+        }, flush=True)
+        if not address_id:
+            raise ThingahaCustomError("Student address create fail")
+
         student_id = student_service.create_student({
             "name": data.get("name"),
             "deactivated_at": data.get("deactivated_at"),
@@ -84,7 +87,7 @@ def create_student():
             "address_id": address_id})
         current_app.logger.info("Create student success. student_name %s", data.get("name"))
         return get_student_by_id(student_id), 200
-    except (RequestDataEmpty, SQLCustomError, ValidateFail) as error:
+    except (RequestDataEmpty, SQLCustomError, ValidateFail, ThingahaCustomError) as error:
         current_app.logger.error("Create student request fail")
         return jsonify({"errors": [error.__dict__]}), 400
 

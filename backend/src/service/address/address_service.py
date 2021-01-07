@@ -23,10 +23,11 @@ class AddressService(Service):
     def __init__(self, logger=None) -> None:
         super().__init__(logger)
 
-    def create_address(self, data: Dict[str, str]) -> bool:
+    def create_address(self, data: Dict[str, str], flush: bool = False) -> int:
         """
         create new address
         :param data: data dict includes division, district, township, street_address
+        :param flush: default false
         :return: True if creation success else False
         """
 
@@ -41,7 +42,7 @@ class AddressService(Service):
                 district=data["district"],
                 township=data["township"],
                 street_address=data["street_address"],
-                type=data["type"]))
+                type=data["type"]), flush=flush)
         except SQLAlchemyError:
             self.logger.error("Address create fail. error %s",
                               traceback.format_exc())

@@ -106,7 +106,7 @@ class StudentModel(db.Model):
             raise error
 
     @staticmethod
-    def create_student(new_student):
+    def create_student(new_student: StudentModel) -> int:
         """
         create new student
         :param new_student:
@@ -121,7 +121,7 @@ class StudentModel(db.Model):
             raise error
 
     @staticmethod
-    def update_student(student_id, student) -> bool:
+    def update_student(student_id, student: StudentModel) -> bool:
         """
         update student info by id
         :param student_id:
@@ -147,7 +147,7 @@ class StudentModel(db.Model):
             raise error
 
     @staticmethod
-    def delete_student(student_id) -> bool:
+    def delete_student(student_id: int) -> bool:
         """
         delete student by id
         :param student_id:

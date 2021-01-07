@@ -3,7 +3,7 @@ from flask import request, current_app, jsonify
 from flask_cors import cross_origin
 from flask_jwt_extended import jwt_required
 
-from common.error import SQLCustomError, RequestDataEmpty, ValidateFail
+from common.error import SQLCustomError, RequestDataEmpty, ValidateFail, ThingahaCustomError
 from controller.api import api, post_request_empty, address_service, custom_error, full_admin, sub_admin, \
     get_default_address
 from service.school.school_service import SchoolService
@@ -75,17 +75,21 @@ def create_school():
             "township": address_data.get("township"),
             "street_address": address_data.get("street_address"),
             "type": "school"
-        })
+        }, flush=True)
         current_app.logger.debug("create address id: %s", address_id)
+
+        if not address_id:
+            raise ThingahaCustomError("Address create fail for school")
+
         school_id = school_service.create_school({
             "name": data.get("name"),
             "contact_info": data.get("contact_info"),
             "address_id": address_id
         })
-        current_app.logger.info(
-            "Create school success. name %s", data.get("name"))
+        current_app.logger.info("Create school success. name %s", data.get("name"))
         return get_school_by_id(school_id)
-    except (RequestDataEmpty, SQLCustomError, ValidateFail) as error:
+
+    except (RequestDataEmpty, SQLCustomError, ValidateFail, ThingahaCustomError) as error:
         current_app.logger.error("Create school request fail")
         return jsonify({"errors": [error.__dict__]}), 400
 
@@ -113,9 +117,13 @@ def delete_school(school_id):
         if school_service.delete_school_by_id(school_id):
             school_delete_status = address_service.delete_address_by_id(
                 school["address"]["id"])
+        else:
+            current_app.logger.error("Fail to delete school id: {}".format(school_id))
+
         return jsonify({
             "status": school_delete_status
         }), 200
+
     except SQLCustomError as error:
         current_app.logger.error(
             "Fail to delete school_id: {}".format(school_id))

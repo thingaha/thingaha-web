@@ -61,7 +61,7 @@ class UserModel(db.Model):
             }
 
     @staticmethod
-    def create_user(new_user) -> int:
+    def create_user(new_user: UserModel) -> int:
         """
         create new users
         :param new_user:
@@ -99,7 +99,7 @@ class UserModel(db.Model):
             raise error
 
     @staticmethod
-    def delete_user(user_id) -> bool:
+    def delete_user(user_id: int) -> bool:
         """
         delete user by id
         :param user_id:
