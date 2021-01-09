@@ -92,25 +92,20 @@ export const fetchStudents = async () => {
 }
 
 export const createStudent = async (studentFormValues) => {
-  const newStudent = { ...studentFormValues, id: last(studentsDb).id + 1 }
-  studentsDb.push(newStudent)
-  return {
-    data: newStudent,
-  }
-}
-export const editStudent = (values) => {
-  const deactivated_at = values.deactivated_at
-    ? values.deactivated_at
-    : new Date()
-  const editValues = {
-    ...values,
-    deactivated_at: values.isActivate ? null : deactivated_at,
-  }
+  const { data } = await thingahaApiClient.post('/students', studentFormValues)
 
   return {
-    data: [
-      ...studentsDb.filter((student) => student.id !== editValues.id),
-      editValues,
-    ],
+    student: data.student,
+  }
+}
+
+export const editStudent = async (studentFormValues) => {
+  const { data } = await thingahaApiClient.put(
+    `/students/${studentFormValues.id}`,
+    studentFormValues
+  )
+
+  return {
+    student: data.student,
   }
 }

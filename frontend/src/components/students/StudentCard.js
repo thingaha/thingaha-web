@@ -2,9 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import Paper from '@material-ui/core/Paper'
 import EditIcon from '@material-ui/icons/EditRounded'
-import VisibilityRoundedIcon from '@material-ui/icons/VisibilityRounded';
-import EventRoundedIcon from '@material-ui/icons/EventRounded';
-import SchoolIcon from '@material-ui/icons/School';
+import VisibilityRoundedIcon from '@material-ui/icons/VisibilityRounded'
+import EventRoundedIcon from '@material-ui/icons/EventRounded'
+import SchoolIcon from '@material-ui/icons/School'
 import classnames from 'classnames'
 
 import { Link } from 'react-router-dom'
@@ -15,32 +15,35 @@ const StudentCardWrapper = styled(Paper)`
   flex-direction: column;
   align-items: flex-start;
   height: auto;
-  padding:0.5em 1rem;
+  padding: 0.5em 1rem;
   margin: 0.5rem 0rem;
 
   &.deactivated {
     background-color: lightgrey;
   }
+
   & .row {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
     justify-content: space-between;
-    width:100%;
-    margin:0.2rem 0rem;
+    width: 100%;
+    margin: 0.2rem 0rem;
   }
+
   & .iconTextWrapper {
     display: flex;
     flex-direction: row;
-    width:25%;
+    width: 25%;
   }
+
   & .name {
     font-size: 1.25rem;
     line-height: 2rem;
   }
 
   & .smallText {
-    padding-left:0.5rem;
+    padding-left: 0.5rem;
     font-size: 1rem;
     line-height: 1.25rem;
   }
@@ -54,24 +57,41 @@ const StudentCardWrapper = styled(Paper)`
 `
 
 const StudentCard = ({ student, onEdit }) => {
-  const deactivatedClass = classnames({ deactivated: student.deactivated_at })
-  const address = student.address.division +
-      (student.address.district? ", " + student.address.district : '') +
-      (student.address.township? ", " + student.address.township : '') +
-      (student.address.street_address? ", " + student.address.street_address : '') 
+  const deactivatedClass = classnames({
+    deactivated: Boolean(student.deactivated_at),
+  })
+
+  const address =
+    student.address.division +
+    (student.address.district ? ', ' + student.address.district : '') +
+    (student.address.township ? ', ' + student.address.township : '') +
+    (student.address.street_address
+      ? ', ' + student.address.street_address
+      : '')
 
   return (
     <StudentCardWrapper className={deactivatedClass}>
       <div className="row">
         <div className="name">{student.name}</div>
         <div>
-          <Link to={`/students/${student.id}`} params={{ studentname: student.name }}>
-            <VisibilityRoundedIcon color="primary" className="show" variant="rounded" />
+          <Link
+            to={`/students/${student.id}`}
+            params={{ studentname: student.name }}
+          >
+            <VisibilityRoundedIcon
+              color="primary"
+              className="show"
+              variant="rounded"
+            />
           </Link>
-          <EditIcon color="primary" className="edit" variant="rounded"
+          <EditIcon
+            color="primary"
+            className="edit"
+            variant="rounded"
             onClick={() => {
               onEdit(student)
-            }} />
+            }}
+          />
         </div>
       </div>
 
@@ -88,7 +108,6 @@ const StudentCard = ({ student, onEdit }) => {
           <div className="smallText">attendance info</div>
         </div>
       </div>
-
     </StudentCardWrapper>
   )
 }
