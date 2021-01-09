@@ -11,10 +11,13 @@ import defaultErrorHandler from './defaultErrorHandler'
 import { toast } from 'react-toastify'
 
 export function* logInUser(action) {
-  const { email, password } = action
+  const { email_or_username, password } = action
 
   try {
-    const { currentUser, accessToken } = yield login({ email, password })
+    const { currentUser, accessToken } = yield login({
+      email_or_username,
+      password,
+    })
 
     toast.success('Login successful')
     yield put({ type: LOG_IN_SUCCESS, currentUser, accessToken })

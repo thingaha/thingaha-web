@@ -8,10 +8,10 @@ export const CLEAR_LOG_IN_STATE = 'AUTHENTICATION/CLEAR_LOG_IN_STATE'
 export const CHECK_LOG_IN_STATE = 'AUTHENTICATION/CHECK_LOG_IN_STATE'
 export const AUTH_FAILURE = 'AUTHENTICATION/AUTH_FAILURE'
 
-export const logInUser = ({ email, password }) => {
+export const logInUser = ({ email_or_username, password }) => {
   return {
     type: LOG_IN,
-    email,
+    email_or_username,
     password,
   }
 }
