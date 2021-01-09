@@ -51,7 +51,7 @@ class StudentModel(db.Model):
             "id": self.id,
             "name": self.name,
             "deactivated_at": self.deactivated_at.strftime("%d-%m-%Y") if self.deactivated_at else "",
-            "birth_date": self.birth_date.strftime("%d-%m-%Y") if self.birth_date else "",
+            "birth_date": self.birth_date.strftime("%Y-%m-%d") if self.birth_date else "",
             "father_name": self.father_name,
             "mother_name": self.mother_name,
             "parents_occupation": self.parents_occupation,

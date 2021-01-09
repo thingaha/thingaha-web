@@ -1,5 +1,6 @@
 """API route for Student API"""
 from typing import Optional
+from datetime import datetime
 
 from botocore.exceptions import ClientError
 from flask import request, current_app, jsonify
@@ -78,7 +79,7 @@ def create_student():
 
         student_id = student_service.create_student({
             "name": data.get("name"),
-            "deactivated_at": data.get("deactivated_at"),
+            "deactivated_at":  None if data.get("active") else datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "birth_date": data.get("birth_date"),
             "father_name": data.get("father_name"),
             "mother_name": data.get("mother_name"),
@@ -149,7 +150,7 @@ def update_student(student_id: int):
         if address_updated:
             student_update_status = student_service.update_student_by_id(student_id, {
                 "name": data.get("name"),
-                "deactivated_at": data.get("deactivated_at"),
+                "deactivated_at": None if data.get("active") else datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                 "birth_date": data.get("birth_date"),
                 "father_name": data.get("father_name"),
                 "mother_name": data.get("mother_name"),
