@@ -8,7 +8,6 @@ import {
   SUBMIT_EDIT_STUDENT_FORM_SUCCESS,
   SUBMIT_EDIT_STUDENT_FORM_FAILURE,
 } from '../actions/students'
-import updateObjectInArray from '../../utils/updateObjectInArray'
 import {
   immutableAppendOrUpdate,
   normalizeRecordsById,
