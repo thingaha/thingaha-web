@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
+import values from 'lodash/values'
 import styled from 'styled-components'
 import * as actions from '../../store/actions'
 import Paper from '@material-ui/core/Paper'
@@ -50,13 +51,19 @@ const SearchInput = () => {
   )
 }
 
-const Students = ({ students: { students }, getAllStudents }) => {
+const Students = ({ students, getAllStudents }) => {
   const [studentFormVisible, setStudentFormVisible] = useState(false)
   const [editingStudent, setEditingStudent] = useState(null)
+
+  console.log(students)
 
   useEffect(() => {
     getAllStudents()
   }, [getAllStudents])
+
+  if (students.length == 0) {
+    return null
+  }
 
   return (
     <Wrapper component={Paper}>
@@ -100,8 +107,13 @@ const Students = ({ students: { students }, getAllStudents }) => {
   )
 }
 
+const studentListSelector = (state) => {
+  console.log('state is ', state)
+  return values(state.students.students)
+}
+
 const mapStateToProps = (state) => ({
-  students: state.students,
+  students: studentListSelector(state),
 })
 
 const mapDispatchToProps = (dispatch) => {

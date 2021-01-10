@@ -73,10 +73,10 @@ const studentsDb = [
 ]
 
 export const fetchStudent = async (studentId) => {
-  const response = await thingahaApiClient.get(`/students/${studentId}`)
+  const { data } = await thingahaApiClient.get(`/students/${studentId}`)
   return {
     data: {
-      studentdonator: response.data.studentdonator,
+      student: data.student,
     },
   }
 }

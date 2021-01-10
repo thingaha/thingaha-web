@@ -18,10 +18,10 @@ import {
 
 export function* fetchStudentInfo(action) {
   try {
-    const json = yield fetchStudent(action.studentId)
+    const { data } = yield fetchStudent(action.studentId)
     yield put({
       type: GET_STUDENT_INFO_SUCCESS,
-      studentdonator: json.data.studentdonator,
+      student: data.student,
     })
   } catch (error) {
     yield put({ type: GET_STUDENT_INFO_FAILURE, error })
