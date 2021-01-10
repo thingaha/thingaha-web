@@ -28,10 +28,15 @@ export function* fetchStudentInfo(action) {
   }
 }
 
-export function* fetchAllStudents(action) {
+export function* fetchAllStudents({ page }) {
   try {
-    const json = yield fetchStudents()
-    yield put({ type: GET_ALL_STUDENTS_SUCCESS, students: json.data.students })
+    const { data } = yield fetchStudents({ page })
+    yield put({
+      type: GET_ALL_STUDENTS_SUCCESS,
+      students: data.students,
+      totalCount: data.total_count,
+      totalPages: data.total_pages,
+    })
   } catch (error) {
     yield put({ type: GET_ALL_STUDENTS_FAILURE, error })
   }

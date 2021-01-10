@@ -81,12 +81,16 @@ export const fetchStudent = async (studentId) => {
   }
 }
 
-export const fetchStudents = async () => {
-  const response = await thingahaApiClient.get('/students')
+export const fetchStudents = async ({ page } = { page: 1 }) => {
+  const { data } = await thingahaApiClient.get('/students', {
+    params: { page },
+  })
 
   return {
     data: {
-      students: response.data.students,
+      students: data.students,
+      total_count: data.total_count,
+      total_pages: data.pages,
     },
   }
 }

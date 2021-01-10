@@ -24,6 +24,8 @@ export default (state = { students: {} }, action) => {
       return {
         ...state,
         students: normalizeRecordsById(action.students),
+        totalCount: action.totalCount,
+        totalPages: action.totalPages,
       }
     case GET_ALL_STUDENTS_FAILURE:
       return {
