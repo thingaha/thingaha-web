@@ -65,7 +65,7 @@ const Students = ({ students, getAllStudents, totalCount, totalPages }) => {
     getAllStudents()
   }, [getAllStudents])
 
-  if (students.length == 0) {
+  if (students.length === 0) {
     return null
   }
 

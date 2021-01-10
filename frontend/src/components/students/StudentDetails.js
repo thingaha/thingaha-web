@@ -8,6 +8,7 @@ import EventRoundedIcon from '@material-ui/icons/EventRounded'
 import SchoolIcon from '@material-ui/icons/School'
 import Paper from '@material-ui/core/Paper'
 import StudentForm from './StudentForm'
+import ThingahaCombinedAddress from '../common/ThingahaCombinedAddress'
 
 import EditIcon from '@material-ui/icons/EditRounded'
 import HouseRoundedIcon from '@material-ui/icons/HouseRounded'
@@ -22,12 +23,6 @@ const Wrapper = styled.div`
   justify-content: center;
   padding: 0 20px;
   min-width: 40rem;
-`
-
-const DonationTitle = styled.div`
-  margin: 4rem 0rem 2rem;
-  font-weight: bold;
-  font-size: 1.25rem;
 `
 
 const TopIconContainer = styled.div`
@@ -81,35 +76,8 @@ const StudentDetailWrapper = styled(Paper)`
   }
 `
 
-const DonationHistoryWrapper = styled(Paper)`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  padding: 1rem 1rem;
-  border-radius: 0px;
-  justify-content: space-between;
-
-  & .donator {
-    flex: 0.3;
-  }
-  & .attendee {
-    flex: 0.3;
-  }
-  & .date {
-    flex: 0.2;
-  }
-`
-
 const StudentDetail = ({ student }) => {
-  const Address =
-    student.address.division +
-    (student.address.district ? ', ' + student.address.district : '') +
-    (student.address.township ? ', ' + student.address.township : '') +
-    (student.address.street_address
-      ? ', ' + student.address.street_address
-      : '')
-
-  const ParentName = student.father_name + ' +  ' + student.mother_name
+  const parentName = student.father_name + ' +  ' + student.mother_name
 
   return (
     <StudentDetailWrapper>
@@ -122,9 +90,9 @@ const StudentDetail = ({ student }) => {
         <div className="iconTextWrapper">
           <CheckCircleRoundedIcon />
           <div className="smallText">
-            {student.isActivate
-              ? 'လက်ရှိလှူဒါန်းနေသော ကျောင်းသားဖြစ်ပါသည်'
-              : 'လှူဒါန်းမှူရပ်တန့်ထားသော ကျောင်းသားဖြစ်ပါသည်'}
+            {Boolean(student.deactivatedAt)
+              ? 'လှူဒါန်းမှူရပ်တန့်ထားသော ကျောင်းသားဖြစ်ပါသည်'
+              : 'လက်ရှိလှူဒါန်းနေသော ကျောင်းသားဖြစ်ပါသည်'}
           </div>
         </div>
 
@@ -134,7 +102,7 @@ const StudentDetail = ({ student }) => {
         </div>
         <div className="iconTextWrapper">
           <PeopleIcon variant="rounded" />
-          <div className="smallText">{ParentName}</div>
+          <div className="smallText">{parentName}</div>
         </div>
         <div className="iconTextWrapper">
           <WorkOutlineRoundedIcon variant="rounded" />
@@ -142,7 +110,9 @@ const StudentDetail = ({ student }) => {
         </div>
         <div className="iconTextWrapper">
           <HouseRoundedIcon variant="rounded" />
-          <div className="smallText">{Address}</div>
+          <div className="smallText">
+            <ThingahaCombinedAddress address={student.address} />
+          </div>
         </div>
       </div>
       <img src={student.photo} className="photo" alt={student.name} />
@@ -150,23 +120,7 @@ const StudentDetail = ({ student }) => {
   )
 }
 
-const DonationHistoryCard = ({ donationHistory }) => {
-  return (
-    <DonationHistoryWrapper>
-      <div className="attendee">{donationHistory.attendeeInfo}</div>
-      <div className="donator">{donationHistory.donator}</div>
-      <div className="date">{donationHistory.dateFrom}</div>
-      <div className="date">{donationHistory.dateTo}</div>
-    </DonationHistoryWrapper>
-  )
-}
-
-const StudentDetails = ({
-  match,
-  // students: { students, studentdonator },
-  student,
-  getStudentInfo,
-}) => {
+const StudentDetails = ({ match, student, getStudentInfo }) => {
   const { params } = match
   const studentId = params.id
 
@@ -204,18 +158,6 @@ const StudentDetails = ({
 
       <StudentDetail student={student} />
 
-      <DonationTitle>Donation History</DonationTitle>
-      {/* <div>
-        {studentdonator.map((donationHistory) => {
-          return (
-            <DonationHistoryCard
-              donationHistory={donationHistory}
-              className="donation"
-            />
-          )
-        })}
-      </div> */}
-
       <StudentForm
         visible={studentFormVisible}
         setVisible={setStudentFormVisible}
@@ -226,8 +168,6 @@ const StudentDetails = ({
 }
 
 const getStudent = (state, studentId) => state.students.students[studentId]
-
-const donators = (state, studentId) => {}
 
 const mapStateToProps = (state, props) => ({
   student: getStudent(state, props.match.params.id),

@@ -6,8 +6,8 @@ import VisibilityRoundedIcon from '@material-ui/icons/VisibilityRounded'
 import EventRoundedIcon from '@material-ui/icons/EventRounded'
 import SchoolIcon from '@material-ui/icons/School'
 import classnames from 'classnames'
-
 import { Link } from 'react-router-dom'
+import ThingahaCombinedAddress from '../common/ThingahaCombinedAddress'
 
 const StudentCardWrapper = styled(Paper)`
   display: flex;
@@ -61,13 +61,7 @@ const StudentCard = ({ student, onEdit }) => {
     deactivated: Boolean(student.deactivated_at),
   })
 
-  const address =
-    student.address.division +
-    (student.address.district ? ', ' + student.address.district : '') +
-    (student.address.township ? ', ' + student.address.township : '') +
-    (student.address.street_address
-      ? ', ' + student.address.street_address
-      : '')
+  const parentName = `${student.father_name} + ${student.mother_name}`
 
   return (
     <StudentCardWrapper className={deactivatedClass}>
@@ -100,12 +94,14 @@ const StudentCard = ({ student, onEdit }) => {
           <EventRoundedIcon variant="rounded" />
           <div className="smallText">{student.birth_date}</div>
         </div>
-        <div className="smallText">{address}</div>
+        <div className="smallText">
+          <ThingahaCombinedAddress address={student.address} />
+        </div>
       </div>
       <div className="row">
         <div className="iconTextWrapper">
           <SchoolIcon />
-          <div className="smallText">attendance info</div>
+          <div className="smallText">{parentName}</div>
         </div>
       </div>
     </StudentCardWrapper>
