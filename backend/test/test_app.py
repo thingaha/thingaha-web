@@ -65,7 +65,7 @@ def student_json():
             "street_address": "ဉီးဘအိုလမ်း",
             "township": "အမှတ်(၂)ရပ်ကွက်"
         },
-        "active": true,
+        "active": True,
         "birth_date": "12-08-2006",
         "father_name": "ဉီးလှ",
         "mother_name": "ဒေါ်မြ",
