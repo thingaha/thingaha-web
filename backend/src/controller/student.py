@@ -3,7 +3,7 @@ from typing import Optional
 from datetime import datetime
 
 from botocore.exceptions import ClientError
-from flask import request, current_app, jsonify
+from flask import request, current_app, jsonify, send_from_directory
 from flask_cors import cross_origin
 from flask_jwt_extended import jwt_required
 
@@ -187,36 +187,36 @@ def allowed_file(filename: str) -> Optional[str]:
     return None
 
 
-def delete_file(url: str) -> bool:
-    """
-    delete image file
-    :params: url : str
-    return: True or False
-    """
-    key = url.split("/")[-1]
-    try:
-        my_bucket = get_bucket()
-        my_bucket.Object(key).delete()
-        return True
-    except ClientError as error:
-        current_app.logger.error("File delete error %s", error)
-        return False
+# def delete_file(url: str) -> bool:
+#     """
+#     delete image file
+#     :params: url : str
+#     return: True or False
+#     """
+#     key = url.split("/")[-1]
+#     try:
+#         my_bucket = get_bucket()
+#         my_bucket.Object(key).delete()
+#         return True
+#     except ClientError as error:
+#         current_app.logger.error("File delete error %s", error)
+#         return False
 
 
-def upload_file(img, file_name: str) -> bool:
-    """
-    upload file to S3
-    :params img : image object
-    :file_name : file name str
-    return: True or False
-    """
-    s3_client = get_client()
-    try:
-        s3_client.upload_fileobj(img, S3_BUCKET, file_name, ExtraArgs={"ACL": "public-read"})
-        return True
-    except ClientError as error:
-        current_app.logger.error("File upload error %s", error)
-        return False
+# def upload_file(img, file_name: str) -> bool:
+#     """
+#     upload file to S3
+#     :params img : image object
+#     :file_name : file name str
+#     return: True or False
+#     """
+#     s3_client = get_client()
+#     try:
+#         s3_client.upload_fileobj(img, S3_BUCKET, file_name, ExtraArgs={"ACL": "public-read"})
+#         return True
+#     except ClientError as error:
+#         current_app.logger.error("File upload error %s", error)
+#         return False
 
 
 @api.route("/student/upload", methods=["POST"])
@@ -236,10 +236,10 @@ def upload_s3_file():
     if not file_extension:
         return custom_error("File extension should be .png or .jpg or .jpeg")
     file_name = student_id + "." + file_extension
-    result = upload_file(img, file_name)
+    result = student_service.upload_file(img, file_name)
     if result:
         return jsonify(
-            {"url": get_s3_url().format(S3_BUCKET, file_name)}
+            {"url": result}
         ), 200
     else:
         return "", 400
@@ -257,13 +257,13 @@ def update_file():
     if not old_url:
         current_app.logger.error("Old url for student required")
         return post_request_empty()
-    if not delete_file(old_url):
+    if not student_service.delete_file(old_url):
         current_app.logger.error("Can't delete file before update")
         return custom_error("Update file error")
     return upload_s3_file()
 
 
-@api.route("/student/delete", methods=["DELETE"])
+@api.route("/student/upload", methods=["DELETE"])
 @jwt_required
 @sub_admin
 @cross_origin()
@@ -276,7 +276,7 @@ def delete_s3_file():
     if not url:
         current_app.logger.error("Empty url")
         return post_request_empty()
-    result = delete_file(url)
+    result = student_service.delete_file(url)
     if result:
         current_app.logger.info("Delete file for URL %s success", url)
         return "", 200
@@ -284,6 +284,11 @@ def delete_s3_file():
         current_app.logger.error("Delete file for URL %s fail", url)
         return "", 400
 
+@api.route('/student/local_uploads/<filename>', methods=["GET"])
+@jwt_required
+@cross_origin()
+def upload(filename):
+    return send_from_directory(student_service.get_local_uploads_path(), filename)
 
 @api.route("/students/search", methods=["GET"])
 @jwt_required

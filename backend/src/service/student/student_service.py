@@ -1,15 +1,18 @@
 import traceback
+import os
 from typing import List, Dict, Any, Optional, Union
 
 from sqlalchemy.exc import SQLAlchemyError
-
+from botocore.exceptions import ClientError
 from common.data_schema import student_schema
 from common.error import SQLCustomError, RequestDataEmpty, ValidateFail
 from models.student import StudentModel
 from service.service import Service
-
-
+from common.aws_client import get_client, get_s3_url, get_bucket
+from common.config import S3_BUCKET, load_config
+conf = load_config()
 class StudentService(Service):
+    
     """
     student service class for CRUD actions
     define specific params for student service in StudentService Class
@@ -168,3 +171,58 @@ class StudentService(Service):
             self.logger.error("Get students by name fail. query %s. error %s", query,
                               traceback.format_exc())
             raise SQLCustomError(description="GET students by query SQL ERROR")
+
+    def delete_file(self,url: str) -> bool:
+        """
+        delete image file
+        :params: url : str
+        return: True or False
+        """
+        try:
+            key = url.split("/")[-1]
+            if os.environ.get("SCRIPT_ENV") != "production":
+                os.remove(os.path.join(self.get_local_uploads_path(), key))
+                return True
+            else:
+                my_bucket = get_bucket()
+                my_bucket.Object(key).delete()
+                return True
+        except Exception as error:
+            self.logger.error("File delete error %s", error)
+            return False
+
+
+    def upload_file(self,img, file_name: str) -> bool:
+        """
+        upload file to S3
+        :params img : image object
+        :file_name : file name str
+        return: True or False
+        """
+        try:
+            if os.environ.get("SCRIPT_ENV") != "production":
+                img.save(os.path.join(self.get_local_uploads_path(), file_name))
+                return self.get_local_uploads_url().format(file_name)
+            else:
+                s3_client = get_client()
+                s3_client.upload_fileobj(img, S3_BUCKET, file_name, ExtraArgs={"ACL": "public-read"})
+                return get_s3_url().format(S3_BUCKET, file_name)
+        except Exception as error:
+            self.logger.error("File upload error %s", error)
+            return ""
+
+    def get_local_uploads_path(self):
+        """
+        get local upload path
+        """
+        return conf["common"]["local_photo"]["dir"]
+
+    def get_local_uploads_url(self):
+        """
+        get local upload path
+        """
+        url = ("http://{}:{}/{}".format( 
+            conf["common"]["server"]["host"], 
+            conf["common"]["server"]["port"], 
+            conf["common"]["local_photo"]["url"]))
+        return url
