@@ -8,26 +8,24 @@ import {
   SUBMIT_EDIT_STUDENT_FORM_SUCCESS,
   SUBMIT_EDIT_STUDENT_FORM_FAILURE,
 } from '../actions/students'
+import {
+  immutableAppendOrUpdate,
+  normalizeRecordsById,
+} from '../../utils/reducerHelpers'
 
-export default (state = { students: [], studentdonator: [] }, action) => {
+export default (state = { students: {} }, action) => {
   switch (action.type) {
-    case GET_STUDENT_INFO_SUCCESS:
-      return {
-        ...state,
-        studentdonator: [...action.studentdonator],
-      }
     case GET_STUDENT_INFO_FAILURE:
       return {
         ...state,
         error: action.error,
       }
     case GET_ALL_STUDENTS_SUCCESS:
-      const updatedStudent = action.students.map((student) => {
-        return { ...student, isActivate: !student.deactivated_at }
-      })
       return {
         ...state,
-        students: [...updatedStudent],
+        students: normalizeRecordsById(action.students),
+        totalCount: action.totalCount,
+        totalPages: action.totalPages,
       }
     case GET_ALL_STUDENTS_FAILURE:
       return {
@@ -35,20 +33,24 @@ export default (state = { students: [], studentdonator: [] }, action) => {
         error: action.error,
       }
     case SUBMIT_NEW_STUDENT_FORM_SUCCESS:
-      const newStudent = action.student
       return {
         ...state,
-        students: [...state.students, newStudent],
+        students: immutableAppendOrUpdate(state.students, action.student),
       }
     case SUBMIT_NEW_STUDENT_FORM_FAILURE:
       return {
         ...state,
         error: action.error,
       }
+    case GET_STUDENT_INFO_SUCCESS:
+      return {
+        ...state,
+        students: immutableAppendOrUpdate(state.students, action.student),
+      }
     case SUBMIT_EDIT_STUDENT_FORM_SUCCESS:
       return {
         ...state,
-        students: [...action.students],
+        students: immutableAppendOrUpdate(state.students, action.student),
       }
     case SUBMIT_EDIT_STUDENT_FORM_FAILURE:
       return {

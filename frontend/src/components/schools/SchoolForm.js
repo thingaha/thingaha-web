@@ -28,16 +28,11 @@ const SchoolForm = ({
   setFieldValue,
   setValues,
   errors,
-  touched,
-  setFieldTouched,
-  setTouched,
   visible,
   setVisible,
   submitForm,
   handleSubmit,
   validateForm,
-  submitNewSchoolForm,
-  submitEditSchoolForm,
   editingSchool,
 }) => {
   return (
@@ -47,7 +42,6 @@ const SchoolForm = ({
       onClose={() => setVisible(false)}
       onCancel={() => setVisible(false)}
       onSubmit={(e) => {
-        console.log('Trying to submit')
         submitForm(e)
       }}
     >
@@ -153,7 +147,6 @@ const FormikSchoolForm = withFormik({
   },
 
   handleSubmit: (values, { props }) => {
-    console.log('Handling submit')
     if (props.editingSchool) {
       props.submitEditSchoolForm(values)
     } else {

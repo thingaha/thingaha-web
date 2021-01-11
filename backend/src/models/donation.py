@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import List
 
 from flask_sqlalchemy import Pagination
 from sqlalchemy.exc import SQLAlchemyError
@@ -61,7 +60,7 @@ class DonationModel(db.Model):
         }
 
     @staticmethod
-    def create_donation(new_donation) -> int:
+    def create_donation(new_donation: DonationModel) -> int:
         """
         create new_donation
         :param new_donation:

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
+import values from 'lodash/values'
 import styled from 'styled-components'
 import * as actions from '../../store/actions'
 import Paper from '@material-ui/core/Paper'
@@ -10,12 +11,18 @@ import StudentCard from './StudentCard'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import SearchIcon from '@material-ui/icons/Search'
 import Input from '@material-ui/core/Input'
+import Pagination from '@material-ui/lab/Pagination'
 
 const Wrapper = styled.div`
   width: 80%;
   display: flex;
   flex-direction: column;
   justify-content: center;
+
+  & .pagination-container {
+    display: flex;
+    justify-content: flex-end;
+  }
 `
 
 const HeadingContainer = styled.div`
@@ -50,13 +57,17 @@ const SearchInput = () => {
   )
 }
 
-const Students = ({ students: { students }, getAllStudents }) => {
+const Students = ({ students, getAllStudents, totalCount, totalPages }) => {
   const [studentFormVisible, setStudentFormVisible] = useState(false)
   const [editingStudent, setEditingStudent] = useState(null)
 
   useEffect(() => {
     getAllStudents()
   }, [getAllStudents])
+
+  if (students.length === 0) {
+    return null
+  }
 
   return (
     <Wrapper component={Paper}>
@@ -82,6 +93,7 @@ const Students = ({ students: { students }, getAllStudents }) => {
             <StudentCard
               student={student}
               className="student"
+              key={student.id}
               onEdit={(edit) => {
                 setEditingStudent(edit)
                 setStudentFormVisible(true)
@@ -90,23 +102,44 @@ const Students = ({ students: { students }, getAllStudents }) => {
           )
         })}
       </StudentsContainer>
+      <div className="pagination-container">
+        <Pagination
+          count={totalPages} // need to pass in total pages instead of total count
+          color="primary"
+          onChange={(_event, page) => {
+            getAllStudents({ page })
+          }}
+        />
+      </div>
 
-      <StudentForm
-        visible={studentFormVisible}
-        setVisible={setStudentFormVisible}
-        editingStudent={editingStudent}
-      />
+      {studentFormVisible ? (
+        <StudentForm
+          visible={studentFormVisible}
+          setVisible={setStudentFormVisible}
+          editingStudent={editingStudent}
+        />
+      ) : null}
     </Wrapper>
   )
 }
 
+const getStudentList = (state) => {
+  return values(state.students.students)
+}
+
+const getTotalPage = (state) => state.students.totalPages
+const getTotalCount = (state) => state.students.totalCount
+
 const mapStateToProps = (state) => ({
-  students: state.students,
+  totalPages: getTotalPage(state),
+  totalCount: getTotalCount(state),
+  students: getStudentList(state),
 })
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getAllStudents: () => dispatch(actions.fetchStudents()),
+    getAllStudents: ({ page } = { page: 1 }) =>
+      dispatch(actions.fetchStudents({ page })),
   }
 }
 

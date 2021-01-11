@@ -8,6 +8,7 @@ import EventRoundedIcon from '@material-ui/icons/EventRounded'
 import SchoolIcon from '@material-ui/icons/School'
 import Paper from '@material-ui/core/Paper'
 import StudentForm from './StudentForm'
+import ThingahaCombinedAddress from '../common/ThingahaCombinedAddress'
 
 import EditIcon from '@material-ui/icons/EditRounded'
 import HouseRoundedIcon from '@material-ui/icons/HouseRounded'
@@ -22,12 +23,6 @@ const Wrapper = styled.div`
   justify-content: center;
   padding: 0 20px;
   min-width: 40rem;
-`
-
-const DonationTitle = styled.div`
-  margin: 4rem 0rem 2rem;
-  font-weight: bold;
-  font-size: 1.25rem;
 `
 
 const TopIconContainer = styled.div`
@@ -81,30 +76,51 @@ const StudentDetailWrapper = styled(Paper)`
   }
 `
 
-const DonationHistoryWrapper = styled(Paper)`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  padding: 1rem 1rem;
-  border-radius: 0px;
-  justify-content: space-between;
+const StudentDetail = ({ student }) => {
+  const parentName = student.father_name + ' +  ' + student.mother_name
 
-  & .donator {
-    flex: 0.3;
-  }
-  & .attendee {
-    flex: 0.3;
-  }
-  & .date {
-    flex: 0.2;
-  }
-`
-const StudentDetails = ({
-  match,
-  students: { students, studentdonator },
-  getStudentInfo,
-  getAllStudents,
-}) => {
+  return (
+    <StudentDetailWrapper>
+      <div className="infoText">
+        <div className="name">{student.name}</div>
+        <div className="iconTextWrapper">
+          <EventRoundedIcon variant="rounded" />
+          <div className="smallText">{student.birth_date}</div>
+        </div>
+        <div className="iconTextWrapper">
+          <CheckCircleRoundedIcon />
+          <div className="smallText">
+            {Boolean(student.deactivatedAt)
+              ? 'လှူဒါန်းမှူရပ်တန့်ထားသော ကျောင်းသားဖြစ်ပါသည်'
+              : 'လက်ရှိလှူဒါန်းနေသော ကျောင်းသားဖြစ်ပါသည်'}
+          </div>
+        </div>
+
+        <div className="iconTextWrapper">
+          <SchoolIcon />
+          <div className="smallText">Grade 11 - (2020-2021)</div>
+        </div>
+        <div className="iconTextWrapper">
+          <PeopleIcon variant="rounded" />
+          <div className="smallText">{parentName}</div>
+        </div>
+        <div className="iconTextWrapper">
+          <WorkOutlineRoundedIcon variant="rounded" />
+          <div className="smallText"> {student.parents_occupation}</div>
+        </div>
+        <div className="iconTextWrapper">
+          <HouseRoundedIcon variant="rounded" />
+          <div className="smallText">
+            <ThingahaCombinedAddress address={student.address} />
+          </div>
+        </div>
+      </div>
+      <img src={student.photo} className="photo" alt={student.name} />
+    </StudentDetailWrapper>
+  )
+}
+
+const StudentDetails = ({ match, student, getStudentInfo }) => {
   const { params } = match
   const studentId = params.id
 
@@ -112,82 +128,12 @@ const StudentDetails = ({
     getStudentInfo(studentId)
   }, [getStudentInfo, studentId])
 
-  useEffect(
-    (state) => {
-      getAllStudents()
-    },
-    [getAllStudents]
-  )
-
-  const StudentDetail = ({ student }) => {
-    const Address =
-      student.address.division +
-      (student.address.district ? ', ' + student.address.district : '') +
-      (student.address.township ? ', ' + student.address.township : '') +
-      (student.address.street_address
-        ? ', ' + student.address.street_address
-        : '')
-
-    const ParentName = student.father_name + ' +  ' + student.mother_name
-
-    return (
-      <StudentDetailWrapper>
-        <div className="infoText">
-          <div className="name">{student.name}</div>
-          <div className="iconTextWrapper">
-            <EventRoundedIcon variant="rounded" />
-            <div className="smallText">{student.birth_date}</div>
-          </div>
-          <div className="iconTextWrapper">
-            <CheckCircleRoundedIcon />
-            <div className="smallText">
-              {student.isActivate
-                ? 'လက်ရှိလှူဒါန်းနေသော ကျောင်းသားဖြစ်ပါသည်'
-                : 'လှူဒါန်းမှူရပ်တန့်ထားသော ကျောင်းသားဖြစ်ပါသည်'}
-            </div>
-          </div>
-
-          <div className="iconTextWrapper">
-            <SchoolIcon />
-            <div className="smallText">Grade 11 - (2020-2021)</div>
-          </div>
-          <div className="iconTextWrapper">
-            <PeopleIcon variant="rounded" />
-            <div className="smallText">{ParentName}</div>
-          </div>
-          <div className="iconTextWrapper">
-            <WorkOutlineRoundedIcon variant="rounded" />
-            <div className="smallText"> {student.parents_occupation}</div>
-          </div>
-          <div className="iconTextWrapper">
-            <HouseRoundedIcon variant="rounded" />
-            <div className="smallText">{Address}</div>
-          </div>
-        </div>
-        <img src={student.photo} className="photo" alt={student.name} />
-      </StudentDetailWrapper>
-    )
-  }
-
-  const DonationHistoryCard = ({ donationHistory }) => {
-    return (
-      <DonationHistoryWrapper>
-        <div className="attendee">{donationHistory.attendeeInfo}</div>
-        <div className="donator">{donationHistory.donator}</div>
-        <div className="date">{donationHistory.dateFrom}</div>
-        <div className="date">{donationHistory.dateTo}</div>
-      </DonationHistoryWrapper>
-    )
-  }
-
   const [editingStudent, setEditingStudent] = useState(null)
   const [studentFormVisible, setStudentFormVisible] = useState(false)
 
-  const studentDetail = students.find((student) => {
-    return student.id === studentId
-  })
-
-  if (!studentDetail) return null
+  if (!student) {
+    return null
+  }
 
   return (
     <Wrapper>
@@ -205,24 +151,12 @@ const StudentDetails = ({
           variant="rounded"
           onClick={() => {
             setStudentFormVisible(true)
-            setEditingStudent(studentDetail)
+            setEditingStudent(student)
           }}
         />
       </TopIconContainer>
 
-      <StudentDetail student={studentDetail} />
-
-      <DonationTitle>Donation History</DonationTitle>
-      <div>
-        {studentdonator.map((donationHistory) => {
-          return (
-            <DonationHistoryCard
-              donationHistory={donationHistory}
-              className="donation"
-            />
-          )
-        })}
-      </div>
+      <StudentDetail student={student} />
 
       <StudentForm
         visible={studentFormVisible}
@@ -233,15 +167,15 @@ const StudentDetails = ({
   )
 }
 
-const mapStateToProps = (state) => ({
-  // studentdonator: state.students.studentdonator,
-  students: state.students,
+const getStudent = (state, studentId) => state.students.students[studentId]
+
+const mapStateToProps = (state, props) => ({
+  student: getStudent(state, props.match.params.id),
 })
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getStudentInfo: (studentId) => dispatch(actions.fetchStudent(studentId)),
-    getAllStudents: () => dispatch(actions.fetchStudents()),
   }
 }
 

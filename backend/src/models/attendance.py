@@ -56,7 +56,7 @@ class AttendanceModel(db.Model):
         }
 
     @staticmethod
-    def create_attendance(new_attendance) -> bool:
+    def create_attendance(new_attendance: AttendanceModel) -> bool:
         """
         create new_attendance
         :param new_attendance:

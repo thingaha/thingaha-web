@@ -88,6 +88,6 @@ student_schema = Schema({
     "father_name": str,
     "mother_name": str,
     "parents_occupation": str,
-    "photo": str,
+    "photo": Or(None, str),
     "address_id": Or(None, int)
 })
