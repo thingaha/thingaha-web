@@ -58,22 +58,24 @@ class AddressModel(db.Model):
         }
 
     @staticmethod
-    def create_address(new_address) -> (int, bool):
+    def create_address(new_address: AddressModel, flush: bool = False) -> int:
         """
         create new_address for student
+        flush is true if user,school,student create else false (for rollback)
         :param new_address:
+        :param flush:
         :return: bool
         """
         try:
             db.session.add(new_address)
-            db.session.commit()
+            db.session.flush() if flush else db.session.commit()
             return new_address.id
         except SQLAlchemyError as error:
             db.session.rollback()
             raise error
 
     @staticmethod
-    def update_address(address_id: int, address) -> bool:
+    def update_address(address_id: int, address: AddressModel) -> bool:
         """
         update address info by id
         :param address_id:
@@ -137,7 +139,7 @@ class AddressModel(db.Model):
             raise error
 
     @staticmethod
-    def delete_address(address_id) -> bool:
+    def delete_address(address_id: int) -> bool:
         """
         delete address by id
         :param address_id:

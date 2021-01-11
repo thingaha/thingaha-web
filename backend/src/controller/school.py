@@ -3,8 +3,9 @@ from flask import request, current_app, jsonify
 from flask_cors import cross_origin
 from flask_jwt_extended import jwt_required
 
-from common.error import SQLCustomError, RequestDataEmpty, ValidateFail
-from controller.api import api, post_request_empty, address_service, custom_error, full_admin, sub_admin
+from common.error import SQLCustomError, RequestDataEmpty, ValidateFail, ThingahaCustomError
+from controller.api import api, post_request_empty, address_service, custom_error, full_admin, sub_admin, \
+    get_default_address
 from service.school.school_service import SchoolService
 
 school_service = SchoolService()
@@ -65,24 +66,30 @@ def create_school():
 
     if data is None:
         return post_request_empty()
+
+    address_data = data.get("address") if data.get("address") else get_default_address()
     try:
         address_id = address_service.create_address({
-            "division": data.get("division"),
-            "district": data.get("district"),
-            "township": data.get("township"),
-            "street_address": data.get("street_address"),
+            "division": address_data.get("division"),
+            "district": address_data.get("district"),
+            "township": address_data.get("township"),
+            "street_address": address_data.get("street_address"),
             "type": "school"
-        })
+        }, flush=True)
         current_app.logger.debug("create address id: %s", address_id)
+
+        if not address_id:
+            raise ThingahaCustomError("Address create fail for school")
+
         school_id = school_service.create_school({
             "name": data.get("name"),
             "contact_info": data.get("contact_info"),
             "address_id": address_id
         })
-        current_app.logger.info(
-            "Create school success. name %s", data.get("name"))
+        current_app.logger.info("Create school success. name %s", data.get("name"))
         return get_school_by_id(school_id)
-    except (RequestDataEmpty, SQLCustomError, ValidateFail) as error:
+
+    except (RequestDataEmpty, SQLCustomError, ValidateFail, ThingahaCustomError) as error:
         current_app.logger.error("Create school request fail")
         return jsonify({"errors": [error.__dict__]}), 400
 
@@ -110,9 +117,13 @@ def delete_school(school_id):
         if school_service.delete_school_by_id(school_id):
             school_delete_status = address_service.delete_address_by_id(
                 school["address"]["id"])
+        else:
+            current_app.logger.error("Fail to delete school id: {}".format(school_id))
+
         return jsonify({
             "status": school_delete_status
         }), 200
+
     except SQLCustomError as error:
         current_app.logger.error(
             "Fail to delete school_id: {}".format(school_id))
@@ -133,19 +144,22 @@ def update_school(school_id: int):
     if data is None:
         return post_request_empty()
     try:
+        address_data = data.get("address")
+        address_updated = True
+
         school = school_service.get_school_by_id(school_id)
         if not school:
             return custom_error("Invalid school id supplied.")
+        if address_data:
+            address_updated = address_service.update_address_by_id(school["address"]["id"], {
+                "division": address_data.get("division"),
+                "district": address_data.get("district"),
+                "township": address_data.get("township"),
+                "street_address": address_data.get("street_address"),
+                "type": "school"
+            })
 
-        updated = address_service.update_address_by_id(school["address"]["id"], {
-            "division": data.get("division"),
-            "district": data.get("district"),
-            "township": data.get("township"),
-            "street_address": data.get("street_address"),
-            "type": "school"
-        })
-
-        if updated:
+        if address_updated:
             school_update_status = school_service.update_school_by_id(school_id, {
                 "name": data.get("name"),
                 "contact_info": data.get("contact_info"),

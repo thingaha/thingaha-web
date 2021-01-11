@@ -38,7 +38,7 @@ class ExtraFundsModel(db.Model):
         }
 
     @staticmethod
-    def create_extra_fund(new_extra_fund) -> bool:
+    def create_extra_fund(new_extra_fund: ExtraFundsModel) -> bool:
         """
         create new extra fund for yen mmk price
         :param new_extra_fund:
@@ -67,7 +67,7 @@ class ExtraFundsModel(db.Model):
             raise error
 
     @staticmethod
-    def update_extra_fund(extra_fund_id: int, extra_funds) -> bool:
+    def update_extra_fund(extra_fund_id: int, extra_funds: ExtraFundsModel) -> bool:
         """
         update extra fund info by id
         :param extra_fund_id:
@@ -100,7 +100,7 @@ class ExtraFundsModel(db.Model):
             raise error
 
     @staticmethod
-    def delete_extra_fund(extra_fund_id) -> bool:
+    def delete_extra_fund(extra_fund_id: int) -> bool:
         """
         delete extra fund by id
         :param extra_fund_id:

@@ -3,7 +3,9 @@ from __future__ import annotations
 
 from datetime import datetime, date
 from typing import Dict, Any, List, Optional
+
 from flask_sqlalchemy import Pagination
+from sqlalchemy import or_
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import relationship
 
@@ -49,7 +51,7 @@ class StudentModel(db.Model):
             "id": self.id,
             "name": self.name,
             "deactivated_at": self.deactivated_at.strftime("%d-%m-%Y") if self.deactivated_at else "",
-            "birth_date": self.birth_date.strftime("%d-%m-%Y") if self.birth_date else "",
+            "birth_date": self.birth_date.strftime("%Y-%m-%d") if self.birth_date else "",
             "father_name": self.father_name,
             "mother_name": self.mother_name,
             "parents_occupation": self.parents_occupation,
@@ -90,30 +92,6 @@ class StudentModel(db.Model):
             raise error
 
     @staticmethod
-    def get_students_by_name(name) -> List[StudentModel]:
-        """
-        get students by name (as name is not unique, multiple records can be returned)
-        :param name:
-        :return: student info list
-        """
-        try:
-            return db.session.query(StudentModel).join(AddressModel).filter(StudentModel.name == name)
-        except SQLAlchemyError as error:
-            raise error
-
-    @staticmethod
-    def get_students_by_birth_date(birth_date) -> List[StudentModel]:
-        """
-        get students by birth_date (as birth_date is not unique, multiple records can be returned)
-        :param birth_date:
-        :return: student info list
-        """
-        try:
-            return db.session.query(StudentModel).join(AddressModel).filter(StudentModel.birth_date == birth_date)
-        except SQLAlchemyError as error:
-            raise error
-
-    @staticmethod
     def get_all_students(page: int = 1, per_page: int = 20) -> Pagination:
         """
         get all students
@@ -128,22 +106,7 @@ class StudentModel(db.Model):
             raise error
 
     @staticmethod
-    def get_all_student_address(page: int = 1, per_page: int = 20) -> Pagination:
-        """
-        get all school address for get all address API
-        :params page
-        :params per_page
-        :return
-        """
-        try:
-            return db.session.query(AddressModel, StudentModel). \
-                filter(AddressModel.id == StudentModel.address_id).filter(
-                AddressModel.type == "student").paginate(page=page, per_page=per_page,error_out=False)
-        except SQLAlchemyError as error:
-            raise error
-
-    @staticmethod
-    def create_student(new_student):
+    def create_student(new_student: StudentModel) -> int:
         """
         create new student
         :param new_student:
@@ -158,7 +121,7 @@ class StudentModel(db.Model):
             raise error
 
     @staticmethod
-    def update_student(student_id, student) -> bool:
+    def update_student(student_id, student: StudentModel) -> bool:
         """
         update student info by id
         :param student_id:
@@ -184,7 +147,7 @@ class StudentModel(db.Model):
             raise error
 
     @staticmethod
-    def delete_student(student_id) -> bool:
+    def delete_student(student_id: int) -> bool:
         """
         delete student by id
         :param student_id:
@@ -199,3 +162,24 @@ class StudentModel(db.Model):
             db.session.rollback()
             raise error
 
+    @staticmethod
+    def get_students_by_query(page: int, query: str, per_page: int = 20) -> Pagination:
+        """
+        get students by name, father_name, mother_name and parents_occupation
+        :param page:
+        :param query:
+        :param per_page int
+        :return: user info list
+        """
+        try:
+            return db.session.query(StudentModel). \
+                join(AddressModel).filter(or_(StudentModel.name.ilike('%' + query + '%'),
+                                              StudentModel.father_name.ilike('%' + query + '%'),
+                                              StudentModel.mother_name.ilike('%' + query + '%'),
+                                              StudentModel.parents_occupation.ilike('%' + query + '%')),
+                                          ).paginate(
+                                        page=page,
+                                        per_page=per_page,
+                                        error_out=False)
+        except SQLAlchemyError as error:
+            raise error

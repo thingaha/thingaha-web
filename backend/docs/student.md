@@ -8,10 +8,12 @@ Input Sample:
 
 ```json
 {
-  "district": "မရမ်းကုန်းမြို့နယ်",
-  "division": "yangon",
-  "street_address": "ဉီးဘအိုလမ်း",
-  "township": "အမှတ်(၂)ရပ်ကွက်",
+  "address": {
+    "district": "မရမ်းကုန်းမြို့နယ်",
+    "division": "yangon",
+    "street_address": "ဉီးဘအိုလမ်း",
+    "township": "အမှတ်(၂)ရပ်ကွက်"
+  },
   "deactivated_at": "2020-07-26T03:37:05.836Z",
   "birth_date": "12-08-2006",
   "father_name": "ဉီးလှ",
@@ -57,10 +59,11 @@ Output Sample:
 
 ### GET all Students
 
-| API                       |           Description           | Action |
-| :------------------------ | :-----------------------------: | -----: |
-| /api/v1/students          |         GET all student         |    GET |
-| /api/v1/students?page=XXX | GET all student with pagination |    GET |
+| API                               |                                      Description                                      | Action |
+| :-------------------------------- | :-----------------------------------------------------------------------------------: | -----: |
+| /api/v1/students                  |                                    GET all student                                    |    GET |
+| /api/v1/students?page=XXX         |                            GET all student with pagination                            |    GET |
+| /api/v1/student/search?query=XXXX | search query in name, father_name, mother_name and parents_occupation with pagination |    GET |
 
 default count per page is 20.
 
@@ -120,25 +123,25 @@ Output Sample
 
 ```json
 {
-    "data": {
-        "student": {
-            "address": {
-                "district": "သာကေတမြို့နယ်",
-                "division": "yangon",
-                "id": 5,
-                "street_address": "၃၆လမ်း",
-                "township": "အမှတ်(၄)ရပ်ကွက်"
-            },
-            "birth_date": "11-08-2006",
-            "deactivated_at": "09-06-2020",
-            "father_name": "ဉီးလှ",
-            "id": 1,
-            "mother_name": "ဒေါ်မြ",
-            "name": "မောင်မောင်",
-            "parents_occupation": "လယ်သမား",
-            "photo": "https://kzt.com/51b.jpg"
-        }
+  "data": {
+    "student": {
+      "address": {
+        "district": "သာကေတမြို့နယ်",
+        "division": "yangon",
+        "id": 5,
+        "street_address": "၃၆လမ်း",
+        "township": "အမှတ်(၄)ရပ်ကွက်"
+      },
+      "birth_date": "11-08-2006",
+      "deactivated_at": "09-06-2020",
+      "father_name": "ဉီးလှ",
+      "id": 1,
+      "mother_name": "ဒေါ်မြ",
+      "name": "မောင်မောင်",
+      "parents_occupation": "လယ်သမား",
+      "photo": "https://kzt.com/51b.jpg"
     }
+  }
 }
 ```
 
@@ -152,11 +155,13 @@ Input Sample:
 
 ```json
 {
-  "district": "မရမ်းကုန်းမြို့နယ်",
-  "division": "yangon",
-  "street_address": "ဉီးဘအိုလမ်း",
-  "township": "အမှတ်(၂)ရပ်ကွက်",
-  "deactivated_at": "2020-07-26T03:37:05.836Z",
+  "address": {
+    "district": "မရမ်းကုန်းမြို့နယ်",
+    "division": "yangon",
+    "street_address": "ဉီးဘအိုလမ်း",
+    "township": "အမှတ်(၂)ရပ်ကွက်"
+  },
+  "active": true,
   "birth_date": "12-08-2006",
   "father_name": "ဉီးလှ",
   "mother_name": "ဒေါ်မြ",
@@ -170,25 +175,25 @@ Output Sample:
 
 ```json
 {
-    "data": {
-        "student": {
-            "address": {
-                "district": "သာကေတမြို့နယ်",
-                "division": "yangon",
-                "id": 5,
-                "street_address": "၃၆လမ်း",
-                "township": "အမှတ်(၄)ရပ်ကွက်"
-            },
-            "birth_date": "11-08-2006",
-            "deactivated_at": "09-06-2020",
-            "father_name": "ဉီးလှ",
-            "id": 1,
-            "mother_name": "ဒေါ်မြ",
-            "name": "မောင်မောင်",
-            "parents_occupation": "လယ်သမား",
-            "photo": "https://kzt.com/51b.jpg"
-        }
+  "data": {
+    "student": {
+      "address": {
+        "district": "သာကေတမြို့နယ်",
+        "division": "yangon",
+        "id": 5,
+        "street_address": "၃၆လမ်း",
+        "township": "အမှတ်(၄)ရပ်ကွက်"
+      },
+      "birth_date": "11-08-2006",
+      "deactivated_at": "09-06-2020",
+      "father_name": "ဉီးလှ",
+      "id": 1,
+      "mother_name": "ဒေါ်မြ",
+      "name": "မောင်မောင်",
+      "parents_occupation": "လယ်သမား",
+      "photo": "https://kzt.com/51b.jpg"
     }
+  }
 }
 ```
 
