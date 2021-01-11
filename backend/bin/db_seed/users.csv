@@ -68,4 +68,6 @@ USERNAME, DISPLAY_NAME,EMAIL,HASHED_PASSWORD,ROLE,COUNTRY,DONATION_ACTIVE,ADDRES
 'sittmhuemaw','မောင်စစ်မှူးမော်','sittmhuemaw@gmail.com','pbkdf2:sha256:150000$D1rba2ca$84049dfc1ca9fee60910edde180caea785f06eedaf6e1774c0fcc76cdf662831','donator','mm','True',91
 'myamawswe','မမြမော်ဆွေ','myamawswe@gmail.com','pbkdf2:sha256:150000$D1rba2ca$84049dfc1ca9fee60910edde180caea785f06eedaf6e1774c0fcc76cdf662831','donator','mm','True',92
 'thawsinhtun','ကိုသော်ဇင်ထွန်း','thawsinhtun@gmail.com','pbkdf2:sha256:150000$D1rba2ca$84049dfc1ca9fee60910edde180caea785f06eedaf6e1774c0fcc76cdf662831','donator','mm','True',93
+'ayenyeing','မအေးငြိမ်း','ayenyein@gmail.com','pbkdf2:sha256:150000$D1rba2ca$84049dfc1ca9fee60910edde180caea785f06eedaf6e1774c0fcc76cdf662831','donator','mm','True',169
+'yawaitint','မရဝေတင့်','yawaitint@gmail.com','pbkdf2:sha256:150000$D1rba2ca$84049dfc1ca9fee60910edde180caea785f06eedaf6e1774c0fcc76cdf662831','donator','mm','True',170
 
