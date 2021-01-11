@@ -14,3 +14,10 @@ common:
         district: "maubin"
         township: "nyaungdone"
         street_address: "တိုက်သစ်ကျောင်း"
+postgres:
+    url: "postgresql://"
+    host: "localhost"
+    port: 5432
+    user: "postgres"
+    password: "XXXXXX"
+    db: "thingaha"

@@ -59,10 +59,11 @@ Output Sample:
 
 ### GET all Students
 
-| API                       |           Description           | Action |
-| :------------------------ | :-----------------------------: | -----: |
-| /api/v1/students          |         GET all student         |    GET |
-| /api/v1/students?page=XXX | GET all student with pagination |    GET |
+| API                               |                                      Description                                      | Action |
+| :-------------------------------- | :-----------------------------------------------------------------------------------: | -----: |
+| /api/v1/students                  |                                    GET all student                                    |    GET |
+| /api/v1/students?page=XXX         |                            GET all student with pagination                            |    GET |
+| /api/v1/student/search?query=XXXX | search query in name, father_name, mother_name and parents_occupation with pagination |    GET |
 
 default count per page is 20.
 

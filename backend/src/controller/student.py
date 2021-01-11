@@ -279,3 +279,24 @@ def delete_s3_file():
     else:
         current_app.logger.error("Delete file for URL %s fail", url)
         return "", 400
+
+
+@api.route("/students/search", methods=["GET"])
+@jwt_required
+@cross_origin()
+def search_student():
+    """
+    search student with query
+    search keyword in name, father_name, mother_name and parents_occupation
+    """
+    query = request.args.get("query")
+    page = request.args.get("page", 1, type=int)
+    per_page = request.args.get("page", 20, type=int)
+    try:
+        current_app.logger.info("search student : query: %s", query)
+        return jsonify({
+            "data": student_service.get_students_by_query(page, query, per_page)
+        }), 200
+    except SQLCustomError as error:
+        current_app.logger.error("Fail to search student : query: %s", query)
+        return jsonify({"errors": [error.__dict__]}), 400

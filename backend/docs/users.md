@@ -8,7 +8,7 @@ Input Sample:
 
 ```json
 {
-  "email": "moemoe@gmail.com",
+  "email_or_username": "moemoe@gmail.com",
   "password": "123"
 }
 ```
@@ -302,6 +302,31 @@ Input Sample:
   "current_password": "1234",
   "new_password": "1234",
   "new_confirm_password": "1234"
+}
+```
+
+Output Sample:
+
+```json
+{
+  "status": true
+}
+```
+
+/users/reset_password
+
+### reset password
+
+| API                          |                 Description                 | Action |
+| :--------------------------- | :-----------------------------------------: | -----: |
+| /api/v1/users/reset_password | reset user password(only full admin can do) |    PUT |
+
+Input Sample:
+
+```json
+{
+  "user_id": 1,
+  "password": "1234"
 }
 ```
 
