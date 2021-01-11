@@ -33,16 +33,16 @@ import {
   submitNewSchoolForm,
   submitEditSchoolForm,
 } from './sagas/schools'
-import { 
+import {
   GET_STUDENT_INFO,
   GET_ALL_STUDENTS,
-  SUBMIT_NEW_STUDENT_FORM ,
+  SUBMIT_NEW_STUDENT_FORM,
   SUBMIT_EDIT_STUDENT_FORM,
 } from './actions/students'
-import { 
+import {
   fetchStudentInfo,
   fetchAllStudents,
-  submitNewStudentForm ,
+  submitNewStudentForm,
   submitEditStudentForm,
 } from './sagas/students'
 import {
@@ -52,6 +52,8 @@ import {
 } from './sagas/authentication'
 import { GET_ALL_ADDRESSES, GET_SEARCH_ADDRESSES } from './actions/addresses'
 import { fetchAddressesSaga, searchAddressesSaga } from './sagas/addresses'
+import { GET_CONFIG_DATA_DIVISIONS } from './actions/configData'
+import { fetchMyanamrDivisionDataSaga } from './sagas/configData'
 
 // add Saga below
 export default function* rootSaga() {
@@ -68,6 +70,7 @@ export default function* rootSaga() {
     takeLatest(GET_SEARCH_ADDRESSES, searchAddressesSaga),
     takeLatest(GET_STUDENT_INFO, fetchStudentInfo),
     takeLatest(GET_ALL_STUDENTS, fetchAllStudents),
+    takeLatest(GET_CONFIG_DATA_DIVISIONS, fetchMyanamrDivisionDataSaga),
     takeLatest(SUBMIT_NEW_STUDENT_FORM, submitNewStudentForm),
     takeLatest(SUBMIT_EDIT_STUDENT_FORM, submitEditStudentForm),
     takeLatest(LOG_IN, logInUser),

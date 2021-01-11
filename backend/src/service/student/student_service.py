@@ -144,3 +144,27 @@ class StudentService(Service):
         except SQLCustomError as error:
             self.logger.error("Error: {}".format(error))
             raise SQLCustomError(description="No record for requested student")
+
+    def get_students_by_query(self, page: int, query: str, per_page: int = 20) -> (List[Dict[str, Any]], int):
+        """
+        get student by query (name, father_name, mother_name and parents_occupation)
+        :param query
+        :param page
+        :param per_page
+        :return: users list of dict
+        """
+        self.logger.info("Get students list by query %s", query)
+        try:
+            students = StudentModel.get_students_by_query(page, query, per_page)
+            return {
+                "students": self.__return_student_list(students.items),
+                "total_count": students.total,
+                "current_page": students.page,
+                "next_page": students.next_num,
+                "prev_page": students.prev_num,
+                "pages": students.pages
+            }
+        except SQLAlchemyError:
+            self.logger.error("Get students by name fail. query %s. error %s", query,
+                              traceback.format_exc())
+            raise SQLCustomError(description="GET students by query SQL ERROR")

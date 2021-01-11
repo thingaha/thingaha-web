@@ -2,17 +2,18 @@ import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import * as actions from '../../store/actions'
-import ReplyRoundedIcon from '@material-ui/icons/ReplyRounded';
+import ReplyRoundedIcon from '@material-ui/icons/ReplyRounded'
 import { Link } from 'react-router-dom'
-import EventRoundedIcon from '@material-ui/icons/EventRounded';
-import SchoolIcon from '@material-ui/icons/School';
+import EventRoundedIcon from '@material-ui/icons/EventRounded'
+import SchoolIcon from '@material-ui/icons/School'
 import Paper from '@material-ui/core/Paper'
 import StudentForm from './StudentForm'
+import ThingahaCombinedAddress from '../common/ThingahaCombinedAddress'
 
 import EditIcon from '@material-ui/icons/EditRounded'
-import HouseRoundedIcon from '@material-ui/icons/HouseRounded';
-import WorkOutlineRoundedIcon from '@material-ui/icons/WorkOutlineRounded';
-import CheckCircleRoundedIcon from '@material-ui/icons/CheckCircleRounded';
+import HouseRoundedIcon from '@material-ui/icons/HouseRounded'
+import WorkOutlineRoundedIcon from '@material-ui/icons/WorkOutlineRounded'
+import CheckCircleRoundedIcon from '@material-ui/icons/CheckCircleRounded'
 import PeopleIcon from '@material-ui/icons/People'
 
 const Wrapper = styled.div`
@@ -24,23 +25,16 @@ const Wrapper = styled.div`
   min-width: 40rem;
 `
 
-const DonationTitle = styled.div`
-  margin: 4rem 0rem 2rem;
-  font-weight: bold;
-  font-size: 1.25rem;
-`
-
 const TopIconContainer = styled.div`
-display: flex;
-   flex-direction: row;
+  display: flex;
+  flex-direction: row;
   align-items: flex-start;
-  padding:1rem 1rem;
-    justify-content: space-between;
+  padding: 1rem 1rem;
+  justify-content: space-between;
 
-    & .edit {
+  & .edit {
     cursor: pointer;
   }
-
 `
 
 const StudentDetailWrapper = styled(Paper)`
@@ -49,13 +43,13 @@ const StudentDetailWrapper = styled(Paper)`
   flex-direction: row;
   align-items: flex-start;
   /* margin-top:2rem; */
-  padding:1rem 1rem;
-    justify-content: space-between;
+  padding: 1rem 1rem;
+  justify-content: space-between;
 
   & .photo {
-    margin:1.5rem 1rem;
-    width:200px;
-    height:240px;
+    margin: 1.5rem 1rem;
+    width: 200px;
+    height: 240px;
   }
 
   & .infoText {
@@ -63,13 +57,12 @@ const StudentDetailWrapper = styled(Paper)`
     justify-content: flex-start;
     flex-direction: column;
     align-items: flex-start;
-
   }
 
   & .iconTextWrapper {
     display: flex;
     flex-direction: row;
-    padding:8px 4px;
+    padding: 8px 4px;
   }
   & .name {
     font-size: 1.25rem;
@@ -77,157 +70,112 @@ const StudentDetailWrapper = styled(Paper)`
   }
 
   & .smallText {
-    padding-left:0.5rem;
+    padding-left: 0.5rem;
     font-size: 1rem;
     line-height: 1.25rem;
   }
 `
 
-const DonationHistoryWrapper = styled(Paper)`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  padding:1rem 1rem;
-  border-radius: 0px;
-  justify-content: space-between;
+const StudentDetail = ({ student }) => {
+  const parentName = student.father_name + ' +  ' + student.mother_name
 
-  & .donator {
-    flex:0.3;
-  }
-  & .attendee {
-    flex:0.3;
-  }
-  & .date {
-    flex:0.2;
-  }
-`
-const StudentDetails = ({ match, students: { students, studentdonator }, getStudentInfo, getAllStudents }) => {
+  return (
+    <StudentDetailWrapper>
+      <div className="infoText">
+        <div className="name">{student.name}</div>
+        <div className="iconTextWrapper">
+          <EventRoundedIcon variant="rounded" />
+          <div className="smallText">{student.birth_date}</div>
+        </div>
+        <div className="iconTextWrapper">
+          <CheckCircleRoundedIcon />
+          <div className="smallText">
+            {Boolean(student.deactivatedAt)
+              ? 'လှူဒါန်းမှူရပ်တန့်ထားသော ကျောင်းသားဖြစ်ပါသည်'
+              : 'လက်ရှိလှူဒါန်းနေသော ကျောင်းသားဖြစ်ပါသည်'}
+          </div>
+        </div>
 
+        <div className="iconTextWrapper">
+          <SchoolIcon />
+          <div className="smallText">Grade 11 - (2020-2021)</div>
+        </div>
+        <div className="iconTextWrapper">
+          <PeopleIcon variant="rounded" />
+          <div className="smallText">{parentName}</div>
+        </div>
+        <div className="iconTextWrapper">
+          <WorkOutlineRoundedIcon variant="rounded" />
+          <div className="smallText"> {student.parents_occupation}</div>
+        </div>
+        <div className="iconTextWrapper">
+          <HouseRoundedIcon variant="rounded" />
+          <div className="smallText">
+            <ThingahaCombinedAddress address={student.address} />
+          </div>
+        </div>
+      </div>
+      <img src={student.photo} className="photo" alt={student.name} />
+    </StudentDetailWrapper>
+  )
+}
+
+const StudentDetails = ({ match, student, getStudentInfo }) => {
   const { params } = match
   const studentId = params.id
 
   useEffect(() => {
-    getStudentInfo(params.id)
-  }, [getStudentInfo])
-
-  useEffect((state) => {
-    getAllStudents()
-  }, [getAllStudents])
-
-
-  const StudentDetail = ({ student }) => {
-      const Address = student.address.division +
-      (student.address.district? ", " + student.address.district : '') +
-      (student.address.township? ", " + student.address.township : '') +
-      (student.address.street_address? ", " + student.address.street_address : '') 
-
-    const ParentName = student.father_name + " +  " + student.mother_name
-
-    return (
-      <StudentDetailWrapper>
-        <div className="infoText">
-          <div className="name">{student.name}</div>
-          <div className="iconTextWrapper">
-            <EventRoundedIcon variant="rounded" />
-            <div className="smallText">{student.birth_date}</div>
-          </div>
-          <div className="iconTextWrapper">
-            <CheckCircleRoundedIcon />
-            <div className="smallText">
-              {student.isActivate? "လက်ရှိလှူဒါန်းနေသော ကျောင်းသားဖြစ်ပါသည်" : "လှူဒါန်းမှူရပ်တန့်ထားသော ကျောင်းသားဖြစ်ပါသည်"}
-            </div>
-          </div>
-          
-          <div className="iconTextWrapper">
-            <SchoolIcon />
-            <div className="smallText">Grade 11 - (2020-2021)</div>
-          </div>
-          <div className="iconTextWrapper">
-            <PeopleIcon variant="rounded" />
-            <div className="smallText">{ParentName}</div>
-          </div>
-          <div className="iconTextWrapper">
-            <WorkOutlineRoundedIcon variant="rounded" />
-            <div className="smallText"> {student.parents_occupation}</div>
-          </div>
-          <div className="iconTextWrapper">
-            <HouseRoundedIcon variant="rounded" />
-            <div className="smallText">{Address}</div>
-          </div>
-        </div>
-        <img src={student.photo} className="photo" />
-      </StudentDetailWrapper>
-    )
-  }
-
-  const DonationHistoryCard = ({ donationHistory }) => {
-    return (
-      <DonationHistoryWrapper>
-        <div className="attendee">{donationHistory.attendeeInfo}</div>
-        <div className="donator">{donationHistory.donator}</div>
-        <div className="date">{donationHistory.dateFrom}</div>
-        <div className="date">{donationHistory.dateTo}</div>
-      </DonationHistoryWrapper>
-    )
-  }
+    getStudentInfo(studentId)
+  }, [getStudentInfo, studentId])
 
   const [editingStudent, setEditingStudent] = useState(null)
   const [studentFormVisible, setStudentFormVisible] = useState(false)
 
-  console.log("studentdonator..START..")
-  console.log(studentdonator)
-  console.log("studentdonator..END...")
-
-  const studentDetail = students.find(
-    (student) => { return student.id == studentId }
-  )
-
-  if (!studentDetail) return null
+  if (!student) {
+    return null
+  }
 
   return (
-    <Wrapper >
+    <Wrapper>
       <TopIconContainer>
         <Link to={'/students'}>
-          <ReplyRoundedIcon color="primary" className="back" variant="rounded" />
+          <ReplyRoundedIcon
+            color="primary"
+            className="back"
+            variant="rounded"
+          />
         </Link>
-        <EditIcon color="primary" className="edit" variant="rounded"
+        <EditIcon
+          color="primary"
+          className="edit"
+          variant="rounded"
           onClick={() => {
             setStudentFormVisible(true)
-            setEditingStudent(studentDetail)
-          }} />
-
+            setEditingStudent(student)
+          }}
+        />
       </TopIconContainer>
 
-      <StudentDetail student={studentDetail} />
-
-      <DonationTitle>Donation History</DonationTitle>
-      <div>
-        {studentdonator.map((donationHistory) => {
-          return (
-            <DonationHistoryCard donationHistory={donationHistory} className="donation" />
-          )
-        })}
-      </div>
+      <StudentDetail student={student} />
 
       <StudentForm
         visible={studentFormVisible}
         setVisible={setStudentFormVisible}
-        editingStudent={editingStudent} />
-
+        editingStudent={editingStudent}
+      />
     </Wrapper>
   )
 }
 
-const mapStateToProps = (state) => ({
-  // studentdonator: state.students.studentdonator,
-  students: state.students,
-})
+const getStudent = (state, studentId) => state.students.students[studentId]
 
+const mapStateToProps = (state, props) => ({
+  student: getStudent(state, props.match.params.id),
+})
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getStudentInfo: (studentId) => dispatch(actions.fetchStudent(studentId)),
-    getAllStudents: () => dispatch(actions.fetchStudents()),
   }
 }
 

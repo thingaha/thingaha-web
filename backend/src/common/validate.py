@@ -2,6 +2,7 @@
 request body validate module
 """
 from schema import SchemaError
+from common.logger import get_common_logger
 
 
 class InputValidate:
@@ -21,5 +22,7 @@ class InputValidate:
         """
         try:
             return schema.validate(data)
-        except SchemaError:
+        except SchemaError as error:
+            logger = get_common_logger(__name__)
+            logger.error("Schema Error %s", error)
             return False

@@ -1,5 +1,6 @@
 """API route for Student API"""
 from typing import Optional
+from datetime import datetime
 
 from botocore.exceptions import ClientError
 from flask import request, current_app, jsonify
@@ -8,9 +9,9 @@ from flask_jwt_extended import jwt_required
 
 from common.aws_client import get_client, get_s3_url, get_bucket
 from common.config import S3_BUCKET
-from common.error import SQLCustomError, RequestDataEmpty, ValidateFail
+from common.error import SQLCustomError, RequestDataEmpty, ValidateFail, ThingahaCustomError
 from controller.api import address_service
-from controller.api import api, post_request_empty, custom_error, sub_admin, full_admin
+from controller.api import api, post_request_empty, custom_error, sub_admin, full_admin, get_default_address
 from service.student.student_service import StudentService
 
 student_service = StudentService()
@@ -65,16 +66,20 @@ def create_student():
     if data is None:
         return post_request_empty()
     try:
+        address_data = data.get("address") if data.get("address") else get_default_address()
         address_id = address_service.create_address({
-            "division": data.get("division"),
-            "district": data.get("district"),
-            "township": data.get("township"),
-            "street_address": data.get("street_address"),
+            "division": address_data.get("division"),
+            "district": address_data.get("district"),
+            "township": address_data.get("township"),
+            "street_address": address_data.get("street_address"),
             "type": "student"
-        })
+        }, flush=True)
+        if not address_id:
+            raise ThingahaCustomError("Student address create fail")
+
         student_id = student_service.create_student({
             "name": data.get("name"),
-            "deactivated_at": data.get("deactivated_at"),
+            "deactivated_at":  None if data.get("active") else datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "birth_date": data.get("birth_date"),
             "father_name": data.get("father_name"),
             "mother_name": data.get("mother_name"),
@@ -83,7 +88,7 @@ def create_student():
             "address_id": address_id})
         current_app.logger.info("Create student success. student_name %s", data.get("name"))
         return get_student_by_id(student_id), 200
-    except (RequestDataEmpty, SQLCustomError, ValidateFail) as error:
+    except (RequestDataEmpty, SQLCustomError, ValidateFail, ThingahaCustomError) as error:
         current_app.logger.error("Create student request fail")
         return jsonify({"errors": [error.__dict__]}), 400
 
@@ -131,18 +136,21 @@ def update_student(student_id: int):
         return custom_error("Invalid student id supplied.")
 
     try:
-        updated = address_service.update_address_by_id(student["address"]["id"], {
-            "division": data.get("division"),
-            "district": data.get("district"),
-            "township": data.get("township"),
-            "street_address": data.get("street_address"),
-            "type": "student"
-        })
+        address_data = data.get("address")
+        address_updated = True
+        if address_data:
+            address_updated = address_service.update_address_by_id(student["address"]["id"], {
+                "division": address_data.get("division"),
+                "district": address_data.get("district"),
+                "township": address_data.get("township"),
+                "street_address": address_data.get("street_address"),
+                "type": "student"
+            })
 
-        if updated:
+        if address_updated:
             student_update_status = student_service.update_student_by_id(student_id, {
                 "name": data.get("name"),
-                "deactivated_at": data.get("deactivated_at"),
+                "deactivated_at": None if data.get("active") else datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                 "birth_date": data.get("birth_date"),
                 "father_name": data.get("father_name"),
                 "mother_name": data.get("mother_name"),
@@ -275,3 +283,24 @@ def delete_s3_file():
     else:
         current_app.logger.error("Delete file for URL %s fail", url)
         return "", 400
+
+
+@api.route("/students/search", methods=["GET"])
+@jwt_required
+@cross_origin()
+def search_student():
+    """
+    search student with query
+    search keyword in name, father_name, mother_name and parents_occupation
+    """
+    query = request.args.get("query")
+    page = request.args.get("page", 1, type=int)
+    per_page = request.args.get("page", 20, type=int)
+    try:
+        current_app.logger.info("search student : query: %s", query)
+        return jsonify({
+            "data": student_service.get_students_by_query(page, query, per_page)
+        }), 200
+    except SQLCustomError as error:
+        current_app.logger.error("Fail to search student : query: %s", query)
+        return jsonify({"errors": [error.__dict__]}), 400

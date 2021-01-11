@@ -51,7 +51,7 @@ class SchoolModel(db.Model):
         }
 
     @staticmethod
-    def create_school(new_school) -> bool:
+    def create_school(new_school: SchoolModel) -> bool:
         """
         create new_school
         :param new_school:
@@ -105,7 +105,7 @@ class SchoolModel(db.Model):
             raise error
 
     @staticmethod
-    def update_school(school_id: int, school) -> bool:
+    def update_school(school_id: int, school: SchoolModel) -> bool:
         """
         update school info by id
         :param school_id:

@@ -1,12 +1,12 @@
 """user service layer for CRUD action"""
 import traceback
-from typing import List, Dict, Any, Optional, Union
+from typing import List, Dict, Any, Optional
 
 from sqlalchemy.exc import SQLAlchemyError
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from common.data_schema import user_schema
-from common.error import SQLCustomError, RequestDataEmpty, ValidateFail
+from common.data_schema import user_schema, user_update_schema, password_reset_schema, password_change_schema
+from common.error import SQLCustomError, RequestDataEmpty, ValidateFail, ThingahaCustomError
 from models.user import UserModel
 from service.service import Service
 
@@ -54,7 +54,7 @@ class UserService(Service):
         """
         if not data:
             raise RequestDataEmpty("user data is empty")
-        if not self.input_validate.validate_json(data, user_schema):
+        if not self.input_validate.validate_json(data, user_update_schema):
             self.logger.error("All user field input must be required.")
             raise ValidateFail("User update validation fail")
         try:
@@ -64,7 +64,6 @@ class UserService(Service):
                 username=data["username"],
                 email=data["email"],
                 address_id=data["address_id"],
-                hashed_password=generate_password_hash(data["password"]),
                 role=data["role"],
                 country=data["country"],
                 donation_active=data["donation_active"]))
@@ -185,7 +184,7 @@ class UserService(Service):
 
     def get_user_by_email(self, email: str) -> Optional[UserModel]:
         """
-
+        get user by email address
         :param email:
         :return:
         """
@@ -194,9 +193,23 @@ class UserService(Service):
             user = UserModel.get_user_by_email(email)
             return user if user else None
         except SQLAlchemyError:
-            self.logger.error("Get users by id fail. email %s. error %s", email,
+            self.logger.error("Get users by email fail. email %s. error %s", email,
                               traceback.format_exc())
             raise SQLCustomError(description="Get user by email SQL ERROR")
+
+    def get_user_model_by_id(self, user_id: int) -> Optional[UserModel]:
+        """
+        get user by user_id
+        :param user_id:
+        :return:
+        """
+        try:
+            user = UserModel.get_user_by_id(user_id)
+            return user if user else None
+        except SQLAlchemyError:
+            self.logger.error("Get users by id fail. email %s. error %s", user_id,
+                              traceback.format_exc())
+            raise SQLCustomError(description="Get user by user_id SQL ERROR")
 
     def get_user_by_username(self, username: str) -> Optional[UserModel]:
         """
@@ -237,3 +250,32 @@ class UserService(Service):
                               traceback.format_exc())
             raise SQLCustomError(description="Change password by ID SQL ERROR")
 
+    def reset_password(self, data: Dict) -> bool:
+        """
+        reset password by full admin
+        """
+        if not self.input_validate.validate_json(data, password_reset_schema):
+            self.logger.error("Reset password validation fail")
+            raise ValidateFail("Reset password validation fail")
+        user = self.get_user_model_by_id(data.get("user_id"))
+        return self.change_password_by_id(user.id, data.get("password"))
+
+    def change_password(self, user_id: int, data: Dict[str, str]) -> bool:
+        """
+        change password by user
+        :params user_id
+        :params data
+        """
+        if not self.input_validate.validate_json(data, password_change_schema):
+            self.logger.error("Change password validation fail")
+            raise ValidateFail("Change password validation fail")
+        current_pwd = data.get("current_password")
+        new_pwd = data.get("new_password")
+        new_confirm_pwd = data.get("new_confirm_password")
+        user = self.get_user_model_by_id(user_id)
+        if not self.check_password(current_pwd, user):
+            raise ThingahaCustomError("Current password is incorrect.")
+        if new_pwd == new_confirm_pwd:
+            return self.change_password_by_id(user_id, new_pwd)
+        self.logger.error("Password and confirm password are different")
+        raise ThingahaCustomError("Password and confirm password are different")

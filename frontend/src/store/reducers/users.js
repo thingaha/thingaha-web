@@ -6,6 +6,7 @@ import {
   SUBMIT_EDIT_USER_FORM_SUCCESS,
   SUBMIT_EDIT_USER_FORM_FAILURE,
 } from '../actions/users'
+import updateObjectInArray from '../../utils/updateObjectInArray'
 
 export default (state = { users: [] }, action) => {
   switch (action.type) {
@@ -34,9 +35,15 @@ export default (state = { users: [] }, action) => {
         error: action.error,
       }
     case SUBMIT_EDIT_USER_FORM_SUCCESS:
+      const updatedUsers = updateObjectInArray(
+        state.users,
+        action.user,
+        (user, updatedUser) => user.id === updatedUser.id
+      )
+
       return {
         ...state,
-        users: [...action.users],
+        users: [...updatedUsers],
       }
     case SUBMIT_EDIT_USER_FORM_FAILURE:
       return {

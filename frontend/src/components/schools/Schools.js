@@ -80,7 +80,7 @@ const Schools = ({
       <SchoolsContainer>
         {schools.map((school) => {
           return (
-            <li name="school-row">
+            <li name="school-row" key={school.id}>
               <SchoolCard
                 school={school}
                 onEdit={(editSchool) => {

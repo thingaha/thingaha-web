@@ -5,10 +5,10 @@ import styled from 'styled-components'
 import * as actions from '../../store/actions'
 import FormControl from '@material-ui/core/FormControl'
 import TextField from '@material-ui/core/TextField'
-import Select from '@material-ui/core/Select'
+import Typography from '@material-ui/core/Typography'
 import MenuItem from '@material-ui/core/MenuItem'
 import ThingahaFormModal from '../common/ThingahaFormModal'
-//import InputLabel from '@material-ui/core/InputLabel'
+import ThingahaSelect from '../common/ThingahaSelect'
 
 const FormContainer = styled.div`
   display: flex;
@@ -21,6 +21,15 @@ const FormContainer = styled.div`
 const StyledFormControl = styled(FormControl)`
   width: 100%;
   margin-bottom: 1rem;
+
+  .note {
+    margin-top: 0.5rem;
+    font-weight: bold;
+  }
+
+  .select {
+    margin-top: 1rem;
+  }
 `
 
 const UserForm = ({
@@ -36,106 +45,63 @@ const UserForm = ({
   submitEditUserForm,
   editingUser,
 }) => {
-  if (editingUser) {
-    return (
-      <ThingahaFormModal
-        title={'Edit User'}
-        open={visible}
-        onClose={() => setVisible(false)}
-        onCancel={() => setVisible(false)}
-        onSubmit={() => {
-          submitEditUserForm(values)
-          setVisible(false)
-        }}
-      >
-        <form>
-          <FormContainer>
-            <StyledFormControl>
-              <TextField
-                id="name"
-                name="name"
-                placeholder="Jane"
-                label="User Name"
-                onChange={handleChange}
-                value={values.name}
-              />
-            </StyledFormControl>
-            <StyledFormControl>
-              <TextField
-                id="email"
-                name="email"
-                placeholder="jane@acme.com"
-                label="Email"
-                type="email"
-                onChange={handleChange}
-                value={values.email}
-              />
-            </StyledFormControl>
-            <StyledFormControl>
-              <Select
-                onChange={handleChange}
-                value={values.role}
-                id="role"
-                name="role"
-                label="Role"
-              >
-                <MenuItem value="donator">Donator</MenuItem>
-                <MenuItem value="admin">Admin</MenuItem>
-                <MenuItem value="superadmin">Super Admin</MenuItem>
-              </Select>
-            </StyledFormControl>
-            <StyledFormControl>
-              <Select
-                onChange={handleChange}
-                value={values.country}
-                id="country"
-                name="country"
-                label="Country"
-              >
-                <MenuItem value="jp">Japan</MenuItem>
-                <MenuItem value="mm">Myanmar</MenuItem>
-                <MenuItem value="sg">Singapore</MenuItem>
-              </Select>
-            </StyledFormControl>
-          </FormContainer>
-        </form>
-      </ThingahaFormModal>
-    )
-  } else {
-    return (
-      <ThingahaFormModal
-        title={'Add New User'}
-        open={visible}
-        onClose={() => setVisible(false)}
-        onCancel={() => setVisible(false)}
-        onSubmit={() => {
-          submitUserForm(values)
-          setVisible(false)
-        }}
-      >
-        <form>
-          <FormContainer>
-            <StyledFormControl>
-              <TextField
-                id="name"
-                name="name"
-                placeholder="Jane"
-                label="User Name"
-                onChange={handleChange}
-                value={values.name}
-              />
-            </StyledFormControl>
-            <StyledFormControl>
-              <TextField
-                id="email"
-                name="email"
-                placeholder="jane@acme.com"
-                label="Email"
-                type="email"
-                onChange={handleChange}
-                value={values.email}
-              />
-            </StyledFormControl>
+  return (
+    <ThingahaFormModal
+      title={Boolean(editingUser) ? 'Edit User' : 'Add New User'}
+      open={visible}
+      onClose={() => setVisible(false)}
+      onCancel={() => setVisible(false)}
+      onSubmit={() => {
+        Boolean(editingUser)
+          ? submitEditUserForm(values)
+          : submitUserForm(values)
+        setVisible(false)
+      }}
+    >
+      <form>
+        <FormContainer>
+          <StyledFormControl>
+            <TextField
+              id="username"
+              name="username"
+              placeholder="Please input username for logging in."
+              label="User Name"
+              onChange={handleChange}
+              value={values.username}
+            />
+            <Typography
+              variant="body2"
+              display="block"
+              color="textPrimary"
+              gutterTop
+              className="note"
+            >
+              * Allowed characters: lower case alphabetical characters, numbers,
+              -, _, . only.
+            </Typography>
+          </StyledFormControl>
+          <StyledFormControl>
+            <TextField
+              id="email"
+              name="email"
+              placeholder="jane@acme.com"
+              label="Email"
+              type="email"
+              onChange={handleChange}
+              value={values.email}
+            />
+          </StyledFormControl>
+          <StyledFormControl>
+            <TextField
+              id="display_name"
+              name="display_name"
+              placeholder="Chan Myae"
+              label="Display Name"
+              onChange={handleChange}
+              value={values.display_name}
+            />
+          </StyledFormControl>
+          {Boolean(editingUser) ? null : (
             <StyledFormControl>
               <TextField
                 id="password"
@@ -147,46 +113,48 @@ const UserForm = ({
                 value={values.password}
               />
             </StyledFormControl>
-            <StyledFormControl>
-              <Select
-                onChange={handleChange}
-                value={values.role}
-                id="role"
-                name="role"
-                label="Role"
-              >
-                <MenuItem value="donator">Donator</MenuItem>
-                <MenuItem value="admin">Admin</MenuItem>
-                <MenuItem value="superadmin">Super Admin</MenuItem>
-              </Select>
-            </StyledFormControl>
-            <StyledFormControl>
-              <Select
-                onChange={handleChange}
-                value={values.country}
-                id="country"
-                name="country"
-                label="Country"
-              >
-                <MenuItem value="jp">Japan</MenuItem>
-                <MenuItem value="mm">Myanmar</MenuItem>
-                <MenuItem value="sg">Singapore</MenuItem>
-              </Select>
-            </StyledFormControl>
-          </FormContainer>
-        </form>
-      </ThingahaFormModal>
-    )
-  }
+          )}
+          <StyledFormControl>
+            <ThingahaSelect
+              onChange={handleChange}
+              value={values.role}
+              id="role"
+              name="role"
+              label="Role"
+            >
+              <MenuItem value="donator">Donator</MenuItem>
+              <MenuItem value="admin">Admin</MenuItem>
+              <MenuItem value="superadmin">Super Admin</MenuItem>
+            </ThingahaSelect>
+          </StyledFormControl>
+          <StyledFormControl>
+            <ThingahaSelect
+              onChange={handleChange}
+              value={values.country}
+              id="country"
+              name="country"
+              label="Country"
+            >
+              <MenuItem value="jp">Japan</MenuItem>
+              <MenuItem value="mm">Myanmar</MenuItem>
+              <MenuItem value="sg">Singapore</MenuItem>
+            </ThingahaSelect>
+          </StyledFormControl>
+        </FormContainer>
+      </form>
+    </ThingahaFormModal>
+  )
 }
 
 const transformUserSchema = (user) => {
   return {
     id: user.id,
-    name: user.name,
+    username: user.username,
+    display_name: user.display_name,
     email: user.email,
     country: user.country,
     role: user.role,
+    addressId: user.address_id,
   }
 }
 const mapStateToProps = (state) => ({
@@ -211,7 +179,8 @@ const FormikUserForm = withFormik({
       return props.editingUser
     } else {
       return {
-        name: '',
+        username: '',
+        display_name: '',
         email: '',
         password: '',
         role: 'donator',
@@ -224,8 +193,12 @@ const FormikUserForm = withFormik({
   validate: (values) => {
     const errors = {}
 
-    if (values.name == '') {
-      errors.name = 'Required'
+    if (values.username === '') {
+      errors.usernme = 'Required'
+    }
+
+    if (values.display_name === '') {
+      errors.display_name = 'Required'
     }
 
     return errors

@@ -1,20 +1,16 @@
-// import React from 'react'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { withFormik } from 'formik'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
+import * as yup from 'yup'
 import * as actions from '../../store/actions'
 import FormControl from '@material-ui/core/FormControl'
 import TextField from '@material-ui/core/TextField'
-import Select from '@material-ui/core/Select'
-import MenuItem from '@material-ui/core/MenuItem'
 import ThingahaFormModal from '../common/ThingahaFormModal'
-import InputLabel from '@material-ui/core/InputLabel'
-import CheckCircleRoundedIcon from '@material-ui/icons/CheckCircleRounded';
-import Checkbox from '@material-ui/core/Checkbox';
+import Checkbox from '@material-ui/core/Checkbox'
+import ThingahaAddressFields from '../common/ThingahaAddressFields'
 
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-
+import FormControlLabel from '@material-ui/core/FormControlLabel'
 
 const FormContainer = styled.div`
   display: flex;
@@ -43,34 +39,30 @@ const AddressContainer = styled.div`
   margin-bottom: 0.8rem;
 `
 
-const Divisions = ["Yangon", "Mandalay", "Bago", "Sagaing", "Magwe", "Ayeyarwaddy", "Thaninthayi", "Kachin", "Kayah", "Kayin", "Chin", "Mon", "Rakhine", "Shan"]
-
 const StudentForm = ({
   visible,
   setVisible,
   editingStudent,
   values,
+  setFieldValue,
+  setValues,
   handleChange,
-  submitNewStudentForm,
-  submitEditStudentForm,
+  errors,
+  validateForm,
+  submitForm,
+  handleSubmit,
 }) => {
-
   return (
     <ThingahaFormModal
       title={editingStudent ? 'Edit Student' : 'Add New Student'}
       open={visible}
       onClose={() => setVisible(false)}
       onCancel={() => setVisible(false)}
-      onSubmit={() => {
-        if (editingStudent) {
-          submitEditStudentForm(values)
-        } else {
-          submitNewStudentForm(values)
-        }
-        setVisible(false)
+      onSubmit={(e) => {
+        submitForm(e)
       }}
     >
-      <form>
+      <form onSubmit={handleSubmit}>
         <FormContainer>
           <StyledFormControl>
             <TextField
@@ -80,6 +72,8 @@ const StudentForm = ({
               label="Name"
               onChange={handleChange}
               value={values.name}
+              error={Boolean(errors.name)}
+              helperText={errors.name}
             />
           </StyledFormControl>
           <StyledFormControl>
@@ -94,6 +88,8 @@ const StudentForm = ({
               InputLabelProps={{
                 shrink: true,
               }}
+              error={Boolean(errors.birth_date)}
+              helperText={errors.birth_date}
             />
           </StyledFormControl>
 
@@ -105,6 +101,8 @@ const StudentForm = ({
               label="Father's Name"
               onChange={handleChange}
               value={values.father_name}
+              error={Boolean(errors.father_name)}
+              helperText={errors.father_name}
             />
           </StyledFormControl>
           <StyledFormControl>
@@ -115,6 +113,8 @@ const StudentForm = ({
               label="Mother's Name"
               onChange={handleChange}
               value={values.mother_name}
+              error={Boolean(errors.mother_name)}
+              helperText={errors.mother_name}
             />
           </StyledFormControl>
           <StyledFormControl>
@@ -125,67 +125,34 @@ const StudentForm = ({
               label="Parents Occupation"
               onChange={handleChange}
               value={values.parents_occupation}
+              error={Boolean(errors.parents_occupation)}
+              helperText={errors.parents_occupation}
             />
           </StyledFormControl>
           <AddressContainer>
-            <span className="address">Address </span>
+            <span className="address">Address</span>
           </AddressContainer>
-          <StyledFormControl>
-            <InputLabel id="division">Division</InputLabel>
-            <Select
-              onChange={handleChange}
-              value={values.division}
-              id="division"
-              name="division"
-              label="Division"
-            >
-              {Divisions.map((value, index) =>
-                <MenuItem key={index} value={value}>{value}</MenuItem>
-              )}
-            </Select>
-          </StyledFormControl>
-          <StyledFormControl>
-            <TextField
-              onChange={handleChange}
-              value={values.district}
-              id="district"
-              name="district"
-              label="District"
-              placeholder="enter district address..."
-            />
-          </StyledFormControl>
-          <StyledFormControl>
-
-            <TextField
-              id="township"
-              name="township"
-              placeholder="enter street address..."
-              label="Township"
-              onChange={handleChange}
-              value={values.township}
-            />
-          </StyledFormControl>
-          <StyledFormControl>
-            <TextField
-              id="street_address"
-              name="street_address"
-              placeholder="enter street address..."
-              label="Street Address"
-              onChange={handleChange}
-              value={values.street_address}
-            />
-          </StyledFormControl>
+          <ThingahaAddressFields
+            values={values}
+            handleChange={handleChange}
+            setFieldValue={setFieldValue}
+            setValues={setValues}
+            errors={errors}
+            validateForm={validateForm}
+          />
           <StyledFormControl>
             <div className="icon">
               <FormControlLabel
-                control={<Checkbox
-                  checked={values.isActivate}
-                  onChange={handleChange}
-                  name="isActivate"
-                  id="isActivate"
-                  value={values.isActivate}
-                  color="primary"
-                />}
+                control={
+                  <Checkbox
+                    checked={values.active}
+                    onChange={handleChange}
+                    name="active"
+                    id="active"
+                    value={values.active}
+                    color="primary"
+                  />
+                }
                 label="Active?"
               />
             </div>
@@ -196,12 +163,10 @@ const StudentForm = ({
   )
 }
 
-
 const transformStudentSchemaFlat = (student) => {
   return {
     id: student.id,
     name: student.name,
-    deactivated_at: student.deactivated_at,
     birth_date: student.birth_date,
     father_name: student.father_name,
     mother_name: student.mother_name,
@@ -210,16 +175,15 @@ const transformStudentSchemaFlat = (student) => {
     district: student.address.district,
     township: student.address.township,
     street_address: student.address.street_address,
-    isActivate: student.isActivate,
+    active: !Boolean(student.deactivated_at),
   }
 }
 
 const transformStudentSchema = (student) => {
-
   return {
     id: student.id,
     name: student.name,
-    deactivated_at: student.deactivated_at,
+    active: student.active,
     birth_date: student.birth_date,
     father_name: student.father_name,
     mother_name: student.mother_name,
@@ -230,7 +194,6 @@ const transformStudentSchema = (student) => {
       township: student.township,
       street_address: student.street_address,
     },
-    isActivate: student.isActivate,
   }
 }
 
@@ -254,9 +217,7 @@ const FormikStudentForm = withFormik({
   mapPropsToValues: (props) => {
     return transformStudentSchemaFlat(
       props.editingStudent || {
-        id: '',
         name: '',
-        deactivated_at: '',
         birth_date: '',
         father_name: '',
         mother_name: '',
@@ -267,21 +228,32 @@ const FormikStudentForm = withFormik({
           township: '',
           street_address: '',
         },
-        isActivate: true,
+        active: true,
       }
     )
   },
 
-  // Custom sync validation
-  validate: (values) => {
-    const errors = {}
-
-    if (!values.name) {
-      errors.name = 'Required'
+  handleSubmit: (values, { props }) => {
+    if (props.editingStudent) {
+      props.submitEditStudentForm(values)
+    } else {
+      props.submitNewStudentForm(values)
     }
 
-    return errors
+    props.setVisible(false)
   },
+
+  validationSchema: yup.object().shape({
+    name: yup.string().label('Name').required(),
+    birth_date: yup.string().label('Birth Date').required(),
+    father_name: yup.string().label('Father Name').required(),
+    mother_name: yup.string().label('Mother Name').required(),
+    parents_occupation: yup.string().label('Parents Occupation').required(),
+    division: yup.string().label('Division').required(),
+    district: yup.string().label('District').required(),
+    township: yup.string().label('Township').required(),
+    street_address: yup.string().label('Street Address').required(),
+  }),
 
   displayName: 'StudentForm',
   enableReinitialize: true,

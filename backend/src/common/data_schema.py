@@ -15,18 +15,39 @@ address_schema = Schema({
 school_schema = Schema({
     "name": str,
     "contact_info": str,
-    "address_id": int
+    "address_id": Or(None, int)
 })
 
 user_schema = Schema({
     "username": Regex("^(?=[a-zA-Z0-9._]{6,20}$)(?!.*[_.]{2})[^_.].*[^_.]$"),
     "display_name": str,
     "email": str,
-    "address_id": int,
+    "address_id": Or(None, int),
     "password": str,
     "role": str,
     "country": str,
     "donation_active": bool
+})
+
+user_update_schema = Schema({
+    "username": str,
+    "display_name": str,
+    "email": str,
+    "role": str,
+    "address_id": Or(None, int),
+    "country": str,
+    "donation_active": bool
+})
+
+password_reset_schema = Schema({
+    "user_id": int,
+    "password": str
+})
+
+password_change_schema = Schema({
+    "current_password": str,
+    "new_password": str,
+    "new_confirm_password": str
 })
 
 attendance_schema = Schema({
@@ -72,6 +93,6 @@ student_schema = Schema({
     "father_name": str,
     "mother_name": str,
     "parents_occupation": str,
-    "photo": str,
-    "address_id": int
+    "photo": Or(None, str),
+    "address_id": Or(None, int)
 })

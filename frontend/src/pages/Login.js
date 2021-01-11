@@ -92,15 +92,15 @@ const Login = ({
           <FormContainer>
             <StyledFormControl>
               <TextField
-                id="email"
-                name="email"
-                type="email"
-                placeholder="Enter Your Email"
-                label="Email"
+                id="email_or_username"
+                name="email_or_username"
+                type="email_or_username"
+                placeholder="Enter Your Email Or User Name"
+                label="Email Or User Name"
                 onChange={handleChange}
-                value={values.email}
+                value={values.email_or_username}
                 variant="filled"
-                error={!!errors.email}
+                error={!!errors.email_or_username}
               />
             </StyledFormControl>
             <StyledFormControl>
@@ -150,23 +150,23 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    logInUser: ({ email, password }) =>
-      dispatch(actions.logInUser({ email, password })),
+    logInUser: ({ email_or_username, password }) =>
+      dispatch(actions.logInUser({ email_or_username, password })),
   }
 }
 
 const FormikLoginForm = withFormik({
   mapPropsToValues: () => ({
-    email: '',
+    email_or_username: '',
     password: '',
   }),
 
   // Custom sync validation
-  validate: ({ email, password }) => {
+  validate: ({ email_or_username, password }) => {
     const errors = {}
 
-    if (!email) {
-      errors.email = 'Required'
+    if (!email_or_username) {
+      errors.email_or_username = 'Required'
     }
 
     if (!password) {
@@ -176,8 +176,8 @@ const FormikLoginForm = withFormik({
     return errors
   },
 
-  handleSubmit: ({ email, password }, { props: { logInUser } }) => {
-    logInUser({ email, password })
+  handleSubmit: ({ email_or_username, password }, { props: { logInUser } }) => {
+    logInUser({ email_or_username, password })
   },
 
   displayName: 'Login',

@@ -39,7 +39,7 @@ export default (state = initialState, action) => {
       const updatedSchools = updateObjectInArray(
         state.schools,
         action.school,
-        (school, updatedSchool) => school.id == updatedSchool.id
+        (school, updatedSchool) => school.id === updatedSchool.id
       )
       return {
         ...state,

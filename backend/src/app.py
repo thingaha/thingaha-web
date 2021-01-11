@@ -29,7 +29,7 @@ jwt = JWTManager(app)
 
 api.jwt = jwt
 api.division_file_path = division_file_path
-
+api.default_address = conf["common"]["default_address"]
 
 @jwt.user_claims_loader
 def add_claims_to_access_token(user):

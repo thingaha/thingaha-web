@@ -41,7 +41,7 @@ class TransferModel(db.Model):
         }
 
     @staticmethod
-    def create_transfer(new_transfer) -> bool:
+    def create_transfer(new_transfer: TransferModel) -> bool:
         """
         create new transfer record
         :param new_transfer:
@@ -56,7 +56,7 @@ class TransferModel(db.Model):
             raise error
 
     @staticmethod
-    def get_all_transfers(page: int, per_page:int = 20) -> Pagination:
+    def get_all_transfers(page: int, per_page: int = 20) -> Pagination:
         """
         get all Transfer records
         :param: int
@@ -96,7 +96,7 @@ class TransferModel(db.Model):
             raise error
 
     @staticmethod
-    def update_transfer(transfer_id: int, transfer) -> bool:
+    def update_transfer(transfer_id: int, transfer: TransferModel) -> bool:
         """
         update transfer info by id
         :param transfer_id:

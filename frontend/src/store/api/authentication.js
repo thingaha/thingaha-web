@@ -4,11 +4,11 @@ import config from '../../config'
 
 // Development only - fake login method
 // Just returning hardcoded values
-const draftLogin = ({ email, password }) => {
+const draftLogin = ({ email_or_username, password }) => {
   const fakeCredentials = {
     accessToken: 'faketoken',
     currentUser: {
-      email,
+      email_or_username,
       name: 'Fake Login',
     },
   }
@@ -17,12 +17,12 @@ const draftLogin = ({ email, password }) => {
   return fakeCredentials
 }
 
-export const login = async ({ email, password }) => {
+export const login = async ({ email_or_username, password }) => {
   if (config.useDraftServer) {
-    return draftLogin({ email, password })
+    return draftLogin({ email_or_username, password })
   } else {
     const { data } = await thingahaApiClient.post('/login', {
-      email,
+      email_or_username,
       password,
     })
 
