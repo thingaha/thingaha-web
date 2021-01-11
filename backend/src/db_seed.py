@@ -34,6 +34,12 @@ def insert_data_to_table(table_name: str, datas: dict) -> str:
     """
     return "INSERT INTO " + table_name + "(" + ",".join(datas.keys()) + ") VALUES (" + ",".join(datas.values()) + ")"
 
+    with open("../bin/db_seed/extrafunds.csv", "r", encoding="utf-8") as f:
+        CURSOR.copy_from(f, "extrafunds", sep=",")
+        CONN.commit()
+
+    with open("../bin/db_seed/donations.csv", "r", encoding="utf-8") as f:
+        CURSOR.copy_from(f, "donations", sep=",")
 
 try:
     read_and_insert_data("../bin/db_seed/addresses.csv", "ADDRESSES")

@@ -1,7 +1,6 @@
 """address service layer for CRUD action"""
 import traceback
 from typing import Dict, Any, List
-
 from sqlalchemy.exc import SQLAlchemyError
 
 from common.data_schema import extra_funds_schema
@@ -127,4 +126,3 @@ class ExtraFundsService(Service):
         except SQLAlchemyError:
             self.logger.error("Get all transfer fail. error %s", traceback.format_exc())
             raise SQLCustomError(description="GET transfer SQL ERROR")
-

@@ -163,6 +163,10 @@ def delete_user(user_id: int):
         current_app.logger.info("Delete user : user_id: %s", user_id)
         user_delete_status = False
         user = user_service.get_user_by_id(user_id)
+        if len(user) == 0:
+            current_app.logger.error("No user id to delete: {}".format(user_id))
+            return jsonify({"errors": ["No user id to delete"]}), 404
+
         if user_service.delete_user_by_id(user_id):
             user_delete_status = address_service.delete_address_by_id(user["address"]["id"])
         return jsonify({

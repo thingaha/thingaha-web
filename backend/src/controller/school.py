@@ -117,8 +117,6 @@ def delete_school(school_id):
         if school_service.delete_school_by_id(school_id):
             school_delete_status = address_service.delete_address_by_id(
                 school["address"]["id"])
-        else:
-            current_app.logger.error("Fail to delete school id: {}".format(school_id))
 
         return jsonify({
             "status": school_delete_status

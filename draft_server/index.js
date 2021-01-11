@@ -70,6 +70,10 @@ app.get('/addresses', (req, res) => {
   res.json(json)
 })
 
+//extrafunds
+app.get('/extrafunds', (req, res) => {
+  const json = require('./sample_data/extrafunds.json')
+
 app.get('/students', (req, res) => {
   const json = require('./sample_data/students.json')
   res.json(json)
