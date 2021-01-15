@@ -20,6 +20,7 @@ import Users from './components/users/Users'
 import DonationDashboard from './components/dashboard/DonationDashboard'
 import Schools from './components/schools/Schools'
 import Students from './components/students/Students'
+import Donations from './components/donations/Donations'
 import StudentDetails from './components/students/StudentDetails'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -78,6 +79,8 @@ const AdminApp = () => {
       <Switch>
         <Route path="/login" exact component={Login} />
         <PrivateRoute path="/" exact component={DonationDashboard} />
+        <PrivateRoute path="/donations" exact component={Donations} />
+        {/* <PrivateRoute path="/donations/:id" exact component={StudentDetails} /> */}
         <PrivateRoute path="/users" exact component={Users} />
         <PrivateRoute path="/schools" exact component={Schools} />
         <PrivateRoute path="/addresses" exact component={Addresses} />

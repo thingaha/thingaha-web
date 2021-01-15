@@ -16,10 +16,12 @@ import {
 } from './sagas/users'
 
 import {
+  GET_ALL_DONATIONS,
   GET_DONATIONS_FOR_MONTH,
   UPDATE_DONATION_STATUS,
 } from './actions/donations'
 import {
+  fetchDonations,
   fetchDonationsForMonth,
   startDonationStatusUpdate,
 } from './sagas/donations'
@@ -61,6 +63,7 @@ export default function* rootSaga() {
     takeLatest(GET_ALL_USERS, fetchAllUsers),
     takeLatest(SUBMIT_USER_FORM, submitUserForm),
     takeLatest(SUBMIT_EDIT_USER_FORM, submitEditUserForm),
+    takeLatest(GET_ALL_DONATIONS, fetchDonations),
     takeLatest(GET_DONATIONS_FOR_MONTH, fetchDonationsForMonth),
     takeLatest(UPDATE_DONATION_STATUS, startDonationStatusUpdate),
     takeLatest(GET_ALL_SCHOOLS, fetchAllSchools),

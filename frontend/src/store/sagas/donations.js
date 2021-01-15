@@ -2,14 +2,31 @@ import {
   put,
   // call
 } from 'redux-saga/effects'
-import { getDonationsForMonth } from '../api/donations'
+import { getDonationsForMonth, fetchAllDonations } from '../api/donations'
 import {
+  GET_ALL_DONATIONS_SUCCESS,
+  GET_ALL_DONATIONS_FAILURE,
   GET_DONATIONS_FOR_MONTH_FAILURE,
   GET_DONATIONS_FOR_MONTH_SUCCESS,
   UPDATE_DONATION_STATUS_SUCCESS,
   UPDATE_DONATION_STATUS_FAILURE,
 } from '../actions/donations'
 import defaultErrorHandler from './defaultErrorHandler'
+
+export function* fetchDonations({ page }) {
+  try {
+    const { data } = yield fetchAllDonations({ page })
+
+    yield put({
+      type: GET_ALL_DONATIONS_SUCCESS,
+      donations: data.donations,
+      totalCount: data.total_count,
+      totalPages: data.total_pages,
+    })
+  } catch (error) {
+    yield defaultErrorHandler(error, GET_ALL_DONATIONS_FAILURE)
+  }
+}
 
 export function* fetchDonationsForMonth(action) {
   try {

@@ -1,4 +1,4 @@
-// Fetching all donations from server
+// Fetching monthly donations from server
 export const GET_DONATIONS_FOR_MONTH = 'DONATIONS/GET_DONATIONS_FOR_MONTH'
 export const GET_DONATIONS_FOR_MONTH_SUCCESS =
   'DONATIONS/GET_DONATIONS_FOR_MONTH_SUCCESS'
@@ -11,6 +11,17 @@ export const UPDATE_DONATION_STATUS_SUCCESS =
   'DONATIONS/UPDATE_DONATION_STATUS_SUCCESS'
 export const UPDATE_DONATION_STATUS_FAILURE =
   'DONATIONS/UPDATE_DONATION_STATUS_FAILURE'
+
+export const GET_ALL_DONATIONS = 'DONATIONS/GET_ALL_DONATIONS'
+export const GET_ALL_DONATIONS_SUCCESS = 'DONATIONS/GET_ALL_DONATIONS_SUCCESS'
+export const GET_ALL_DONATIONS_FAILURE = 'DONATIONS/GET_ALL_DONATIONS_FAILURE'
+
+export const fetchDonations = ({ page } = { page: 1 }) => {
+  return {
+    type: GET_ALL_DONATIONS,
+    page,
+  }
+}
 
 export const getDonationsForMonth = (year, month) => {
   return {
