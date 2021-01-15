@@ -15,7 +15,7 @@ const Myanmar = ({ donations }) => (
 const Japan = ({ donations }) => <CurrentMonthDonations donations={donations} />
 const All = ({ donations }) => <CurrentMonthDonations donations={donations} />
 
-const Donations = ({ donations, getDonationsForMonth }) => {
+const DonationDashboard = ({ donations, getDonationsForMonth }) => {
   useEffect(() => {
     getDonationsForMonth()
   }, [getDonationsForMonth])
@@ -90,4 +90,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Donations)
+export default connect(mapStateToProps, mapDispatchToProps)(DonationDashboard)

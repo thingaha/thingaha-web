@@ -17,12 +17,12 @@ import BaseLayout from './components/layouts/BaseLayout'
 import Login from './pages/Login'
 import NotFound from './pages/NotFound'
 import Users from './components/users/Users'
-import Donations from './components/donations/Donations'
+import DonationDashboard from './components/dashboard/DonationDashboard'
 import Schools from './components/schools/Schools'
 import Students from './components/students/Students'
 import StudentDetails from './components/students/StudentDetails'
-import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import Addresses from './components/addresses/Addresses'
 import { checkLoginState } from './store/actions/authentication'
 
@@ -77,7 +77,7 @@ const AdminApp = () => {
     <Router>
       <Switch>
         <Route path="/login" exact component={Login} />
-        <PrivateRoute path="/" exact component={Donations} />
+        <PrivateRoute path="/" exact component={DonationDashboard} />
         <PrivateRoute path="/users" exact component={Users} />
         <PrivateRoute path="/schools" exact component={Schools} />
         <PrivateRoute path="/addresses" exact component={Addresses} />
