@@ -5,6 +5,7 @@ import Chip from '@material-ui/core/Chip'
 import EditIcon from '@material-ui/icons/EditRounded'
 import PermPhoneMsgIcon from '@material-ui/icons/PermPhoneMsg'
 import { formatMMK, formatJPY } from '../../utils/formatCurrency'
+import { media } from '../../styles/variables'
 
 const DonationCardWrapper = styled(Paper)`
   display: flex;
@@ -54,6 +55,11 @@ const DonationCardWrapper = styled(Paper)`
   & .col2 .bottom-row .content {
     display: flex;
     justify-content: flex-start;
+
+    ${media.mobileOnly} {
+      flex-direction: column;
+      justify-content: flex-start;
+    }
   }
 
   & .year {
@@ -86,10 +92,15 @@ const DonationCardWrapper = styled(Paper)`
     justify-content: space-between;
     align-items: center;
     margin-left: 1rem;
+
+    ${media.mobileOnly} {
+      margin-left: 0;
+    }
   }
 
   & .property-name {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
+    color: ${({ theme }) => theme.palette.text.secondary};
     line-height: 2rem;
   }
 
