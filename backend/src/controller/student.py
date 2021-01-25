@@ -96,7 +96,7 @@ def create_student():
 @cross_origin()
 def delete_students(student_id: int):
     """
-    delete student  by ID
+    delete student by ID
     :param student_id:
     :return:
     """
@@ -105,6 +105,10 @@ def delete_students(student_id: int):
         student_delete_status = False
         student = student_service.get_student_by_id(student_id)
         if student_service.delete_student_by_id(student_id):
+            if student.get("photo") and student_service.delete_file(student.get("photo")):
+                current_app.logger.info("Student photo exists and delete the photo in s3")
+            else:
+                current_app.logger.warning("No photo or delete the photo in s3")
             student_delete_status = address_service.delete_address_by_id(student["address"]["id"])
         return jsonify({
             "status": student_delete_status
