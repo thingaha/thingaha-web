@@ -1,8 +1,12 @@
+import os
 import traceback
-from typing import List, Dict, Any, Optional, Union
+from typing import List, Dict, Any, Optional
 
+from botocore.exceptions import ClientError
 from sqlalchemy.exc import SQLAlchemyError
 
+from common.aws_client import get_client, get_bucket
+from common.config import S3_BUCKET
 from common.data_schema import student_schema
 from common.error import SQLCustomError, RequestDataEmpty, ValidateFail
 from models.student import StudentModel
@@ -16,6 +20,7 @@ class StudentService(Service):
     """
     def __init__(self, logger=None) -> None:
         super().__init__(logger)
+        self.ALLOWED_EXTENSIONS = ["png", "jpg", "jpeg"]
 
     @staticmethod
     def __return_student_list(query: list) -> List:
@@ -168,3 +173,57 @@ class StudentService(Service):
             self.logger.error("Get students by name fail. query %s. error %s", query,
                               traceback.format_exc())
             raise SQLCustomError(description="GET students by query SQL ERROR")
+
+    def allowed_file(self, filename: str) -> Optional[str]:
+        """
+        check file name extension
+        :params: filename : str
+        return: True or False
+        """
+        file_extension = filename.rsplit(".", 1)[1].lower()
+        if "." in filename and file_extension in self.ALLOWED_EXTENSIONS:
+            return file_extension
+        return None
+
+    @staticmethod
+    def __is_dev():
+        """
+        check env
+        """
+        return os.environ.get("SCRIPT_ENV") != "production"
+
+    def delete_file(self, url: str) -> bool:
+        """
+        delete image file
+        :params: url : str
+        return: True or False
+        """
+        key = url.split("/")[-1]
+        if self.__is_dev():
+            self.logger.info("Development env and return True")
+            return True
+        try:
+            my_bucket = get_bucket()
+            my_bucket.Object(key).delete()
+            return True
+        except ClientError as error:
+            self.logger.error("File delete error %s", error)
+            return False
+
+    def upload_file(self, img, file_name: str) -> bool:
+        """
+        upload file to S3
+        :params img : image object
+        :file_name : file name str
+        return: True or False
+        """
+        if self.__is_dev():
+            self.logger.info("Development env and return True")
+            return True
+        s3_client = get_client()
+        try:
+            s3_client.upload_fileobj(img, S3_BUCKET, file_name, ExtraArgs={"ACL": "public-read"})
+            return True
+        except ClientError as error:
+            self.logger.error("File upload error %s", error)
+            return False
