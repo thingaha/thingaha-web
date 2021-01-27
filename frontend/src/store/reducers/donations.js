@@ -14,7 +14,6 @@ import {
 export default (state = { donations: {}, errors: [] }, action) => {
   switch (action.type) {
     case GET_ALL_DONATIONS_SUCCESS:
-      console.log('Handling get all donations success.', action, state)
       return {
         ...state,
         donations: normalizeRecordsById(action.donations),
