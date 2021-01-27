@@ -62,12 +62,13 @@ def create_donation():
         donation_id = donation_service.create_donation({
             "user_id": data.get("user_id"),
             "attendance_id": data.get("attendance_id"),
-            "transfer_id": data.get("transfer_id"),
+            "transfer_id": data.get("transfer_id") or None,
             "month": data.get("month"),
             "year": data.get("year"),
-            "mmk_amount": data.get("mmk_amount"),
-            "jpy_amount": data.get("jpy_amount"),
-            "paid_at": data.get("paid_at")})
+            "mmk_amount": float(data.get("mmk_amount")),
+            "jpy_amount": float(data.get("jpy_amount")),
+            "paid_at": data.get("paid_at") or None
+        })
         current_app.logger.info("Create donation success. donation: %s", data.get("user_id"))
         return get_donation_by_id(donation_id)
     except (RequestDataEmpty, SQLCustomError, ValidateFail) as error:
@@ -114,8 +115,27 @@ def update_donation(donation_id: int):
         return custom_error("No donation record for requested id: {}".format(donation_id))
 
     try:
+        print({
+            "user_id": data.get("user_id"),
+            "attendance_id": data.get("attendance_id"),
+            "transfer_id": data.get("transfer_id") or None,
+            "month": data.get("month"),
+            "year": data.get("year"),
+            "mmk_amount": float(data.get("mmk_amount")),
+            "jpy_amount": float(data.get("jpy_amount")),
+            "paid_at": data.get("paid_at") or donation.get("paid_at") or None
+        })
 
-        status = donation_service.update_donation_by_id(donation_id, data)
+        status = donation_service.update_donation_by_id(donation_id, {
+            "user_id": data.get("user_id"),
+            "attendance_id": data.get("attendance_id"),
+            "transfer_id": data.get("transfer_id") or None,
+            "month": data.get("month"),
+            "year": data.get("year"),
+            "mmk_amount": float(data.get("mmk_amount")),
+            "jpy_amount": float(data.get("jpy_amount")),
+            "paid_at": data.get("paid_at") or donation["paid_at"] or None
+        })
         if status:
             current_app.logger.info("Success update donation for donation_id: %s", donation_id)
             return get_donation_by_id(donation_id)
@@ -124,5 +144,5 @@ def update_donation(donation_id: int):
             return custom_error("Fail to update donation id: {}".format(donation_id))
 
     except (SQLCustomError, ValidateFail, RequestDataEmpty) as error:
-        current_app.logger.error("Update donation fail: donation_id: %s", donation_id)
+        current_app.logger.exception("Update donation fail: donation_id: %s", donation_id)
         return jsonify({"errors": [error.__dict__]}), 400
