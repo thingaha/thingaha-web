@@ -2,7 +2,12 @@ import {
   put,
   // call
 } from 'redux-saga/effects'
-import { getDonationsForMonth, fetchAllDonations } from '../api/donations'
+import {
+  createDonation,
+  editDonation,
+  getDonationsForMonth,
+  fetchAllDonations,
+} from '../api/donations'
 import {
   GET_ALL_DONATIONS_SUCCESS,
   GET_ALL_DONATIONS_FAILURE,
@@ -10,6 +15,10 @@ import {
   GET_DONATIONS_FOR_MONTH_SUCCESS,
   UPDATE_DONATION_STATUS_SUCCESS,
   UPDATE_DONATION_STATUS_FAILURE,
+  SUBMIT_NEW_DONATION_FORM_FAILURE,
+  SUBMIT_NEW_DONATION_FORM_SUCCESS,
+  SUBMIT_EDIT_DONATION_FORM_SUCCESS,
+  SUBMIT_EDIT_DONATION_FORM_FAILURE,
 } from '../actions/donations'
 import defaultErrorHandler from './defaultErrorHandler'
 
@@ -56,5 +65,24 @@ export function* startDonationStatusUpdate(action) {
       type: UPDATE_DONATION_STATUS_FAILURE,
       error,
     })
+  }
+}
+
+export function* submitNewDonationForm(action) {
+  try {
+    const { donation } = yield createDonation(action.donation)
+    yield put({ type: SUBMIT_NEW_DONATION_FORM_SUCCESS, donation: donation })
+  } catch (error) {
+    yield put({ type: SUBMIT_NEW_DONATION_FORM_FAILURE, error })
+  }
+}
+
+export function* submitEditDonationForm(action) {
+  try {
+    const { donation } = yield editDonation(action.donation)
+
+    yield put({ type: SUBMIT_EDIT_DONATION_FORM_SUCCESS, donation: donation })
+  } catch (error) {
+    yield put({ type: SUBMIT_EDIT_DONATION_FORM_FAILURE, error })
   }
 }

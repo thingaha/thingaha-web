@@ -10,9 +10,11 @@ export const SUBMIT_EDIT_USER_FORM_SUCCESS =
 export const SUBMIT_EDIT_USER_FORM_FAILURE =
   'USERS/SUBMIT_EDIT_USER_FORM_FAILURE'
 
-export const fetchUsers = () => {
+export const fetchUsers = ({ page, perPage } = { page: 1, perPage: 20 }) => {
   return {
     type: GET_ALL_USERS,
+    page,
+    perPage,
   }
 }
 

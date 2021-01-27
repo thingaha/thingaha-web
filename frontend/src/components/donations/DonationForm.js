@@ -1,13 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { withFormik } from 'formik'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
+import range from 'lodash/range'
+import values from 'lodash/values'
 import * as yup from 'yup'
 import * as actions from '../../store/actions'
 import FormControl from '@material-ui/core/FormControl'
 import TextField from '@material-ui/core/TextField'
+import MenuItem from '@material-ui/core/MenuItem'
 import ThingahaFormModal from '../common/ThingahaFormModal'
-import ThingahaAddressFields from '../common/ThingahaAddressFields'
+import ThingahaSelect from '../common/ThingahaSelect'
+import get from 'lodash/get'
 
 const FormContainer = styled.div`
   display: flex;
@@ -22,7 +26,22 @@ const StyledFormControl = styled(FormControl)`
   margin-bottom: 1rem;
 `
 
-const SchoolForm = ({
+const MONTHS = [
+  { name: 'January', value: 'january' },
+  { name: 'February', value: 'february' },
+  { name: 'March', value: 'march' },
+  { name: 'April', value: 'april' },
+  { name: 'May', value: 'may' },
+  { name: 'June', value: 'june' },
+  { name: 'July', value: 'july' },
+  { name: 'August', value: 'august' },
+  { name: 'September', value: 'september' },
+  { name: 'October', value: 'october' },
+  { name: 'November', value: 'november' },
+  { name: 'December', value: 'december' },
+]
+
+const DonationForm = ({
   values,
   handleChange,
   setFieldValue,
@@ -33,11 +52,40 @@ const SchoolForm = ({
   submitForm,
   handleSubmit,
   validateForm,
-  editingSchool,
+  editingDonation,
+  attendances,
+  fetchAttendances,
+  users,
+  fetchUsers,
 }) => {
+  useEffect(() => {
+    fetchAttendances()
+    fetchUsers()
+  }, [])
+
+  useEffect(() => {
+    // If there is no existing attendance id,
+    // we set the very first value we get from the attendances array as default
+    if (!values.attendance_id) {
+      setFieldValue('attendance_id', get(attendances, '[0].id', ''))
+    }
+  }, [attendances])
+
+  useEffect(() => {
+    // If there is no existing user id,
+    // we set the very first value we get from the users array as default
+    if (!values.user_id) {
+      setFieldValue('user_id', get(users, '[0].id', ''))
+    }
+  }, [users])
+
+  const currentYear = new Date().getFullYear() // 2021
+  const years = range(currentYear - 10, currentYear + 11, 1)
+  const currentMonth = MONTHS[new Date().getMonth()].value
+
   return (
     <ThingahaFormModal
-      title={editingSchool ? 'Edit School' : 'Add New School'}
+      title={editingDonation ? 'Edit Donation' : 'Add New Donation'}
       open={visible}
       onClose={() => setVisible(false)}
       onCancel={() => setVisible(false)}
@@ -48,125 +96,189 @@ const SchoolForm = ({
       <form onSubmit={handleSubmit}>
         <FormContainer>
           <StyledFormControl>
-            <TextField
-              id="name"
-              name="name"
-              placeholder="Please enter school name..."
-              label="School Name"
+            <ThingahaSelect
+              id="year"
+              name="year"
+              label="Year"
               onChange={handleChange}
-              value={values.name}
-              error={Boolean(errors.name)}
-              helperText={errors.name}
+              value={values.year || currentYear}
+            >
+              {years.map((year) => {
+                return (
+                  <MenuItem value={year} key={year}>
+                    {year}
+                  </MenuItem>
+                )
+              })}
+            </ThingahaSelect>
+          </StyledFormControl>
+          <StyledFormControl>
+            <ThingahaSelect
+              id="month"
+              name="month"
+              label="Year"
+              onChange={handleChange}
+              value={values.month || currentMonth}
+            >
+              {MONTHS.map(({ name, value }) => {
+                return (
+                  <MenuItem value={value} key={value}>
+                    {name}
+                  </MenuItem>
+                )
+              })}
+            </ThingahaSelect>
+          </StyledFormControl>
+          <StyledFormControl>
+            <ThingahaSelect
+              id="attendance_id"
+              name="attendance_id"
+              label="Attendance"
+              onChange={handleChange}
+              value={values.attendance_id}
+            >
+              {attendances.map((attendance) => {
+                return (
+                  <MenuItem value={attendance.id} key={attendance.id}>
+                    {`${attendance.student.name} (${attendance.grade}):${attendance.year}`}
+                  </MenuItem>
+                )
+              })}
+            </ThingahaSelect>
+          </StyledFormControl>
+          <StyledFormControl>
+            <ThingahaSelect
+              id="user_id"
+              name="user_id"
+              label="User"
+              onChange={handleChange}
+              value={values.user_id}
+            >
+              {users.map((user) => {
+                return (
+                  <MenuItem value={user.id} key={user.id}>
+                    {user.display_name}
+                  </MenuItem>
+                )
+              })}
+            </ThingahaSelect>
+          </StyledFormControl>
+          <StyledFormControl>
+            <TextField
+              id="mmk_amount"
+              name="mmk_amount"
+              placeholder="Enter mmk amount..."
+              label="MMK Amount"
+              onChange={handleChange}
+              value={values.mmk_amount}
+              error={Boolean(errors.mmk_amount)}
+              helperText={errors.mmk_amount}
             />
           </StyledFormControl>
           <StyledFormControl>
             <TextField
-              id="contact_info"
-              name="contact_info"
-              placeholder="street, "
-              label="Contact Info"
+              id="jpy_amount"
+              name="jpy_amount"
+              placeholder="Enter jpy amount..."
+              label="JPY Amount"
               onChange={handleChange}
-              value={values.contact_info}
-              error={Boolean(errors.contact_info)}
-              helperText={errors.contact_info}
+              value={values.jpy_amount}
+              error={Boolean(errors.jpy_amount)}
+              helperText={errors.jpy_amount}
             />
           </StyledFormControl>
-          <ThingahaAddressFields
-            values={values}
-            handleChange={handleChange}
-            setFieldValue={setFieldValue}
-            setValues={setValues}
-            errors={errors}
-            validateForm={validateForm}
-          />
         </FormContainer>
       </form>
     </ThingahaFormModal>
   )
 }
 
-const transformSchoolSchemaFlat = (school) => {
+const transformDonationSchemaFlat = (donation) => {
   return {
-    id: school.id,
-    name: school.name,
-    contact_info: school.contact_info,
-    division: school.address.division,
-    district: school.address.district,
-    township: school.address.township,
-    street_address: school.address.street_address,
+    id: donation.id,
+    year: donation.year,
+    month: donation.month,
+    mmk_amount: donation.mmk_amount,
+    jpy_amount: donation.jpy_amount,
+    attendance_id: donation.attendance_id,
+    user_id: donation.user.id,
   }
 }
 
-const transformSchoolSchemaNested = (school) => {
-  return {
-    id: school.id,
-    name: school.name,
-    contact_info: school.contact_info,
-    address: {
-      division: school.division,
-      district: school.district,
-      township: school.township,
-      street_address: school.street_address,
-    },
-  }
-}
+// Selectors
+const getDonations = (state) => values(state.donations.donations)
+const getAttendances = (state) => values(state.attendances.attendances)
+const getUsers = (state) => values(state.users.users)
 
 const mapStateToProps = (state) => ({
-  schools: state.schools,
+  schools: getDonations(state),
+  attendances: getAttendances(state),
+  users: getUsers(state),
   error: state.error,
 })
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    submitNewSchoolForm: (values) => {
-      dispatch(actions.submitNewSchoolForm(transformSchoolSchemaNested(values)))
+    submitNewDonationForm: (values) => {
+      dispatch(actions.submitNewDonationForm(values))
     },
-    submitEditSchoolForm: (values) => {
-      dispatch(
-        actions.submitEditSchoolForm(transformSchoolSchemaNested(values))
-      )
+
+    submitEditDonationForm: (values) => {
+      dispatch(actions.submitEditDonationForm(values))
+    },
+
+    fetchAttendances: () => {
+      // TODO: using a 200 page entries so that we get all attendances
+      // This is a hack since we don't have a custom attendance api for this dropdown list.
+      // We should implement a new api endpoint that can provide all attendance list for a given month
+      // For now, this approach will suffice until we have more than 200 attendances.
+      dispatch(actions.fetchAllAttendances({ page: 1, perPage: 200 }))
+    },
+
+    fetchUsers: () => {
+      dispatch(actions.fetchUsers({ page: 1, perPage: 200 }))
     },
   }
 }
 
-const FormikSchoolForm = withFormik({
+const FormikDonationForm = withFormik({
   mapPropsToValues: (props) => {
-    return transformSchoolSchemaFlat(
-      props.editingSchool || {
+    return transformDonationSchemaFlat(
+      props.editingDonation || {
         id: '',
-        name: '',
-        contact_info: '',
-        address: {
-          division: '',
-          district: '',
-          township: '',
-          street_address: '',
+        year: new Date().getFullYear(), // 2021
+        month: MONTHS[new Date().getMonth()].value,
+        jpy_amount: '',
+        mmk_amount: '',
+        attendance_id: '',
+        user: {
+          id: '',
         },
       }
     )
   },
 
   handleSubmit: (values, { props }) => {
-    if (props.editingSchool) {
-      props.submitEditSchoolForm(values)
+    if (props.editingDonation) {
+      props.submitEditDonationForm(values)
     } else {
-      props.submitNewSchoolForm(values)
+      props.submitNewDonationForm(values)
     }
 
     props.setVisible(false)
   },
 
   validationSchema: yup.object().shape({
-    name: yup.string().label('Name').required(),
-    contact_info: yup.string().label('Contact Info').required(),
-    division: yup.string().label('Division').required(),
-    district: yup.string().label('District').required(),
-    township: yup.string().label('Township').required(),
-    street_address: yup.string().label('Street Address').required(),
+    year: yup.number().required().positive().integer(),
+    month: yup.mixed().oneOf(MONTHS.map(({ value }) => value)),
+    jpy_amount: yup.number().required().positive().integer(),
+    mmk_amount: yup.number().required().positive().integer(),
+    attendance_id: yup.number().required().positive().integer(),
+    user_id: yup.number().required().positive().integer(),
   }),
 
-  displayName: 'SchoolForm',
+  displayName: 'DonationForm',
   enableReinitialize: true,
-})(SchoolForm)
+})(DonationForm)
 
-export default connect(mapStateToProps, mapDispatchToProps)(FormikSchoolForm)
+export default connect(mapStateToProps, mapDispatchToProps)(FormikDonationForm)

@@ -1,9 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import Paper from '@material-ui/core/Paper'
-import Chip from '@material-ui/core/Chip'
 import EditIcon from '@material-ui/icons/EditRounded'
-import PermPhoneMsgIcon from '@material-ui/icons/PermPhoneMsg'
 import { formatMMK, formatJPY } from '../../utils/formatCurrency'
 import { media } from '../../styles/variables'
 
@@ -112,10 +110,10 @@ const DonationCardWrapper = styled(Paper)`
 
 const PropertyPair = ({ name, value }) => {
   return (
-    <dvi className="property-pair">
+    <div className="property-pair">
       <div className="property-name">{name}</div>
       <div className="property-value">{value}</div>
-    </dvi>
+    </div>
   )
 }
 

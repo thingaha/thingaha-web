@@ -14,10 +14,10 @@ import {
 import { toast } from 'react-toastify'
 import defaultErrorHandler from './defaultErrorHandler'
 
-export function* fetchAllUsers(action) {
+export function* fetchAllUsers({ page, perPage }) {
   //Saga Func
   try {
-    const json = yield fetchUsers()
+    const json = yield fetchUsers({ page, perPage })
     yield put({ type: GET_ALL_USERS_SUCCESS, users: json.data.users })
   } catch (error) {
     yield defaultErrorHandler(error, GET_ALL_USERS_FAILURE)

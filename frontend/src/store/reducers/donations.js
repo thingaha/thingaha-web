@@ -5,6 +5,10 @@ import {
   GET_DONATIONS_FOR_MONTH_FAILURE,
   UPDATE_DONATION_STATUS_SUCCESS,
   UPDATE_DONATION_STATUS_FAILURE,
+  SUBMIT_NEW_DONATION_FORM_SUCCESS,
+  SUBMIT_NEW_DONATION_FORM_FAILURE,
+  SUBMIT_EDIT_DONATION_FORM_SUCCESS,
+  SUBMIT_EDIT_DONATION_FORM_FAILURE,
 } from '../actions/donations'
 import {
   immutableAppendOrUpdate,
@@ -58,6 +62,30 @@ export default (state = { donations: {}, errors: [] }, action) => {
       return {
         ...state,
         errors: [...state.errors, action.error],
+      }
+
+    case SUBMIT_NEW_DONATION_FORM_SUCCESS:
+      return {
+        ...state,
+        donations: immutableAppendOrUpdate(state.donations, action.donation),
+      }
+
+    case SUBMIT_NEW_DONATION_FORM_FAILURE:
+      return {
+        ...state,
+        error: action.error,
+      }
+
+    case SUBMIT_EDIT_DONATION_FORM_SUCCESS:
+      return {
+        ...state,
+        donations: immutableAppendOrUpdate(state.donations, action.donation),
+      }
+
+    case SUBMIT_EDIT_DONATION_FORM_FAILURE:
+      return {
+        ...state,
+        error: action.error,
       }
 
     default:
