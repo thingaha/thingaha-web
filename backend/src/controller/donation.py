@@ -115,16 +115,6 @@ def update_donation(donation_id: int):
         return custom_error("No donation record for requested id: {}".format(donation_id))
 
     try:
-        print({
-            "user_id": data.get("user_id"),
-            "attendance_id": data.get("attendance_id"),
-            "transfer_id": data.get("transfer_id") or None,
-            "month": data.get("month"),
-            "year": data.get("year"),
-            "mmk_amount": float(data.get("mmk_amount")),
-            "jpy_amount": float(data.get("jpy_amount")),
-            "paid_at": data.get("paid_at") or donation.get("paid_at") or None
-        })
 
         status = donation_service.update_donation_by_id(donation_id, {
             "user_id": data.get("user_id"),
