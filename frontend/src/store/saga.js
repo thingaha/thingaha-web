@@ -52,6 +52,8 @@ import {
   getAuthenticationState,
   logOutUser,
 } from './sagas/authentication'
+import { fetchAttendances } from './sagas/attendances'
+import { GET_ALL_ATTENDANCES } from './actions/attendances'
 import { GET_ALL_ADDRESSES, GET_SEARCH_ADDRESSES } from './actions/addresses'
 import { fetchAddressesSaga, searchAddressesSaga } from './sagas/addresses'
 import { GET_CONFIG_DATA_DIVISIONS } from './actions/configData'
@@ -76,6 +78,7 @@ export default function* rootSaga() {
     takeLatest(GET_CONFIG_DATA_DIVISIONS, fetchMyanamrDivisionDataSaga),
     takeLatest(SUBMIT_NEW_STUDENT_FORM, submitNewStudentForm),
     takeLatest(SUBMIT_EDIT_STUDENT_FORM, submitEditStudentForm),
+    takeLatest(GET_ALL_ATTENDANCES, fetchAttendances),
     takeLatest(LOG_IN, logInUser),
     takeLatest(LOG_OUT, logOutUser),
     takeLatest(CHECK_LOG_IN_STATE, getAuthenticationState),
