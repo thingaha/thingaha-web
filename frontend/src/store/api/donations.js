@@ -34,7 +34,6 @@ const transformTypesForDonation = (donationFormValues) => ({
 })
 
 export const createDonation = async (donationFormValues) => {
-  console.log('api call', donationFormValues)
   const { data } = await thingahaApiClient.post(
     '/donations',
     transformTypesForDonation(donationFormValues)
