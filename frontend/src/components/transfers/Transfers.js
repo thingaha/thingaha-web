@@ -7,7 +7,7 @@ import TransferForm from './TransferForm'
 import { Button } from '@material-ui/core'
 import AddCircleIcon from '@material-ui/icons/AddCircle'
 import TransferCard from './TransferCard'
-
+import values from 'lodash/values'
 const Wrapper = styled.div`
   width: 70%;
   display: flex;
@@ -37,14 +37,14 @@ const TransferContainer = styled.ul`
     margin-bottom: 1rem;
   }
 `
-const Transfers = ({ transfers: { transfers }, getAllTranfers }) => {
+const Transfers = ({ transfers, getAllTranfers }) => {
   const [transferFormVisible, setTransferFormVisible] = useState(false)
   const [editingTransfer, setEditingTransfer] = useState(transfers[0])
 
   useEffect(() => {
     getAllTranfers()
   }, [getAllTranfers])
-
+  console.log('Transfers.JS', transfers)
   return (
     <Wrapper component={Paper}>
       <HeadingContainer>
@@ -89,8 +89,12 @@ const Transfers = ({ transfers: { transfers }, getAllTranfers }) => {
   )
 }
 
+const getTransferList = (state) => {
+  return values(state.transfers.transfers)
+}
+
 const mapStateToProps = (state) => ({
-  transfers: state.transfers,
+  transfers: getTransferList(state),
 })
 
 const mapDispatchToProps = (dispatch) => {

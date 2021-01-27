@@ -49,11 +49,13 @@ import {
   GET_ALL_TRANSFER,
   SUBMIT_TRANSFER_FORM,
   SUBMIT_EDIT_TRANSFER_FORM,
+  GET_TRANSFER_INFO,
 } from './actions/transfers'
 import {
   fetchAllTransfers,
   submitTransferForm,
   submitEditTransferForm,
+  fetchTransferInfo,
 } from './sagas/transfers'
 import {
   logInUser,
@@ -88,6 +90,7 @@ export default function* rootSaga() {
     takeLatest(LOG_OUT, logOutUser),
     takeLatest(CHECK_LOG_IN_STATE, getAuthenticationState),
     takeLatest(GET_ALL_TRANSFER, fetchAllTransfers),
+    takeLatest(GET_TRANSFER_INFO, fetchTransferInfo),
     takeLatest(SUBMIT_TRANSFER_FORM, submitTransferForm),
     takeLatest(SUBMIT_EDIT_TRANSFER_FORM, submitEditTransferForm),
   ])

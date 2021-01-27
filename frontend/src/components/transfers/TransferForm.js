@@ -5,10 +5,10 @@ import styled from 'styled-components'
 import * as actions from '../../store/actions'
 import FormControl from '@material-ui/core/FormControl'
 import TextField from '@material-ui/core/TextField'
-import Select from '@material-ui/core/Select'
+import ThingahaSelect from '../common/ThingahaSelect'
 import MenuItem from '@material-ui/core/MenuItem'
 import ThingahaFormModal from '../common/ThingahaFormModal'
-import InputLabel from '@material-ui/core/InputLabel'
+import range from 'lodash/range'
 
 const FormContainer = styled.div`
   display: flex;
@@ -34,6 +34,24 @@ const TransferForm = ({
   submitEditTransferForm,
   editingTransfer,
 }) => {
+  const currentYear = new Date().getFullYear() // 2021
+  const years = range(currentYear - 10, currentYear + 11, 1)
+  const months = [
+    { name: 'January', value: 'january' },
+    { name: 'February', value: 'february' },
+    { name: 'March', value: 'march' },
+    { name: 'April', value: 'april' },
+    { name: 'May', value: 'may' },
+    { name: 'June', value: 'june' },
+    { name: 'July', value: 'july' },
+    { name: 'August', value: 'august' },
+    { name: 'September', value: 'september' },
+    { name: 'October', value: 'october' },
+    { name: 'November', value: 'november' },
+    { name: 'December', value: 'december' },
+  ]
+  const currentMonth = months[new Date().getMonth()].value
+  console.log('TransferForm', values)
   return (
     <ThingahaFormModal
       title={editingTransfer ? 'Edit Transfer Data' : 'Add New Transfer Data'}
@@ -52,24 +70,38 @@ const TransferForm = ({
       <form>
         <FormContainer>
           <StyledFormControl>
-            <TextField
+            <ThingahaSelect
               id="year"
               name="year"
-              placeholder="2020"
               label="Year"
               onChange={handleChange}
               value={values.year}
-            />
+            >
+              {years.map((year) => {
+                return (
+                  <MenuItem value={year} key={year}>
+                    {year}
+                  </MenuItem>
+                )
+              })}
+            </ThingahaSelect>
           </StyledFormControl>
           <StyledFormControl>
-            <TextField
+            <ThingahaSelect
               id="month"
               name="month"
-              placeholder="Please enter month..."
               label="Month"
               onChange={handleChange}
               value={values.month}
-            />
+            >
+              {months.map(({ name, value }) => {
+                return (
+                  <MenuItem value={value} key={value}>
+                    {name}
+                  </MenuItem>
+                )
+              })}
+            </ThingahaSelect>
           </StyledFormControl>
           <StyledFormControl>
             <TextField
@@ -99,6 +131,7 @@ const TransferForm = ({
 
 const transformTransferSchemaFlat = (transfer) => {
   return {
+    id: transfer.id,
     year: transfer.year,
     month: transfer.month,
     total_mmk: transfer.total_mmk,

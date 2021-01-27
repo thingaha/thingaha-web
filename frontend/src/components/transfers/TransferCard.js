@@ -6,6 +6,8 @@ import { makeStyles } from '@material-ui/core/styles'
 import Avatar from '@material-ui/core/Avatar'
 import EditIcon from '@material-ui/icons/EditRounded'
 import Grid from '@material-ui/core/Grid'
+import { Link } from 'react-router-dom'
+import VisibilityRoundedIcon from '@material-ui/icons/VisibilityRounded'
 
 const TransferCardWrapper = styled(Paper)`
   display: flex;
@@ -84,29 +86,43 @@ const TransferCard = ({ transfer, onEdit }) => {
   const classes = useStyles()
   return (
     <TransferCardWrapper>
-      <Grid container spacing={3}>
-        <Grid className="row" item xs>
-          <Grid className="row" item x1>
-            <div className="smallText">
-              <Avatar>{transfer.id}</Avatar>
-            </div>
-            <div className="month">{transfer.month}</div>
-            <div className="year">{transfer.year}</div>
-            <EditIcon
-              color="primary"
-              className="edit"
-              variant="rounded"
-              onClick={() => {
-                onEdit(transfer)
-              }}
-            />
-          </Grid>
-        </Grid>
-        <Grid className="row" item x1>
+      <div className="row" container spacing={3}>
+        <div className="smallText">
+          <Avatar>{transfer.id}</Avatar>
+        </div>
+        <div class="col" style={{ display: 'flex', justifyContent: 'center' }}>
+          <div className="month">{transfer.month}</div>
           <div className="total_jpy">{'jpy ' + transfer.total_jpy}</div>
+        </div>
+        <div
+          class="col"
+          style={{ display: 'flexGrow', justifyContent: 'center' }}
+        >
+          <div className="year">{transfer.year}</div>
           <div className="total_mmk">{'mmk ' + transfer.total_mmk}</div>
-        </Grid>
-      </Grid>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'right' }}>
+          <Link
+            to={`/transfers/${transfer.id}`}
+            // params={{ transfermonth: transfer.month }}
+            //params={{ transferyear: transfer.year }}
+          >
+            <VisibilityRoundedIcon
+              color="primary"
+              className="show"
+              variant="rounded"
+            />
+          </Link>
+          <EditIcon
+            color="primary"
+            className="edit"
+            variant="rounded"
+            onClick={() => {
+              onEdit(transfer)
+            }}
+          />
+        </div>
+      </div>
     </TransferCardWrapper>
   )
 }
