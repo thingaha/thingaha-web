@@ -61,7 +61,7 @@ const DonationForm = ({
   useEffect(() => {
     fetchAttendances()
     fetchUsers()
-  }, [])
+  }, [fetchAttendances, fetchUsers])
 
   useEffect(() => {
     // If there is no existing attendance id,
@@ -69,7 +69,7 @@ const DonationForm = ({
     if (!values.attendance_id) {
       setFieldValue('attendance_id', get(attendances, '[0].id', ''))
     }
-  }, [attendances])
+  }, [attendances, setFieldValue, values.attendance_id])
 
   useEffect(() => {
     // If there is no existing user id,
@@ -77,7 +77,7 @@ const DonationForm = ({
     if (!values.user_id) {
       setFieldValue('user_id', get(users, '[0].id', ''))
     }
-  }, [users])
+  }, [users, setFieldValue, values.user_id])
 
   const currentYear = new Date().getFullYear() // 2021
   const years = range(currentYear - 10, currentYear + 11, 1)
