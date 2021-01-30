@@ -4,13 +4,14 @@ import Paper from '@material-ui/core/Paper'
 import EditIcon from '@material-ui/icons/EditRounded'
 import { formatMMK, formatJPY } from '../../utils/formatCurrency'
 import { media } from '../../styles/variables'
+import VisibilityRoundedIcon from '@material-ui/icons/VisibilityRounded'
+import { Link } from 'react-router-dom'
 
 const DonationCardWrapper = styled(Paper)`
   display: flex;
   justify-content: flex-start;
   height: auto;
   padding: 1rem 0;
-  margin-bottom: 1rem;
 
   & .col1 {
     display: flex;
@@ -41,7 +42,9 @@ const DonationCardWrapper = styled(Paper)`
 
   & .col2 .top-row .action {
     margin-left: auto;
-    margin-right: 1rem;
+    margin-right: 0.5rem;
+    display: flex;
+    justify-content: space-between;
   }
 
   & .col2 .bottom-row {
@@ -130,6 +133,13 @@ const DonationCard = ({ donation, onEdit }) => {
             {donation.user.display_name}
           </div>
           <div className="action">
+            <Link to={`/donations/${donation.id}`}>
+              <VisibilityRoundedIcon
+                color="primary"
+                className="show"
+                variant="rounded"
+              />
+            </Link>
             <EditIcon
               color="primary"
               className="edit"

@@ -33,6 +33,15 @@ const transformTypesForDonation = (donationFormValues) => ({
   year: Number(donationFormValues.year),
 })
 
+export const fetchDonation = async (donationId) => {
+  const { data } = await thingahaApiClient.get(`/donations/${donationId}`)
+  return {
+    data: {
+      donation: data.donation,
+    },
+  }
+}
+
 export const createDonation = async (donationFormValues) => {
   const { data } = await thingahaApiClient.post(
     '/donations',

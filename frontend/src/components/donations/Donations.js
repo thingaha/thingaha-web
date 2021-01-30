@@ -53,7 +53,7 @@ const Donations = ({ donations, totalCount, totalPages, fetchDonations }) => {
   return (
     <Wrapper component={Paper}>
       <HeadingContainer>
-        <h2>Donations</h2>
+        <h1>Donations</h1>
         <Button
           variant="contained"
           color="primary"
@@ -78,7 +78,7 @@ const Donations = ({ donations, totalCount, totalPages, fetchDonations }) => {
       <DonationsContainer>
         {donations.map((donation) => {
           return (
-            <li name="donation-row" key={donation.id}>
+            <li className="donation-row" key={donation.id}>
               <DonationCard
                 donation={donation}
                 onEdit={(editDonation) => {

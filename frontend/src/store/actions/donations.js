@@ -27,6 +27,10 @@ export const SUBMIT_EDIT_DONATION_FORM_SUCCESS =
 export const SUBMIT_EDIT_DONATION_FORM_FAILURE =
   'DONATIONS/SUBMIT_EDIT_DONATION_FORM_FAILURE'
 
+export const GET_DONATION_INFO = 'DONATIONS/GET_DONATION_INFO'
+export const GET_DONATION_INFO_SUCCESS = 'DONATIONS/GET_DONATION_INFO_SUCCESS'
+export const GET_DONATION_INFO_FAILURE = 'DONATIONS/GET_DONATION_INFO_FAILURE'
+
 export const fetchDonations = ({ page } = { page: 1 }) => {
   return {
     type: GET_ALL_DONATIONS,
@@ -39,6 +43,13 @@ export const getDonationsForMonth = (year, month) => {
     type: GET_DONATIONS_FOR_MONTH,
     year: year,
     month: month,
+  }
+}
+
+export const fetchDonation = (donationId) => {
+  return {
+    type: GET_DONATION_INFO,
+    donationId: donationId,
   }
 }
 

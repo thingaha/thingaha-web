@@ -3,6 +3,8 @@ import {
   GET_ALL_DONATIONS_FAILURE,
   GET_DONATIONS_FOR_MONTH_SUCCESS,
   GET_DONATIONS_FOR_MONTH_FAILURE,
+  GET_DONATION_INFO_SUCCESS,
+  GET_DONATION_INFO_FAILURE,
   UPDATE_DONATION_STATUS_SUCCESS,
   UPDATE_DONATION_STATUS_FAILURE,
   SUBMIT_NEW_DONATION_FORM_SUCCESS,
@@ -43,6 +45,18 @@ export default (state = { donations: {}, errors: [] }, action) => {
       return {
         ...state,
         errors: [...state.errors, action.error],
+      }
+
+    case GET_DONATION_INFO_SUCCESS:
+      return {
+        ...state,
+        donations: immutableAppendOrUpdate(state.donations, action.donation),
+      }
+
+    case GET_DONATION_INFO_FAILURE:
+      return {
+        ...state,
+        error: action.error,
       }
 
     case UPDATE_DONATION_STATUS_SUCCESS:

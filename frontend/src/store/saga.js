@@ -21,6 +21,7 @@ import {
   UPDATE_DONATION_STATUS,
   SUBMIT_NEW_DONATION_FORM,
   SUBMIT_EDIT_DONATION_FORM,
+  GET_DONATION_INFO,
 } from './actions/donations'
 import {
   fetchDonations,
@@ -28,6 +29,7 @@ import {
   startDonationStatusUpdate,
   submitNewDonationForm,
   submitEditDonationForm,
+  fetchDonationInfo,
 } from './sagas/donations'
 import {
   GET_ALL_SCHOOLS,
@@ -71,6 +73,7 @@ export default function* rootSaga() {
     takeLatest(SUBMIT_EDIT_USER_FORM, submitEditUserForm),
     takeLatest(GET_ALL_DONATIONS, fetchDonations),
     takeLatest(GET_DONATIONS_FOR_MONTH, fetchDonationsForMonth),
+    takeLatest(GET_DONATION_INFO, fetchDonationInfo),
     takeLatest(UPDATE_DONATION_STATUS, startDonationStatusUpdate),
     takeLatest(SUBMIT_NEW_DONATION_FORM, submitNewDonationForm),
     takeLatest(SUBMIT_EDIT_DONATION_FORM, submitEditDonationForm),
