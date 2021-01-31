@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from datetime import datetime
+from typing import Optional
 
 from flask_sqlalchemy import Pagination
 from sqlalchemy.exc import SQLAlchemyError
@@ -27,8 +28,8 @@ class DonationModel(db.Model):
     jpy_amount = db.Column(db.Float())
     paid_at = db.Column(db.DateTime(), nullable=True)
 
-    def __init__(self, user_id: int, attendance_id: int, transfer_id: int, year: int, month: str, mmk_amount: float,
-                 jpy_amount: float, paid_at: datetime) -> None:
+    def __init__(self, user_id: int, attendance_id: int, transfer_id: Optional[int], year: int, month: str, mmk_amount: float,
+                 jpy_amount: float, paid_at: Optional[datetime]) -> None:
         self.user_id = user_id
         self.attendance_id = attendance_id
         self.transfer_id = transfer_id
@@ -56,7 +57,10 @@ class DonationModel(db.Model):
             "student": student.student_dict(),
             "mmk_amount": self.mmk_amount,
             "jpy_amount": self.jpy_amount,
-            "status": "pending" if self.paid_at is None else "paid"
+            "status": "pending" if self.paid_at is None else "paid",
+            "paid_at": self.paid_at,
+            "attendance_id": self.attendance_id,
+            "transfer_id": self.transfer_id,
         }
 
     @staticmethod

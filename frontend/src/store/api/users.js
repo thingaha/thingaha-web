@@ -1,7 +1,9 @@
 import thingahaApiClient from '../../utils/thingahaApiClient'
 
-export const fetchUsers = async () => {
-  const { data } = await thingahaApiClient.get('/users')
+export const fetchUsers = async ({ page, perPage }) => {
+  const { data } = await thingahaApiClient.get('/users', {
+    params: { page, per_page: perPage },
+  })
 
   return {
     data: {

@@ -1,92 +1,125 @@
-import React, { useEffect } from 'react'
-import ThingahaTabbedNav from '../common/ThingahaTabbedNav'
-import CurrentMonthDonations from './CurrentMonthDonations'
-import MonthlyDonationStats from './MonthlyDonationStats'
-import Grid from '@material-ui/core/Grid'
-import { connect } from 'react-redux'
-import * as actions from '../../store/actions'
-import sumBy from 'lodash/sumBy'
+import React, { useEffect, useState } from 'react'
+import styled from 'styled-components'
 import values from 'lodash/values'
-import { formatMMK, formatJPY } from '../../utils/formatCurrency'
+import { connect } from 'react-redux'
+import { Button } from '@material-ui/core'
+import Paper from '@material-ui/core/Paper'
+import Pagination from '@material-ui/lab/Pagination'
+import AddCircleIcon from '@material-ui/icons/AddCircle'
 
-const Myanmar = ({ donations }) => (
-  <CurrentMonthDonations donations={donations} />
-)
-const Japan = ({ donations }) => <CurrentMonthDonations donations={donations} />
-const All = ({ donations }) => <CurrentMonthDonations donations={donations} />
+import * as actions from '../../store/actions'
+import DonationCard from './DonationCard'
+import DonationForm from './DonationForm'
 
-const Donations = ({ donations, getDonationsForMonth }) => {
+const Wrapper = styled.div`
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 20px;
+
+  & .pagination-container {
+    display: flex;
+    justify-content: flex-end;
+  }
+`
+
+const HeadingContainer = styled.div`
+  margin-bottom: 1rem;
+`
+
+const DonationsContainer = styled.ul`
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+
+  & .donation-row {
+    margin-bottom: 1rem;
+  }
+`
+
+const Donations = ({ donations, totalCount, totalPages, fetchDonations }) => {
+  const [donationFormVisible, setDonationFormVisible] = useState(false)
+  const [editingDonation, setEditingDonation] = useState(null)
+
   useEffect(() => {
-    getDonationsForMonth()
-  }, [getDonationsForMonth])
-
-  // TODO: replace these filters with selectors using reselect
-  const myanmarDonations = donations.filter(
-    (donation) => donation.user.country === 'mm'
-  )
-  const japanDonations = donations.filter(
-    (donation) => donation.user.country === 'jp'
-  )
-
-  const japanPaidDonations = japanDonations.filter(
-    (donation) => donation.status === 'paid'
-  )
-  const japanPendingDonations = japanDonations.filter(
-    (donation) => donation.status === 'pending'
-  )
-  const myanmarPaidDonations = myanmarDonations.filter(
-    (donation) => donation.status === 'paid'
-  )
-  const myanmarPendingDonations = myanmarDonations.filter(
-    (donation) => donation.status === 'pending'
-  )
-
-  const japanPaidAmount = sumBy(japanPaidDonations, 'amount_jpy')
-  const myanmarPaidAmount = sumBy(myanmarPaidDonations, 'amount_mmk')
-  const japanPendingAmount = sumBy(japanPendingDonations, 'amount_jpy')
-  const myanmarPendingAmount = sumBy(myanmarPendingDonations, 'amount_mmk')
+    fetchDonations()
+  }, [fetchDonations])
 
   return (
-    <Grid container spacing={3}>
-      <Grid item xs={12} md={8}>
-        <ThingahaTabbedNav
-          tabMenus={['All', 'JP', 'MM']}
-          tabPanels={[
-            <All donations={donations} />,
-            <Japan donations={japanDonations} />,
-            <Myanmar donations={myanmarDonations} />,
-          ]}
+    <Wrapper component={Paper}>
+      <HeadingContainer>
+        <h1>Donations</h1>
+        <Button
+          variant="contained"
+          color="primary"
+          startIcon={<AddCircleIcon />}
+          onClick={() => {
+            setEditingDonation(false)
+            setDonationFormVisible(true)
+          }}
+        >
+          Add Donation
+        </Button>
+      </HeadingContainer>
+
+      {donationFormVisible ? (
+        <DonationForm
+          visible={donationFormVisible}
+          setVisible={setDonationFormVisible}
+          editingDonation={editingDonation}
         />
-      </Grid>
-      <Grid item xs={12} md={4}>
-        <MonthlyDonationStats
-          totalCount={japanDonations.length}
-          paidCount={japanPaidDonations.length}
-          pendingAmount={formatJPY(japanPendingAmount)}
-          paidAmount={formatJPY(japanPaidAmount)}
-          countryEmoji={'🇯🇵'}
+      ) : null}
+
+      <DonationsContainer>
+        {donations.map((donation) => {
+          return (
+            <li className="donation-row" key={donation.id}>
+              <DonationCard
+                donation={donation}
+                onEdit={(editDonation) => {
+                  setEditingDonation(editDonation)
+                  setDonationFormVisible(true)
+                }}
+              />
+            </li>
+          )
+        })}
+      </DonationsContainer>
+      <div className="pagination-container">
+        <Pagination
+          count={totalPages} // need to pass in total pages instead of total count
+          color="primary"
+          onChange={(_event, page) => {
+            fetchDonations({ page })
+          }}
         />
-        <MonthlyDonationStats
-          totalCount={myanmarDonations.length}
-          paidCount={myanmarPaidDonations.length}
-          pendingAmount={formatMMK(myanmarPendingAmount)}
-          paidAmount={formatMMK(myanmarPaidAmount)}
-          countryEmoji={'🇲🇲'}
-        />
-      </Grid>
-    </Grid>
+      </div>
+    </Wrapper>
   )
 }
 
+//Selectors
+const getDonationList = (state) => {
+  return values(state.donations.donations)
+}
+const getTotalPage = (state) => state.donations.totalPages
+const getTotalCount = (state) => state.donations.totalCount
+
 const mapStateToProps = (state) => ({
-  donations: values(state.donations.content),
+  donations: getDonationList(state),
+  totalCount: getTotalCount(state),
+  totalPages: getTotalPage(state),
 })
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // dispatching plain actions
-    getDonationsForMonth: (year, month) =>
-      dispatch(actions.getDonationsForMonth(year, month)),
+    fetchDonations: ({ page } = { page: 1 }) =>
+      dispatch(actions.fetchDonations({ page })),
   }
 }
 

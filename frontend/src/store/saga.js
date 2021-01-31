@@ -16,12 +16,20 @@ import {
 } from './sagas/users'
 
 import {
+  GET_ALL_DONATIONS,
   GET_DONATIONS_FOR_MONTH,
   UPDATE_DONATION_STATUS,
+  SUBMIT_NEW_DONATION_FORM,
+  SUBMIT_EDIT_DONATION_FORM,
+  GET_DONATION_INFO,
 } from './actions/donations'
 import {
+  fetchDonations,
   fetchDonationsForMonth,
   startDonationStatusUpdate,
+  submitNewDonationForm,
+  submitEditDonationForm,
+  fetchDonationInfo,
 } from './sagas/donations'
 import {
   GET_ALL_SCHOOLS,
@@ -62,6 +70,8 @@ import {
   getAuthenticationState,
   logOutUser,
 } from './sagas/authentication'
+import { fetchAttendances } from './sagas/attendances'
+import { GET_ALL_ATTENDANCES } from './actions/attendances'
 import { GET_ALL_ADDRESSES, GET_SEARCH_ADDRESSES } from './actions/addresses'
 import { fetchAddressesSaga, searchAddressesSaga } from './sagas/addresses'
 //import { GET_ALL_TRANSFER } from './actions'
@@ -74,8 +84,12 @@ export default function* rootSaga() {
     takeLatest(GET_ALL_USERS, fetchAllUsers),
     takeLatest(SUBMIT_USER_FORM, submitUserForm),
     takeLatest(SUBMIT_EDIT_USER_FORM, submitEditUserForm),
+    takeLatest(GET_ALL_DONATIONS, fetchDonations),
     takeLatest(GET_DONATIONS_FOR_MONTH, fetchDonationsForMonth),
+    takeLatest(GET_DONATION_INFO, fetchDonationInfo),
     takeLatest(UPDATE_DONATION_STATUS, startDonationStatusUpdate),
+    takeLatest(SUBMIT_NEW_DONATION_FORM, submitNewDonationForm),
+    takeLatest(SUBMIT_EDIT_DONATION_FORM, submitEditDonationForm),
     takeLatest(GET_ALL_SCHOOLS, fetchAllSchools),
     takeLatest(SUBMIT_NEW_SCHOOL_FORM, submitNewSchoolForm),
     takeLatest(SUBMIT_EDIT_SCHOOL_FORM, submitEditSchoolForm),
@@ -86,6 +100,7 @@ export default function* rootSaga() {
     takeLatest(GET_CONFIG_DATA_DIVISIONS, fetchMyanamrDivisionDataSaga),
     takeLatest(SUBMIT_NEW_STUDENT_FORM, submitNewStudentForm),
     takeLatest(SUBMIT_EDIT_STUDENT_FORM, submitEditStudentForm),
+    takeLatest(GET_ALL_ATTENDANCES, fetchAttendances),
     takeLatest(LOG_IN, logInUser),
     takeLatest(LOG_OUT, logOutUser),
     takeLatest(CHECK_LOG_IN_STATE, getAuthenticationState),

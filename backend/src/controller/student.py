@@ -1,13 +1,11 @@
 """API route for Student API"""
-from typing import Optional
 from datetime import datetime
 
-from botocore.exceptions import ClientError
 from flask import request, current_app, jsonify
 from flask_cors import cross_origin
 from flask_jwt_extended import jwt_required
 
-from common.aws_client import get_client, get_s3_url, get_bucket
+from common.aws_client import get_s3_url
 from common.config import S3_BUCKET
 from common.error import SQLCustomError, RequestDataEmpty, ValidateFail, ThingahaCustomError
 from controller.api import address_service
@@ -15,7 +13,6 @@ from controller.api import api, post_request_empty, custom_error, sub_admin, ful
 from service.student.student_service import StudentService
 
 student_service = StudentService()
-ALLOWED_EXTENSIONS = ["png", "jpg", "jpeg"]
 
 
 @api.route("/students", methods=["GET"])
@@ -99,7 +96,7 @@ def create_student():
 @cross_origin()
 def delete_students(student_id: int):
     """
-    delete student  by ID
+    delete student by ID
     :param student_id:
     :return:
     """
@@ -108,6 +105,10 @@ def delete_students(student_id: int):
         student_delete_status = False
         student = student_service.get_student_by_id(student_id)
         if student_service.delete_student_by_id(student_id):
+            if student.get("photo") and student_service.delete_file(student.get("photo")):
+                current_app.logger.info("Student photo exists and delete the photo in s3")
+            else:
+                current_app.logger.warning("No photo or delete the photo in s3")
             student_delete_status = address_service.delete_address_by_id(student["address"]["id"])
         return jsonify({
             "status": student_delete_status
@@ -175,50 +176,6 @@ def update_student(student_id: int):
         return jsonify({"errors": [error.__dict__]}), 400
 
 
-def allowed_file(filename: str) -> Optional[str]:
-    """
-    check file name extension
-    :params: filename : str
-    return: True or False
-    """
-    file_extension = filename.rsplit(".", 1)[1].lower()
-    if "." in filename and file_extension in ALLOWED_EXTENSIONS:
-        return file_extension
-    return None
-
-
-def delete_file(url: str) -> bool:
-    """
-    delete image file
-    :params: url : str
-    return: True or False
-    """
-    key = url.split("/")[-1]
-    try:
-        my_bucket = get_bucket()
-        my_bucket.Object(key).delete()
-        return True
-    except ClientError as error:
-        current_app.logger.error("File delete error %s", error)
-        return False
-
-
-def upload_file(img, file_name: str) -> bool:
-    """
-    upload file to S3
-    :params img : image object
-    :file_name : file name str
-    return: True or False
-    """
-    s3_client = get_client()
-    try:
-        s3_client.upload_fileobj(img, S3_BUCKET, file_name, ExtraArgs={"ACL": "public-read"})
-        return True
-    except ClientError as error:
-        current_app.logger.error("File upload error %s", error)
-        return False
-
-
 @api.route("/student/upload", methods=["POST"])
 @jwt_required
 @sub_admin
@@ -232,11 +189,11 @@ def upload_s3_file():
     student_id = request.form.get("student_id")
     if student_id is None or img is None or img.filename == "":
         return post_request_empty()
-    file_extension = allowed_file(img.filename)
+    file_extension = student_service.allowed_file(img.filename)
     if not file_extension:
         return custom_error("File extension should be .png or .jpg or .jpeg")
     file_name = student_id + "." + file_extension
-    result = upload_file(img, file_name)
+    result = student_service.upload_file(img, file_name)
     if result:
         return jsonify(
             {"url": get_s3_url().format(S3_BUCKET, file_name)}
@@ -257,13 +214,13 @@ def update_file():
     if not old_url:
         current_app.logger.error("Old url for student required")
         return post_request_empty()
-    if not delete_file(old_url):
+    if not student_service.delete_file(old_url):
         current_app.logger.error("Can't delete file before update")
         return custom_error("Update file error")
     return upload_s3_file()
 
 
-@api.route("/student/delete", methods=["DELETE"])
+@api.route("/student/upload", methods=["DELETE"])
 @jwt_required
 @sub_admin
 @cross_origin()
@@ -276,7 +233,7 @@ def delete_s3_file():
     if not url:
         current_app.logger.error("Empty url")
         return post_request_empty()
-    result = delete_file(url)
+    result = student_service.delete_file(url)
     if result:
         current_app.logger.info("Delete file for URL %s success", url)
         return "", 200

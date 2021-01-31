@@ -8,6 +8,7 @@ import schoolsReducer from './reducers/schools'
 import addressesReducer from './reducers/addresses'
 import studentsReducer from './reducers/students'
 import transfersReducer from './reducers/transfers'
+import attendancesReducer from './reducers/attendances'
 import configDataReducer from './reducers/configData'
 
 export default combineReducers({
@@ -18,5 +19,6 @@ export default combineReducers({
   addresses: addressesReducer,
   students: studentsReducer,
   transfers: transfersReducer,
+  attendances: attendancesReducer,
   configData: configDataReducer,
 })

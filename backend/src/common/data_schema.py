@@ -2,6 +2,8 @@
 schema module for request body
 use python library Schema
 """
+from datetime import datetime
+
 from schema import Schema, Or, Regex
 
 address_schema = Schema({
@@ -61,12 +63,12 @@ attendance_schema = Schema({
 donation_schema = Schema({
     "user_id": int,
     "attendance_id": int,
-    "transfer_id": int,
+    "transfer_id": Or(None, int),
     "year": int,
     "month": str,
     "mmk_amount": float,
     "jpy_amount": float,
-    "paid_at": Or(None, str)
+    "paid_at": Or(None, str, datetime)
 })
 
 extra_funds_schema = Schema({
