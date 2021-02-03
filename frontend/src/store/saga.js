@@ -64,6 +64,16 @@ import { GET_ALL_ADDRESSES, GET_SEARCH_ADDRESSES } from './actions/addresses'
 import { fetchAddressesSaga, searchAddressesSaga } from './sagas/addresses'
 import { GET_CONFIG_DATA_DIVISIONS } from './actions/configData'
 import { fetchMyanamrDivisionDataSaga } from './sagas/configData'
+import {
+  GET_ALL_EXTRAFUNDS,
+  SUBMIT_NEW_EXTRAFUND_FORM,
+  SUBMIT_EDIT_EXTRAFUND_FORM,
+} from './actions/extraFunds'
+import {
+  fetchExtraFundsSaga,
+  submitNewExtraFundsFormSaga,
+  submitUpdateExtraFundsFormSaga,
+} from './sagas/extraFunds'
 
 // add Saga below
 export default function* rootSaga() {
@@ -91,5 +101,8 @@ export default function* rootSaga() {
     takeLatest(LOG_IN, logInUser),
     takeLatest(LOG_OUT, logOutUser),
     takeLatest(CHECK_LOG_IN_STATE, getAuthenticationState),
+    takeLatest(GET_ALL_EXTRAFUNDS, fetchExtraFundsSaga),
+    takeLatest(SUBMIT_NEW_EXTRAFUND_FORM, submitNewExtraFundsFormSaga),
+    takeLatest(SUBMIT_EDIT_EXTRAFUND_FORM, submitUpdateExtraFundsFormSaga),
   ])
 }

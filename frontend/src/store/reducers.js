@@ -9,6 +9,7 @@ import addressesReducer from './reducers/addresses'
 import studentsReducer from './reducers/students'
 import attendancesReducer from './reducers/attendances'
 import configDataReducer from './reducers/configData'
+import extraFundsReducer from './reducers/extraFunds'
 
 export default combineReducers({
   authentication: authenticationReducer,
@@ -19,4 +20,5 @@ export default combineReducers({
   students: studentsReducer,
   attendances: attendancesReducer,
   configData: configDataReducer,
+  extraFunds: extraFundsReducer,
 })
