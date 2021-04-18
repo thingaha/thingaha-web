@@ -39,6 +39,24 @@ class DonationService(Service):
             self.logger.error("Error: {}".format(error))
             raise SQLCustomError(description="GET Donation SQL ERROR")
 
+    def get_donations_records_by_year_month(self, year: int, month: str):
+        """
+        get donations for a given year and month
+        :params page
+        :params per_page
+        :return: donation list of dict
+        """
+        self.logger.debug("Get Donation list by year and month")
+        donations = DonationModel.get_donations_by_year_month(year, month)
+        return {
+            "donations": [donation.donation_dict(user, student) for donation, user, student in donations.items],
+            "total_count": donations.total,
+            "current_page": donations.page,
+            "next_page": donations.next_num,
+            "prev_page": donations.prev_num,
+            "pages": donations.pages
+        }
+
     def get_donation_by_id(self, donation_id: int) -> Optional[Dict]:
         """
         get donation info by id

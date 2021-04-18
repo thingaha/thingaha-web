@@ -94,6 +94,25 @@ class DonationModel(db.Model):
             raise error
 
     @staticmethod
+    def get_donations_by_year_month(year: int, month: str) -> Pagination:
+        """
+        get all donation records for given year and month
+        :params page
+        :params per_page
+        :return: donation list
+        """
+        try:
+            return db.session.query(DonationModel, UserModel, StudentModel). \
+                filter(DonationModel.user_id == UserModel.id). \
+                filter(DonationModel.attendance_id == AttendanceModel.id). \
+                filter(AttendanceModel.id == StudentModel.id). \
+                filter(DonationModel.year == year). \
+                filter(DonationModel.month == month).paginate(page=1, per_page=1000, error_out=False)
+
+        except SQLAlchemyError as error:
+            raise error
+
+    @staticmethod
     def get_donation_by_id(donation_id: int) -> DonationModel:
         """
         get all donation records

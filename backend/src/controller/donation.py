@@ -17,10 +17,20 @@ def get_donations():
     try:
         page = request.args.get("page", 1, type=int)
         per_page = request.args.get("per_page", 20, type=int)
-        current_app.logger.info("Get all donation records")
-        return jsonify({
-            "data": donation_service.get_all_donations_records(page, per_page)
-        }), 200
+        year = request.args.get("year", None, type=int)
+        month = request.args.get("month", None, type=str)
+
+        current_app.logger.info("Parameters: year => {}, month => {}".format(year, month))
+
+        if year is not None and month is not None:
+            return jsonify({
+                "data": donation_service.get_donations_records_by_year_month(year, month)
+            }), 200
+        else:
+            return jsonify({
+                "data": donation_service.get_all_donations_records(page, per_page)
+            }), 200
+
     except SQLCustomError as error:
         current_app.logger.error("Error in get all donation records")
         return jsonify({"errors": [error.__dict__]}), 400
