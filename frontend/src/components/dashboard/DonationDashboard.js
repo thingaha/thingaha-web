@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import ThingahaTabbedNav from '../common/ThingahaTabbedNav'
 import CurrentMonthDonations from './CurrentMonthDonations'
 import MonthlyDonationStats from './MonthlyDonationStats'
@@ -8,17 +8,21 @@ import * as actions from '../../store/actions'
 import sumBy from 'lodash/sumBy'
 import values from 'lodash/values'
 import { formatMMK, formatJPY } from '../../utils/formatCurrency'
+import { getCurrentYearAndMonth } from '../../utils/dateAndTimeHelpers'
 
-const Myanmar = ({ donations }) => (
-  <CurrentMonthDonations donations={donations} />
-)
-const Japan = ({ donations }) => <CurrentMonthDonations donations={donations} />
-const All = ({ donations }) => <CurrentMonthDonations donations={donations} />
+const Myanmar = (props) => <CurrentMonthDonations {...props} />
+const Japan = (props) => <CurrentMonthDonations {...props} />
+const All = (props) => <CurrentMonthDonations {...props} />
 
 const DonationDashboard = ({ donations, getDonationsForMonth }) => {
+  const { year, month } = getCurrentYearAndMonth()
+
+  const [selectedYear, setSelectedYear] = useState(year)
+  const [selectedMonth, setSelectedMonth] = useState(month)
+
   useEffect(() => {
-    getDonationsForMonth()
-  }, [getDonationsForMonth])
+    getDonationsForMonth({ year: selectedYear, month: selectedMonth })
+  }, [getDonationsForMonth, selectedYear, selectedMonth])
 
   // TODO: replace these filters with selectors using reselect
   const myanmarDonations = donations.filter(
@@ -52,9 +56,27 @@ const DonationDashboard = ({ donations, getDonationsForMonth }) => {
         <ThingahaTabbedNav
           tabMenus={['All', 'JP', 'MM']}
           tabPanels={[
-            <All donations={donations} />,
-            <Japan donations={japanDonations} />,
-            <Myanmar donations={myanmarDonations} />,
+            <All
+              donations={donations}
+              selectedYear={selectedYear}
+              selectedMonth={selectedMonth}
+              setSelectedYear={setSelectedYear}
+              setSelectedMonth={setSelectedMonth}
+            />,
+            <Japan
+              donations={japanDonations}
+              selectedYear={selectedYear}
+              selectedMonth={selectedMonth}
+              setSelectedYear={setSelectedYear}
+              setSelectedMonth={setSelectedMonth}
+            />,
+            <Myanmar
+              donations={myanmarDonations}
+              selectedYear={selectedYear}
+              selectedMonth={selectedMonth}
+              setSelectedYear={setSelectedYear}
+              setSelectedMonth={setSelectedMonth}
+            />,
           ]}
         />
       </Grid>
@@ -89,8 +111,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => {
   return {
     // dispatching plain actions
-    getDonationsForMonth: (year, month) =>
-      dispatch(actions.getDonationsForMonth(year, month)),
+    getDonationsForMonth: ({ year, month }) =>
+      dispatch(actions.getDonationsForMonth({ year, month })),
   }
 }
 

@@ -14,8 +14,10 @@ export const fetchAllDonations = async ({ page }) => {
   }
 }
 
-export const getDonationsForMonth = async (year, month) => {
-  const { data } = await thingahaApiClient.get('/donations')
+export const getDonationsForMonth = async ({ year, month }) => {
+  const { data } = await thingahaApiClient.get('/donations', {
+    params: { year, month },
+  })
 
   return {
     data: {

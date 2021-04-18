@@ -38,7 +38,7 @@ export const fetchDonations = ({ page } = { page: 1 }) => {
   }
 }
 
-export const getDonationsForMonth = (year, month) => {
+export const getDonationsForMonth = ({ year, month }) => {
   return {
     type: GET_DONATIONS_FOR_MONTH,
     year: year,

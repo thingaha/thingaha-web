@@ -40,9 +40,9 @@ export function* fetchDonations({ page }) {
   }
 }
 
-export function* fetchDonationsForMonth(action) {
+export function* fetchDonationsForMonth({ year, month }) {
   try {
-    const response = yield getDonationsForMonth()
+    const response = yield getDonationsForMonth({ year, month })
 
     yield put({
       type: GET_DONATIONS_FOR_MONTH_SUCCESS,
