@@ -79,11 +79,11 @@ const CurrentMonthDonations = ({ donations, updateDonationStatus }) => {
               <DonatorCard
                 handleToggle={() => handleToggle(donation)}
                 checked={donation.status === 'paid'}
-                description={donation.user.user_name}
+                description={donation.user.display_name}
                 amount={
                   donation.user.country === 'jp'
-                    ? formatJPY(donation.amount_jpy)
-                    : formatMMK(donation.amount_mmk)
+                    ? formatJPY(donation.jpy_amount)
+                    : formatMMK(donation.mmk_amount)
                 }
               />
             </li>

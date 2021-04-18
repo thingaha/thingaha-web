@@ -46,7 +46,7 @@ export function* fetchDonationsForMonth(action) {
 
     yield put({
       type: GET_DONATIONS_FOR_MONTH_SUCCESS,
-      donations: response.data,
+      donations: response.data.donations,
     })
   } catch (error) {
     yield defaultErrorHandler(error, GET_DONATIONS_FOR_MONTH_FAILURE)

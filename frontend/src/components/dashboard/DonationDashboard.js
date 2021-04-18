@@ -41,10 +41,10 @@ const DonationDashboard = ({ donations, getDonationsForMonth }) => {
     (donation) => donation.status === 'pending'
   )
 
-  const japanPaidAmount = sumBy(japanPaidDonations, 'amount_jpy')
-  const myanmarPaidAmount = sumBy(myanmarPaidDonations, 'amount_mmk')
-  const japanPendingAmount = sumBy(japanPendingDonations, 'amount_jpy')
-  const myanmarPendingAmount = sumBy(myanmarPendingDonations, 'amount_mmk')
+  const japanPaidAmount = sumBy(japanPaidDonations, 'jpy_amount')
+  const myanmarPaidAmount = sumBy(myanmarPaidDonations, 'mmk_amount')
+  const japanPendingAmount = sumBy(japanPendingDonations, 'jpy_amount')
+  const myanmarPendingAmount = sumBy(myanmarPendingDonations, 'mmk_amount')
 
   return (
     <Grid container spacing={3}>
@@ -77,9 +77,13 @@ const DonationDashboard = ({ donations, getDonationsForMonth }) => {
     </Grid>
   )
 }
+//Selectors
+const getDonationList = (state) => {
+  return values(state.donations.donations)
+}
 
 const mapStateToProps = (state) => ({
-  donations: values(state.donations.content),
+  donations: getDonationList(state),
 })
 
 const mapDispatchToProps = (dispatch) => {

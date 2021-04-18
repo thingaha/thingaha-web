@@ -23,8 +23,8 @@
         "parents_occupation": "Dynamic Group Strategist",
         "address_id": 1
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "paid"
     },
     {
@@ -50,8 +50,8 @@
         "parents_occupation": "Global Brand Supervisor",
         "address_id": 2
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -77,8 +77,8 @@
         "parents_occupation": "Principal Applications Agent",
         "address_id": 3
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "paid"
     },
     {
@@ -104,8 +104,8 @@
         "parents_occupation": "Chief Data Specialist",
         "address_id": 4
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "paid"
     },
     {
@@ -131,8 +131,8 @@
         "parents_occupation": "Dynamic Operations Engineer",
         "address_id": 5
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -158,8 +158,8 @@
         "parents_occupation": "Central Tactics Administrator",
         "address_id": 6
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "paid"
     },
     {
@@ -185,8 +185,8 @@
         "parents_occupation": "Dynamic Operations Developer",
         "address_id": 7
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -212,8 +212,8 @@
         "parents_occupation": "Chief Interactions Facilitator",
         "address_id": 8
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -239,8 +239,8 @@
         "parents_occupation": "Central Division Liaison",
         "address_id": 9
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -266,8 +266,8 @@
         "parents_occupation": "Lead Intranet Analyst",
         "address_id": 10
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -293,8 +293,8 @@
         "parents_occupation": "District Brand Associate",
         "address_id": 11
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -320,8 +320,8 @@
         "parents_occupation": "Customer Identity Engineer",
         "address_id": 12
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -347,8 +347,8 @@
         "parents_occupation": "International Assurance Facilitator",
         "address_id": 13
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -374,8 +374,8 @@
         "parents_occupation": "Internal Program Strategist",
         "address_id": 14
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -401,8 +401,8 @@
         "parents_occupation": "Legacy Data Strategist",
         "address_id": 15
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -428,8 +428,8 @@
         "parents_occupation": "Dynamic Implementation Assistant",
         "address_id": 16
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -455,8 +455,8 @@
         "parents_occupation": "Senior Group Agent",
         "address_id": 17
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -482,8 +482,8 @@
         "parents_occupation": "Principal Usability Planner",
         "address_id": 18
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -509,8 +509,8 @@
         "parents_occupation": "Future Paradigm Officer",
         "address_id": 19
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -536,8 +536,8 @@
         "parents_occupation": "Investor Configuration Officer",
         "address_id": 20
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -563,8 +563,8 @@
         "parents_occupation": "Future Communications Specialist",
         "address_id": 21
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -590,8 +590,8 @@
         "parents_occupation": "Forward Intranet Architect",
         "address_id": 22
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -617,8 +617,8 @@
         "parents_occupation": "Principal Metrics Strategist",
         "address_id": 23
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -644,8 +644,8 @@
         "parents_occupation": "Dynamic Operations Administrator",
         "address_id": 24
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -671,8 +671,8 @@
         "parents_occupation": "Regional Branding Orchestrator",
         "address_id": 25
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -698,8 +698,8 @@
         "parents_occupation": "Global Mobility Officer",
         "address_id": 26
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -725,8 +725,8 @@
         "parents_occupation": "Legacy Infrastructure Administrator",
         "address_id": 27
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -752,8 +752,8 @@
         "parents_occupation": "Chief Assurance Planner",
         "address_id": 28
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -779,8 +779,8 @@
         "parents_occupation": "Corporate Quality Executive",
         "address_id": 29
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -806,8 +806,8 @@
         "parents_occupation": "Customer Mobility Planner",
         "address_id": 30
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -833,8 +833,8 @@
         "parents_occupation": "Central Intranet Director",
         "address_id": 31
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -860,8 +860,8 @@
         "parents_occupation": "District Operations Supervisor",
         "address_id": 32
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -887,8 +887,8 @@
         "parents_occupation": "Dynamic Mobility Producer",
         "address_id": 33
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -914,8 +914,8 @@
         "parents_occupation": "Direct Accounts Assistant",
         "address_id": 34
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -941,8 +941,8 @@
         "parents_occupation": "Regional Implementation Manager",
         "address_id": 35
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -968,8 +968,8 @@
         "parents_occupation": "Corporate Metrics Specialist",
         "address_id": 36
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -995,8 +995,8 @@
         "parents_occupation": "Chief Brand Strategist",
         "address_id": 37
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -1022,8 +1022,8 @@
         "parents_occupation": "Forward Branding Administrator",
         "address_id": 38
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -1049,8 +1049,8 @@
         "parents_occupation": "Lead Operations Assistant",
         "address_id": 39
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -1076,8 +1076,8 @@
         "parents_occupation": "Chief Markets Assistant",
         "address_id": 40
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -1103,8 +1103,8 @@
         "parents_occupation": "Corporate Division Assistant",
         "address_id": 41
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -1130,8 +1130,8 @@
         "parents_occupation": "Direct Intranet Associate",
         "address_id": 42
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -1157,8 +1157,8 @@
         "parents_occupation": "District Factors Planner",
         "address_id": 43
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -1184,8 +1184,8 @@
         "parents_occupation": "Regional Data Manager",
         "address_id": 44
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -1211,8 +1211,8 @@
         "parents_occupation": "Legacy Solutions Director",
         "address_id": 45
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -1238,8 +1238,8 @@
         "parents_occupation": "Customer Web Planner",
         "address_id": 46
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -1265,8 +1265,8 @@
         "parents_occupation": "Corporate Security Consultant",
         "address_id": 47
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "paid"
     },
     {
@@ -1292,8 +1292,8 @@
         "parents_occupation": "Principal Intranet Executive",
         "address_id": 48
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -1319,8 +1319,8 @@
         "parents_occupation": "Lead Accounts Administrator",
         "address_id": 49
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     },
     {
@@ -1346,8 +1346,8 @@
         "parents_occupation": "Lead Division Manager",
         "address_id": 50
       },
-      "amount_jpy": 3000,
-      "amount_mmk": 30000,
+      "jpy_amount": 3000,
+      "mmk_amount": 30000,
       "status": "pending"
     }
   ]
