@@ -73,7 +73,6 @@ const UserForm = ({
               variant="body2"
               display="block"
               color="textPrimary"
-              gutterTop
               className="note"
             >
               * Allowed characters: lower case alphabetical characters, numbers,

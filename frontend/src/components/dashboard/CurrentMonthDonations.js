@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import DonatorCard from './DonatorCard'
 import { connect } from 'react-redux'
@@ -48,8 +48,8 @@ const Heading = ({
   selectedMonth,
   setSelectedYear,
   setSelectedMonth,
+  setSearchTerm,
 }) => {
-  console.log('Selected year and month', selectedYear, selectedMonth)
   return (
     <HeadingContainer>
       <MonthHeading component={'span'}>
@@ -91,12 +91,17 @@ const Heading = ({
         </ThingahaSelect>
       </MonthHeading>
 
-      <SearchInput />
+      <SearchInput
+        onChange={(e) => {
+          console.log('Setting search term', e.target.value)
+          setSearchTerm(e.target.value)
+        }}
+      />
     </HeadingContainer>
   )
 }
 
-const SearchInput = () => {
+const SearchInput = ({ onChange }) => {
   return (
     <Input
       id="input-with-icon-adornment"
@@ -105,6 +110,7 @@ const SearchInput = () => {
           <SearchIcon />
         </InputAdornment>
       }
+      onChange={onChange}
     />
   )
 }
@@ -117,9 +123,18 @@ const CurrentMonthDonations = ({
   setSelectedYear,
   setSelectedMonth,
 }) => {
+  const [searchTerm, setSearchTerm] = useState('')
+
   const handleToggle = (donation) => {
     const newStatus = donation.status === 'pending' ? 'paid' : 'pending'
     updateDonationStatus(donation.id, newStatus)
+  }
+
+  let filteredDonations = donations
+  if (searchTerm != '') {
+    filteredDonations = donations.filter((donation) =>
+      donation.user.display_name.toLowerCase().match(searchTerm.toLowerCase())
+    )
   }
 
   return (
@@ -129,9 +144,10 @@ const CurrentMonthDonations = ({
         selectedMonth={selectedMonth}
         setSelectedYear={setSelectedYear}
         setSelectedMonth={setSelectedMonth}
+        setSearchTerm={setSearchTerm}
       />
       <DonatorList>
-        {donations.map((donation) => {
+        {filteredDonations.map((donation) => {
           return (
             <li key={donation.id}>
               <DonatorCard

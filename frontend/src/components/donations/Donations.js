@@ -12,7 +12,7 @@ import DonationCard from './DonationCard'
 import DonationForm from './DonationForm'
 
 const Wrapper = styled.div`
-  width: 70%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
