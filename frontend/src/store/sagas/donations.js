@@ -8,6 +8,7 @@ import {
   getDonationsForMonth,
   fetchAllDonations,
   fetchDonation,
+  updateDonationStatus,
 } from '../api/donations'
 import {
   GET_ALL_DONATIONS_SUCCESS,
@@ -69,12 +70,13 @@ export function* fetchDonationInfo(action) {
 export function* startDonationStatusUpdate(action) {
   try {
     // for now don't use api value since there is no api yet
-    // const _response = yield updateDonationStatus()
+    const { data } = yield updateDonationStatus(action.id, action.status)
 
     yield put({
       type: UPDATE_DONATION_STATUS_SUCCESS,
-      id: action.id,
-      status: action.status,
+      id: data.donation.id,
+      status: data.donation.status,
+      paid_at: data.donation.paid_at,
     })
   } catch (error) {
     yield put({

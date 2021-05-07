@@ -146,3 +146,34 @@ def update_donation(donation_id: int):
     except (SQLCustomError, ValidateFail, RequestDataEmpty) as error:
         current_app.logger.exception("Update donation fail: donation_id: %s", donation_id)
         return jsonify({"errors": [error.__dict__]}), 400
+
+@api.route("/donations/<int:donation_id>", methods=["PATCH"])
+@jwt_required
+@sub_admin
+@cross_origin()
+def update_donation_status(donation_id: int):
+    """
+    update donation by ID
+    :param donation_id:
+    :return:
+    """
+    data = request.get_json()
+    if data is None:
+        return post_request_empty()
+
+    donation = donation_service.get_donation_by_id(donation_id)
+    if not donation:
+        return custom_error("No donation record for requested id: {}".format(donation_id))
+
+    try:
+        success = donation_service.update_donation_status_by_id(donation_id, data.get('status'))
+        if success:
+            current_app.logger.info("Success update donation for donation_id: %s", donation_id)
+            return get_donation_by_id(donation_id)
+        else:
+            current_app.logger.error("Fail update donation for donation_id: %s", donation_id)
+            return custom_error("Fail to update donation id: {}".format(donation_id))
+
+    except (SQLCustomError, ValidateFail, RequestDataEmpty) as error:
+        current_app.logger.exception("Update donation fail: donation_id: %s", donation_id)
+        return jsonify({"errors": [error.__dict__]}), 400

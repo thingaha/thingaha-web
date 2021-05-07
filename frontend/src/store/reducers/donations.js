@@ -61,7 +61,11 @@ export default (state = { donations: {}, errors: [] }, action) => {
 
     case UPDATE_DONATION_STATUS_SUCCESS:
       const donation = state.donations[action.id]
-      const updatedDonation = { ...donation, status: action.status }
+      const updatedDonation = {
+        ...donation,
+        status: action.status,
+        paid_at: action.paid_at,
+      }
 
       return {
         ...state,

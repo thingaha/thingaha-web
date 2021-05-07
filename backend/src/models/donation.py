@@ -169,3 +169,20 @@ class DonationModel(db.Model):
         except SQLAlchemyError as error:
             db.session.rollback()
             raise error
+
+    @staticmethod
+    def update_donation_status_by_id(donation_id: int, paid_at: Optional[str]) -> bool:
+        """
+        update donation info by id
+        :param donation_id:
+        :param donation:
+        :return: bool
+        """
+        try:
+            donation = DonationModel.query.filter(DonationModel.id == str(donation_id)).first()
+            donation.paid_at = paid_at
+            db.session.commit()
+            return True
+        except SQLAlchemyError as error:
+            db.session.rollback()
+            raise error

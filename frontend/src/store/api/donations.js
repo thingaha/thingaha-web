@@ -29,8 +29,13 @@ export const getDonationsForMonth = async ({ year, month }) => {
 }
 
 export const updateDonationStatus = async (id, status) => {
-  // do nothing for now
-  return null
+  const { data } = await thingahaApiClient.patch(`/donations/${id}`, {
+    status,
+  })
+
+  return {
+    data,
+  }
 }
 
 const transformTypesForDonation = (donationFormValues) => ({

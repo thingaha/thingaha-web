@@ -2,6 +2,7 @@
 from typing import List, Any, Optional, Dict
 
 from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.sql import func
 
 from common.data_schema import donation_schema
 from common.error import SQLCustomError, RequestDataEmpty, ValidateFail, ThingahaCustomError
@@ -138,6 +139,26 @@ class DonationService(Service):
                 mmk_amount=data["mmk_amount"],
                 jpy_amount=data["jpy_amount"],
                 paid_at=data["paid_at"]))
+        except SQLAlchemyError as error:
+            self.logger.error("Error: {}".format(error))
+            raise SQLCustomError(description="Update donation by ID SQL ERROR")
+        except SQLCustomError as error:
+            self.logger.error("Error: {}".format(error))
+            raise SQLCustomError(description="No record for requested donation")
+
+    def update_donation_status_by_id(self, donation_id: int, status: str) -> bool:
+        """
+        put donation by id
+        :param donation_id:
+        :param data:
+        :return:
+        """
+
+        try:
+            self.logger.info("Update donation info by donation_id:{}".format(donation_id))
+            paid_at = func.now() if status == 'paid' else None
+            return DonationModel.update_donation_status_by_id(donation_id, paid_at)
+
         except SQLAlchemyError as error:
             self.logger.error("Error: {}".format(error))
             raise SQLCustomError(description="Update donation by ID SQL ERROR")
