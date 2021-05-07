@@ -108,7 +108,7 @@ const NavMenu = ({ closeMobileDrawer }) => (
       <HowToRegIcon className="nav-icon" />
       Attendances
     </StyledNavLink>
-    <StyledNavLink onClick={closeMobileDrawer} to={'/extrafunds'}>
+    <StyledNavLink onClick={closeMobileDrawer} to={'/extra_funds'}>
       <LocalAtmIcon className="nav-icon" />
       Extra Funds
     </StyledNavLink>

@@ -95,3 +95,8 @@ app.post('/students', (req, res) => {
   res.status(201)
   res.json(json)
 })
+
+app.get('/extrafunds', (req, res) => {
+  const json = require('./sample_data/extrafunds.json')
+  res.json(json)
+})
