@@ -119,7 +119,6 @@ const Heading = ({
       </MonthHeading>
       <SearchInput
         onChange={(e) => {
-          console.log('Setting search term', e.target.value)
           setSearchTerm(e.target.value)
         }}
       />
