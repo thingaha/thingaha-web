@@ -1,9 +1,11 @@
 """transfer model class, include migrate and CRUD actions"""
 from __future__ import annotations
 
+from datetime import datetime
 from typing import Dict, Any
 
 from flask_sqlalchemy import Pagination
+from sqlalchemy import Column, DateTime, Integer, Enum, Float, desc
 from sqlalchemy.exc import SQLAlchemyError
 
 from common.error import SQLCustomError
@@ -12,12 +14,14 @@ from database import db
 
 class TransferModel(db.Model):
     __tablename__ = "transfers"
-    id = db.Column(db.Integer, primary_key=True)
-    year = db.Column(db.Integer, nullable=False)
-    month = db.Column(db.Enum("january", "february", "march", "april", "may", "june",
-                              "july", "august", "september", "october", "november", "december", name="transfer_month"))
-    total_mmk = db.Column(db.Float())
-    total_jpy = db.Column(db.Float())
+    id = Column(Integer, primary_key=True)
+    year = Column(Integer, nullable=False)
+    month = Column(Enum("january", "february", "march", "april", "may", "june",
+                        "july", "august", "september", "october", "november", "december", name="transfer_month"))
+    total_mmk = Column(Float())
+    total_jpy = Column(Float())
+    created_at = Column(DateTime, default=datetime.now)
+    updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
 
     def __init__(self, year: int, month: str, total_mmk: float, total_jpy: float) -> None:
         self.year = year
@@ -64,7 +68,7 @@ class TransferModel(db.Model):
         :return: Transfer list
         """
         try:
-            return db.session.query(TransferModel).paginate(page=page, per_page=per_page, error_out=False)
+            return db.session.query(TransferModel).order_by(desc(TransferModel.created_at)).paginate(page=page, per_page=per_page, error_out=False)
         except SQLAlchemyError as error:
             raise error
 

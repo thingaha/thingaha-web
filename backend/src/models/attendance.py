@@ -1,11 +1,11 @@
 """attendance model class, include migrate and CRUD actions"""
 from __future__ import annotations
 
-from datetime import date
+from datetime import date, datetime
 from typing import List
 
 from flask_sqlalchemy import Pagination
-from sqlalchemy import and_
+from sqlalchemy import and_, desc, Column, Date, DateTime, Integer, ForeignKey, Enum
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import relationship
 
@@ -18,16 +18,18 @@ from models.student import StudentModel
 class AttendanceModel(db.Model):
     __tablename__ = "attendances"
 
-    id = db.Column(db.Integer, primary_key=True)
-    student_id = db.Column(db.Integer, db.ForeignKey("students.id"), nullable=False)
-    school_id = db.Column(db.Integer, db.ForeignKey("schools.id"), nullable=False)
-    grade = db.Column(
-        db.Enum("KG", "G-1", "G-2", "G-3", "G-4", "G-5", "G-6", "G-7", "G-8", "G-9", "G-10", "G-11", "G-12",
+    id = Column(Integer, primary_key=True)
+    student_id = Column(Integer, ForeignKey("students.id"), nullable=False)
+    school_id = Column(Integer, ForeignKey("schools.id"), nullable=False)
+    grade = Column(
+        Enum("KG", "G-1", "G-2", "G-3", "G-4", "G-5", "G-6", "G-7", "G-8", "G-9", "G-10", "G-11", "G-12",
                 name="grade"))
-    year = db.Column(db.Integer, nullable=False)
-    enrolled_date = db.Column(db.Date(), nullable=True)
+    year = Column(Integer, nullable=False)
+    enrolled_date = Column(Date, nullable=True)
     school = relationship("SchoolModel", foreign_keys=[school_id])
     student = relationship("StudentModel", foreign_keys=[student_id])
+    created_at = Column(DateTime, default=datetime.now)
+    updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
 
     def __init__(self, student_id: str, school_id: str, grade: str, year: str, enrolled_date: date) -> None:
         self.student_id = student_id
@@ -81,7 +83,7 @@ class AttendanceModel(db.Model):
         try:
             return db.session.query(AttendanceModel, SchoolModel, StudentModel).\
                 filter(AttendanceModel.school_id == SchoolModel.id).\
-                filter(AttendanceModel.student_id == StudentModel.id).paginate(page=page, per_page=per_page, error_out=False)
+                filter(AttendanceModel.student_id == StudentModel.id).order_by(desc(AttendanceModel.created_at)).paginate(page=page, per_page=per_page, error_out=False)
         except SQLAlchemyError as error:
             raise error
 

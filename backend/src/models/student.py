@@ -5,7 +5,7 @@ from datetime import datetime, date
 from typing import Dict, Any, List, Optional
 
 from flask_sqlalchemy import Pagination
-from sqlalchemy import or_
+from sqlalchemy import or_, desc, Column, DateTime, String, Integer, Date, UnicodeText, Text
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import relationship
 
@@ -17,16 +17,18 @@ from models.address import AddressModel
 class StudentModel(db.Model):
     __tablename__ = "students"
 
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String())
-    deactivated_at = db.Column(db.DateTime(), nullable=True)
-    birth_date = db.Column(db.Date(), nullable=True)
-    father_name = db.Column(db.UnicodeText())
-    mother_name = db.Column(db.UnicodeText())
-    parents_occupation = db.Column(db.Text())
-    photo = db.Column(db.Text())
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    deactivated_at = Column(DateTime, nullable=True)
+    birth_date = Column(Date, nullable=True)
+    father_name = Column(UnicodeText)
+    mother_name = Column(UnicodeText)
+    parents_occupation = Column(Text)
+    photo = db.Column(db.Text)
     address_id = db.Column(db.Integer, db.ForeignKey("addresses.id"), nullable=False)
     address = relationship("AddressModel", foreign_keys=[address_id])
+    created_at = Column(DateTime, default=datetime.now)
+    updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
 
     def __init__(self, name: str,
                  deactivated_at: datetime, birth_date: date, father_name: str, mother_name: str,
@@ -100,8 +102,7 @@ class StudentModel(db.Model):
         :return: students list of dict
         """
         try:
-            return db.session.query(StudentModel).join(AddressModel).\
-                paginate(page=page, per_page=per_page, error_out=False)
+            return db.session.query(StudentModel).join(AddressModel).order_by(desc(StudentModel.created_at)).paginate(page=page, per_page=per_page, error_out=False)
         except SQLAlchemyError as error:
             raise error
 

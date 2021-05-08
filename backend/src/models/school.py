@@ -1,10 +1,11 @@
 """school model class, include migrate and CRUD actions"""
 from __future__ import annotations
 
+from datetime import datetime
 from typing import Dict, Any, Tuple, List
 
 from flask_sqlalchemy import Pagination
-from sqlalchemy import or_
+from sqlalchemy import or_, desc, DateTime, Column, String, Integer, ForeignKey
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import relationship
 
@@ -19,11 +20,13 @@ class SchoolModel(db.Model):
     """
     __tablename__ = "schools"
 
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(), nullable=False)
-    contact_info = db.Column(db.String(), nullable=False)
-    address_id = db.Column(db.Integer, db.ForeignKey("addresses.id"), nullable=False)
+    id = Column(Integer, primary_key=True)
+    name = Column(String, nullable=False)
+    contact_info = Column(String, nullable=False)
+    address_id = Column(Integer, ForeignKey("addresses.id"), nullable=False)
     address = relationship("AddressModel", foreign_keys=[address_id])
+    created_at = Column(DateTime, default=datetime.now)
+    updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
 
     def __init__(self, name: str, contact_info: str, address_id: int) -> None:
         self.name = name
@@ -73,7 +76,7 @@ class SchoolModel(db.Model):
         :return: school Pagination iterator
         """
         try:
-            return db.session.query(SchoolModel).join(AddressModel).paginate(page=page, per_page=per_page, error_out=False)
+            return db.session.query(SchoolModel).join(AddressModel).order_by(desc(SchoolModel.created_at)).paginate(page=page, per_page=per_page, error_out=False)
         except SQLAlchemyError as error:
             raise error
 
