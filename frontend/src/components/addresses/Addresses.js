@@ -64,13 +64,13 @@ const Addresses = ({ addresses: { addresses, count }, getAllAddresses }) => {
   }, [getAllAddresses])
 
   const studentsAddress = addresses.filter(
-    (address) => address.addressable.type === 'Student'
+    (address) => address.addressable.type === 'student'
   )
   const schoolsAddress = addresses.filter(
-    (address) => address.addressable.type === 'School'
+    (address) => address.addressable.type === 'school'
   )
   const donatorsAddress = addresses.filter(
-    (address) => address.addressable.type === 'User'
+    (address) => address.addressable.type === 'user'
   )
 
   return (

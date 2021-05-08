@@ -17,7 +17,7 @@ export function* fetchAddressesSaga(action) {
     yield put({
       type: GET_ALL_ADDRESSES_SUCCESS,
       addresses: json.data.addresses,
-      count: json.data.count,
+      count: json.data.total_count,
     })
   } catch (error) {
     yield defaultErrorHandler(error, GET_ALL_ADDRESSES_FAILURE)
