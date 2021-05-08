@@ -8,6 +8,8 @@ export const fetchUsers = async ({ page, perPage }) => {
   return {
     data: {
       users: data.users,
+      total_count: data.total_count,
+      total_pages: data.pages,
     },
   }
 }

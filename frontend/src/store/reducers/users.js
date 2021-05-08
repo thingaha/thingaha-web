@@ -6,14 +6,19 @@ import {
   SUBMIT_EDIT_USER_FORM_SUCCESS,
   SUBMIT_EDIT_USER_FORM_FAILURE,
 } from '../actions/users'
-import updateObjectInArray from '../../utils/updateObjectInArray'
+import {
+  immutableAppendOrUpdate,
+  normalizeRecordsById,
+} from '../../utils/reducerHelpers'
 
-export default (state = { users: [] }, action) => {
+export default (state = { users: {} }, action) => {
   switch (action.type) {
     case GET_ALL_USERS_SUCCESS:
       return {
         ...state,
-        users: [...action.users],
+        users: normalizeRecordsById(action.users),
+        totalCount: action.totalCount,
+        totalPages: action.totalPages,
       }
     case GET_ALL_USERS_FAILURE:
       // TODO handle error
@@ -22,28 +27,19 @@ export default (state = { users: [] }, action) => {
         error: action.error,
       }
     case SUBMIT_USER_FORM_SUCCESS:
-      const newUser = action.user
-
       return {
         ...state,
-        users: [...state.users, newUser],
+        users: immutableAppendOrUpdate(state.users, action.user),
       }
     case SUBMIT_USER_FORM_FAILURE:
-      // TODO handle error
       return {
         ...state,
         error: action.error,
       }
     case SUBMIT_EDIT_USER_FORM_SUCCESS:
-      const updatedUsers = updateObjectInArray(
-        state.users,
-        action.user,
-        (user, updatedUser) => user.id === updatedUser.id
-      )
-
       return {
         ...state,
-        users: [...updatedUsers],
+        users: immutableAppendOrUpdate(state.users, action.user),
       }
     case SUBMIT_EDIT_USER_FORM_FAILURE:
       return {

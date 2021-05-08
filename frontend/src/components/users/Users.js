@@ -7,6 +7,8 @@ import UserForm from './UserForm'
 import { Button } from '@material-ui/core'
 import AddCircleIcon from '@material-ui/icons/AddCircle'
 import UserCard from './UserCard'
+import Pagination from '@material-ui/lab/Pagination'
+import values from 'lodash/values'
 
 const Wrapper = styled.div`
   width: 70%;
@@ -34,9 +36,9 @@ const UsersContainer = styled.ul`
   }
 `
 
-const Users = ({ users: { users }, getAllUsers }) => {
+const Users = ({ users, totalPages, totalCount, getAllUsers }) => {
   const [userFormVisible, setUserFormVisible] = useState(false)
-  const [editingUser, setEditingUser] = useState(users[0])
+  const [editingUser, setEditingUser] = useState(null)
 
   useEffect(() => {
     getAllUsers()
@@ -80,18 +82,37 @@ const Users = ({ users: { users }, getAllUsers }) => {
           )
         })}
       </UsersContainer>
+      <div className="pagination-container">
+        <Pagination
+          count={totalPages} // need to pass in total pages instead of total count
+          color="primary"
+          onChange={(_event, page) => {
+            getAllUsers({ page })
+          }}
+        />
+      </div>
     </Wrapper>
   )
 }
 
+const getUserList = (state) => {
+  return values(state.users.users)
+}
+
+const getTotalPage = (state) => state.users.totalPages
+const getTotalCount = (state) => state.users.totalCount
+
 const mapStateToProps = (state) => ({
-  users: state.users,
+  totalPages: getTotalPage(state),
+  totalCount: getTotalCount(state),
+  users: getUserList(state),
 })
 
 const mapDispatchToProps = (dispatch) => {
   return {
     // dispatching plain actions
-    getAllUsers: () => dispatch(actions.fetchUsers()),
+    getAllUsers: ({ page } = { page: 1 }) =>
+      dispatch(actions.fetchUsers({ page })),
   }
 }
 
