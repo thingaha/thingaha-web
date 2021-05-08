@@ -525,4 +525,34 @@ def test_divisions(client, json_access_token):
 def test_donations(client, json_access_token):
     res = client.get("/api/v1/donations", headers=json_access_token)
     assert res.status_code == 200
+
+
+def test_donations_status_update(client, json_access_token, donation_json, transfer_json, school_json, student_json, attendance_json):
+    res = client.post("/api/v1/transfers", json=transfer_json, headers=json_access_token)
+    assert res.status_code == 403
+    # create school
+    res = client.post("/api/v1/schools", json=school_json, headers=json_access_token)
+    assert res.status_code == 403
+    # create student
+    res = client.post("/api/v1/students", json=student_json, headers=json_access_token)
+    assert res.status_code == 403
+    # create attendances
+    res = client.post("/api/v1/attendances", json=attendance_json, headers=json_access_token)
+    assert res.status_code == 403
+    # create donation
+    res = client.post("/api/v1/donations", json=donation_json, headers=json_access_token)
+    assert res.status_code == 403
+    res = client.delete("/api/v1/donations/1", json=donation_json, headers=json_access_token)
+    assert res.status_code == 403
+    # test status update
+    status_json = {"status": "paid"}
+    res = client.patch("/api/v1/donations/1", json=status_json, headers=json_access_token)
+    assert res.status_code == 403
+    status_json = {"status": "pending"}
+    res = client.patch("/api/v1/donations/1", json=status_json, headers=json_access_token)
+    assert res.status_code == 403
+    status_json = {"status": "aa"}
+    res = client.patch("/api/v1/donations/1", json=status_json, headers=json_access_token)
+    assert res.status_code == 403
+
 # End Donation #

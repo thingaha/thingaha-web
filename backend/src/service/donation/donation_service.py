@@ -150,13 +150,13 @@ class DonationService(Service):
         """
         put donation by id
         :param donation_id:
-        :param data:
+        :param status:
         :return:
         """
 
         try:
             self.logger.info("Update donation info by donation_id:{}".format(donation_id))
-            paid_at = func.now() if status == 'paid' else None
+            paid_at = func.now() if status == "paid" else None
             return DonationModel.update_donation_status_by_id(donation_id, paid_at)
 
         except SQLAlchemyError as error:
