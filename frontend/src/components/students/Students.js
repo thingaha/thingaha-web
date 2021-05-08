@@ -14,7 +14,7 @@ import Input from '@material-ui/core/Input'
 import Pagination from '@material-ui/lab/Pagination'
 
 const Wrapper = styled.div`
-  width: 80%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;

@@ -38,13 +38,13 @@ const StudentCardWrapper = styled(Paper)`
   }
 
   & .name {
-    font-size: 1.25rem;
+    font-size: 1rem;
     line-height: 2rem;
   }
 
   & .smallText {
     padding-left: 0.5rem;
-    font-size: 1rem;
+    font-size: 0.75rem;
     line-height: 1.25rem;
   }
 

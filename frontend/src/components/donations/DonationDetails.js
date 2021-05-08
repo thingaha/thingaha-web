@@ -17,7 +17,7 @@ import HelpIcon from '@material-ui/icons/Help'
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn'
 
 const Wrapper = styled.div`
-  width: 70%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;

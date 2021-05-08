@@ -11,7 +11,6 @@ import SchoolCard from './SchoolCard'
 import SchoolForm from './SchoolForm'
 
 const Wrapper = styled.div`
-  width: 70%;
   display: flex;
   flex-direction: column;
   justify-content: center;

@@ -17,7 +17,7 @@ import CheckCircleRoundedIcon from '@material-ui/icons/CheckCircleRounded'
 import PeopleIcon from '@material-ui/icons/People'
 
 const Wrapper = styled.div`
-  width: 70%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;

@@ -76,7 +76,8 @@ const DonationCardWrapper = styled(Paper)`
   }
 
   & .display-name {
-    font-size: 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
   }
 
   & .edit {
