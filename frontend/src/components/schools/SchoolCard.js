@@ -65,13 +65,15 @@ const SchoolCard = ({ school, onEdit }) => {
             onEdit(school)
           }}
         />
-        <Chip
-          icon={<PermPhoneMsgIcon variant="rounded" />}
-          label={school.contact_info}
-          variant="default"
-          size="small"
-          className="contact"
-        />
+        {school.contact_info ? (
+          <Chip
+            icon={<PermPhoneMsgIcon variant="rounded" />}
+            label={school.contact_info}
+            variant="default"
+            size="small"
+            className="contact"
+          />
+        ) : null}
       </div>
     </SchoolCardWrapper>
   )
