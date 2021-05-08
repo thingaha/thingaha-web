@@ -66,13 +66,13 @@ const DonationCardWrapper = styled(Paper)`
   & .year {
     color: ${({ theme }) => theme.palette.secondary.light};
     font-size: 1.25rem;
-    margin-bottom: 0.5rem;
   }
 
   & .month {
     color: ${({ theme }) => theme.palette.secondary.light};
     font-size: 1.25rem;
     text-transform: capitalize;
+    font-variant-caps: all-small-caps;
   }
 
   & .display-name {
@@ -125,7 +125,7 @@ const DonationCard = ({ donation, onEdit }) => {
     <DonationCardWrapper>
       <div className="col1">
         <div className="year">{donation.year}</div>
-        <div className="month">{donation.month}</div>
+        <div className="month">{donation.month.slice(0, 3)}</div>
       </div>
       <div className="col2">
         <div className="top-row">
