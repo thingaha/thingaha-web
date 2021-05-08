@@ -2,10 +2,11 @@
 
 from __future__ import annotations
 
+from datetime import datetime
 from typing import Dict, Any
 
 from flask_sqlalchemy import Pagination
-from sqlalchemy import or_
+from sqlalchemy import or_, desc, Column, DateTime, UnicodeText, Integer, Enum
 from sqlalchemy.exc import SQLAlchemyError
 
 from common.error import SQLCustomError
@@ -18,12 +19,14 @@ class AddressModel(db.Model):
     """
     __tablename__ = "addresses"
 
-    id = db.Column(db.Integer, primary_key=True)
-    division = db.Column(db.UnicodeText())
-    district = db.Column(db.UnicodeText())
-    township = db.Column(db.UnicodeText())
-    street_address = db.Column(db.UnicodeText())
-    type = db.Column(db.Enum("user", "student", "school", name="addresses_types"), default="user", nullable=False)
+    id = Column(Integer, primary_key=True)
+    division = Column(UnicodeText)
+    district = Column(UnicodeText)
+    township = Column(UnicodeText)
+    street_address = Column(UnicodeText)
+    type = Column(Enum("user", "student", "school", name="addresses_types"), default="user", nullable=False)
+    created_at = Column(DateTime, default=datetime.now)
+    updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
 
     def __repr__(self):
         return f"<Address {self.format_address()}>"
@@ -118,7 +121,7 @@ class AddressModel(db.Model):
         :return: get all address info
         """
         try:
-            return db.session.query(AddressModel).paginate(page=page, per_page=per_page, error_out=False)
+            return db.session.query(AddressModel).order_by(desc(AddressModel.id)).paginate(page=page, per_page=per_page, error_out=False)
         except SQLAlchemyError as error:
             raise error
 

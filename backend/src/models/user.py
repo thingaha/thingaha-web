@@ -2,10 +2,11 @@
 
 from __future__ import annotations
 
+from datetime import datetime
 from typing import Dict, Any, List
 
 from flask_sqlalchemy import Pagination
-from sqlalchemy import and_, or_
+from sqlalchemy import and_, or_, desc, Column, Integer, DateTime, Text, Boolean, ForeignKey, String, Enum
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import relationship
 
@@ -19,16 +20,18 @@ class UserModel(db.Model):
     User Model class with table column definition
     """
     __tablename__ = "users"
-    id = db.Column(db.Integer, primary_key=True)
-    display_name = db.Column(db.String(), nullable=False)
-    username = db.Column(db.String(), unique=True, nullable=False)
-    email = db.Column(db.String(), unique=True, nullable=False)
-    hashed_password = db.Column(db.Text(), nullable=True)
-    role = db.Column(db.Enum("sub_admin", "donator", "admin", name="role"))
-    country = db.Column(db.String(), nullable=True)
-    donation_active = db.Column(db.Boolean, default=False)
-    address_id = db.Column(db.Integer, db.ForeignKey("addresses.id"), nullable=False)
+    id = Column(Integer, primary_key=True)
+    display_name = Column(String, nullable=False)
+    username = Column(String, unique=True, nullable=False)
+    email = Column(String, unique=True, nullable=False)
+    hashed_password = Column(Text, nullable=True)
+    role = Column(Enum("sub_admin", "donator", "admin", name="role"))
+    country = Column(String, nullable=True)
+    donation_active = Column(Boolean, default=False)
+    address_id = Column(Integer, ForeignKey("addresses.id"), nullable=False)
     address = relationship("AddressModel", foreign_keys=[address_id])
+    created_at = Column(DateTime, default=datetime.now)
+    updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
 
     def __init__(self, display_name: str, username: str, email: str, address_id: int, role: str, country: str,
                  hashed_password: str = None, donation_active: bool = False) -> None:
@@ -207,7 +210,7 @@ class UserModel(db.Model):
         """
         try:
             return db.session.query(UserModel).join(AddressModel).filter(
-                UserModel.role == role).paginate(page=page, per_page=per_page, error_out=False)
+                UserModel.role == role).order_by(desc(UserModel.created_at)).paginate(page=page, per_page=per_page, error_out=False)
         except SQLAlchemyError as error:
             raise error
 

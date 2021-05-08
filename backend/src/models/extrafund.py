@@ -1,9 +1,12 @@
 """extra funds model class, include migrate and CRUD actions"""
 from __future__ import annotations
 
+from datetime import datetime
 from typing import Dict, Any, List
 
 from flask_sqlalchemy import Pagination
+from sqlalchemy import Column, DateTime, Integer, Float, ForeignKey
+from sqlalchemy import desc
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import relationship
 
@@ -15,10 +18,12 @@ from models.transfer import TransferModel
 class ExtraFundsModel(db.Model):
     __tablename__ = "extrafunds"
 
-    id = db.Column(db.Integer, primary_key=True)
-    mmk_amount = db.Column(db.Float())
-    transfer_id = db.Column(db.Integer, db.ForeignKey("transfers.id"), nullable=False)
+    id = Column(Integer, primary_key=True)
+    mmk_amount = Column(Float())
+    transfer_id = Column(Integer, ForeignKey("transfers.id"), nullable=False)
     transfer = relationship("TransferModel", foreign_keys=[transfer_id])
+    created_at = Column(DateTime, default=datetime.now)
+    updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
 
     def __init__(self, mmk_amount: float, transfer_id: int) -> None:
         self.mmk_amount = mmk_amount
@@ -61,7 +66,7 @@ class ExtraFundsModel(db.Model):
         :return: Extra funds list
         """
         try:
-            return db.session.query(ExtraFundsModel).join(TransferModel).paginate(page=page, per_page=per_page,
+            return db.session.query(ExtraFundsModel).join(TransferModel).order_by(desc(ExtraFundsModel.created_at)).paginate(page=page, per_page=per_page,
                                                                                   error_out=False)
         except SQLAlchemyError as error:
             raise error

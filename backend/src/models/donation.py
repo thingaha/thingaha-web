@@ -5,6 +5,7 @@ from datetime import datetime
 from typing import Optional
 
 from flask_sqlalchemy import Pagination
+from sqlalchemy import desc, Integer, Enum, DateTime, Column, Float
 from sqlalchemy.exc import SQLAlchemyError
 
 from common.error import SQLCustomError
@@ -17,16 +18,18 @@ from models.user import UserModel
 class DonationModel(db.Model):
     __tablename__ = "donations"
 
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
-    attendance_id = db.Column(db.Integer, db.ForeignKey("attendances.id"), nullable=False)
-    transfer_id = db.Column(db.Integer, db.ForeignKey("transfers.id"), nullable=True)
-    year = db.Column(db.Integer, nullable=False)
-    month = db.Column(db.Enum("january", "february", "march", "april", "may", "june",
-                              "july", "august", "september", "october", "november", "december", name="month"))
-    mmk_amount = db.Column(db.Float())
-    jpy_amount = db.Column(db.Float())
-    paid_at = db.Column(db.DateTime(), nullable=True)
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, db.ForeignKey("users.id"), nullable=False)
+    attendance_id = Column(Integer, db.ForeignKey("attendances.id"), nullable=False)
+    transfer_id = Column(Integer, db.ForeignKey("transfers.id"), nullable=True)
+    year = Column(Integer, nullable=False)
+    month = Column(Enum("january", "february", "march", "april", "may", "june",
+                        "july", "august", "september", "october", "november", "december", name="month"))
+    mmk_amount = Column(Float)
+    jpy_amount = Column(Float)
+    paid_at = Column(DateTime(timezone=True), nullable=True)
+    created_at = Column(DateTime, default=datetime.now)
+    updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
 
     def __init__(self, user_id: int, attendance_id: int, transfer_id: Optional[int], year: int, month: str, mmk_amount: float,
                  jpy_amount: float, paid_at: Optional[datetime]) -> None:
@@ -89,7 +92,7 @@ class DonationModel(db.Model):
             return db.session.query(DonationModel, UserModel, StudentModel). \
                 filter(DonationModel.user_id == UserModel.id). \
                 filter(DonationModel.attendance_id == AttendanceModel.id). \
-                filter(AttendanceModel.id == StudentModel.id).paginate(page=page, per_page=per_page, error_out=False)
+                filter(AttendanceModel.id == StudentModel.id).order_by(desc(DonationModel.created_at)).paginate(page=page, per_page=per_page, error_out=False)
         except SQLAlchemyError as error:
             raise error
 
