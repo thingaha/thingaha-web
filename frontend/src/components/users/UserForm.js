@@ -122,8 +122,8 @@ const UserForm = ({
               label="Role"
             >
               <MenuItem value="donator">Donator</MenuItem>
+              <MenuItem value="sub_admin">Sub Admin</MenuItem>
               <MenuItem value="admin">Admin</MenuItem>
-              <MenuItem value="superadmin">Super Admin</MenuItem>
             </ThingahaSelect>
           </StyledFormControl>
           <StyledFormControl>

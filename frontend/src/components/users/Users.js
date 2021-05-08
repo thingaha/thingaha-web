@@ -11,7 +11,7 @@ import Pagination from '@material-ui/lab/Pagination'
 import values from 'lodash/values'
 
 const Wrapper = styled.div`
-  width: 70%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;

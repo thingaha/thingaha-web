@@ -91,6 +91,7 @@ class UserModel(db.Model):
             target_user.username = user.username
             target_user.email = user.email
             target_user.country = user.country
+            target_user.role = user.role
             target_user.donation_active = user.donation_active
             db.session.commit()
             return True

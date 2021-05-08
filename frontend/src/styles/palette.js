@@ -48,4 +48,7 @@ export default {
     disabled: '#bdbdbd',
     hint: 'rgba(66, 47, 59, 0.69)',
   },
+  custom: {
+    rottenyellow: '#8e701a',
+  },
 }

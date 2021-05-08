@@ -4,6 +4,10 @@ import Paper from '@material-ui/core/Paper'
 import Chip from '@material-ui/core/Chip'
 import Avatar from '@material-ui/core/Avatar'
 import EditIcon from '@material-ui/icons/EditRounded'
+import VerifiedUserIcon from '@material-ui/icons/VerifiedUserRounded'
+import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle'
+import MonetizationOnRoundedIcon from '@material-ui/icons/MonetizationOnRounded'
+import Tooltip from '@material-ui/core/Tooltip'
 
 const UserCardWrapper = styled(Paper)`
   display: flex;
@@ -15,21 +19,26 @@ const UserCardWrapper = styled(Paper)`
   & .col2 {
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
     margin-left: 1rem;
   }
 
   & .col4 {
-    margin-left: auto;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     margin-left: auto;
-    margin-right: 1rem;
   }
 
-  & .name {
+  & .display-name {
+    font-size: 1rem;
+    line-height: 2rem;
+  }
+
+  & .username {
     font-size: 1.25rem;
     line-height: 2rem;
+    display: flex;
   }
 
   & .email {
@@ -43,7 +52,43 @@ const UserCardWrapper = styled(Paper)`
   & .role {
     color: ${(props) => props.theme.palette.text.primary};
   }
+
+  & .role-badge {
+    color: ${(props) => props.theme.palette.custom.rottenyellow};
+  }
 `
+
+const UserRoleIcon = ({ role }) => {
+  let roleIcon = null
+  const iconOptions = {
+    color: 'action',
+    className: 'role-badge',
+    variant: 'rounded',
+    fontSize: 'small',
+  }
+
+  if (role == 'admin') {
+    roleIcon = (
+      <Tooltip title="Administrator">
+        <VerifiedUserIcon {...iconOptions} />
+      </Tooltip>
+    )
+  } else if (role == 'sub_admin') {
+    roleIcon = (
+      <Tooltip title="Sub Administrator">
+        <SupervisedUserCircleIcon {...iconOptions} />
+      </Tooltip>
+    )
+  } else {
+    roleIcon = (
+      <Tooltip title="Donator">
+        <MonetizationOnRoundedIcon {...iconOptions} />
+      </Tooltip>
+    )
+  }
+
+  return roleIcon
+}
 
 const UserCard = ({ user, onEdit }) => {
   return (
@@ -52,27 +97,30 @@ const UserCard = ({ user, onEdit }) => {
         <Avatar>{user.country}</Avatar>
       </div>
       <div className="col2">
-        <div className="name">{user.display_name}</div>
+        <div className="display-name">{user.display_name}</div>
         <div className="email">{user.email}</div>
       </div>
-      <div className="col3">
-        <div className="name">{user.username}</div>
-        <Chip
-          label={user.role}
-          variant="default"
-          size="small"
-          className="role"
-        />
-      </div>
       <div className="col4">
-        <EditIcon
-          color="primary"
-          className="edit"
-          variant="rounded"
-          onClick={() => {
-            onEdit(user)
-          }}
-        />
+        <div className="username">
+          <Tooltip title="User Name">
+            <Chip
+              label={user.username}
+              variant="default"
+              size="small"
+              className="role"
+            />
+          </Tooltip>
+
+          <EditIcon
+            color="primary"
+            className="edit"
+            variant="rounded"
+            onClick={() => {
+              onEdit(user)
+            }}
+          />
+        </div>
+        <UserRoleIcon role={user.role} />
       </div>
     </UserCardWrapper>
   )
