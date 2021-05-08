@@ -135,11 +135,12 @@ def update_user(user_id: int):
 
             if user_update_status:
                 current_app.logger.info("Success user update for user_id: %s", user_id)
+                return get_user_by_id(user_id)
+
             else:
                 current_app.logger.error("Fail user update for user_id: %s", user_id)
                 return custom_error("Update fail for user_id: %s", user_id)
 
-        return get_user_by_id(user_id)
     except ValueError as error:
         current_app.logger.error(
             "Value error for address id. error: %s", error)

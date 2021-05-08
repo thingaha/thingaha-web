@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
 import { NavLink } from 'react-router-dom'
 import { media } from '../../styles/variables'
+import ThingahaName from '../common/ThingahaName'
 
 const AddressCardContainer = styled(Paper)`
   display: flex;
@@ -26,10 +27,6 @@ const AddressCardContainer = styled(Paper)`
     ${media.mobileOnly} {
       padding-right: 2rem;
     }
-  }
-
-  & .cardNameFont {
-    font-size: 1.2rem;
   }
 
   & .cardTitle {
@@ -56,9 +53,7 @@ const AddressCard = ({ address, icon, link }) => {
           <Grid container spacing={1}>
             <Grid item xs={12} className="cardName">
               <NavLink to={link}>
-                <Typography variant="subtitle1" className="cardNameFont">
-                  {address.addressable.name}
-                </Typography>
+                <ThingahaName>{address.addressable.name}</ThingahaName>
               </NavLink>
             </Grid>
             <Box
@@ -73,25 +68,25 @@ const AddressCard = ({ address, icon, link }) => {
           <div xs={12} className="cardTitle">
             {labelDivision}
           </div>
-          <Typography variant="subtitle1">{address.division}</Typography>
+          <Typography variant="subtitle2">{address.division}</Typography>
         </Grid>
         <Grid item sm={2} xs={6}>
           <div xs={12} className="cardTitle">
             {labelDistrict}
           </div>
-          <Typography variant="subtitle1">{address.district}</Typography>
+          <Typography variant="subtitle2">{address.district}</Typography>
         </Grid>
         <Grid item sm={2} xs={6}>
           <div xs={12} className="cardTitle">
             {labelTownship}
           </div>
-          <Typography variant="subtitle1">{address.township}</Typography>
+          <Typography variant="subtitle2">{address.township}</Typography>
         </Grid>
         <Grid item sm={3} xs={6}>
           <div xs={12} className="cardTitle">
             {labelStreetAddress}
           </div>
-          <Typography variant="subtitle1">{address.street_address}</Typography>
+          <Typography variant="subtitle2">{address.street_address}</Typography>
         </Grid>
         <Box
           display={{ xs: 'none', sm: 'block' }}

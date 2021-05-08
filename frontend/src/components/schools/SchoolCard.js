@@ -4,6 +4,7 @@ import Paper from '@material-ui/core/Paper'
 import Chip from '@material-ui/core/Chip'
 import EditIcon from '@material-ui/icons/EditRounded'
 import PermPhoneMsgIcon from '@material-ui/icons/PermPhoneMsg'
+import ThingahaName from '../common/ThingahaName'
 
 const SchoolCardWrapper = styled(Paper)`
   display: flex;
@@ -26,13 +27,8 @@ const SchoolCardWrapper = styled(Paper)`
     margin-right: 1rem;
   }
 
-  & .name {
-    font-size: 1.25rem;
-    line-height: 2rem;
-  }
-
   & .address {
-    font-size: 1rem;
+    font-size: 0.75rem;
   }
 
   & .edit {
@@ -54,7 +50,7 @@ const SchoolCard = ({ school, onEdit }) => {
   return (
     <SchoolCardWrapper>
       <div className="col2">
-        <div className="name">{school.name}</div>
+        <ThingahaName>{school.name}</ThingahaName>
         <div className="address">
           {school.address.street_address}, {school.address.township},
           {school.address.district}, {school.address.division}
@@ -69,13 +65,15 @@ const SchoolCard = ({ school, onEdit }) => {
             onEdit(school)
           }}
         />
-        <Chip
-          icon={<PermPhoneMsgIcon variant="rounded" />}
-          label={school.contact_info}
-          variant="default"
-          size="small"
-          className="contact"
-        />
+        {school.contact_info ? (
+          <Chip
+            icon={<PermPhoneMsgIcon variant="rounded" />}
+            label={school.contact_info}
+            variant="default"
+            size="small"
+            className="contact"
+          />
+        ) : null}
       </div>
     </SchoolCardWrapper>
   )

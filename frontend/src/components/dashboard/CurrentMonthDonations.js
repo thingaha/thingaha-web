@@ -6,7 +6,8 @@ import * as actions from '../../store/actions'
 import Input from '@material-ui/core/Input'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import SearchIcon from '@material-ui/icons/Search'
-import { Typography } from '@material-ui/core'
+import Typography from '@material-ui/core/Typography'
+import Chip from '@material-ui/core/Chip'
 import { formatMMK, formatJPY } from '../../utils/formatCurrency'
 import { MONTHS } from '../../utils/dateAndTimeHelpers'
 import range from 'lodash/range'
@@ -34,6 +35,10 @@ const MonthHeading = styled(Typography)`
     color: ${({ theme }) => theme.palette.text.primary};
     font-size: 1.25rem;
   }
+
+  & .current-page-total {
+    margin-left: 0.5rem;
+  }
 `
 
 const HeadingContainer = styled.div`
@@ -43,12 +48,27 @@ const HeadingContainer = styled.div`
   margin-bottom: 1rem;
 `
 
+const SearchInput = ({ onChange }) => {
+  return (
+    <Input
+      id="input-with-icon-adornment"
+      startAdornment={
+        <InputAdornment position="start">
+          <SearchIcon />
+        </InputAdornment>
+      }
+      onChange={onChange}
+    />
+  )
+}
+
 const Heading = ({
   selectedYear,
   selectedMonth,
   setSelectedYear,
   setSelectedMonth,
   setSearchTerm,
+  currentPageTotal,
 }) => {
   return (
     <HeadingContainer>
@@ -89,29 +109,20 @@ const Heading = ({
             )
           })}
         </ThingahaSelect>
-      </MonthHeading>
 
+        <Chip
+          label={currentPageTotal}
+          variant="default"
+          size="small"
+          className="current-page-total"
+        />
+      </MonthHeading>
       <SearchInput
         onChange={(e) => {
-          console.log('Setting search term', e.target.value)
           setSearchTerm(e.target.value)
         }}
       />
     </HeadingContainer>
-  )
-}
-
-const SearchInput = ({ onChange }) => {
-  return (
-    <Input
-      id="input-with-icon-adornment"
-      startAdornment={
-        <InputAdornment position="start">
-          <SearchIcon />
-        </InputAdornment>
-      }
-      onChange={onChange}
-    />
   )
 }
 
@@ -145,12 +156,14 @@ const CurrentMonthDonations = ({
         setSelectedYear={setSelectedYear}
         setSelectedMonth={setSelectedMonth}
         setSearchTerm={setSearchTerm}
+        currentPageTotal={filteredDonations.length}
       />
       <DonatorList>
-        {filteredDonations.map((donation) => {
+        {filteredDonations.map((donation, index) => {
           return (
             <li key={donation.id}>
               <DonatorCard
+                index={index}
                 handleToggle={() => handleToggle(donation)}
                 checked={donation.status === 'paid'}
                 description={donation.user.display_name}

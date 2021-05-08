@@ -17,8 +17,13 @@ import defaultErrorHandler from './defaultErrorHandler'
 export function* fetchAllUsers({ page, perPage }) {
   //Saga Func
   try {
-    const json = yield fetchUsers({ page, perPage })
-    yield put({ type: GET_ALL_USERS_SUCCESS, users: json.data.users })
+    const { data } = yield fetchUsers({ page, perPage })
+    yield put({
+      type: GET_ALL_USERS_SUCCESS,
+      users: data.users,
+      totalPages: data.total_pages,
+      totalCount: data.total_count,
+    })
   } catch (error) {
     yield defaultErrorHandler(error, GET_ALL_USERS_FAILURE)
   }

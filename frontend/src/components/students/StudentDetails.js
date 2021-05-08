@@ -15,9 +15,10 @@ import HouseRoundedIcon from '@material-ui/icons/HouseRounded'
 import WorkOutlineRoundedIcon from '@material-ui/icons/WorkOutlineRounded'
 import CheckCircleRoundedIcon from '@material-ui/icons/CheckCircleRounded'
 import PeopleIcon from '@material-ui/icons/People'
+import ThingahaName from '../common/ThingahaName'
 
 const Wrapper = styled.div`
-  width: 70%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -64,10 +65,6 @@ const StudentDetailWrapper = styled(Paper)`
     flex-direction: row;
     padding: 8px 4px;
   }
-  & .name {
-    font-size: 1.25rem;
-    line-height: 2rem;
-  }
 
   & .smallText {
     padding-left: 0.5rem;
@@ -82,7 +79,7 @@ const StudentDetail = ({ student }) => {
   return (
     <StudentDetailWrapper>
       <div className="infoText">
-        <div className="name">{student.name}</div>
+        <ThingahaName>{student.name}</ThingahaName>
         <div className="iconTextWrapper">
           <EventRoundedIcon variant="rounded" />
           <div className="smallText">{student.birth_date}</div>
