@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import Paper from '@material-ui/core/Paper'
 import Switch from '@material-ui/core/Switch'
 import Typography from '@material-ui/core/Typography'
+import Chip from '@material-ui/core/Chip'
 
 const DonatorCardContainer = styled(Paper)`
   display: flex;
@@ -40,11 +41,17 @@ const DonatorCardContainer = styled(Paper)`
   }
 `
 
-const DonatorCard = ({ handleToggle, checked, description, amount }) => {
+const DonatorCard = ({ index, handleToggle, checked, description, amount }) => {
   const cardStateClassName = classnames({ success: checked })
 
   return (
     <DonatorCardContainer className={cardStateClassName}>
+      <Chip
+        label={index + 1}
+        variant="primary"
+        size="small"
+        className="current-page-total"
+      />
       <div className="icon">
         <Switch
           edge="end"
