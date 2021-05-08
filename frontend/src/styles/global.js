@@ -6,48 +6,54 @@ const GlobalStyles = createGlobalStyle({
   '*': {
     '-webkit-font-smoothing': 'antialiased',
     '-moz-osx-font-smoothing': 'grayscale',
-    'textRendering': 'optimizeLegibility',
-    'boxSizing': 'border-box'
+    textRendering: 'optimizeLegibility',
+    boxSizing: 'border-box',
   },
 
-  'html': {
+  html: {
     height: '100%',
     fontSize: typography.body1,
-    fontFamily: typography.fontFamily
+    fontFamily: typography.fontFamily,
   },
 
-  'body': {
+  body: {
     height: '100%',
     backgroundColor: palette.background.default,
-    color: palette.text.primary
+    color: palette.text.primary,
   },
 
-  'a': {
-    'textDecoration': 'none',
-    'color': palette.text.link,
+  a: {
+    textDecoration: 'none',
+    color: palette.text.link,
     ':hover': {
       textDecoration: 'none',
-      color: palette.text.link
+      color: palette.text.link,
     },
-    'cursor': 'pointer'
+    cursor: 'pointer',
   },
 
   '#root': {
-    height: '100%'
+    height: '100%',
   },
 
-  'button': {
-    'font': 'inherit',
+  button: {
+    font: 'inherit',
 
     '&:hover': {
-      cursor: 'pointer'
-    }
+      cursor: 'pointer',
+    },
   },
 
   'h1, h2, h3, h4, h5, h6': {
     fontFamily: typography.fontFamily,
-    fontWeight: 400
-  }
+    fontWeight: 400,
+  },
+
+  '.thingaha-name': {
+    fontSize: '1rem',
+    fontWeight: 'bold',
+    lineHeight: '2rem',
+  },
 })
 
 export default GlobalStyles

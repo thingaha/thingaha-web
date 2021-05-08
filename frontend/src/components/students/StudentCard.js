@@ -8,6 +8,7 @@ import SchoolIcon from '@material-ui/icons/School'
 import classnames from 'classnames'
 import { Link } from 'react-router-dom'
 import ThingahaCombinedAddress from '../common/ThingahaCombinedAddress'
+import ThingahaName from '../common/ThingahaName'
 
 const StudentCardWrapper = styled(Paper)`
   display: flex;
@@ -66,7 +67,7 @@ const StudentCard = ({ student, onEdit }) => {
   return (
     <StudentCardWrapper className={deactivatedClass}>
       <div className="row">
-        <div className="name">{student.name}</div>
+        <ThingahaName className="thingaha-name">{student.name}</ThingahaName>
         <div>
           <Link
             to={`/students/${student.id}`}

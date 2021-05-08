@@ -8,6 +8,7 @@ import VerifiedUserIcon from '@material-ui/icons/VerifiedUserRounded'
 import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle'
 import MonetizationOnRoundedIcon from '@material-ui/icons/MonetizationOnRounded'
 import Tooltip from '@material-ui/core/Tooltip'
+import ThingahaName from '../common/ThingahaName'
 
 const UserCardWrapper = styled(Paper)`
   display: flex;
@@ -28,11 +29,6 @@ const UserCardWrapper = styled(Paper)`
     flex-direction: column;
     align-items: flex-end;
     margin-left: auto;
-  }
-
-  & .display-name {
-    font-size: 1rem;
-    line-height: 2rem;
   }
 
   & .username {
@@ -97,7 +93,9 @@ const UserCard = ({ user, onEdit }) => {
         <Avatar>{user.country}</Avatar>
       </div>
       <div className="col2">
-        <div className="display-name">{user.display_name}</div>
+        <ThingahaName className="display-name">
+          {user.display_name}
+        </ThingahaName>
         <div className="email">{user.email}</div>
       </div>
       <div className="col4">
