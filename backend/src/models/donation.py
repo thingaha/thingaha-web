@@ -6,7 +6,7 @@ from typing import Optional
 
 from flask_sqlalchemy import Pagination
 from sqlalchemy import desc, Integer, Enum, DateTime, Column, Float
-from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.exc import SQLAlchemyError, DataError
 
 from common.error import SQLCustomError
 from database import db
@@ -97,6 +97,22 @@ class DonationModel(db.Model):
             raise error
 
     @staticmethod
+    def get_all_donator_donations(user_id: int, page: int = 1, per_page: int = 20) -> Pagination:
+        """
+        get all donator donation records
+        :params page
+        :params per_page
+        :return: donation list
+        """
+        try:
+            return db.session.query(DonationModel, UserModel, StudentModel). \
+                filter(DonationModel.user_id == UserModel.id). \
+                filter(DonationModel.attendance_id == AttendanceModel.id). \
+                filter(AttendanceModel.id == StudentModel.id).filter(DonationModel.user_id == user_id).order_by(desc(DonationModel.created_at)).paginate(page=page, per_page=per_page, error_out=False)
+        except (SQLAlchemyError, DataError) as error:
+            raise error
+
+    @staticmethod
     def get_donations_by_year_month(year: int, month: str) -> Pagination:
         """
         get all donation records for given year and month
@@ -111,8 +127,26 @@ class DonationModel(db.Model):
                 filter(AttendanceModel.id == StudentModel.id). \
                 filter(DonationModel.year == year). \
                 filter(DonationModel.month == month).paginate(page=1, per_page=1000, error_out=False)
+        except (SQLAlchemyError, DataError) as error:
+            raise error
 
-        except SQLAlchemyError as error:
+    @staticmethod
+    def get_donator_donations_by_year_month(year: int, month: str, user_id: int) -> Pagination:
+        """
+        get all donator donation records for given year and month
+        :params page
+        :params per_page
+        :return: donation list
+        """
+        try:
+            return db.session.query(DonationModel, UserModel, StudentModel). \
+                filter(DonationModel.user_id == UserModel.id). \
+                filter(DonationModel.attendance_id == AttendanceModel.id). \
+                filter(AttendanceModel.id == StudentModel.id). \
+                filter(DonationModel.year == year). \
+                filter(DonationModel.month == month).\
+                filter(DonationModel.user_id == user_id).paginate(page=1, per_page=1000, error_out=False)
+        except (SQLAlchemyError, DataError) as error:
             raise error
 
     @staticmethod
@@ -178,7 +212,7 @@ class DonationModel(db.Model):
         """
         update donation info by id
         :param donation_id:
-        :param donation:
+        :param paid_at:
         :return: bool
         """
         try:

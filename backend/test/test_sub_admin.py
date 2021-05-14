@@ -493,6 +493,10 @@ def test_create_update_donation(client, json_access_token, donation_json,
     assert res.status_code == 200
     res = client.put("/api/v1/donations/1", json=donation_json, headers=json_access_token)
     assert res.status_code == 200
+    res = client.get("/api/v1/donator_donations", json=donation_json, headers=json_access_token)
+    assert res.status_code == 200
+    res = client.get("/api/v1/donator_donations?year=2017&month=june", json=donation_json, headers=json_access_token)
+    assert res.status_code == 200
 
 
 def test_delete_donation(client, json_access_token, donation_json, transfer_json, school_json, student_json, attendance_json):

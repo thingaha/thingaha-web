@@ -1124,10 +1124,7 @@
 							"value": "https://thingaha.s3-ap-northeast-1.amazonaws.com/st004.png",
 							"type": "text"
 						}
-					],
-					"options": {
-						"formdata": {}
-					}
+					]
 				},
 				"url": {
 					"raw": "http://localhost:5000/api/v1/student/upload",
@@ -1215,10 +1212,7 @@
 							"value": "st003",
 							"type": "text"
 						}
-					],
-					"options": {
-						"formdata": {}
-					}
+					]
 				},
 				"url": {
 					"raw": "http://localhost:5000/api/v1/student/upload",
@@ -2094,7 +2088,65 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Donation[GET][Donator]",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MjA5OTQ4NzgsIm5iZiI6MTYyMDk5NDg3OCwianRpIjoiOTZkNzM2NzctMzk3NC00OWJlLWIwYzctZDljNTY5Y2Q2YjEwIiwiZXhwIjoxNjIxMDgxMjc4LCJpZGVudGl0eSI6MiwiZnJlc2giOmZhbHNlLCJ0eXBlIjoiYWNjZXNzIiwidXNlcl9jbGFpbXMiOiJkb25hdG9yIn0.7n-x9oNs1EkbQkMQeFNVLXOXh-rXZJfVv-Vu2NrGyCQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/donator_donations?year=2017&month=june",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"donator_donations"
+					],
+					"query": [
+						{
+							"key": "year",
+							"value": "2017"
+						},
+						{
+							"key": "month",
+							"value": "june"
+						}
+					]
+				}
+			},
+			"response": []
 		}
 	],
-	"protocolProfileBehavior": {}
+	"variable": [
+		{
+			"key": "login_token",
+			"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MTAwMjQxNzksIm5iZiI6MTYxMDAyNDE3OSwianRpIjoiNGU0MGQwZjgtNDExMi00YzQ5LWIwZTAtYzg4ZTIzMjQwOTczIiwiZXhwIjoxNjEwMTEwNTc5LCJpZGVudGl0eSI6MSwiZnJlc2giOmZhbHNlLCJ0eXBlIjoiYWNjZXNzIiwidXNlcl9jbGFpbXMiOiJhZG1pbiJ9.S03tXrqsCCdLM0zNCgIEe7n2VvPoRD7K28yVj5bj26Q"
+		}
+	]
 }

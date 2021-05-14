@@ -76,9 +76,10 @@ Output Sample:
 
 ### GET all donations
 
-| API               |    Description    | Action |
-| :---------------- | :---------------: | -----: |
-| /api/v1/donations | GET all donations |    GET |
+| API                                  |             Description             | Action |
+| :----------------------------------- | :---------------------------------: | -----: |
+| /api/v1/donations                    |  GET all donations with pagination  |    GET |
+| /api/v1/donations?year=XXX&month=XXX | GET all donations by year and month |    GET |
 
 Output Sample
 
@@ -128,6 +129,75 @@ Output Sample
         "year": 2020
       }
     ]
+  }
+}
+```
+
+### GET all donator donations
+
+| API                                          |                 Description                 | Action |
+| :------------------------------------------- | :-----------------------------------------: | -----: |
+| /api/v1/donator_donations                    |  GET all donator donations with pagination  |    GET |
+| /api/v1/donator_donations?year=XXX&month=XXX | GET all donator donations by year and month |    GET |
+
+Output Sample
+
+```json
+{
+  "data": {
+    "current_page": 1,
+    "donations": [
+      {
+        "attendance_id": 25,
+        "id": 328,
+        "jpy_amount": 0.0,
+        "mmk_amount": 50000.0,
+        "month": "june",
+        "paid_at": null,
+        "status": "pending",
+        "student": {
+          "address": {
+            "district": "မအူပင်ခရိုင်",
+            "division": "ayeyarwady",
+            "id": 96,
+            "street_address": "ဘားလင်းကျေးရွာ",
+            "township": "ညောင်တုန်းမြို့နယ်"
+          },
+          "birth_date": "2002-03-03",
+          "deactivated_at": "31-03-2019",
+          "father_name": "ဦးစိုးဝင်း",
+          "id": 25,
+          "mother_name": "ဒေါ်သိန်းကြည်",
+          "name": "မအေးအေးခိုင်",
+          "parents_occupation": "ကျပန်း လက်လုပ်လက်စား",
+          "photo": ""
+        },
+        "transfer_id": null,
+        "user": {
+          "address": {
+            "district": "မအူပင်ခရိုင်",
+            "division": "ayeyarwady",
+            "id": 25,
+            "street_address": "အမှတ်(၇)ရပ်ကွက်၊တိုက်သစ်လမ်းတိုက်သစ်ကျောင်း",
+            "township": "ညောင်တုန်းမြို့နယ်",
+            "type": "user"
+          },
+          "country": "mm",
+          "display_name": "မသန္တာခိုင်အေး",
+          "donation_active": true,
+          "email": "xxxx@gmail.com",
+          "formatted_address": "အမှတ်(၇)ရပ်ကွက်၊တိုက်သစ်လမ်းတိုက်သစ်ကျောင်း, ညောင်တုန်းမြို့နယ်, မအူပင်ခရိုင်, ayeyarwady",
+          "id": 2,
+          "role": "donator",
+          "username": "thandarkhineaye"
+        },
+        "year": 2017
+      }
+    ],
+    "next_page": null,
+    "pages": 1,
+    "prev_page": null,
+    "total_count": 1
   }
 }
 ```

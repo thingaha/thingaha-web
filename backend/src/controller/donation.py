@@ -1,13 +1,39 @@
 """API route for Donation API"""
 from flask import request, current_app, jsonify
 from flask_cors import cross_origin
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from common.error import SQLCustomError, RequestDataEmpty, ValidateFail, ThingahaCustomError
 from controller.api import api, post_request_empty, custom_error, full_admin, sub_admin
 from service.donation.donation_service import DonationService
 
 donation_service = DonationService()
+
+
+@api.route("/donator_donations", methods=["GET"])
+@jwt_required
+@cross_origin()
+def get_my_donations():
+    try:
+        page = request.args.get("page", 1, type=int)
+        per_page = request.args.get("per_page", 20, type=int)
+        year = request.args.get("year", None, type=int)
+        month = request.args.get("month", None, type=str)
+        user_id = get_jwt_identity()
+        current_app.logger.info("Parameters: year => {}, month => {}".format(year, month))
+
+        if year is not None and month is not None:
+            return jsonify({
+                "data": donation_service.get_donator_donations_records_by_year_month(year, month, user_id)
+            }), 200
+        else:
+            return jsonify({
+                "data": donation_service.get_all_donator_donations_records(user_id, page, per_page)
+            }), 200
+
+    except SQLCustomError as error:
+        current_app.logger.error("Error in get all donator donation records")
+        return jsonify({"errors": [error.__dict__]}), 400
 
 
 @api.route("/donations", methods=["GET"])

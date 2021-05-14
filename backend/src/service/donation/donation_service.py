@@ -40,7 +40,29 @@ class DonationService(Service):
             self.logger.error("Error: {}".format(error))
             raise SQLCustomError(description="GET Donation SQL ERROR")
 
-    def get_donations_records_by_year_month(self, year: int, month: str):
+    def get_all_donator_donations_records(self, user_id: int, page: int = 1, per_page : int = 20) -> (List, Any):
+        """
+        get all donation
+        :params page
+        :params per_page
+        :return: donation list of dict
+        """
+        try:
+            self.logger.info("Get Donation list")
+            donations = DonationModel.get_all_donator_donations(user_id, page, per_page)
+            return {
+                "donations": [donation.donation_dict(user, student) for donation, user, student in donations.items],
+                "total_count": donations.total,
+                "current_page": donations.page,
+                "next_page": donations.next_num,
+                "prev_page": donations.prev_num,
+                "pages": donations.pages
+            }
+        except SQLAlchemyError as error:
+            self.logger.error("Error: {}".format(error))
+            raise SQLCustomError(description="GET Donation SQL ERROR")
+
+    def get_donations_records_by_year_month(self, year: int, month: str) -> Dict[str, Any]:
         """
         get donations for a given year and month
         :params page
@@ -48,7 +70,25 @@ class DonationService(Service):
         :return: donation list of dict
         """
         self.logger.debug("Get Donation list by year and month")
-        donations = DonationModel.get_donations_by_year_month(year, month)
+        donations = DonationModel.get_donations_by_year_month(year, month.lower())
+        return {
+            "donations": [donation.donation_dict(user, student) for donation, user, student in donations.items],
+            "total_count": donations.total,
+            "current_page": donations.page,
+            "next_page": donations.next_num,
+            "prev_page": donations.prev_num,
+            "pages": donations.pages
+        }
+
+    def get_donator_donations_records_by_year_month(self, year: int, month: str, user_id: int) -> Dict[str, Any]:
+        """
+        get donations for a given year and month
+        :params page
+        :params per_page
+        :return: donation list of dict
+        """
+        self.logger.debug("Get Donation list by year and month")
+        donations = DonationModel.get_donator_donations_by_year_month(year, month.lower(), user_id)
         return {
             "donations": [donation.donation_dict(user, student) for donation, user, student in donations.items],
             "total_count": donations.total,
