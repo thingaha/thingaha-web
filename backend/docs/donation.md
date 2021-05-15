@@ -133,7 +133,8 @@ Output Sample
 }
 ```
 
-### GET all donator donations
+### GET all logged in donator donations
+- return logged in donator's donations only
 
 | API                                          |                 Description                 | Action |
 | :------------------------------------------- | :-----------------------------------------: | -----: |
