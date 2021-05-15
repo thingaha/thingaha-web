@@ -121,7 +121,7 @@ class AddressModel(db.Model):
         :return: get all address info
         """
         try:
-            return db.session.query(AddressModel).order_by(desc(AddressModel.id)).paginate(page=page, per_page=per_page, error_out=False)
+            return db.session.query(AddressModel).paginate(page=page, per_page=per_page, error_out=False)
         except SQLAlchemyError as error:
             raise error
 
