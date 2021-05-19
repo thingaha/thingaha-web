@@ -74,35 +74,56 @@ import {
   submitNewExtraFundsFormSaga,
   submitUpdateExtraFundsFormSaga,
 } from './sagas/extraFunds'
+import {
+  GET_ALL_TRANSFER,
+  SUBMIT_TRANSFER_FORM,
+  SUBMIT_EDIT_TRANSFER_FORM,
+} from './actions/transfers'
+import {
+  fetchAllTransfers,
+  submitTransferForm,
+  submitEditTransferForm,
+} from './sagas/transfers'
 
 // add Saga below
 export default function* rootSaga() {
   yield all([
+    takeLatest(LOG_IN, logInUser),
+    takeLatest(LOG_OUT, logOutUser),
+    takeLatest(CHECK_LOG_IN_STATE, getAuthenticationState),
+
     takeLatest(GET_ALL_USERS, fetchAllUsers),
     takeLatest(SUBMIT_USER_FORM, submitUserForm),
     takeLatest(SUBMIT_EDIT_USER_FORM, submitEditUserForm),
+
     takeLatest(GET_ALL_DONATIONS, fetchDonations),
     takeLatest(GET_DONATIONS_FOR_MONTH, fetchDonationsForMonth),
     takeLatest(GET_DONATION_INFO, fetchDonationInfo),
     takeLatest(UPDATE_DONATION_STATUS, startDonationStatusUpdate),
     takeLatest(SUBMIT_NEW_DONATION_FORM, submitNewDonationForm),
     takeLatest(SUBMIT_EDIT_DONATION_FORM, submitEditDonationForm),
+
     takeLatest(GET_ALL_SCHOOLS, fetchAllSchools),
     takeLatest(SUBMIT_NEW_SCHOOL_FORM, submitNewSchoolForm),
     takeLatest(SUBMIT_EDIT_SCHOOL_FORM, submitEditSchoolForm),
+
     takeLatest(GET_ALL_ADDRESSES, fetchAddressesSaga),
     takeLatest(GET_SEARCH_ADDRESSES, searchAddressesSaga),
+
     takeLatest(GET_STUDENT_INFO, fetchStudentInfo),
     takeLatest(GET_ALL_STUDENTS, fetchAllStudents),
-    takeLatest(GET_CONFIG_DATA_DIVISIONS, fetchMyanamrDivisionDataSaga),
     takeLatest(SUBMIT_NEW_STUDENT_FORM, submitNewStudentForm),
     takeLatest(SUBMIT_EDIT_STUDENT_FORM, submitEditStudentForm),
     takeLatest(GET_ALL_ATTENDANCES, fetchAttendances),
-    takeLatest(LOG_IN, logInUser),
-    takeLatest(LOG_OUT, logOutUser),
-    takeLatest(CHECK_LOG_IN_STATE, getAuthenticationState),
+
     takeLatest(GET_ALL_EXTRAFUNDS, fetchExtraFundsSaga),
     takeLatest(SUBMIT_NEW_EXTRAFUND_FORM, submitNewExtraFundsFormSaga),
     takeLatest(SUBMIT_EDIT_EXTRAFUND_FORM, submitUpdateExtraFundsFormSaga),
+
+    takeLatest(GET_ALL_TRANSFER, fetchAllTransfers),
+    takeLatest(SUBMIT_TRANSFER_FORM, submitTransferForm),
+    takeLatest(SUBMIT_EDIT_TRANSFER_FORM, submitEditTransferForm),
+
+    takeLatest(GET_CONFIG_DATA_DIVISIONS, fetchMyanamrDivisionDataSaga),
   ])
 }
