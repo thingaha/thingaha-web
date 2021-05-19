@@ -28,6 +28,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import Addresses from './components/addresses/Addresses'
 import { checkLoginState } from './store/actions/authentication'
 import ExtraFunds from './components/extraFunds/ExtraFunds'
+import Transfers from './components/transfers/Transfers'
 
 // Initial check for existing persisted login state. This will grab any existing persistent login state to the redux store before mounting components.
 store.dispatch(checkLoginState())
@@ -89,6 +90,7 @@ const AdminApp = () => {
         <PrivateRoute path="/students" exact component={Students} />
         <PrivateRoute path="/students/:id" exact component={StudentDetails} />
         <PrivateRoute path="/extra_funds" exact component={ExtraFunds} />
+        <PrivateRoute path="/transfers" exact component={Transfers} />
         <Route path="*" component={NotFound} />
       </Switch>
     </Router>
