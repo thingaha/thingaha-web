@@ -158,6 +158,22 @@ Output Sample
 }
 ```
 
+### GET all Attendance's Years
+
+| API                      |        Description        | Action |
+| :----------------------- | :-----------------------: | -----: |
+| /api/v1/attendances/year | Get all attendance's year |    GET |
+
+default count per page is 20.
+
+Output Sample
+
+```json
+{
+  "data": [2020, 2019, 2018, 2017, 2016]
+}
+```
+
 ### GET Attendance by ID
 
 | API                    |     Description      | Action |

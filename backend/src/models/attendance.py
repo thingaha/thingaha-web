@@ -193,3 +193,17 @@ class AttendanceModel(db.Model):
         except SQLAlchemyError as error:
             db.session.rollback()
             raise error
+
+    @staticmethod
+    def get_all_attendance_years() -> List[int]:
+        """
+        get all Attendance records year
+        :return: Attendance Object
+        """
+        try:
+
+            query = db.session.query(AttendanceModel.year.distinct().label("year")).order_by(AttendanceModel.year.desc())
+
+            return [row.year for row in query.all()]
+        except SQLAlchemyError as error:
+            raise error

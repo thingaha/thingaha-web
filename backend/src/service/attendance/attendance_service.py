@@ -127,3 +127,15 @@ class AttendanceService(Service):
         except SQLCustomError as error:
             self.logger.error("Error: {}".format(error))
             raise SQLCustomError(description="No record for requested attendance")
+
+    @staticmethod
+    def get_all_attendance_years() -> List[int]:
+        """
+        get all attendance
+        :params page
+        :params grade
+        :params year
+        :params per_page
+        :return: attendance list of dict
+        """
+        return AttendanceModel.get_all_attendance_years()

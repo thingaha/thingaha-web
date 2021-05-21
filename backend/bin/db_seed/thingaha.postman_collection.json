@@ -2141,6 +2141,50 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Attendances Year [GET]",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MjE1OTc0OTgsIm5iZiI6MTYyMTU5NzQ5OCwianRpIjoiNjBlZDEzMjctZjY5OC00YzBmLTk5ZDktMzNmOGIyMTMxY2I3IiwiZXhwIjoxNjIxNjgzODk4LCJpZGVudGl0eSI6MSwiZnJlc2giOmZhbHNlLCJ0eXBlIjoiYWNjZXNzIiwidXNlcl9jbGFpbXMiOiJhZG1pbiJ9.iAg5zEISWWAlqzJMo78D_wsnxhK7YNNbHduIKwmaAuo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/attendances/year",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"attendances",
+						"year"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"variable": [

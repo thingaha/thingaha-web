@@ -120,3 +120,20 @@ def update_attendance(attendance_id: int):
     except (SQLCustomError, ValidateFail, RequestDataEmpty) as error:
         current_app.logger.error("Update attendance fail: attendance_id: %s", attendance_id)
         return jsonify({"errors": [error.__dict__]}), 400
+
+
+@api.route("/attendances/year", methods=["GET"])
+@jwt_required
+@cross_origin()
+def get_all_attendance_years():
+    """
+    get all attendance years
+    :return:
+    """
+    try:
+        return jsonify({
+            "data": attendance_service.get_all_attendance_years()
+        }), 200
+    except SQLCustomError as error:
+        current_app.logger.error("Get all attendance query error: {}".format(error))
+        return jsonify({"errors": [error.__dict__]}), 400

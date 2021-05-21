@@ -325,6 +325,8 @@ def test_get_attendance(client, json_access_token):
     assert res.status_code == 200
     res = client.get("/api/v1/attendances?grade=G-10&year=2020", headers=json_access_token)
     assert res.status_code == 200
+    res = client.get("/api/v1/attendances/year", headers=json_access_token)
+    assert res.status_code == 200
 
 
 def test_post_attendance(client, json_access_token, school_json, attendance_json, student_json):
