@@ -185,21 +185,30 @@ def upload_s3_file():
     Upload a file to an S3 bucket
     :return: True if file was uploaded, else False
     """
-    img = request.files["img"]
+    img = request.files.get("img")
     student_id = request.form.get("student_id")
-    if student_id is None or img is None or img.filename == "":
-        return post_request_empty()
-    file_extension = student_service.allowed_file(img.filename)
-    if not file_extension:
-        return custom_error("File extension should be .png or .jpg or .jpeg")
-    file_name = student_id + "." + file_extension
-    result = student_service.upload_file(img, file_name)
-    if result:
-        return jsonify(
-            {"url": get_s3_url().format(S3_BUCKET, file_name)}
-        ), 200
-    else:
-        return "", 400
+    try:
+        if student_id and int(student_id) not in StudentService.get_all_student_ids():
+            raise ThingahaCustomError("Invalid student ID")
+        if student_id is None or not img or img.filename == "":
+            return post_request_empty()
+        file_extension = student_service.allowed_file(img.filename)
+        if not file_extension:
+            return custom_error("File extension should be .png or .jpg or .jpeg")
+        file_name = student_id + "." + file_extension
+        result = student_service.upload_file(img, file_name)
+        if result:
+            return jsonify(
+                {"url": get_s3_url().format(S3_BUCKET, file_name)}
+            ), 200
+        else:
+            return "", 400
+    except ThingahaCustomError as error:
+        current_app.logger.error("Error for student photo upload {}".format(error.__dict__))
+        return jsonify({"errors": [error.__dict__]}), 400
+    except ValueError as error:
+        current_app.logger.error("Value error for student photo upload")
+        return jsonify({"errors": [ThingahaCustomError("Student ID must be integer").__dict__]}), 400
 
 
 @api.route("/student/upload", methods=["PUT"])

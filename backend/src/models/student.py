@@ -107,6 +107,18 @@ class StudentModel(db.Model):
             raise error
 
     @staticmethod
+    def get_all_student_ids() -> List[int]:
+        """
+        get all students ids
+        :return: get all students ids
+        """
+        try:
+            query = db.session.query(StudentModel.id.distinct().label("ids"))
+            return [row.ids for row in query.all()]
+        except SQLAlchemyError as error:
+            raise error
+
+    @staticmethod
     def create_student(new_student: StudentModel) -> int:
         """
         create new student

@@ -227,3 +227,10 @@ class StudentService(Service):
         except ClientError as error:
             self.logger.error("File upload error %s", error)
             return False
+
+    @staticmethod
+    def get_all_student_ids() -> List[int]:
+        """
+        get all student ids for checking
+        """
+        return StudentModel.get_all_student_ids()
