@@ -150,6 +150,25 @@ class StudentService(Service):
             self.logger.error("Error: {}".format(error))
             raise SQLCustomError(description="No record for requested student")
 
+    def update_photo_path_by_id(self, student_id: int, url: str) -> bool:
+        """
+        update student photo path by id
+        :param student_id:
+        :param url:
+        :return:
+        """
+        if not student_id and not url:
+            raise RequestDataEmpty("Student ID and url required to update the data")
+        try:
+            self.logger.info("Update student photo url by student_id:{}".format(student_id))
+            return StudentModel.update_student_photo_url(student_id, url)
+        except SQLAlchemyError as error:
+            self.logger.error("Error: {}".format(error))
+            raise SQLCustomError(description="Update student photo by ID SQL ERROR")
+        except SQLCustomError as error:
+            self.logger.error("Error: {}".format(error))
+            raise SQLCustomError(description="No record for requested student")
+
     def get_students_by_query(self, page: int, query: str, per_page: int = 20) -> (List[Dict[str, Any]], int):
         """
         get student by query (name, father_name, mother_name and parents_occupation)

@@ -1,4 +1,5 @@
 """API route for Student API"""
+import traceback
 from datetime import datetime
 
 from flask import request, current_app, jsonify
@@ -198,16 +199,17 @@ def upload_s3_file():
         file_name = student_id + "." + file_extension
         result = student_service.upload_file(img, file_name)
         if result:
-            return jsonify(
-                {"url": get_s3_url().format(S3_BUCKET, file_name)}
-            ), 200
+            url = get_s3_url().format(S3_BUCKET, file_name)
+            if student_service.update_photo_path_by_id(student_id, url):
+                return get_student_by_id(student_id), 200
         else:
+            current_app.logger.error("Can't update student photo url for student id: {}".format(student_id))
             return "", 400
     except ThingahaCustomError as error:
         current_app.logger.error("Error for student photo upload {}".format(error.__dict__))
         return jsonify({"errors": [error.__dict__]}), 400
-    except ValueError as error:
-        current_app.logger.error("Value error for student photo upload")
+    except (ValueError, TypeError):
+        current_app.logger.error("Value error for student photo upload error: {}".format(traceback.format_exc()))
         return jsonify({"errors": [ThingahaCustomError("Student ID must be integer").__dict__]}), 400
 
 
@@ -239,16 +241,24 @@ def delete_s3_file():
     """
     data = request.get_json()
     url = data.get("url")
-    if not url:
-        current_app.logger.error("Empty url")
+    student_id = data.get("student_id")
+    if not url or not student_id:
+        current_app.logger.error("Empty url or empty student id")
         return post_request_empty()
-    result = student_service.delete_file(url)
-    if result:
-        current_app.logger.info("Delete file for URL %s success", url)
-        return "", 200
-    else:
-        current_app.logger.error("Delete file for URL %s fail", url)
-        return "", 400
+
+    try:
+        if int(student_id) not in StudentService.get_all_student_ids():
+            raise ThingahaCustomError("Invalid student ID")
+        result = student_service.delete_file(url) and student_service.update_photo_path_by_id(student_id, "")
+        if result:
+            current_app.logger.info("Delete file for URL %s success", url)
+            return "", 200
+        else:
+            current_app.logger.error("Delete file for URL %s fail", url)
+            return "", 400
+    except TypeError:
+        current_app.logger.error("Student id must be integer")
+        return custom_error("Student id must be integer")
 
 
 @api.route("/students/search", methods=["GET"])

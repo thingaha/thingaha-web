@@ -211,9 +211,9 @@ Output Sample:
 
 ### Save Student Photo
 
-| API                    |   Description    | Action |
-| :--------------------- | :--------------: | -----: |
-| /api/v1/student/upload | Save Photo to S3 |   POST |
+| API                    |          Description           | Action |
+| :--------------------- | :----------------------------: | -----: |
+| /api/v1/student/upload | Save Photo to S3 and url to DB |   POST |
 
 Input Sample:
 
@@ -226,7 +226,25 @@ Output Sample:
 
 ```json
 {
-  "url": "https://thingaha.s3-ap-northeast-1.amazonaws.com/XXXX.png"
+  "data": {
+    "student": {
+      "address": {
+        "district": "မအူပင်ခရိုင်",
+        "division": "ayeyarwady",
+        "id": 3,
+        "street_address": "ငှက်ပျောကျွန်းကျေးရွာ",
+        "township": "ညောင်တုန်းမြို့နယ်"
+      },
+      "birth_date": "1997-12-12",
+      "deactivated_at": "28-02-2017",
+      "father_name": "ဦးလှကြိုင်",
+      "id": 3,
+      "mother_name": "ဒေါ်သန်းနွဲ့",
+      "name": "မောင်ဇော်မင်းထွေး",
+      "parents_occupation": "ကျပန်း လက်လုပ်လက်စား",
+      "photo": "https://thingaha.s3-ap-northeast-1.amazonaws.com/XXXX.png"
+    }
+  }
 }
 ```
 
@@ -248,21 +266,40 @@ Output Sample:
 
 ```json
 {
-  "url": "https://thingaha.s3-ap-northeast-1.amazonaws.com/XXXX.png"
+  "data": {
+    "student": {
+      "address": {
+        "district": "မအူပင်ခရိုင်",
+        "division": "ayeyarwady",
+        "id": 3,
+        "street_address": "ငှက်ပျောကျွန်းကျေးရွာ",
+        "township": "ညောင်တုန်းမြို့နယ်"
+      },
+      "birth_date": "1997-12-12",
+      "deactivated_at": "28-02-2017",
+      "father_name": "ဦးလှကြိုင်",
+      "id": 3,
+      "mother_name": "ဒေါ်သန်းနွဲ့",
+      "name": "မောင်ဇော်မင်းထွေး",
+      "parents_occupation": "ကျပန်း လက်လုပ်လက်စား",
+      "photo": "https://thingaha.s3-ap-northeast-1.amazonaws.com/YYYYY.png"
+    }
+  }
 }
 ```
 
 ### Delete Student Photo
 
-| API                    |    Description     | Action |
-| :--------------------- | :----------------: | -----: |
-| /api/v1/student/delete | Delete Photo in S3 | DELETE |
+| API                    |                     Description                      | Action |
+| :--------------------- | :--------------------------------------------------: | -----: |
+| /api/v1/student/delete | Delete Photo in S3 and delete photo url from student | DELETE |
 
 Input Sample:
 
 ```json
 {
-  "url": "https://thingaha.s3-ap-northeast-1.amazonaws.com/st001.png"
+  "url": "https://thingaha.s3-ap-northeast-1.amazonaws.com/st001.png",
+  "student_id": 3
 }
 ```
 

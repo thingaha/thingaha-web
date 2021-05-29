@@ -160,6 +160,25 @@ class StudentModel(db.Model):
             raise error
 
     @staticmethod
+    def update_student_photo_url(student_id, photo_url: str) -> bool:
+        """
+        update student info by id
+        :param student_id:
+        :param photo_url:
+        :return: bool
+        """
+        try:
+            target_student = db.session.query(StudentModel).filter(StudentModel.id == student_id).first()
+            if not target_student:
+                raise SQLCustomError("No record for requested student")
+            target_student.photo = photo_url
+            db.session.commit()
+            return True
+        except SQLAlchemyError as error:
+            db.session.rollback()
+            raise error
+
+    @staticmethod
     def delete_student(student_id: int) -> bool:
         """
         delete student by id
