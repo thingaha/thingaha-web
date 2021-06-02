@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import * as yup from 'yup'
 import * as actions from '../../store/actions'
+import { submitEditUserDetailForm } from '../../store/actions/settings'
 import FormControl from '@material-ui/core/FormControl'
 import TextField from '@material-ui/core/TextField'
 import ThingahaFormModal from '../common/ThingahaFormModal'
@@ -187,11 +188,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    submitNewStudentForm: (values) => {
-      dispatch(actions.submitNewStudentForm(transformUserDetailSchema(values)))
-    },
-    submitEditStudentForm: (values) => {
-      dispatch(actions.submitEditStudentForm(transformUserDetailSchema(values)))
+    submitEditUserDetailForm: (values) => {
+      dispatch(submitEditUserDetailForm.submitEditUserDetailForm(transformUserDetailSchema(values)))
     },
   }
 }
@@ -217,9 +215,9 @@ const FormikUserDetailForm = withFormik({
 
   handleSubmit: (values, { props }) => {
     if (props.editingUserDetail) {
-      props.submitEditStudentForm(values)
+      props.submitEditUserDetailForm(values)
+      console.log('aa')
     } else {
-      props.submitNewStudentForm(values)
     }
 
     props.setVisible(false)

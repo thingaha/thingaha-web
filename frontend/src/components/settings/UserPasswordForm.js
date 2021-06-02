@@ -105,18 +105,18 @@ const UserPasswordForm = ({
 const transformUserDetailSchemaFlat = (user) => {
   return {
     id: user.id,
-    current_password: current_password,
-    new_password: new_password,
-    new_confirm_password: new_confirm_password,
+    current_password: user.current_password,
+    new_password: user.new_password,
+    new_confirm_password: user.new_confirm_password,
   }
 }
 
 const transformUserDetailSchema = (user) => {
   return {
     id: user.id,
-    current_password: current_password,
-    new_password: new_password,
-    new_confirm_password: new_confirm_password,
+    current_password: user.current_password,
+    new_password: user.new_password,
+    new_confirm_password: user.new_confirm_password,
   }
 }
 
@@ -140,10 +140,10 @@ const FormikUserPasswordForm = withFormik({
   mapPropsToValues: (props) => {
     return transformUserDetailSchemaFlat(
       props.editingUserPassword || {
-        id: user.id,
-        current_password: current_password,
-        new_password: new_password,
-        new_confirm_password: new_confirm_password,
+        id: '',
+        current_password: '',
+        new_password: '',
+        new_confirm_password: '',
       }
     )
   },

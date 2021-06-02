@@ -16,6 +16,13 @@ import {
 } from './sagas/users'
 
 import {
+  SUBMIT_EDIT_USER_DETAIL_FORM,
+} from './actions/settings'
+import {
+  submitEditUserDetailForm,
+} from './sagas/settings'
+
+import {
   GET_ALL_DONATIONS,
   GET_DONATIONS_FOR_MONTH,
   UPDATE_DONATION_STATUS,
@@ -95,6 +102,8 @@ export default function* rootSaga() {
     takeLatest(GET_ALL_USERS, fetchAllUsers),
     takeLatest(SUBMIT_USER_FORM, submitUserForm),
     takeLatest(SUBMIT_EDIT_USER_FORM, submitEditUserForm),
+
+    takeLatest(SUBMIT_EDIT_USER_DETAIL_FORM, submitEditUserDetailForm),
 
     takeLatest(GET_ALL_DONATIONS, fetchDonations),
     takeLatest(GET_DONATIONS_FOR_MONTH, fetchDonationsForMonth),
