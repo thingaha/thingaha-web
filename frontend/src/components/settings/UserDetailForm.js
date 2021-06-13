@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import * as yup from 'yup'
 import * as actions from '../../store/actions'
-import { submitEditUserDetailForm } from '../../store/actions/settings'
 import FormControl from '@material-ui/core/FormControl'
 import TextField from '@material-ui/core/TextField'
 import ThingahaFormModal from '../common/ThingahaFormModal'
@@ -66,8 +65,8 @@ const UserDetailForm = ({
         <FormContainer>
           <StyledFormControl>
             <TextField
-              id="displayName"
-              name="displayName"
+              id="display_name"
+              name="display_name"
               placeholder="Please enter your display name..."
               label="Display Name"
               onChange={handleChange}
@@ -78,8 +77,8 @@ const UserDetailForm = ({
           </StyledFormControl>
           <StyledFormControl>
             <TextField
-              id="userName"
-              name="userName"
+              id="username"
+              name="username"
               placeholder="Please enter your user name..."
               label="UserName"
               onChange={handleChange}
@@ -189,7 +188,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => {
   return {
     submitEditUserDetailForm: (values) => {
-      dispatch(submitEditUserDetailForm.submitEditUserDetailForm(transformUserDetailSchema(values)))
+      dispatch(actions.submitEditUserDetailForm(transformUserDetailSchema(values)))
     },
   }
 }
@@ -217,23 +216,22 @@ const FormikUserDetailForm = withFormik({
     if (props.editingUserDetail) {
       props.submitEditUserDetailForm(values)
       console.log('aa')
-    } else {
-    }
+    } else {}
 
     props.setVisible(false)
   },
 
-  validationSchema: yup.object().shape({
-    name: yup.string().label('Name').required(),
-    birth_date: yup.string().label('Birth Date').required(),
-    father_name: yup.string().label('Father Name').required(),
-    mother_name: yup.string().label('Mother Name').required(),
-    parents_occupation: yup.string().label('Parents Occupation').required(),
-    division: yup.string().label('Division').required(),
-    district: yup.string().label('District').required(),
-    township: yup.string().label('Township').required(),
-    street_address: yup.string().label('Street Address').required(),
-  }),
+  // validationSchema: yup.object().shape({
+  //   name: yup.string().label('Name').required(),
+  //   birth_date: yup.string().label('Birth Date').required(),
+  //   father_name: yup.string().label('Father Name').required(),
+  //   mother_name: yup.string().label('Mother Name').required(),
+  //   parents_occupation: yup.string().label('Parents Occupation').required(),
+  //   division: yup.string().label('Division').required(),
+  //   district: yup.string().label('District').required(),
+  //   township: yup.string().label('Township').required(),
+  //   street_address: yup.string().label('Street Address').required(),
+  // }),
 
   displayName: 'UserDetailForm',
   enableReinitialize: true,

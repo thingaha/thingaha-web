@@ -58,23 +58,26 @@ const UserDetailWrapper = styled(Paper)`
   }
 `
 
-const UserDetail = ({ users, getAllUsers }) => {
+const UserDetail = ({ user, currentUser, getAllUsers, getUserInfo }) => {
   const [userDetailFormVisible, setUserDetailFormVisible] = useState(false)
   const [userPasswordFormVisible, setUserPasswordFormVisible] = useState(false)
   const [editingUserDetail, setEditingUserDetail] = useState(null)
   const [editingUserPassword, setEditingUserPassword] = useState(null)
 
-  useEffect(() => {
-    getAllUsers()
-  }, [getAllUsers])
-const currentUserId = JSON.parse(localStorage.getItem('authToken')).currentUser.id;
+  // useEffect(() => {
+  //   getAllUsers()
+  // }, [getAllUsers])
 
-const userDetail = users.filter((user) => currentUserId == user.id)
+  useEffect(() => {
+    getUserInfo(currentUser)
+  }, [getUserInfo])
+
+console.log(user)
   return (
     <Wrapper component={Paper}>
-        <HeadingContainer>
+        {/* <HeadingContainer>
             <h1>User Setting</h1>
-            {userDetail.map((user) => {
+            {user.map((user) => {
                 return(
             <UserDetailWrapper>
                 <div className="infoText">
@@ -131,10 +134,10 @@ const userDetail = users.filter((user) => currentUserId == user.id)
                         </Button>
                     </div>
                 </div>
-                <img src={userDetail.photo} className="photo" alt={userDetail.name} />   
+                <img src={userDetail.photo} className="photo" alt={userDetail.name} />
             </UserDetailWrapper>
             )})}
-        </HeadingContainer>
+        </HeadingContainer> */}
         {userDetailFormVisible ? (
         <UserDetailForm
           visible={userDetailFormVisible}
@@ -153,17 +156,27 @@ const userDetail = users.filter((user) => currentUserId == user.id)
   )
 }
 
+const getCurrentUser = (state) => {
+  return state.authentication.currentUser.id
+}
+
+// const getUserList = (state, userId) => {
+//   return state.users.users[userId]
+// }
+
 const getUserList = (state) => {
-  return values(state.users.users)
+  return state.users.users
 }
 
 const mapStateToProps = (state) => ({
-  users: getUserList(state),
+  currentUser: getCurrentUser(state),
+  user: getUserList(state),
 })
 
 const mapDispatchToProps = (dispatch) => {
   return {
     // dispatching plain actions
+    getUserInfo: (userId) => dispatch(actions.fetchUser(userId)),
     getAllUsers: () => dispatch(actions.fetchUsers()),
   }
 }

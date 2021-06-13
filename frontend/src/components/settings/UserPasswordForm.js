@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import * as yup from 'yup'
 import * as actions from '../../store/actions'
+import { submitEditUserPasswordForm } from '../../store/actions/settings'
 import FormControl from '@material-ui/core/FormControl'
 import TextField from '@material-ui/core/TextField'
 import ThingahaFormModal from '../common/ThingahaFormModal'
@@ -65,8 +66,8 @@ const UserPasswordForm = ({
         <FormContainer>
         <StyledFormControl>
             <TextField
-              id="currentpassword"
-              name="currentpassword"
+              id="current_password"
+              name="current_password"
               placeholder="********"
               label="Current Password"
               type="password"
@@ -76,8 +77,8 @@ const UserPasswordForm = ({
           </StyledFormControl>
           <StyledFormControl>
             <TextField
-              id="newpassword"
-              name="newpassword"
+              id="new_password"
+              name="new_password"
               placeholder="********"
               label="New Password"
               type="password"
@@ -87,8 +88,8 @@ const UserPasswordForm = ({
           </StyledFormControl>
           <StyledFormControl>
             <TextField
-              id="confirmpassword"
-              name="confirmpassword"
+              id="new_confirm_password"
+              name="new_confirm_password"
               placeholder="********"
               label="Confirm Password"
               type="password"
@@ -102,7 +103,7 @@ const UserPasswordForm = ({
   )
 }
 
-const transformUserDetailSchemaFlat = (user) => {
+const transformUserPasswordSchemaFlat = (user) => {
   return {
     id: user.id,
     current_password: user.current_password,
@@ -111,7 +112,7 @@ const transformUserDetailSchemaFlat = (user) => {
   }
 }
 
-const transformUserDetailSchema = (user) => {
+const transformUserPasswordSchema = (user) => {
   return {
     id: user.id,
     current_password: user.current_password,
@@ -127,18 +128,15 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    submitNewStudentForm: (values) => {
-      dispatch(actions.submitNewStudentForm(transformUserDetailSchema(values)))
-    },
-    submitEditStudentForm: (values) => {
-      dispatch(actions.submitEditStudentForm(transformUserDetailSchema(values)))
+    submitEditUserPasswordForm: (values) => {
+      dispatch(actions.submitEditUserPasswordForm(transformUserPasswordSchema(values)))
     },
   }
 }
 
 const FormikUserPasswordForm = withFormik({
   mapPropsToValues: (props) => {
-    return transformUserDetailSchemaFlat(
+    return transformUserPasswordSchemaFlat(
       props.editingUserPassword || {
         id: '',
         current_password: '',
@@ -150,9 +148,9 @@ const FormikUserPasswordForm = withFormik({
 
   handleSubmit: (values, { props }) => {
     if (props.editingUserPassword) {
-      props.submitEditStudentForm(values)
+      console.log(values)
+      props.submitEditUserPasswordForm(values)
     } else {
-      props.submitNewStudentForm(values)
     }
 
     props.setVisible(false)

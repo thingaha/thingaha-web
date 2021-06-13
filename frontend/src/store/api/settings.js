@@ -1,9 +1,16 @@
 import thingahaApiClient from '../../utils/thingahaApiClient'
 
-export const fetchUsers = async ({ page, perPage }) => {
-  const { data } = await thingahaApiClient.get('/users', {
-    params: { page, per_page: perPage },
-  })
+export const fetchUser = async (userId) => {
+  const { data } = await thingahaApiClient.get(`/users/${userId}`)
+  return {
+    data: {
+      user: data.user,
+    },
+  }
+}
+
+export const fetchUsers = async () => {
+  const { data } = await thingahaApiClient.get('/users')
 
   return {
     data: {
@@ -33,15 +40,18 @@ export const editUserDetail = async ({
   }
 }
 
-export const editPassword = async ({
-  id,
-  password
+export const editUserPassword = async ({
+  current_password,
+  new_password,
+  new_confirm_password,
 }) => {
-  const { data } = await thingahaApiClient.put(`/users/${id}`, {
-    password
+  const { data } = await thingahaApiClient.put(`/users/password`, {
+    current_password,
+    new_password,
+    new_confirm_password,
   })
 
   return {
-    data: data.user,
+    data: data,
   }
 }
