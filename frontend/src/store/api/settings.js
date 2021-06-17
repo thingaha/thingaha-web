@@ -28,6 +28,7 @@ export const editUserDetail = async ({
   country,
 }) => {
   const { data } = await thingahaApiClient.put(`/users/${id}`, {
+    id,
     username,
     display_name,
     email,

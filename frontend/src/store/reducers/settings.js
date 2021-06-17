@@ -1,6 +1,6 @@
 import {
-  GET_USER_INFO_SUCCESS,
-  GET_USER_INFO_FAILURE,
+  GET_ACCOUNT_USER_INFO_SUCCESS,
+  GET_ACCOUNT_USER_INFO_FAILURE,
   GET_ALL_USERS_SUCCESS,
   GET_ALL_USERS_FAILURE,
   SUBMIT_EDIT_USER_DETAIL_FORM_SUCCESS,
@@ -15,12 +15,12 @@ import {
 
 export default (state = { users: {} }, action) => {
   switch (action.type) {
-    case GET_USER_INFO_FAILURE:
+    case GET_ACCOUNT_USER_INFO_FAILURE:
       return {
         ...state,
         error: action.error,
       }
-    case GET_USER_INFO_SUCCESS:
+    case GET_ACCOUNT_USER_INFO_SUCCESS:
       return {
         ...state,
         users: immutableAppendOrUpdate(state.users, action.user),

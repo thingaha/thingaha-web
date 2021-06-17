@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import * as actions from '../../store/actions'
 import Paper from '@material-ui/core/Paper'
 import UserForm from './UserForm'
+import PasswordResetForm from './PasswordResetForm'
 import { Button } from '@material-ui/core'
 import AddCircleIcon from '@material-ui/icons/AddCircle'
 import UserCard from './UserCard'
@@ -38,7 +39,9 @@ const UsersContainer = styled.ul`
 
 const Users = ({ users, totalPages, totalCount, getAllUsers }) => {
   const [userFormVisible, setUserFormVisible] = useState(false)
+  const [PasswordResetFormVisible, setPasswordResetFormVisible] = useState(false)
   const [editingUser, setEditingUser] = useState(null)
+  const [passwordReset, setPasswordReset] = useState(null)
 
   useEffect(() => {
     getAllUsers()
@@ -65,6 +68,11 @@ const Users = ({ users, totalPages, totalCount, getAllUsers }) => {
         setVisible={setUserFormVisible}
         editingUser={editingUser}
       />
+      <PasswordResetForm
+        visible={PasswordResetFormVisible}
+        setVisible={setPasswordResetFormVisible}
+        passwordReset={passwordReset}
+      />
 
       <UsersContainer>
         {users.map((user) => {
@@ -76,6 +84,10 @@ const Users = ({ users, totalPages, totalCount, getAllUsers }) => {
                 onEdit={(editUser) => {
                   setEditingUser(editUser)
                   setUserFormVisible(true)
+                }}
+                onReset={(passwordReset) => {
+                  setPasswordReset(passwordReset)
+                  setPasswordResetFormVisible(true)
                 }}
               />
             </li>

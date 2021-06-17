@@ -44,10 +44,11 @@ const UserForm = ({
   submitUserForm,
   submitEditUserForm,
   editingUser,
+  editingPassword,
 }) => {
   return (
     <ThingahaFormModal
-      title={Boolean(editingUser) ? 'Edit User' : 'Add New User'}
+      title={Boolean(editingUser) ? 'Edit User' :  'Add New User'}
       open={visible}
       onClose={() => setVisible(false)}
       onCancel={() => setVisible(false)}
@@ -176,7 +177,11 @@ const FormikUserForm = withFormik({
   mapPropsToValues: (props) => {
     if (props.editingUser) {
       return props.editingUser
-    } else {
+    }
+    else if (props.editingPassword) {
+      return props.editingPassword
+    }
+     else {
       return {
         username: '',
         display_name: '',
@@ -186,6 +191,7 @@ const FormikUserForm = withFormik({
         country: 'jp',
       }
     }
+    
   },
 
   // Custom sync validation

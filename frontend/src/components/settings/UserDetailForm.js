@@ -215,7 +215,6 @@ const FormikUserDetailForm = withFormik({
   handleSubmit: (values, { props }) => {
     if (props.editingUserDetail) {
       props.submitEditUserDetailForm(values)
-      console.log('aa')
     } else {}
 
     props.setVisible(false)

@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import * as yup from 'yup'
 import * as actions from '../../store/actions'
-import { submitEditUserPasswordForm } from '../../store/actions/settings'
 import FormControl from '@material-ui/core/FormControl'
 import TextField from '@material-ui/core/TextField'
 import ThingahaFormModal from '../common/ThingahaFormModal'
@@ -39,10 +38,10 @@ const AddressContainer = styled.div`
   margin-bottom: 0.8rem;
 `
 
-const UserPasswordForm = ({
+const PasswordResetForm = ({
   visible,
   setVisible,
-  editingUserPassword,
+  passwordReset,
   values,
   setFieldValue,
   setValues,
@@ -54,7 +53,7 @@ const UserPasswordForm = ({
 }) => {
   return (
     <ThingahaFormModal
-      title={editingUserPassword ? 'Change Password' : null }
+      title={passwordReset ? 'Password Reset' : null }
       open={visible}
       onClose={() => setVisible(false)}
       onCancel={() => setVisible(false)}
@@ -64,37 +63,26 @@ const UserPasswordForm = ({
     >
       <form onSubmit={handleSubmit}>
         <FormContainer>
-        <StyledFormControl>
+          {/* <StyledFormControl>
             <TextField
-              id="current_password"
-              name="current_password"
-              placeholder="********"
-              label="Current Password"
-              type="password"
+              id="user_id"
+              name="user_id"
+              placeholder="User Id"
+              label="User Id"
+              type="text"
               onChange={handleChange}
-              value={values.current_password}
+              value={values.user_id}
             />
-          </StyledFormControl>
+          </StyledFormControl> */}
           <StyledFormControl>
             <TextField
-              id="new_password"
-              name="new_password"
+              id="password"
+              name="password"
               placeholder="********"
               label="New Password"
               type="password"
               onChange={handleChange}
-              value={values.new_password}
-            />
-          </StyledFormControl>
-          <StyledFormControl>
-            <TextField
-              id="new_confirm_password"
-              name="new_confirm_password"
-              placeholder="********"
-              label="Confirm Password"
-              type="password"
-              onChange={handleChange}
-              value={values.new_confirm_password}
+              value={values.password}
             />
           </StyledFormControl>
         </FormContainer>
@@ -103,21 +91,17 @@ const UserPasswordForm = ({
   )
 }
 
-const transformUserPasswordSchemaFlat = (user) => {
+const transformPasswordResetSchemaFlat = (user) => {
   return {
-    id: user.id,
-    current_password: user.current_password,
-    new_password: user.new_password,
-    new_confirm_password: user.new_confirm_password,
+    user_id: user.id,
+    password: user.password,
   }
 }
 
-const transformUserPasswordSchema = (user) => {
+const transformPasswordResetSchema = (user) => {
   return {
-    id: user.id,
-    current_password: user.current_password,
-    new_password: user.new_password,
-    new_confirm_password: user.new_confirm_password,
+    user_id: user.id,
+    password: user.password,
   }
 }
 
@@ -128,27 +112,26 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    submitEditUserPasswordForm: (values) => {
-      dispatch(actions.submitEditUserPasswordForm(transformUserPasswordSchema(values)))
+    submitPasswordResetForm: (values) => {
+      dispatch(actions.submitPasswordResetForm(transformPasswordResetSchema(values)))
     },
   }
 }
 
-const FormikUserPasswordForm = withFormik({
+const FormikPasswordResetForm = withFormik({
   mapPropsToValues: (props) => {
-    return transformUserPasswordSchemaFlat(
-      props.editingUserPassword || {
-        id: '',
-        current_password: '',
-        new_password: '',
-        new_confirm_password: '',
+    return transformPasswordResetSchemaFlat(
+      props.passwordReset || {
+        user_id: '',
+        password: '',
       }
     )
   },
 
   handleSubmit: (values, { props }) => {
-    if (props.editingUserPassword) {
-      props.submitEditUserPasswordForm(values)
+    if (props.passwordReset) {
+      console.log(values)
+      props.submitPasswordResetForm(values)
     } else {
     }
 
@@ -167,8 +150,8 @@ const FormikUserPasswordForm = withFormik({
   //   street_address: yup.string().label('Street Address').required(),
   // }),
 
-  displayName: 'UserPasswordForm',
+  displayName: 'PasswordResetForm',
   enableReinitialize: true,
-})(UserPasswordForm)
+})(PasswordResetForm)
 
-export default connect(mapStateToProps, mapDispatchToProps)(FormikUserPasswordForm)
+export default connect(mapStateToProps, mapDispatchToProps)(FormikPasswordResetForm)

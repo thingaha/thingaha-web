@@ -4,8 +4,8 @@ import {
 } from 'redux-saga/effects'
 import { fetchUser, fetchUsers, editUserDetail, editUserPassword } from '../api/settings' //API Called
 import {
-  GET_USER_INFO_SUCCESS,
-  GET_USER_INFO_FAILURE,
+  GET_ACCOUNT_USER_INFO_SUCCESS,
+  GET_ACCOUNT_USER_INFO_FAILURE,
   GET_ALL_USERS_SUCCESS,
   GET_ALL_USERS_FAILURE,
   SUBMIT_EDIT_USER_DETAIL_FORM_SUCCESS,
@@ -16,15 +16,15 @@ import {
 import { toast } from 'react-toastify'
 import defaultErrorHandler from './defaultErrorHandler'
 
-export function* fetchUserInfo(action) {
+export function* fetchAccountUserInfo(action) {
   try {
     const { data } = yield fetchUser(action.userId)
     yield put({
-      type: GET_USER_INFO_SUCCESS,
+      type: GET_ACCOUNT_USER_INFO_SUCCESS,
       user: data.user,
     })
   } catch (error) {
-    yield put({ type: GET_USER_INFO_FAILURE, error })
+    yield put({ type: GET_ACCOUNT_USER_INFO_FAILURE, error })
   }
 }
 
@@ -54,7 +54,7 @@ export function* submitEditUserDetailForm(action) {
 export function* submitEditUserPasswordForm(action) {
   try {
     const json = yield editUserPassword(action.user)
-    console.log(json)
+    // console.log(json)
     toast.success('User successfully updated!')
   } catch (error) {
     yield defaultErrorHandler(error, SUBMIT_EDIT_USER_PASSWORD_FORM_FAILURE)

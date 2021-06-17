@@ -66,7 +66,7 @@ const UserDetail = ({ user, currentUser, getAllUsers, getUserInfo }) => {
 
   // useEffect(() => {
   //   getAllUsers()
-  // }, [getAllUsers])
+  // }, [getAllUsers, getUserInfo])
 
   useEffect(() => {
     getUserInfo(currentUser)
@@ -75,7 +75,7 @@ const UserDetail = ({ user, currentUser, getAllUsers, getUserInfo }) => {
 console.log(user)
   return (
     <Wrapper component={Paper}>
-        {/* <HeadingContainer>
+        <HeadingContainer>
             <h1>User Setting</h1>
             {user.map((user) => {
                 return(
@@ -134,10 +134,10 @@ console.log(user)
                         </Button>
                     </div>
                 </div>
-                <img src={userDetail.photo} className="photo" alt={userDetail.name} />
+                <img src={user.photo} className="photo" alt={user.name} />
             </UserDetailWrapper>
             )})}
-        </HeadingContainer> */}
+        </HeadingContainer>
         {userDetailFormVisible ? (
         <UserDetailForm
           visible={userDetailFormVisible}
@@ -160,13 +160,13 @@ const getCurrentUser = (state) => {
   return state.authentication.currentUser.id
 }
 
-// const getUserList = (state, userId) => {
-//   return state.users.users[userId]
-// }
-
 const getUserList = (state) => {
-  return state.users.users
+  return values(state.users.users)
 }
+
+// const getUserList = (state) => {
+//   return values(state.users.users)
+// }
 
 const mapStateToProps = (state) => ({
   currentUser: getCurrentUser(state),
@@ -177,7 +177,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     // dispatching plain actions
     getUserInfo: (userId) => dispatch(actions.fetchUser(userId)),
-    getAllUsers: () => dispatch(actions.fetchUsers()),
+    // getAllUsers: () => dispatch(actions.fetchUsers()),
   }
 }
 
