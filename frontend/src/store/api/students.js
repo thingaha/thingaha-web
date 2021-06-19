@@ -1,4 +1,5 @@
 import thingahaApiClient from '../../utils/thingahaApiClient'
+import thingahaFileUploadApiClient from '../../utils/thingahaFileUploadApiClient'
 
 export const fetchStudent = async (studentId) => {
   const { data } = await thingahaApiClient.get(`/students/${studentId}`)
@@ -23,19 +24,35 @@ export const fetchStudents = async ({ page } = { page: 1 }) => {
   }
 }
 
-export const createStudent = async (studentFormValues) => {
-  const { data } = await thingahaApiClient.post('/students', studentFormValues)
+export const createStudent = async ({ photoUpload, ...studentFormValues }) => {
+  let { data } = await thingahaApiClient.post('/students', studentFormValues)
+
+  if (photoUpload) {
+    const formData = new FormData()
+    formData.append('img', photoUpload)
+    formData.append('student_id', data.student.id)
+    console.log('Uploading photo')
+    data = await thingahaFileUploadApiClient.post('/student/upload', formData)
+  }
 
   return {
     student: data.student,
   }
 }
 
-export const editStudent = async (studentFormValues) => {
+export const editStudent = async ({ photoUpload, ...studentFormValues }) => {
   const { data } = await thingahaApiClient.put(
     `/students/${studentFormValues.id}`,
     studentFormValues
   )
+
+  if (photoUpload) {
+    const formData = new FormData()
+    formData.append('img', photoUpload)
+    formData.append('student_id', data.student.id)
+    console.log('Uploading photo')
+    data = await thingahaFileUploadApiClient.post('/student/upload', formData)
+  }
 
   return {
     student: data.student,

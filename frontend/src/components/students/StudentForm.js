@@ -9,7 +9,7 @@ import TextField from '@material-ui/core/TextField'
 import ThingahaFormModal from '../common/ThingahaFormModal'
 import Checkbox from '@material-ui/core/Checkbox'
 import ThingahaAddressFields from '../common/ThingahaAddressFields'
-
+import ThingahaFileUpload from '../common/ThingahaFileUpload'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 
 const FormContainer = styled.div`
@@ -157,6 +157,18 @@ const StudentForm = ({
               />
             </div>
           </StyledFormControl>
+          <StyledFormControl>
+            <ThingahaFileUpload
+              onChange={(event) => {
+                setFieldValue('photoUpload', event.currentTarget.files[0])
+              }}
+              name="photo"
+              id="photo"
+              color="primary"
+              type="file"
+              file={values.photoUpload}
+            />
+          </StyledFormControl>
         </FormContainer>
       </form>
     </ThingahaFormModal>
@@ -176,6 +188,8 @@ const transformStudentSchemaFlat = (student) => {
     township: student.address.township,
     street_address: student.address.street_address,
     active: !Boolean(student.deactivated_at),
+    photo: student.photo,
+    photo: student.photoUpload,
   }
 }
 
@@ -188,6 +202,8 @@ const transformStudentSchema = (student) => {
     father_name: student.father_name,
     mother_name: student.mother_name,
     parents_occupation: student.parents_occupation,
+    photo: student.photo,
+    photoUpload: student.photoUpload,
     address: {
       division: student.division,
       district: student.district,
@@ -229,6 +245,8 @@ const FormikStudentForm = withFormik({
           street_address: '',
         },
         active: true,
+        photo: '',
+        photoUpload: null,
       }
     )
   },
