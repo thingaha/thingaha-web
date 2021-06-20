@@ -53,7 +53,7 @@ const UserDetailForm = ({
 }) => {
   return (
     <ThingahaFormModal
-      title={editingUserDetail ? 'Edit User Details' : null }
+      title={editingUserDetail ? 'Edit User Details' : null}
       open={visible}
       onClose={() => setVisible(false)}
       onCancel={() => setVisible(false)}
@@ -188,7 +188,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => {
   return {
     submitEditUserDetailForm: (values) => {
-      dispatch(actions.submitEditUserDetailForm(transformUserDetailSchema(values)))
+      dispatch(
+        actions.submitEditUserDetailForm(transformUserDetailSchema(values))
+      )
     },
   }
 }
@@ -215,11 +217,13 @@ const FormikUserDetailForm = withFormik({
   handleSubmit: (values, { props }) => {
     if (props.editingUserDetail) {
       props.submitEditUserDetailForm(values)
-    } else {}
+    } else {
+    }
 
     props.setVisible(false)
   },
 
+  // TODO : This code is need for update user address validation
   // validationSchema: yup.object().shape({
   //   name: yup.string().label('Name').required(),
   //   birth_date: yup.string().label('Birth Date').required(),
@@ -236,4 +240,7 @@ const FormikUserDetailForm = withFormik({
   enableReinitialize: true,
 })(UserDetailForm)
 
-export default connect(mapStateToProps, mapDispatchToProps)(FormikUserDetailForm)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FormikUserDetailForm)

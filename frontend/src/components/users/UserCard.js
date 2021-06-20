@@ -4,7 +4,7 @@ import Paper from '@material-ui/core/Paper'
 import Chip from '@material-ui/core/Chip'
 import Avatar from '@material-ui/core/Avatar'
 import EditIcon from '@material-ui/icons/EditRounded'
-import LockIcon from '@material-ui/icons/Lock';
+import LockIcon from '@material-ui/icons/Lock'
 import VerifiedUserIcon from '@material-ui/icons/VerifiedUserRounded'
 import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle'
 import MonetizationOnRoundedIcon from '@material-ui/icons/MonetizationOnRounded'
@@ -42,7 +42,8 @@ const UserCardWrapper = styled(Paper)`
     font-size: 1rem;
   }
 
-  & .edit, .changePassword {
+  & .edit,
+  .changePassword {
     cursor: pointer;
   }
 

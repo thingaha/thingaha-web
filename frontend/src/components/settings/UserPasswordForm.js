@@ -54,7 +54,7 @@ const UserPasswordForm = ({
 }) => {
   return (
     <ThingahaFormModal
-      title={editingUserPassword ? 'Change Password' : null }
+      title={editingUserPassword ? 'Change Password' : null}
       open={visible}
       onClose={() => setVisible(false)}
       onCancel={() => setVisible(false)}
@@ -64,7 +64,7 @@ const UserPasswordForm = ({
     >
       <form onSubmit={handleSubmit}>
         <FormContainer>
-        <StyledFormControl>
+          <StyledFormControl>
             <TextField
               id="current_password"
               name="current_password"
@@ -129,7 +129,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => {
   return {
     submitEditUserPasswordForm: (values) => {
-      dispatch(actions.submitEditUserPasswordForm(transformUserPasswordSchema(values)))
+      dispatch(
+        actions.submitEditUserPasswordForm(transformUserPasswordSchema(values))
+      )
     },
   }
 }
@@ -155,20 +157,11 @@ const FormikUserPasswordForm = withFormik({
     props.setVisible(false)
   },
 
-  // validationSchema: yup.object().shape({
-  //   name: yup.string().label('Name').required(),
-  //   birth_date: yup.string().label('Birth Date').required(),
-  //   father_name: yup.string().label('Father Name').required(),
-  //   mother_name: yup.string().label('Mother Name').required(),
-  //   parents_occupation: yup.string().label('Parents Occupation').required(),
-  //   division: yup.string().label('Division').required(),
-  //   district: yup.string().label('District').required(),
-  //   township: yup.string().label('Township').required(),
-  //   street_address: yup.string().label('Street Address').required(),
-  // }),
-
   displayName: 'UserPasswordForm',
   enableReinitialize: true,
 })(UserPasswordForm)
 
-export default connect(mapStateToProps, mapDispatchToProps)(FormikUserPasswordForm)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FormikUserPasswordForm)

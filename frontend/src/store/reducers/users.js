@@ -1,16 +1,12 @@
 import {
   GET_USER_INFO_SUCCESS,
   GET_USER_INFO_FAILURE,
-
   SUBMIT_USER_FORM_SUCCESS,
   SUBMIT_USER_FORM_FAILURE,
-
   GET_ALL_USERS_SUCCESS,
   GET_ALL_USERS_FAILURE,
-
   SUBMIT_EDIT_USER_FORM_SUCCESS,
   SUBMIT_EDIT_USER_FORM_FAILURE,
-  
   SUBMIT_PASSWORD_RESET_FORM_SUCCESS,
   SUBMIT_PASSWORD_RESET_FORM_FAILURE,
 } from '../actions/users'
@@ -64,7 +60,7 @@ export default (state = { users: {} }, action) => {
         ...state,
         error: action.error,
       }
-      case SUBMIT_PASSWORD_RESET_FORM_SUCCESS:
+    case SUBMIT_PASSWORD_RESET_FORM_SUCCESS:
       return {
         ...state,
         users: immutableAppendOrUpdate(state.users, action.user),

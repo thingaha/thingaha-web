@@ -2,7 +2,12 @@ import {
   put,
   // call
 } from 'redux-saga/effects'
-import { fetchUser, fetchUsers, editUserDetail, editUserPassword } from '../api/settings' //API Called
+import {
+  fetchUser,
+  fetchUsers,
+  editUserDetail,
+  editUserPassword,
+} from '../api/settings' //API Called
 import {
   GET_ACCOUNT_USER_INFO_SUCCESS,
   GET_ACCOUNT_USER_INFO_FAILURE,

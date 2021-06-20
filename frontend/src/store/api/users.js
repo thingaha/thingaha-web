@@ -66,10 +66,7 @@ export const editUser = async ({
   }
 }
 
-export const passwordReset = async ({
-  user_id,
-  password,
-}) => {
+export const passwordReset = async ({ user_id, password }) => {
   const { data } = await thingahaApiClient.put(`/users/reset_password`, {
     user_id,
     password,

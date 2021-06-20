@@ -22,7 +22,6 @@ export const SUBMIT_PASSWORD_RESET_FORM_SUCCESS =
 export const SUBMIT_PASSWORD_RESET_FORM_FAILURE =
   'USERS/SUBMIT_PASSWORD_RESET_FORM_FAILURE'
 
-
 export const fetchUser = (userId) => {
   return {
     type: GET_USER_INFO,

@@ -39,7 +39,8 @@ const UsersContainer = styled.ul`
 
 const Users = ({ users, totalPages, totalCount, getAllUsers }) => {
   const [userFormVisible, setUserFormVisible] = useState(false)
-  const [PasswordResetFormVisible, setPasswordResetFormVisible] = useState(false)
+  const [PasswordResetFormVisible, setPasswordResetFormVisible] =
+    useState(false)
   const [editingUser, setEditingUser] = useState(null)
   const [passwordReset, setPasswordReset] = useState(null)
 
