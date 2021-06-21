@@ -2,15 +2,10 @@ import React from 'react'
 import { withFormik } from 'formik'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import * as yup from 'yup'
 import * as actions from '../../store/actions'
-import { submitEditUserPasswordForm } from '../../store/actions/settings'
 import FormControl from '@material-ui/core/FormControl'
 import TextField from '@material-ui/core/TextField'
 import ThingahaFormModal from '../common/ThingahaFormModal'
-import MenuItem from '@material-ui/core/MenuItem'
-import ThingahaAddressFields from '../common/ThingahaAddressFields'
-import ThingahaSelect from '../common/ThingahaSelect'
 
 const FormContainer = styled.div`
   display: flex;

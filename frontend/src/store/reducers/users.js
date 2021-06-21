@@ -10,6 +10,15 @@ import {
   SUBMIT_PASSWORD_RESET_FORM_SUCCESS,
   SUBMIT_PASSWORD_RESET_FORM_FAILURE,
 } from '../actions/users'
+
+import {
+  GET_ACCOUNT_USER_INFO_SUCCESS,
+  GET_ACCOUNT_USER_INFO_FAILURE,
+  SUBMIT_EDIT_USER_DETAIL_FORM_SUCCESS,
+  SUBMIT_EDIT_USER_DETAIL_FORM_FAILURE,
+  SUBMIT_EDIT_USER_PASSWORD_FORM_SUCCESS,
+  SUBMIT_EDIT_USER_PASSWORD_FORM_FAILURE,
+} from '../actions/settings'
 import {
   immutableAppendOrUpdate,
   normalizeRecordsById,
@@ -70,6 +79,37 @@ export default (state = { users: {} }, action) => {
         ...state,
         error: action.error,
       }
+    case GET_ACCOUNT_USER_INFO_FAILURE:
+      return {
+        ...state,
+        error: action.error,
+      }
+    case GET_ACCOUNT_USER_INFO_SUCCESS:
+      return {
+        ...state,
+        users: immutableAppendOrUpdate(state.users, action.user),
+      }
+    case SUBMIT_EDIT_USER_DETAIL_FORM_SUCCESS:
+      return {
+        ...state,
+        users: immutableAppendOrUpdate(state.users, action.user),
+      }
+    case SUBMIT_EDIT_USER_DETAIL_FORM_FAILURE:
+      return {
+        ...state,
+        error: action.error,
+      }
+    case SUBMIT_EDIT_USER_PASSWORD_FORM_SUCCESS:
+      return {
+        ...state,
+        users: immutableAppendOrUpdate(state.users, action.user),
+      }
+    case SUBMIT_EDIT_USER_PASSWORD_FORM_FAILURE:
+      return {
+        ...state,
+        error: action.error,
+      }
+
     default:
       return state
   }
