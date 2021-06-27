@@ -12,12 +12,13 @@ import SearchIcon from '@material-ui/icons/Search'
 import * as actions from '../../store/actions'
 import ThingahaTabbedNav from '../common/ThingahaTabbedNav'
 import styled from 'styled-components'
+import Pagination from '@material-ui/lab/Pagination'
+import values from 'lodash/values'
 
 //TODO: Search,
-//TODO: Pagination,
 //TODO: call request from tab catagories
-
 //TODO: localize
+
 const labelAddresses = 'Addresses'
 const labelStudents = 'Students'
 const labelSchools = 'Schools'
@@ -58,10 +59,16 @@ const SearchInput = () => {
   )
 }
 
-const Addresses = ({ addresses: { addresses, count }, getAllAddresses }) => {
+const Addresses = ({addresses, totalCount, totalPages,
+  getAllAddresses,
+}) => {
   useEffect(() => {
     getAllAddresses()
   }, [getAllAddresses])
+
+  if (addresses.length === 0) {
+    return null
+  }
 
   const studentsAddress = addresses.filter(
     (address) => address.addressable.type === 'student'
@@ -102,7 +109,7 @@ const Addresses = ({ addresses: { addresses, count }, getAllAddresses }) => {
         <Grid item className="MuiGrid-justify-xs-flex-end">
           <TotalAmountDiv>
             <div className="total">{labelTotal}</div>
-            <div className="amount">{count}</div>
+            <div className="amount">{totalCount}</div>
           </TotalAmountDiv>
         </Grid>
       </Grid>
@@ -143,18 +150,39 @@ const Addresses = ({ addresses: { addresses, count }, getAllAddresses }) => {
           ]}
         />
       </Grid>
+
+      <div className="pagination-container">
+        <Pagination
+          count={totalPages} // need to pass in total pages instead of total count
+          color="primary"
+          onChange={(_event, page) => {
+            getAllAddresses({ page })
+          }}
+        />
+      </div>
     </div>
   )
 }
 
+const getAddressesList = (state) => {
+  return values(state.addresses.addresses)
+}
+
+const getTotalPage = (state) => state.addresses.totalPages
+const getTotalCount = (state) => state.addresses.totalCount
+
+
 const mapStateToProps = (state) => ({
-  addresses: state.addresses,
+  addresses: getAddressesList(state),
+  totalPages: getTotalPage(state),
+  totalCount: getTotalCount(state),
 })
 
 const mapDispatchToProps = (dispatch) => {
   return {
     // dispatching plain actions
-    getAllAddresses: () => dispatch(actions.fetchAddresses()),
+    getAllAddresses: ({ page } = { page: 1 }) =>
+      dispatch(actions.fetchAddresses({ page })),
   }
 }
 

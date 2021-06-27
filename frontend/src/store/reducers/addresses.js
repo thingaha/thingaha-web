@@ -4,14 +4,20 @@ import {
   GET_SEARCH_ADDRESSES_SUCCESS,
   GET_SEARCH_ADDRESSES_FAILURE,
 } from '../actions/addresses'
+import {
+  normalizeRecordsById,
+} from '../../utils/reducerHelpers'
 
-export default (state = { addresses: [], count: '' }, action) => {
+
+export default (state = { addresses: {} }, action) => {
   switch (action.type) {
     case GET_ALL_ADDRESSES_SUCCESS:
       return {
         ...state,
-        addresses: [...action.addresses],
-        count: action.count,
+        addresses: normalizeRecordsById(action.addresses),
+        // addresses: [...action.addresses],
+        totalCount: action.totalCount,
+        totalPages: action.totalPages
       }
     case GET_ALL_ADDRESSES_FAILURE:
       return {
