@@ -15,7 +15,6 @@ import {
   GET_ALL_USERS_FAILURE,
   SUBMIT_EDIT_USER_DETAIL_FORM_SUCCESS,
   SUBMIT_EDIT_USER_DETAIL_FORM_FAILURE,
-  SUBMIT_EDIT_USER_PASSWORD_FORM_SUCCESS,
   SUBMIT_EDIT_USER_PASSWORD_FORM_FAILURE,
 } from '../actions/settings'
 import { toast } from 'react-toastify'
@@ -59,7 +58,6 @@ export function* submitEditUserDetailForm(action) {
 export function* submitEditUserPasswordForm(action) {
   try {
     const json = yield editUserPassword(action.user)
-    // console.log(json)
     toast.success('User successfully updated!')
   } catch (error) {
     yield defaultErrorHandler(error, SUBMIT_EDIT_USER_PASSWORD_FORM_FAILURE)

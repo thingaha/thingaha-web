@@ -28,28 +28,19 @@ const StyledFormControl = styled(FormControl)`
   width: 100%;
   margin-bottom: 1rem;
 `
-const AddressContainer = styled.div`
-  width: 100%;
-  margin-top: 1rem;
-  margin-bottom: 0.8rem;
-`
 
-const UserPasswordForm = ({
+const PasswordResetForm = ({
   visible,
   setVisible,
-  editingUserPassword,
+  passwordReset,
   values,
-  setFieldValue,
-  setValues,
   handleChange,
-  errors,
-  validateForm,
   submitForm,
   handleSubmit,
 }) => {
   return (
     <ThingahaFormModal
-      title={editingUserPassword ? 'Change Password' : null}
+      title={passwordReset ? 'Password Reset' : null}
       open={visible}
       onClose={() => setVisible(false)}
       onCancel={() => setVisible(false)}
@@ -61,35 +52,13 @@ const UserPasswordForm = ({
         <FormContainer>
           <StyledFormControl>
             <TextField
-              id="current_password"
-              name="current_password"
-              placeholder="********"
-              label="Current Password"
-              type="password"
-              onChange={handleChange}
-              value={values.current_password}
-            />
-          </StyledFormControl>
-          <StyledFormControl>
-            <TextField
-              id="new_password"
-              name="new_password"
+              id="password"
+              name="password"
               placeholder="********"
               label="New Password"
               type="password"
               onChange={handleChange}
-              value={values.new_password}
-            />
-          </StyledFormControl>
-          <StyledFormControl>
-            <TextField
-              id="new_confirm_password"
-              name="new_confirm_password"
-              placeholder="********"
-              label="Confirm Password"
-              type="password"
-              onChange={handleChange}
-              value={values.new_confirm_password}
+              value={values.password}
             />
           </StyledFormControl>
         </FormContainer>
@@ -98,21 +67,17 @@ const UserPasswordForm = ({
   )
 }
 
-const transformUserPasswordSchemaFlat = (user) => {
+const transformPasswordResetSchemaFlat = (user) => {
   return {
-    id: user.id,
-    current_password: user.current_password,
-    new_password: user.new_password,
-    new_confirm_password: user.new_confirm_password,
+    user_id: user.id,
+    password: user.password,
   }
 }
 
-const transformUserPasswordSchema = (user) => {
+const transformPasswordResetSchema = (user) => {
   return {
-    id: user.id,
-    current_password: user.current_password,
-    new_password: user.new_password,
-    new_confirm_password: user.new_confirm_password,
+    user_id: user.id,
+    password: user.password,
   }
 }
 
@@ -123,40 +88,41 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    submitEditUserPasswordForm: (values) => {
+    submitPasswordResetForm: (values) => {
       dispatch(
-        actions.submitEditUserPasswordForm(transformUserPasswordSchema(values))
+        actions.submitPasswordResetForm(transformPasswordResetSchema(values))
       )
     },
   }
 }
 
-const FormikUserPasswordForm = withFormik({
+const FormikPasswordResetForm = withFormik({
   mapPropsToValues: (props) => {
-    return transformUserPasswordSchemaFlat(
-      props.editingUserPassword || {
-        id: '',
-        current_password: '',
-        new_password: '',
-        new_confirm_password: '',
+    return transformPasswordResetSchemaFlat(
+      props.passwordReset || {
+        user_id: '',
+        password: '',
       }
     )
   },
 
   handleSubmit: (values, { props }) => {
-    if (props.editingUserPassword) {
-      props.submitEditUserPasswordForm(values)
+    if (props.passwordReset) {
+      props.submitPasswordResetForm({
+        id: props.passwordReset.id,
+        password: values.password,
+      })
     } else {
     }
 
     props.setVisible(false)
   },
 
-  displayName: 'UserPasswordForm',
+  displayName: 'PasswordResetForm',
   enableReinitialize: true,
-})(UserPasswordForm)
+})(PasswordResetForm)
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(FormikUserPasswordForm)
+)(FormikPasswordResetForm)

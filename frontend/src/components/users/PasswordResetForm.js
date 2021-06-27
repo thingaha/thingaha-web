@@ -28,11 +28,6 @@ const StyledFormControl = styled(FormControl)`
   width: 100%;
   margin-bottom: 1rem;
 `
-const AddressContainer = styled.div`
-  width: 100%;
-  margin-top: 1rem;
-  margin-bottom: 0.8rem;
-`
 
 const PasswordResetForm = ({
   visible,

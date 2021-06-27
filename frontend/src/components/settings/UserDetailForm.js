@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { withFormik } from 'formik'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
@@ -10,6 +10,10 @@ import ThingahaFormModal from '../common/ThingahaFormModal'
 import MenuItem from '@material-ui/core/MenuItem'
 import ThingahaAddressFields from '../common/ThingahaAddressFields'
 import ThingahaSelect from '../common/ThingahaSelect'
+import Switch from '@material-ui/core/Switch'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Collapse from '@material-ui/core/Collapse'
+import Typography from '@material-ui/core/Typography'
 
 const FormContainer = styled.div`
   display: flex;
@@ -26,6 +30,10 @@ const FormContainer = styled.div`
   & .icon {
     color: ${(props) => props.theme.palette.common.grey};
   }
+
+  & .collapseContainer {
+    width: 100%;
+  }
 `
 
 const StyledFormControl = styled(FormControl)`
@@ -36,6 +44,14 @@ const AddressContainer = styled.div`
   width: 100%;
   margin-top: 1rem;
   margin-bottom: 0.8rem;
+
+  & .addressToggle {
+    margin-left: 10px;
+  }
+
+  & .note {
+    margin-left: 5px;
+  }
 `
 
 const UserDetailForm = ({
@@ -51,6 +67,12 @@ const UserDetailForm = ({
   submitForm,
   handleSubmit,
 }) => {
+  const [checked, setChecked] = useState(false)
+
+  const toggleChecked = () => {
+    setChecked((prev) => !prev)
+  }
+
   return (
     <ThingahaFormModal
       title={editingUserDetail ? 'Edit User Details' : null}
@@ -133,15 +155,36 @@ const UserDetailForm = ({
           </StyledFormControl>
           <AddressContainer>
             <span className="address">Address</span>
+            <Typography
+              variant="body2"
+              display="inline"
+              color="textPrimary"
+              className="note"
+            >
+              (Optional)
+            </Typography>
+            <FormControlLabel
+              className="addressToggle"
+              control={
+                <Switch
+                  checked={checked}
+                  onChange={toggleChecked}
+                  color="primary"
+                />
+              }
+              label=""
+            />
           </AddressContainer>
-          <ThingahaAddressFields
-            values={values}
-            handleChange={handleChange}
-            setFieldValue={setFieldValue}
-            setValues={setValues}
-            errors={errors}
-            validateForm={validateForm}
-          />
+          <Collapse className="collapseContainer" in={checked}>
+            <ThingahaAddressFields
+              values={values}
+              handleChange={handleChange}
+              setFieldValue={setFieldValue}
+              setValues={setValues}
+              errors={errors}
+              validateForm={validateForm}
+            />
+          </Collapse>
         </FormContainer>
       </form>
     </ThingahaFormModal>
@@ -224,17 +267,17 @@ const FormikUserDetailForm = withFormik({
   },
 
   // TODO : This code is need for update user address validation
-  // validationSchema: yup.object().shape({
-  //   name: yup.string().label('Name').required(),
-  //   birth_date: yup.string().label('Birth Date').required(),
-  //   father_name: yup.string().label('Father Name').required(),
-  //   mother_name: yup.string().label('Mother Name').required(),
-  //   parents_occupation: yup.string().label('Parents Occupation').required(),
-  //   division: yup.string().label('Division').required(),
-  //   district: yup.string().label('District').required(),
-  //   township: yup.string().label('Township').required(),
-  //   street_address: yup.string().label('Street Address').required(),
-  // }),
+  validationSchema: yup.object().shape({
+    username: yup.string().label('UserName').required(),
+    display_name: yup.string().label('Display Name').required(),
+    email: yup.string().label('Email').required(),
+    role: yup.string().label('Role').required(),
+    country: yup.string().label('Country').required(),
+    division: yup.string().label('Division').required(),
+    district: yup.string().label('District').required(),
+    township: yup.string().label('Township').required(),
+    street_address: yup.string().label('Street Address').required(),
+  }),
 
   displayName: 'UserDetailForm',
   enableReinitialize: true,
