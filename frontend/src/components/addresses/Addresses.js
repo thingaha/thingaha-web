@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import AddressList from './AddressList'
 import HomeIcon from '@material-ui/icons/Home'
@@ -59,26 +59,21 @@ const SearchInput = () => {
   )
 }
 
-const Addresses = ({addresses, totalCount, totalPages,
-  getAllAddresses,
-}) => {
+const Addresses = ({ addresses, totalCount, totalPages, getAllAddresses }) => {
   useEffect(() => {
     getAllAddresses()
   }, [getAllAddresses])
 
+  const [userType, setUserType] = useState(null)
+
+  const changeUserType = (type) => {
+    setUserType(type)
+    getAllAddresses({ page: 1, userType: type })
+  }
+
   if (addresses.length === 0) {
     return null
   }
-
-  const studentsAddress = addresses.filter(
-    (address) => address.addressable.type === 'student'
-  )
-  const schoolsAddress = addresses.filter(
-    (address) => address.addressable.type === 'school'
-  )
-  const donatorsAddress = addresses.filter(
-    (address) => address.addressable.type === 'user'
-  )
 
   return (
     <div>
@@ -118,32 +113,44 @@ const Addresses = ({addresses, totalCount, totalPages,
       <Grid item xs={12}>
         <ThingahaTabbedNav
           tabMenus={[
-            <div>
+            <div
+              onClick={() => {
+                changeUserType('student')
+              }}
+            >
               <SchoolIcon style={{ verticalAlign: 'text-top' }} />
               {labelStudents}
             </div>,
-            <div>
+            <div
+              onClick={() => {
+                changeUserType('school')
+              }}
+            >
               <LocationCityIcon style={{ verticalAlign: 'text-top' }} />
               {labelSchools}
             </div>,
-            <div>
+            <div
+              onClick={() => {
+                changeUserType('user')
+              }}
+            >
               <MonetizationOnIcon style={{ verticalAlign: 'text-top' }} />
               {labelDonators}
             </div>,
           ]}
           tabPanels={[
             <AddressList
-              addresses={studentsAddress}
+              addresses={addresses}
               icon={<SchoolIcon />}
               type={'student'}
             />,
             <AddressList
-              addresses={schoolsAddress}
+              addresses={addresses}
               icon={<LocationCityIcon />}
               type={'school'}
             />,
             <AddressList
-              addresses={donatorsAddress}
+              addresses={addresses}
               icon={<MonetizationOnIcon />}
               type={'user'}
             />,
@@ -156,7 +163,7 @@ const Addresses = ({addresses, totalCount, totalPages,
           count={totalPages} // need to pass in total pages instead of total count
           color="primary"
           onChange={(_event, page) => {
-            getAllAddresses({ page })
+            getAllAddresses({ page, userType: userType })
           }}
         />
       </div>
@@ -171,7 +178,6 @@ const getAddressesList = (state) => {
 const getTotalPage = (state) => state.addresses.totalPages
 const getTotalCount = (state) => state.addresses.totalCount
 
-
 const mapStateToProps = (state) => ({
   addresses: getAddressesList(state),
   totalPages: getTotalPage(state),
@@ -181,8 +187,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => {
   return {
     // dispatching plain actions
-    getAllAddresses: ({ page } = { page: 1 }) =>
-      dispatch(actions.fetchAddresses({ page })),
+    getAllAddresses: ({ page, userType } = { page: 1, userType: 'student' }) =>
+      dispatch(actions.fetchAddresses({ page, userType })),
   }
 }
 

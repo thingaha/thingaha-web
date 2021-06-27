@@ -15,7 +15,6 @@ export default (state = { addresses: {} }, action) => {
       return {
         ...state,
         addresses: normalizeRecordsById(action.addresses),
-        // addresses: [...action.addresses],
         totalCount: action.totalCount,
         totalPages: action.totalPages
       }

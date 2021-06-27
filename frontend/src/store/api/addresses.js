@@ -1,10 +1,10 @@
 import thingahaApiClient from '../../utils/thingahaApiClient'
 
-export const fetchAddresses = async ({ page } = { page: 1 }) => {
+export const fetchAddresses = async ({ page, userType } = { page: 1, userType: 'student'}) => {
   const { data } = await thingahaApiClient.get('/addresses', {
-    params: { page },
+    params: { page, type: userType },
   })
-  
+
   return {
     data: {
       addresses: data.addresses,

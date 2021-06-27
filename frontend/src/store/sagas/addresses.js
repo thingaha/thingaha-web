@@ -11,9 +11,9 @@ import {
 } from '../actions/addresses'
 import defaultErrorHandler from './defaultErrorHandler'
 
-export function* fetchAddressesSaga({ page }) {
+export function* fetchAddressesSaga({ page, userType }) {
   try {
-    const { data } = yield fetchAddresses({ page })
+    const { data } = yield fetchAddresses({ page, userType })
     yield put({
       type: GET_ALL_ADDRESSES_SUCCESS,
       addresses: data.addresses,
