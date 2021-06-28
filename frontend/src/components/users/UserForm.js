@@ -1,6 +1,7 @@
 import React from 'react'
 import { withFormik } from 'formik'
 import { connect } from 'react-redux'
+import * as yup from 'yup'
 import styled from 'styled-components'
 import * as actions from '../../store/actions'
 import FormControl from '@material-ui/core/FormControl'
@@ -33,17 +34,15 @@ const StyledFormControl = styled(FormControl)`
 `
 
 const UserForm = ({
-  values,
-  touched,
-  errors,
-  handleChange,
-  handleBlur,
-  handleSubmit,
   visible,
   setVisible,
+  editingUser,
+  values,
+  handleChange,
+  errors,
+  handleSubmit,
   submitUserForm,
   submitEditUserForm,
-  editingUser,
 }) => {
   return (
     <ThingahaFormModal
@@ -58,7 +57,7 @@ const UserForm = ({
         setVisible(false)
       }}
     >
-      <form>
+      <form onSubmit={handleSubmit}>
         <FormContainer>
           <StyledFormControl>
             <TextField
@@ -68,6 +67,8 @@ const UserForm = ({
               label="User Name"
               onChange={handleChange}
               value={values.username}
+              error={Boolean(errors.username)}
+              helpertext={errors.username}
             />
             <Typography
               variant="body2"
@@ -88,6 +89,8 @@ const UserForm = ({
               type="email"
               onChange={handleChange}
               value={values.email}
+              error={Boolean(errors.email)}
+              helpertext={errors.email}
             />
           </StyledFormControl>
           <StyledFormControl>
@@ -98,6 +101,8 @@ const UserForm = ({
               label="Display Name"
               onChange={handleChange}
               value={values.display_name}
+              error={Boolean(errors.display_name)}
+              helpertext={errors.display_name}
             />
           </StyledFormControl>
           {Boolean(editingUser) ? null : (
@@ -110,16 +115,20 @@ const UserForm = ({
                 type="password"
                 onChange={handleChange}
                 value={values.password}
+                error={Boolean(errors.password)}
+                helpertext={errors.password}
               />
             </StyledFormControl>
           )}
           <StyledFormControl>
             <ThingahaSelect
-              onChange={handleChange}
-              value={values.role}
               id="role"
               name="role"
               label="Role"
+              onChange={handleChange}
+              value={values.role}
+              error={Boolean(errors.role)}
+              helpertext={errors.role}
             >
               <MenuItem value="donator">Donator</MenuItem>
               <MenuItem value="sub_admin">Sub Admin</MenuItem>
@@ -128,11 +137,13 @@ const UserForm = ({
           </StyledFormControl>
           <StyledFormControl>
             <ThingahaSelect
-              onChange={handleChange}
-              value={values.country}
               id="country"
               name="country"
               label="Country"
+              onChange={handleChange}
+              value={values.country}
+              error={Boolean(errors.country)}
+              helpertext={errors.country}
             >
               <MenuItem value="jp">Japan</MenuItem>
               <MenuItem value="mm">Myanmar</MenuItem>
@@ -143,6 +154,18 @@ const UserForm = ({
       </form>
     </ThingahaFormModal>
   )
+}
+
+const transformUserSchemaFlat = (user) => {
+  return {
+    id: user.id,
+    username: user.username,
+    display_name: user.display_name,
+    email: user.email,
+    country: user.country,
+    role: user.role,
+    addressId: user.address_id,
+  }
 }
 
 const transformUserSchema = (user) => {
@@ -156,6 +179,7 @@ const transformUserSchema = (user) => {
     addressId: user.address_id,
   }
 }
+
 const mapStateToProps = (state) => ({
   users: state.users,
   error: state.error,
@@ -174,10 +198,8 @@ const mapDispatchToProps = (dispatch) => {
 
 const FormikUserForm = withFormik({
   mapPropsToValues: (props) => {
-    if (props.editingUser) {
-      return props.editingUser
-    } else {
-      return {
+    return transformUserSchemaFlat(
+      props.editingUser || {
         username: '',
         display_name: '',
         email: '',
@@ -185,23 +207,21 @@ const FormikUserForm = withFormik({
         role: 'donator',
         country: 'jp',
       }
-    }
+    )
   },
 
   // Custom sync validation
-  validate: (values) => {
-    const errors = {}
-
-    if (values.username === '') {
-      errors.usernme = 'Required'
-    }
-
-    if (values.display_name === '') {
-      errors.display_name = 'Required'
-    }
-
-    return errors
-  },
+  validationSchema: yup.object().shape({
+    username: yup.string().label('UserName').required(),
+    display_name: yup.string().label('Display Name').required(),
+    email: yup.string().label('Email').required(),
+    role: yup.string().label('Role').required(),
+    country: yup.string().label('Country').required(),
+    division: yup.string().label('Division').required(),
+    district: yup.string().label('District').required(),
+    township: yup.string().label('Township').required(),
+    street_address: yup.string().label('Street Address').required(),
+  }),
 
   displayName: 'UserForm',
   enableReinitialize: true,

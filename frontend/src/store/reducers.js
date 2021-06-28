@@ -11,6 +11,7 @@ import attendancesReducer from './reducers/attendances'
 import configDataReducer from './reducers/configData'
 import extraFundsReducer from './reducers/extraFunds'
 import transfersReducer from './reducers/transfers'
+// import settingsReducer from './reducers/settings'
 
 export default combineReducers({
   authentication: authenticationReducer,
@@ -23,4 +24,5 @@ export default combineReducers({
   configData: configDataReducer,
   extraFunds: extraFundsReducer,
   transfers: transfersReducer,
+  settings: usersReducer,
 })

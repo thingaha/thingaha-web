@@ -4,16 +4,31 @@ import {
   // call
 } from 'redux-saga/effects'
 import {
+  GET_USER_INFO,
   GET_ALL_USERS,
   SUBMIT_USER_FORM,
   SUBMIT_EDIT_USER_FORM,
+  SUBMIT_PASSWORD_RESET_FORM,
 } from './actions/users'
 import { LOG_IN, LOG_OUT, CHECK_LOG_IN_STATE } from './actions/authentication'
 import {
+  fetchUserInfo,
   fetchAllUsers,
   submitUserForm,
   submitEditUserForm,
+  submitPasswordResetForm,
 } from './sagas/users'
+
+import {
+  GET_ACCOUNT_USER_INFO,
+  SUBMIT_EDIT_USER_DETAIL_FORM,
+  SUBMIT_EDIT_USER_PASSWORD_FORM
+} from './actions/settings'
+import {
+  fetchAccountUserInfo,
+  submitEditUserDetailForm,
+  submitEditUserPasswordForm
+} from './sagas/settings'
 
 import {
   GET_ALL_DONATIONS,
@@ -95,6 +110,12 @@ export default function* rootSaga() {
     takeLatest(GET_ALL_USERS, fetchAllUsers),
     takeLatest(SUBMIT_USER_FORM, submitUserForm),
     takeLatest(SUBMIT_EDIT_USER_FORM, submitEditUserForm),
+    takeLatest(SUBMIT_PASSWORD_RESET_FORM, submitPasswordResetForm),
+
+    takeLatest(GET_USER_INFO, fetchUserInfo),
+    takeLatest(GET_ACCOUNT_USER_INFO, fetchAccountUserInfo),
+    takeLatest(SUBMIT_EDIT_USER_DETAIL_FORM, submitEditUserDetailForm),
+    takeLatest(SUBMIT_EDIT_USER_PASSWORD_FORM, submitEditUserPasswordForm),
 
     takeLatest(GET_ALL_DONATIONS, fetchDonations),
     takeLatest(GET_DONATIONS_FOR_MONTH, fetchDonationsForMonth),
