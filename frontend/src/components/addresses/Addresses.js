@@ -16,7 +16,6 @@ import Pagination from '@material-ui/lab/Pagination'
 import values from 'lodash/values'
 
 //TODO: Search,
-//TODO: call request from tab catagories
 //TODO: localize
 
 const labelAddresses = 'Addresses'
@@ -59,7 +58,13 @@ const SearchInput = () => {
   )
 }
 
-const Addresses = ({ addresses, totalCount, totalPages, getAllAddresses }) => {
+const Addresses = ({
+  addresses,
+  totalCount,
+  totalPages,
+  currentPage,
+  getAllAddresses,
+}) => {
   useEffect(() => {
     getAllAddresses()
   }, [getAllAddresses])
@@ -141,18 +146,21 @@ const Addresses = ({ addresses, totalCount, totalPages, getAllAddresses }) => {
           tabPanels={[
             <AddressList
               addresses={addresses}
+              currentPage={currentPage}
               icon={<SchoolIcon />}
-              type={'student'}
+              type={'students'}
             />,
             <AddressList
               addresses={addresses}
+              currentPage={currentPage}
               icon={<LocationCityIcon />}
-              type={'school'}
+              type={'schools'}
             />,
             <AddressList
               addresses={addresses}
+              currentPage={currentPage}
               icon={<MonetizationOnIcon />}
-              type={'user'}
+              type={'users'}
             />,
           ]}
         />
@@ -174,21 +182,27 @@ const Addresses = ({ addresses, totalCount, totalPages, getAllAddresses }) => {
 const getAddressesList = (state) => {
   return values(state.addresses.addresses)
 }
-
 const getTotalPage = (state) => state.addresses.totalPages
 const getTotalCount = (state) => state.addresses.totalCount
+const getCurrentPage = (state) => state.addresses.currentPage
 
 const mapStateToProps = (state) => ({
   addresses: getAddressesList(state),
   totalPages: getTotalPage(state),
   totalCount: getTotalCount(state),
+  currentPage: getCurrentPage(state),
 })
 
 const mapDispatchToProps = (dispatch) => {
   return {
     // dispatching plain actions
-    getAllAddresses: ({ page, userType } = { page: 1, userType: 'student' }) =>
-      dispatch(actions.fetchAddresses({ page, userType })),
+    getAllAddresses: (
+      { page, userType } = { page: 1, userType: 'student' }
+    ) => {
+      //default parameter and null problem
+      if (userType === null) userType = 'student'
+      dispatch(actions.fetchAddresses({ page, userType }))
+    },
   }
 }
 

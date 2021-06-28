@@ -10,6 +10,7 @@ export const fetchAddresses = async ({ page, userType } = { page: 1, userType: '
       addresses: data.addresses,
       total_count: data.total_count,
       total_pages: data.pages,
+      current_page: data.current_page
     },
   }
 }

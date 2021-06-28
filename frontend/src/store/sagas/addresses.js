@@ -19,6 +19,7 @@ export function* fetchAddressesSaga({ page, userType }) {
       addresses: data.addresses,
       totalCount: data.total_count,
       totalPages: data.total_pages,
+      currentPage: data.current_page,
     })
   } catch (error) {
     yield defaultErrorHandler(error, GET_ALL_ADDRESSES_FAILURE)
