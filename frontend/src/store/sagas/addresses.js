@@ -11,13 +11,15 @@ import {
 } from '../actions/addresses'
 import defaultErrorHandler from './defaultErrorHandler'
 
-export function* fetchAddressesSaga(action) {
+export function* fetchAddressesSaga({ page, userType }) {
   try {
-    const json = yield fetchAddresses()
+    const { data } = yield fetchAddresses({ page, userType })
     yield put({
       type: GET_ALL_ADDRESSES_SUCCESS,
-      addresses: json.data.addresses,
-      count: json.data.total_count,
+      addresses: data.addresses,
+      totalCount: data.total_count,
+      totalPages: data.total_pages,
+      currentPage: data.current_page,
     })
   } catch (error) {
     yield defaultErrorHandler(error, GET_ALL_ADDRESSES_FAILURE)

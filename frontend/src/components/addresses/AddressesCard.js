@@ -45,7 +45,7 @@ const labelDistrict = 'District'
 const labelTownship = 'Township'
 const labelStreetAddress = 'Street Address'
 
-const AddressCard = ({ address, icon, link }) => {
+const AddressCard = ({ address, itemNo, icon, link }) => {
   return (
     <AddressCardContainer elevation={2}>
       <Grid container spacing={1}>
@@ -53,7 +53,7 @@ const AddressCard = ({ address, icon, link }) => {
           <Grid container spacing={1}>
             <Grid item xs={12} className="cardName">
               <NavLink to={link}>
-                <ThingahaName>{address.addressable.name}</ThingahaName>
+                <ThingahaName>{itemNo}. {address.addressable.name}</ThingahaName>
               </NavLink>
             </Grid>
             <Box

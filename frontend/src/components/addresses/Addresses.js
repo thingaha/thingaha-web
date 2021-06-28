@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import AddressList from './AddressList'
 import HomeIcon from '@material-ui/icons/Home'
@@ -12,12 +12,12 @@ import SearchIcon from '@material-ui/icons/Search'
 import * as actions from '../../store/actions'
 import ThingahaTabbedNav from '../common/ThingahaTabbedNav'
 import styled from 'styled-components'
+import Pagination from '@material-ui/lab/Pagination'
+import values from 'lodash/values'
 
 //TODO: Search,
-//TODO: Pagination,
-//TODO: call request from tab catagories
-
 //TODO: localize
+
 const labelAddresses = 'Addresses'
 const labelStudents = 'Students'
 const labelSchools = 'Schools'
@@ -58,20 +58,27 @@ const SearchInput = () => {
   )
 }
 
-const Addresses = ({ addresses: { addresses, count }, getAllAddresses }) => {
+const Addresses = ({
+  addresses,
+  totalCount,
+  totalPages,
+  currentPage,
+  getAllAddresses,
+}) => {
   useEffect(() => {
     getAllAddresses()
   }, [getAllAddresses])
 
-  const studentsAddress = addresses.filter(
-    (address) => address.addressable.type === 'student'
-  )
-  const schoolsAddress = addresses.filter(
-    (address) => address.addressable.type === 'school'
-  )
-  const donatorsAddress = addresses.filter(
-    (address) => address.addressable.type === 'user'
-  )
+  const [userType, setUserType] = useState(null)
+
+  const changeUserType = (type) => {
+    setUserType(type)
+    getAllAddresses({ page: 1, userType: type })
+  }
+
+  if (addresses.length === 0) {
+    return null
+  }
 
   return (
     <div>
@@ -102,7 +109,7 @@ const Addresses = ({ addresses: { addresses, count }, getAllAddresses }) => {
         <Grid item className="MuiGrid-justify-xs-flex-end">
           <TotalAmountDiv>
             <div className="total">{labelTotal}</div>
-            <div className="amount">{count}</div>
+            <div className="amount">{totalCount}</div>
           </TotalAmountDiv>
         </Grid>
       </Grid>
@@ -111,50 +118,91 @@ const Addresses = ({ addresses: { addresses, count }, getAllAddresses }) => {
       <Grid item xs={12}>
         <ThingahaTabbedNav
           tabMenus={[
-            <div>
+            <div
+              onClick={() => {
+                changeUserType('student')
+              }}
+            >
               <SchoolIcon style={{ verticalAlign: 'text-top' }} />
               {labelStudents}
             </div>,
-            <div>
+            <div
+              onClick={() => {
+                changeUserType('school')
+              }}
+            >
               <LocationCityIcon style={{ verticalAlign: 'text-top' }} />
               {labelSchools}
             </div>,
-            <div>
+            <div
+              onClick={() => {
+                changeUserType('user')
+              }}
+            >
               <MonetizationOnIcon style={{ verticalAlign: 'text-top' }} />
               {labelDonators}
             </div>,
           ]}
           tabPanels={[
             <AddressList
-              addresses={studentsAddress}
+              addresses={addresses}
+              currentPage={currentPage}
               icon={<SchoolIcon />}
-              type={'student'}
+              type={'students'}
             />,
             <AddressList
-              addresses={schoolsAddress}
+              addresses={addresses}
+              currentPage={currentPage}
               icon={<LocationCityIcon />}
-              type={'school'}
+              type={'schools'}
             />,
             <AddressList
-              addresses={donatorsAddress}
+              addresses={addresses}
+              currentPage={currentPage}
               icon={<MonetizationOnIcon />}
-              type={'user'}
+              type={'users'}
             />,
           ]}
         />
       </Grid>
+
+      <div className="pagination-container">
+        <Pagination
+          count={totalPages} // need to pass in total pages instead of total count
+          color="primary"
+          onChange={(_event, page) => {
+            getAllAddresses({ page, userType: userType })
+          }}
+        />
+      </div>
     </div>
   )
 }
 
+const getAddressesList = (state) => {
+  return values(state.addresses.addresses)
+}
+const getTotalPage = (state) => state.addresses.totalPages
+const getTotalCount = (state) => state.addresses.totalCount
+const getCurrentPage = (state) => state.addresses.currentPage
+
 const mapStateToProps = (state) => ({
-  addresses: state.addresses,
+  addresses: getAddressesList(state),
+  totalPages: getTotalPage(state),
+  totalCount: getTotalCount(state),
+  currentPage: getCurrentPage(state),
 })
 
 const mapDispatchToProps = (dispatch) => {
   return {
     // dispatching plain actions
-    getAllAddresses: () => dispatch(actions.fetchAddresses()),
+    getAllAddresses: (
+      { page, userType } = { page: 1, userType: 'student' }
+    ) => {
+      //default parameter and null problem
+      if (userType === null) userType = 'student'
+      dispatch(actions.fetchAddresses({ page, userType }))
+    },
   }
 }
 

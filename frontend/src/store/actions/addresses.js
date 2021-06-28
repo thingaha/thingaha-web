@@ -5,9 +5,11 @@ export const GET_SEARCH_ADDRESSES = 'ADDRESSES/GET_SEARCH'
 export const GET_SEARCH_ADDRESSES_SUCCESS = 'ADDRESSES/GET_SEARCH_SUCCESS'
 export const GET_SEARCH_ADDRESSES_FAILURE = 'ADDRESSES/GET_SEARCH_FAILURE'
 
-export const fetchAddresses = () => {
+export const fetchAddresses = ({ page, userType }) => {
   return {
     type: GET_ALL_ADDRESSES,
+    page,
+    userType,
   }
 }
 
