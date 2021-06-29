@@ -26,6 +26,7 @@ export const editUserDetail = async ({
   email,
   role,
   country,
+  address: { district, division, street_address, township },
 }) => {
   const { data } = await thingahaApiClient.put(`/users/${id}`, {
     id,
@@ -34,6 +35,12 @@ export const editUserDetail = async ({
     email,
     role,
     country,
+    address: {
+      district,
+      division,
+      street_address,
+      township,
+    },
   })
 
   return {
