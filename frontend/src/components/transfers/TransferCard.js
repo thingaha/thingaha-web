@@ -5,6 +5,8 @@ import Avatar from '@material-ui/core/Avatar'
 import EditIcon from '@material-ui/icons/EditRounded'
 import Grid from '@material-ui/core/Grid'
 import { media } from '../../styles/variables'
+import VisibilityRoundedIcon from '@material-ui/icons/VisibilityRounded'
+import { Link } from 'react-router-dom'
 
 const TransferCardWrapper = styled(Paper)`
   display: flex;
@@ -118,6 +120,13 @@ const TransferCard = ({ transfer, onEdit }) => {
             <div className="year">{transfer.year}</div>
           </Grid>
           <Grid className="actions" item>
+            <Link to={`/transfers/${transfer.id}`}>
+              <VisibilityRoundedIcon
+                color="primary"
+                className="show"
+                variant="rounded"
+              />
+            </Link>
             <EditIcon
               color="primary"
               className="edit"

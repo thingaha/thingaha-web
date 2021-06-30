@@ -9,6 +9,15 @@ const normalizeNumberValues = (transferFormValues) => {
   }
 }
 
+export const fetchTransfer = async (transferId) => {
+  const { data } = await thingahaApiClient.get(`/transfers/${transferId}`)
+  return {
+    data: {
+      transfer: data.transfer,
+    },
+  }
+}
+
 export const fetchTransfers = async ({ page } = { page: 1 }) => {
   const { data } = await thingahaApiClient.get('/transfers', {
     params: { page },
