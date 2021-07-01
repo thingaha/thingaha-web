@@ -11,6 +11,7 @@ import ReplyRoundedIcon from '@material-ui/icons/ReplyRounded'
 import ReceiptIcon from '@material-ui/icons/Receipt'
 import EditIcon from '@material-ui/icons/EditRounded'
 import TransferForm from './TransferForm'
+import ExtraFundCurrentAmount from '../extraFunds/ExtraFundCurrentAmount'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -62,7 +63,7 @@ const TransferDetailWrapper = styled(Paper)`
   }
 
   & .smallTextLabel {
-    min-width: 5rem;
+    min-width: 5.5rem;
     color: ${(props) => props.theme.palette.text.tertiary};
     padding-left: 0.5rem;
     font-size: 1rem;
@@ -72,25 +73,20 @@ const TransferDetailWrapper = styled(Paper)`
 `
 
 const labelTransferTitle = 'Transfer Record'
+const labelExtraFunds = 'Current Extra Fund'
+
 const TransferDetailForm = ({ transfer }) => {
   return (
     <TransferDetailWrapper>
       <div className="infoText">
-        <ThingahaName>{labelTransferTitle}</ThingahaName>
+        <ThingahaName>
+          {labelTransferTitle} - {transfer.year} {transfer.month}
+        </ThingahaName>
+
         <div className="iconTextWrapper">
           <ReceiptIcon variant="rounded" />
           <div className="smallTextLabel">Id: </div>
           <div className="smallText">{transfer.id}</div>
-        </div>
-        <div className="iconTextWrapper">
-          <EventRoundedIcon />
-          <div className="smallTextLabel">Year: </div>
-          <div className="smallText">{transfer.year}</div>
-        </div>
-        <div className="iconTextWrapper">
-          <EventRoundedIcon />
-          <div className="smallTextLabel">Month: </div>
-          <div className="smallText">{transfer.month}</div>
         </div>
         <div className="iconTextWrapper">
           <MonetizationOnIcon />
@@ -101,6 +97,15 @@ const TransferDetailForm = ({ transfer }) => {
           <MonetizationOnIcon />
           <div className="smallTextLabel">total Kyat: </div>
           <div className="smallText">{transfer.total_mmk}</div>
+        </div>
+        <br />
+        <ThingahaName>{labelExtraFunds}</ThingahaName>
+        <div className="iconTextWrapper">
+          <MonetizationOnIcon />
+          <div className="smallTextLabel">total Kyat: </div>
+          <div className="smallText">
+            <ExtraFundCurrentAmount />
+          </div>
         </div>
       </div>
     </TransferDetailWrapper>
