@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { withFormik } from 'formik'
 import { connect } from 'react-redux'
 import * as yup from 'yup'
@@ -10,6 +10,10 @@ import Typography from '@material-ui/core/Typography'
 import MenuItem from '@material-ui/core/MenuItem'
 import ThingahaFormModal from '../common/ThingahaFormModal'
 import ThingahaSelect from '../common/ThingahaSelect'
+import ThingahaAddressFields from '../common/ThingahaAddressFields'
+import Switch from '@material-ui/core/Switch'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Collapse from '@material-ui/core/Collapse'
 
 const FormContainer = styled.div`
   display: flex;
@@ -17,6 +21,10 @@ const FormContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   min-width: 12rem;
+
+  & .collapseContainer {
+    width: 100%;
+  }
 `
 
 const StyledFormControl = styled(FormControl)`
@@ -32,10 +40,26 @@ const StyledFormControl = styled(FormControl)`
     margin-top: 1rem;
   }
 `
+const AddressContainer = styled.div`
+  width: 100%;
+  margin-top: 1rem;
+  margin-bottom: 0.8rem;
+
+  & .addressToggle {
+    margin-left: 10px;
+  }
+
+  & .note {
+    margin-left: 5px;
+  }
+`
 
 const UserForm = ({
   visible,
   setVisible,
+  setFieldValue,
+  setValues,
+  validateForm,
   editingUser,
   values,
   handleChange,
@@ -44,6 +68,11 @@ const UserForm = ({
   submitUserForm,
   submitEditUserForm,
 }) => {
+  const [checked, setChecked] = useState(false)
+
+  const toggleChecked = () => {
+    setChecked((prev) => !prev)
+  }
   return (
     <ThingahaFormModal
       title={Boolean(editingUser) ? 'Edit User' : 'Add New User'}
@@ -150,6 +179,38 @@ const UserForm = ({
               <MenuItem value="sg">Singapore</MenuItem>
             </ThingahaSelect>
           </StyledFormControl>
+          <AddressContainer>
+            <span className="address">Address</span>
+            <Typography
+              variant="body2"
+              display="inline"
+              color="textPrimary"
+              className="note"
+            >
+              (Optional)
+            </Typography>
+            <FormControlLabel
+              className="addressToggle"
+              control={
+                <Switch
+                  checked={checked}
+                  onChange={toggleChecked}
+                  color="primary"
+                />
+              }
+              label=""
+            />
+          </AddressContainer>
+          <Collapse className="collapseContainer" in={checked}>
+            <ThingahaAddressFields
+              values={values}
+              handleChange={handleChange}
+              setFieldValue={setFieldValue}
+              setValues={setValues}
+              errors={errors}
+              validateForm={validateForm}
+            />
+          </Collapse>
         </FormContainer>
       </form>
     </ThingahaFormModal>
@@ -165,6 +226,10 @@ const transformUserSchemaFlat = (user) => {
     country: user.country,
     role: user.role,
     addressId: user.address_id,
+    division: user.address.division,
+    district: user.address.district,
+    township: user.address.township,
+    street_address: user.address.street_address,
   }
 }
 
@@ -177,6 +242,12 @@ const transformUserSchema = (user) => {
     country: user.country,
     role: user.role,
     addressId: user.address_id,
+    address: {
+      division: user.division,
+      district: user.district,
+      township: user.township,
+      street_address: user.street_address,
+    },
   }
 }
 
@@ -206,6 +277,12 @@ const FormikUserForm = withFormik({
         password: '',
         role: 'donator',
         country: 'jp',
+        address: {
+          division: '',
+          district: '',
+          township: '',
+          street_address: '',
+        },
       }
     )
   },
