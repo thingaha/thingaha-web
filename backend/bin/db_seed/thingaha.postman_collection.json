@@ -22,7 +22,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email_or_username\": \"MoeMoe\",\n    \"password\": \"123\"\n}",
+					"raw": "{\n    \"email_or_username\": \"moemoe@gmail.com\",\n    \"password\": \"123\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -476,7 +476,12 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDUzNjEwOTAsIm5iZiI6MTYwNTM2MTA5MCwianRpIjoiZjA4OGU2ZmUtNjUwZi00MDI3LWE0NDctZmMwMGY2MWY4NjBmIiwiZXhwIjoxNjA1NDQ3NDkwLCJpZGVudGl0eSI6Im1vZW1vZTRAZ21haWwuY29tIiwiZnJlc2giOmZhbHNlLCJ0eXBlIjoiYWNjZXNzIn0.iKGCBIREfbsiaeSAZsT3B0Z44upcPIYBbRuhxc5tF5E",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MjUzNzkyMTcsIm5iZiI6MTYyNTM3OTIxNywianRpIjoiYjEyODRhODEtOTg2Ni00YzgyLTkwN2ItZWM0NzcyOWJiZWMyIiwiZXhwIjoxNjI1NDY1NjE3LCJpZGVudGl0eSI6MSwiZnJlc2giOmZhbHNlLCJ0eXBlIjoiYWNjZXNzIiwidXNlcl9jbGFpbXMiOiJhZG1pbiJ9.ubpuS3T_-1LtLGYaxKI0IyP3XLfR3MIzosbmwmfSiWM",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{login_token}}",
 							"type": "string"
 						}
 					]
@@ -485,7 +490,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{ \"school_name\": \"No.(21)Nyanungdon\",\n    \"contact_info\": \"098\",\n    \"district\": \"yangon\",\n    \"division\": \"yangon\",\n    \"street_address\": \"18 street\",\n    \"township\": \"MyaeNiGone\"\n}",
+					"raw": "{ \n    \"name\": \"No.(21)Nyanungdon\",\n    \"contact_info\": \"098\",\n    \"photo\": \"https://www.thingaha.org/assets/img/gallery/schools/ngatpyawkun.jpg\",\n    \"address\": {\n    \"district\": \"yangon\",\n    \"division\": \"yangon\",\n    \"street_address\": \"18 street\",\n    \"township\": \"MyaeNiGone\"\n    }\n}",
 					"options": {
 						"raw": {
 							"language": "json"

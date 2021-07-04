@@ -81,6 +81,7 @@ def create_student():
             "birth_date": data.get("birth_date"),
             "father_name": data.get("father_name"),
             "mother_name": data.get("mother_name"),
+            "gender": data.get("gender"),
             "parents_occupation": data.get("parents_occupation"),
             "photo": data.get("photo"),
             "address_id": address_id})
@@ -156,6 +157,7 @@ def update_student(student_id: int):
                 "birth_date": data.get("birth_date"),
                 "father_name": data.get("father_name"),
                 "mother_name": data.get("mother_name"),
+                "gender": data.get("gender"),
                 "parents_occupation": data.get("parents_occupation"),
                 "photo": data.get("photo"),
                 "address_id": student["address"]["id"]

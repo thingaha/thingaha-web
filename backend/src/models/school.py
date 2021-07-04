@@ -25,13 +25,15 @@ class SchoolModel(db.Model):
     contact_info = Column(String, nullable=False)
     address_id = Column(Integer, ForeignKey("addresses.id"), nullable=False)
     address = relationship("AddressModel", foreign_keys=[address_id])
+    photo = db.Column(db.Text, nullable=True)
     created_at = Column(DateTime, default=datetime.now)
     updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
 
-    def __init__(self, name: str, contact_info: str, address_id: int) -> None:
+    def __init__(self, name: str, contact_info: str, address_id: int, photo: str =None) -> None:
         self.name = name
         self.contact_info = contact_info
         self.address_id = address_id
+        self.photo = photo
 
     def __repr__(self):
         return f"<School {self.name}>"
@@ -44,6 +46,7 @@ class SchoolModel(db.Model):
             "id": self.id,
             "name": self.name,
             "contact_info": self.contact_info,
+            "photo": self.photo,
             "address": {
                 "id": self.address_id,
                 "division": self.address.division,
@@ -120,6 +123,7 @@ class SchoolModel(db.Model):
             if not update_school:
                 raise SQLCustomError(description="No record for requested school id: {}".format(school_id))
             update_school.name = school.name
+            update_school.photo = school.photo
             update_school.contact_info = school.contact_info
             db.session.commit()
             return True

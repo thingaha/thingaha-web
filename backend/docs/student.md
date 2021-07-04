@@ -19,6 +19,7 @@ Input Sample:
   "father_name": "ဉီးလှ",
   "mother_name": "ဒေါ်မြ",
   "name": "မောင်မောင်",
+  "gender": "Female",
   "parents_occupation": "လယ်သမား",
   "photo": "https://i.pinimg.com/originals/a7/65/45/a7654580f501e9501e329978bebd051b.jpg"
 }
@@ -49,6 +50,7 @@ Output Sample:
         "id": 7,
         "mother_name": "ဒေါ်မြ",
         "name": "မောင်မောင်",
+        "gender": "Female",
         "parents_occupation": "လယ်သမား",
         "photo": "https://i.pinimg.com/originals/a7/65/45/a7654580f501e9501e329978bebd051b.jpg"
       }
@@ -105,6 +107,7 @@ Output Sample
         "id": 2,
         "mother_name": "ဒေါ်အေးမြ",
         "name": "မြမြ",
+        "gender": "Female",
         "parents_occupation": "ဈေးရောင်း",
         "photo": null
       }
@@ -138,6 +141,7 @@ Output Sample
       "id": 1,
       "mother_name": "ဒေါ်မြ",
       "name": "မောင်မောင်",
+      "gender": "Female",
       "parents_occupation": "လယ်သမား",
       "photo": "https://kzt.com/51b.jpg"
     }
@@ -166,6 +170,7 @@ Input Sample:
   "father_name": "ဉီးလှ",
   "mother_name": "ဒေါ်မြ",
   "name": "မောင်မောင်",
+  "gender": "Female",
   "parents_occupation": "လယ်သမား",
   "photo": "https://i.pinimg.com/originals/a7/65/45/a7654580f501e9501e329978bebd051b.jpg"
 }
@@ -190,6 +195,7 @@ Output Sample:
       "id": 1,
       "mother_name": "ဒေါ်မြ",
       "name": "မောင်မောင်",
+      "gender": "Female",
       "parents_occupation": "လယ်သမား",
       "photo": "https://kzt.com/51b.jpg"
     }
@@ -241,6 +247,7 @@ Output Sample:
       "id": 3,
       "mother_name": "ဒေါ်သန်းနွဲ့",
       "name": "မောင်ဇော်မင်းထွေး",
+      "gender": "Female",
       "parents_occupation": "ကျပန်း လက်လုပ်လက်စား",
       "photo": "https://thingaha.s3-ap-northeast-1.amazonaws.com/XXXX.png"
     }
@@ -280,6 +287,7 @@ Output Sample:
       "father_name": "ဦးလှကြိုင်",
       "id": 3,
       "mother_name": "ဒေါ်သန်းနွဲ့",
+      "gender": "Female",
       "name": "မောင်ဇော်မင်းထွေး",
       "parents_occupation": "ကျပန်း လက်လုပ်လက်စား",
       "photo": "https://thingaha.s3-ap-northeast-1.amazonaws.com/YYYYY.png"

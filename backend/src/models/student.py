@@ -5,7 +5,7 @@ from datetime import datetime, date
 from typing import Dict, Any, List, Optional
 
 from flask_sqlalchemy import Pagination
-from sqlalchemy import or_, desc, Column, DateTime, String, Integer, Date, UnicodeText, Text
+from sqlalchemy import or_, desc, Column, DateTime, String, Integer, Date, UnicodeText, Text, Enum
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import relationship
 
@@ -25,6 +25,7 @@ class StudentModel(db.Model):
     mother_name = Column(UnicodeText)
     parents_occupation = Column(Text)
     photo = db.Column(db.Text)
+    gender = Column(Enum("Female", "Male", "Non-Binary", name="gender"), nullable=True)
     address_id = db.Column(db.Integer, db.ForeignKey("addresses.id"), nullable=False)
     address = relationship("AddressModel", foreign_keys=[address_id])
     created_at = Column(DateTime, default=datetime.now)
@@ -32,12 +33,13 @@ class StudentModel(db.Model):
 
     def __init__(self, name: str,
                  deactivated_at: datetime, birth_date: date, father_name: str, mother_name: str,
-                 parents_occupation: str, photo: str, address_id: int):
+                 parents_occupation: str, photo: str, address_id: int, gender: str):
         self.name = name
         self.deactivated_at = deactivated_at
         self.birth_date = birth_date
         self.father_name = father_name
         self.mother_name = mother_name
+        self.gender = gender
         self.parents_occupation = parents_occupation
         self.photo = photo
         self.address_id = address_id
@@ -56,6 +58,7 @@ class StudentModel(db.Model):
             "birth_date": self.birth_date.strftime("%Y-%m-%d") if self.birth_date else "",
             "father_name": self.father_name,
             "mother_name": self.mother_name,
+            "gender": self.gender,
             "parents_occupation": self.parents_occupation,
             "photo": self.photo,
             "address": {
@@ -153,6 +156,7 @@ class StudentModel(db.Model):
             target_student.parents_occupation = student.parents_occupation
             target_student.photo = student.photo
             target_student.address_id = student.address_id
+            target_student.gender = student.gender
             db.session.commit()
             return True
         except SQLAlchemyError as error:

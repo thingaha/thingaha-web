@@ -84,6 +84,7 @@ def create_school():
         school_id = school_service.create_school({
             "name": data.get("name"),
             "contact_info": data.get("contact_info"),
+            "photo": data.get("photo"),
             "address_id": address_id
         })
         current_app.logger.info("Create school success. name %s", data.get("name"))
@@ -163,6 +164,7 @@ def update_school(school_id: int):
             school_update_status = school_service.update_school_by_id(school_id, {
                 "name": data.get("name"),
                 "contact_info": data.get("contact_info"),
+                "photo": data.get("photo"),
                 "address_id": school["address"]["id"]
             })
         else:

@@ -142,7 +142,7 @@ class AddressService(Service):
             "student": StudentService.get_students_by_address_ids(tuple(students_address_ids))
         }
 
-    def get_all_addresses(self, page: int = 1, per_page: int = 20, address_type: str = None) -> (List[Dict[str, Any]], int):
+    def get_all_addresses(self, page: int = 1, per_page: int = 20, address_type: str = "user") -> (List[Dict[str, Any]], int):
         """
         get all addresses
         :params page int
@@ -173,8 +173,8 @@ class AddressService(Service):
         :params address_records
         """
         try:
-            return {
-                "addresses": [{
+            def __address_format():
+                return [{
                     "id": address.id,
                     "addressable": {
                         "id": address_records[address.type][address.id].id,
@@ -186,7 +186,9 @@ class AddressService(Service):
                     "district": address.district,
                     "township": address.township,
                     "street_address": address.street_address,
-                } for address in addresses.items],
+                } for address in addresses.items]
+            return {
+                "addresses": __address_format(),
                 "total_count": addresses.total,
                 "current_page": addresses.page,
                 "next_page": addresses.next_num,

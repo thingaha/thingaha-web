@@ -70,6 +70,7 @@ def student_json():
         "father_name": "ဉီးလှ",
         "mother_name": "ဒေါ်မြ",
         "name": "မောင်မောင်",
+        "gender": "Male",
         "parents_occupation": "လယ်သမား",
         "photo": "https://i.aass.com/originals/a7/65/45/a7654580f501e9501e329978bebd051b.jpg"
     }

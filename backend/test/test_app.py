@@ -71,6 +71,7 @@ def student_json():
         "mother_name": "ဒေါ်မြ",
         "name": "မောင်မောင်",
         "parents_occupation": "လယ်သမား",
+        "gender": "Male",
         "photo": "https://i.aass.com/originals/a7/65/45/a7654580f501e9501e329978bebd051b.jpg"
     }
 

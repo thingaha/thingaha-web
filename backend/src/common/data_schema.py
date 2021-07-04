@@ -17,6 +17,7 @@ address_schema = Schema({
 school_schema = Schema({
     "name": str,
     "contact_info": str,
+    "photo": Or(None, str),
     "address_id": Or(None, int)
 })
 
@@ -90,6 +91,7 @@ student_schema = Schema({
     "father_name": str,
     "mother_name": str,
     "parents_occupation": str,
+    "gender": Or(None, "Female", "Male", "Non-Binary"),
     "photo": Or(None, str),
     "address_id": Or(None, int)
 })

@@ -99,6 +99,7 @@ class StudentService(Service):
                 deactivated_at=data["deactivated_at"],
                 birth_date=data["birth_date"],
                 father_name=data["father_name"],
+                gender=data["gender"],
                 mother_name=data["mother_name"],
                 parents_occupation=data["parents_occupation"],
                 photo=data["photo"],
@@ -141,6 +142,7 @@ class StudentService(Service):
                 father_name=data["father_name"],
                 mother_name=data["mother_name"],
                 parents_occupation=data["parents_occupation"],
+                gender=data["gender"],
                 photo=data["photo"],
                 address_id=data["address_id"]))
         except SQLAlchemyError as error:

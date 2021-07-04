@@ -82,6 +82,7 @@ class SchoolService(Service):
         try:
             return SchoolModel.create_school(SchoolModel(
                 name=data["name"],
+                photo=data["photo"],
                 contact_info=data["contact_info"],
                 address_id=int(data["address_id"])))
         except SQLAlchemyError as error:
@@ -120,6 +121,7 @@ class SchoolService(Service):
             return SchoolModel.update_school(school_id, SchoolModel(
                 name=data["name"],
                 contact_info=data["contact_info"],
+                photo=data["photo"],
                 address_id=data["address_id"]))
         except SQLAlchemyError as error:
             self.logger.error("Error: {}".format(error))

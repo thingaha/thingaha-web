@@ -10,6 +10,7 @@ Input Sample:
 {
   "name": "No.(21)Nyanungdon",
   "contact_info": "098",
+  "photo": "https://www.thingaha.org/assets/img/gallery/schools/ngatpyawkun.jpg",
   "address": {
     "district": "yangon",
     "division": "yangon",
@@ -33,6 +34,7 @@ Output Sample:
         "township": "MyaeNiGone"
       },
       "contact_info": "098",
+      "photo": "https://www.thingaha.org/assets/img/gallery/schools/ngatpyawkun.jpg",
       "id": 12,
       "name": "No.(21)Nyanungdon"
     }
@@ -72,6 +74,7 @@ Output Sample
           "township": "hlaingtharyar-3"
         },
         "contact_info": "098760987263",
+        "photo": "https://www.thingaha.org/assets/img/gallery/schools/ngatpyawkun.jpg",
         "id": 4,
         "name": "No.(3)Nyanungdon"
       },
@@ -84,6 +87,7 @@ Output Sample
           "township": "hlaingtharyar-4"
         },
         "contact_info": "098760987263",
+        "photo": "https://www.thingaha.org/assets/img/gallery/schools/ngatpyawkun.jpg",
         "id": 5,
         "name": "No.(4)Nyanungdon"
       }
@@ -112,6 +116,7 @@ Output Sample
         "township": "MyaeNiGone"
       },
       "contact_info": "098",
+      "photo": "https://www.thingaha.org/assets/img/gallery/schools/ngatpyawkun.jpg",
       "id": 10,
       "name": "No.(11)Nyanungdon"
     }
@@ -131,6 +136,7 @@ Input Sample:
 {
   "name": "No.(11)Nyanungdon",
   "contact_info": "098",
+  "photo": "https://www.thingaha.org/assets/img/gallery/schools/ngatpyawkun.jpg",
   "address": {
     "district": "yangon",
     "division": "yangon",
@@ -154,6 +160,7 @@ Output Sample:
         "township": "MyaeNiGone"
       },
       "contact_info": "098",
+      "photo": "https://www.thingaha.org/assets/img/gallery/schools/ngatpyawkun.jpg",
       "id": 10,
       "name": "No.(11)Nyanungdon"
     }
