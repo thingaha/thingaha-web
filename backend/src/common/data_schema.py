@@ -92,6 +92,6 @@ student_schema = Schema({
     "mother_name": str,
     "parents_occupation": str,
     "gender": Or(None, "Female", "Male", "Non-Binary"),
-    "photo": Or(None, str),
+    "photo": Or(None, object),
     "address_id": Or(None, int)
 })

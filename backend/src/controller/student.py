@@ -15,6 +15,17 @@ from service.student.student_service import StudentService
 
 student_service = StudentService()
 
+def parse_address_data(data: dict) -> dict:
+    return {k: data[f"address[{k}]"] for k in ["division", "district", "township", "street_address"]}
+
+def get_student_data_from_request(request):
+    photo = None
+    if request.mimetype == 'application/json':
+        data = request.get_json()
+    else:
+        data = request.form
+        photo = request.files.get('photo', None)
+    return data, photo
 
 @api.route("/students", methods=["GET"])
 @jwt_required
@@ -60,18 +71,18 @@ def create_student():
     create student by post body
     :return:
     """
-    data = request.get_json()
+    data, photo = get_student_data_from_request(request)
     if data is None:
         return post_request_empty()
     try:
-        address_data = data.get("address") if data.get("address") else get_default_address()
+        address_data = parse_address_data(data) if data.get('address[division]') else get_default_address()
         address_id = address_service.create_address({
             "division": address_data.get("division"),
             "district": address_data.get("district"),
             "township": address_data.get("township"),
             "street_address": address_data.get("street_address"),
             "type": "student"
-        }, flush=True)
+        }, True)
         if not address_id:
             raise ThingahaCustomError("Student address create fail")
 
@@ -83,7 +94,7 @@ def create_student():
             "mother_name": data.get("mother_name"),
             "gender": data.get("gender"),
             "parents_occupation": data.get("parents_occupation"),
-            "photo": data.get("photo"),
+            "photo": photo,
             "address_id": address_id})
         current_app.logger.info("Create student success. student_name %s", data.get("name"))
         return get_student_by_id(student_id), 200
@@ -130,7 +141,7 @@ def update_student(student_id: int):
     :param student_id:
     :return:
     """
-    data = request.get_json()
+    data, photo = get_student_data_from_request(request)
     if data is None:
         return post_request_empty()
 
@@ -139,8 +150,9 @@ def update_student(student_id: int):
         return custom_error("Invalid student id supplied.")
 
     try:
-        address_data = data.get("address")
+        address_data = parse_address_data(data)
         address_updated = True
+
         if address_data:
             address_updated = address_service.update_address_by_id(student["address"]["id"], {
                 "division": address_data.get("division"),
@@ -159,7 +171,7 @@ def update_student(student_id: int):
                 "mother_name": data.get("mother_name"),
                 "gender": data.get("gender"),
                 "parents_occupation": data.get("parents_occupation"),
-                "photo": data.get("photo"),
+                "photo": photo,
                 "address_id": student["address"]["id"]
             })
             if student_update_status:
@@ -201,8 +213,7 @@ def upload_s3_file():
         file_name = student_id + "." + file_extension
         result = student_service.upload_file(img, file_name)
         if result:
-            url = get_s3_url().format(S3_BUCKET, file_name)
-            if student_service.update_photo_path_by_id(student_id, url):
+            if student_service.update_photo_path_by_id(student_id, result):
                 return get_student_by_id(student_id), 200
         else:
             current_app.logger.error("Can't update student photo url for student id: {}".format(student_id))

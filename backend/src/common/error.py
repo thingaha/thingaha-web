@@ -88,6 +88,16 @@ class TokenExpired(Error):
         self.error_code = "E0006"
         self.reason = "JWT Token Expired"
 
+class FileExtensionNotAllowed(Error):
+    """Raised custom FileNotFound"""
+    def __init__(self, description):
+        """
+        Validate error
+        :param description:
+        """
+        super().__init__(description)
+        self.error_code = "E0005"
+        self.reason = "File not found"
 
 class ThingahaCustomError(Error):
     """Raised custom Error"""
@@ -99,3 +109,15 @@ class ThingahaCustomError(Error):
         super().__init__(description)
         self.error_code = "E0007"
         self.reason = "Request ERROR"
+
+
+class PhotoUploadFailure(Error):
+    """Raised when photo upload fails"""
+    def __init__(self, description):
+        """
+        Validate error
+        :param description:
+        """
+        super().__init__(description)
+        self.error_code = "E0008"
+        self.reason = "Photo upload failure."

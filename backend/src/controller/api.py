@@ -15,7 +15,7 @@ from flask_jwt_extended import (
 )
 
 from common.error import ThingahaCustomError, FileNotFound
-
+from common.config import UPLOAD_DIR, UPLOAD_PATH
 
 api = Blueprint("api", __name__, url_prefix="/api/v1")
 

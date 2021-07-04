@@ -33,7 +33,7 @@ class StudentModel(db.Model):
 
     def __init__(self, name: str,
                  deactivated_at: datetime, birth_date: date, father_name: str, mother_name: str,
-                 parents_occupation: str, photo: str, address_id: int, gender: str):
+                 parents_occupation: str, photo: Optional[str], address_id: int, gender: str):
         self.name = name
         self.deactivated_at = deactivated_at
         self.birth_date = birth_date

@@ -8,10 +8,10 @@ from sqlalchemy.exc import SQLAlchemyError
 from common.aws_client import get_client, get_bucket
 from common.config import S3_BUCKET
 from common.data_schema import student_schema
-from common.error import SQLCustomError, RequestDataEmpty, ValidateFail
+from common.error import SQLCustomError, RequestDataEmpty, ValidateFail, PhotoUploadFailure
 from models.student import StudentModel
 from service.service import Service
-
+from service.file_upload.file_upload_service import FileUploadService
 
 class StudentService(Service):
     """
@@ -94,6 +94,12 @@ class StudentService(Service):
             self.logger.error("All student field input must be required.")
             raise ValidateFail("Student validation fail")
         try:
+            uploaded_photo_url = None
+            if data["photo"]:
+               uploaded_photo_url = self.upload_file(data["photo"])
+            else:
+                self.logger.error("All student field input must be required.")
+                raise PhotoUploadFailure("Student update validation fail")
             return StudentModel.create_student(StudentModel(
                 name=data["name"],
                 deactivated_at=data["deactivated_at"],
@@ -102,7 +108,7 @@ class StudentService(Service):
                 gender=data["gender"],
                 mother_name=data["mother_name"],
                 parents_occupation=data["parents_occupation"],
-                photo=data["photo"],
+                photo=uploaded_photo_url,
                 address_id=data["address_id"]))
         except SQLAlchemyError as error:
             self.logger.error("Student create fail. name %s, error %s, format: %s ", data["name"], error, traceback.format_exc())
@@ -134,8 +140,17 @@ class StudentService(Service):
             self.logger.error("All student field input must be required.")
             raise ValidateFail("Student update validation fail")
         try:
+            student = StudentModel.get_student_by_id(student_id)
             self.logger.info("Update student info by student_id:{}".format(student_id))
-            return StudentModel.update_student(student_id, StudentModel(
+
+            new_photo_url = None
+            old_photo_url = student.photo
+            if data["photo"]:
+                new_photo_url = self.upload_file(data["photo"])
+            else:
+                new_photo_url = None
+
+            updated_student = StudentModel.update_student(student_id, StudentModel(
                 name=data["name"],
                 deactivated_at=data["deactivated_at"],
                 birth_date=data["birth_date"],
@@ -143,8 +158,14 @@ class StudentService(Service):
                 mother_name=data["mother_name"],
                 parents_occupation=data["parents_occupation"],
                 gender=data["gender"],
-                photo=data["photo"],
+                photo=new_photo_url or old_photo_url,
                 address_id=data["address_id"]))
+
+            # if new_photo_url and old_photo_url:
+            #     self.delete_file(old_photo_url)
+
+            return updated_student
+
         except SQLAlchemyError as error:
             self.logger.error("Error: {}".format(error))
             raise SQLCustomError(description="Update student by ID SQL ERROR")
@@ -219,35 +240,31 @@ class StudentService(Service):
         :params: url : str
         return: True or False
         """
-        key = url.split("/")[-1]
-        if self.__is_dev():
-            self.logger.info("Development env and return True")
-            return True
         try:
-            my_bucket = get_bucket()
-            my_bucket.Object(key).delete()
-            return True
+            file_upload_service = FileUploadService()
+            result = file_upload_service.delete_uploaded_file(url)
+
+            if result:
+                return True
+            else:
+                return False
         except ClientError as error:
             self.logger.error("File delete error %s", error)
             return False
 
-    def upload_file(self, img, file_name: str) -> bool:
+    def upload_file(self, photo_file) -> Optional[str]:
         """
         upload file to S3
-        :params img : image object
-        :file_name : file name str
+        :params photo_file : image object
         return: True or False
         """
-        if self.__is_dev():
-            self.logger.info("Development env and return True")
-            return True
-        s3_client = get_client()
-        try:
-            s3_client.upload_fileobj(img, S3_BUCKET, file_name, ExtraArgs={"ACL": "public-read"})
-            return True
-        except ClientError as error:
-            self.logger.error("File upload error %s", error)
-            return False
+        file_upload_service = FileUploadService()
+        result = file_upload_service.upload(photo_file)
+
+        if result:
+            return file_upload_service.uploaded_path
+        else:
+            return None
 
     @staticmethod
     def get_all_student_ids() -> List[int]:

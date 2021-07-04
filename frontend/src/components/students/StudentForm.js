@@ -11,6 +11,8 @@ import Checkbox from '@material-ui/core/Checkbox'
 import ThingahaAddressFields from '../common/ThingahaAddressFields'
 import ThingahaFileUpload from '../common/ThingahaFileUpload'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Radio from '@material-ui/core/Radio'
+import RadioGroup from '@material-ui/core/RadioGroup'
 
 const FormContainer = styled.div`
   display: flex;
@@ -118,6 +120,29 @@ const StudentForm = ({
             />
           </StyledFormControl>
           <StyledFormControl>
+            <label for="gender">Gender</label>
+            <RadioGroup
+              aria-label="gender"
+              name="gender"
+              row
+              value={values.gender}
+              onChange={handleChange}
+              helperText={errors.parents_occupation}
+            >
+              <FormControlLabel
+                value="Female"
+                control={<Radio />}
+                label="Female"
+              />
+              <FormControlLabel value="Male" control={<Radio />} label="Male" />
+              <FormControlLabel
+                value="Non-Binary"
+                control={<Radio />}
+                label="Non-Binary"
+              />
+            </RadioGroup>
+          </StyledFormControl>
+          <StyledFormControl>
             <TextField
               id="parents_occupation"
               name="parents_occupation"
@@ -182,6 +207,7 @@ const transformStudentSchemaFlat = (student) => {
     birth_date: student.birth_date,
     father_name: student.father_name,
     mother_name: student.mother_name,
+    gender: student.gender,
     parents_occupation: student.parents_occupation,
     division: student.address.division,
     district: student.address.district,
@@ -201,6 +227,7 @@ const transformStudentSchema = (student) => {
     birth_date: student.birth_date,
     father_name: student.father_name,
     mother_name: student.mother_name,
+    gender: student.gender,
     parents_occupation: student.parents_occupation,
     photo: student.photo,
     photoUpload: student.photoUpload,
@@ -238,6 +265,7 @@ const FormikStudentForm = withFormik({
         father_name: '',
         mother_name: '',
         parents_occupation: '',
+        gender: '',
         address: {
           division: '',
           district: '',
@@ -264,6 +292,7 @@ const FormikStudentForm = withFormik({
   validationSchema: yup.object().shape({
     name: yup.string().label('Name').required(),
     birth_date: yup.string().label('Birth Date').required(),
+    gender: yup.string().label('Gender').required(),
     father_name: yup.string().label('Father Name').required(),
     mother_name: yup.string().label('Mother Name').required(),
     parents_occupation: yup.string().label('Parents Occupation').required(),

@@ -35,6 +35,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+#development mode photo upload
+/backend/src/uploads
+
 # for people who uses asdf to manage node versions
 .tool-versions
 

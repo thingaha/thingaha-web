@@ -1,7 +1,8 @@
-from flask import Flask
+from flask import Flask, send_from_directory
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
+from common.config import UPLOAD_DIR, UPLOAD_PATH
 
 from common.config import load_config, load_logging_conf, Config
 from controller import api
@@ -9,7 +10,7 @@ from database import db, SQLALCHEMY_DATABASE_URI
 
 
 def create_app():
-    app = Flask(__name__)
+    app = Flask(__name__, static_folder=UPLOAD_DIR, static_url_path="/uploads")
     app.config.update(SQLALCHEMY_DATABASE_URI=SQLALCHEMY_DATABASE_URI)
     CORS(app)
     app.config.from_object(Config)
@@ -31,6 +32,10 @@ api.jwt = jwt
 api.division_file_path = division_file_path
 api.default_address = conf["common"]["default_address"]
 
+
+@app.route(f"/uploads/<path:path>", methods=["GET"])
+def send_uploaded_file(path):
+    return  app.send_static_file(path)
 
 @jwt.user_claims_loader
 def add_claims_to_access_token(user):
