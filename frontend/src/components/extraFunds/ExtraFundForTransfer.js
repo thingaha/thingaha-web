@@ -3,15 +3,27 @@ import { connect } from 'react-redux'
 import * as actions from '../../store/actions'
 import values from 'lodash/values'
 
-const ExtraFundCurrentAmount = ({ extraFunds, getAllExtraFunds }) => {
+const labelNoExtraFund = 'No record!'
+const ExtraFundForTransfer = ({ extraFunds, getAllExtraFunds, transferId }) => {
   useEffect(() => {
     getAllExtraFunds()
   }, [getAllExtraFunds])
 
-  const currentExtrafunds =
-    extraFunds.length > 0 ? extraFunds[extraFunds.length - 1].mmk_amount : ''
+  if (!extraFunds) {
+    return null
+  }
 
-  return <div>{currentExtrafunds}</div>
+  const extraFundFotTransfer = extraFunds.filter(
+    (extraFund) => extraFund.transfer.id === transferId
+  )
+
+  return (
+    <div>
+      {extraFundFotTransfer[0]
+        ? extraFundFotTransfer[0].mmk_amount
+        : labelNoExtraFund}
+    </div>
+  )
 }
 
 const getExtraFundList = (state) => {
@@ -31,4 +43,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ExtraFundCurrentAmount)
+)(ExtraFundForTransfer)

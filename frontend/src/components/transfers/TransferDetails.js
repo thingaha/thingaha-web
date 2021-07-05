@@ -5,13 +5,12 @@ import ThingahaName from '../common/ThingahaName'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Paper from '@material-ui/core/Paper'
-import EventRoundedIcon from '@material-ui/icons/EventRounded'
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn'
 import ReplyRoundedIcon from '@material-ui/icons/ReplyRounded'
 import ReceiptIcon from '@material-ui/icons/Receipt'
 import EditIcon from '@material-ui/icons/EditRounded'
 import TransferForm from './TransferForm'
-import ExtraFundCurrentAmount from '../extraFunds/ExtraFundCurrentAmount'
+import ExtraFundForTransfer from '../extraFunds/ExtraFundForTransfer'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -63,7 +62,6 @@ const TransferDetailWrapper = styled(Paper)`
   }
 
   & .smallTextLabel {
-    min-width: 5.5rem;
     color: ${(props) => props.theme.palette.text.tertiary};
     padding-left: 0.5rem;
     font-size: 1rem;
@@ -73,38 +71,40 @@ const TransferDetailWrapper = styled(Paper)`
 `
 
 const labelTransferTitle = 'Transfer Record'
-const labelExtraFunds = 'Current Extra Fund'
+const labelExtraFunds = 'Extra Funds from this Transfer'
+const labelTotalYens = 'Total Money Transferred in YEN'
+const labelTotalKyats = 'Total Money Received in KYATS'
+const labelExcessKyats = 'Total Excess Money in KYATS'
 
 const TransferDetailForm = ({ transfer }) => {
   return (
     <TransferDetailWrapper>
       <div className="infoText">
-        <ThingahaName>
-          {labelTransferTitle} - {transfer.year} {transfer.month}
-        </ThingahaName>
-
         <div className="iconTextWrapper">
           <ReceiptIcon variant="rounded" />
           <div className="smallTextLabel">Id: </div>
           <div className="smallText">{transfer.id}</div>
         </div>
+        <ThingahaName>
+          {labelTransferTitle} - {transfer.year} {transfer.month}
+        </ThingahaName>
         <div className="iconTextWrapper">
           <MonetizationOnIcon />
-          <div className="smallTextLabel">total Yen: </div>
+          <div className="smallTextLabel">{labelTotalYens}: </div>
           <div className="smallText">{transfer.total_jpy}</div>
         </div>
         <div className="iconTextWrapper">
           <MonetizationOnIcon />
-          <div className="smallTextLabel">total Kyat: </div>
+          <div className="smallTextLabel">{labelTotalKyats}: </div>
           <div className="smallText">{transfer.total_mmk}</div>
         </div>
         <br />
         <ThingahaName>{labelExtraFunds}</ThingahaName>
         <div className="iconTextWrapper">
           <MonetizationOnIcon />
-          <div className="smallTextLabel">total Kyat: </div>
+          <div className="smallTextLabel">{labelExcessKyats}: </div>
           <div className="smallText">
-            <ExtraFundCurrentAmount />
+            <ExtraFundForTransfer transferId={transfer.id} />
           </div>
         </div>
       </div>
