@@ -15,6 +15,11 @@ export const SUBMIT_EDIT_STUDENT_FORM_SUCCESS =
   'STUDENTS/SUBMIT_EDIT_STUDENT_FORM_SUCCESS'
 export const SUBMIT_EDIT_STUDENT_FORM_FAILURE =
   'STUDENTS/SUBMIT_EDIT_STUDENT_FORM_FAILURE'
+export const DELETE_STUDENT_PHOTO = 'STUDENTS/DELETE_STUDENT_PHOTO'
+export const DELETE_STUDENT_PHOTO_SUCCESS =
+  'STUDENTS/DELETE_STUDENT_PHOTO_SUCCESS'
+export const DELETE_STUDENT_PHOTO_FAILURE =
+  'STUDENTS/DELETE_STUDENT_PHOTO_FAILURE'
 
 export const fetchStudent = (studentId) => {
   return {
@@ -36,9 +41,18 @@ export const submitNewStudentForm = (formValues) => {
     student: formValues,
   }
 }
+
 export const submitEditStudentForm = (formValues) => {
   return {
     type: SUBMIT_EDIT_STUDENT_FORM,
     student: formValues,
+  }
+}
+
+export const deleteStudentPhoto = ({ studentId, url }) => {
+  return {
+    type: DELETE_STUDENT_PHOTO,
+    studentId,
+    url,
   }
 }

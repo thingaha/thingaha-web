@@ -298,18 +298,9 @@ Output Sample:
 
 ### Delete Student Photo
 
-| API                    |                     Description                      | Action |
-| :--------------------- | :--------------------------------------------------: | -----: |
-| /api/v1/student/delete | Delete Photo in S3 and delete photo url from student | DELETE |
-
-Input Sample:
-
-```json
-{
-  "url": "https://thingaha.s3-ap-northeast-1.amazonaws.com/st001.png",
-  "student_id": 3
-}
-```
+| API                              |                     Description                      | Action |
+| :------------------------------- | :--------------------------------------------------: | -----: |
+| /students/<int:student_id>/photo | Delete Photo in S3 and delete photo url from student | DELETE |
 
 Output status only: 200 for success, 400 for failed
 

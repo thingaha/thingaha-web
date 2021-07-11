@@ -66,3 +66,11 @@ export const editStudent = async (studentFormValues) => {
     student: data.student,
   }
 }
+
+export const deleteStudentPhoto = async ({ studentId }) => {
+  let { data } = await thingahaApiClient.delete(`/students/${studentId}/photo`)
+
+  return {
+    success: true,
+  }
+}

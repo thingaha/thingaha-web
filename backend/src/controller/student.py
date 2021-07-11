@@ -191,88 +191,36 @@ def update_student(student_id: int):
         return jsonify({"errors": [error.__dict__]}), 400
 
 
-@api.route("/student/upload", methods=["POST"])
+@api.route("/students/<int:student_id>/photo", methods=["DELETE"])
 @jwt_required
 @sub_admin
 @cross_origin()
-def upload_s3_file():
+def delete_student_photo(student_id: int):
     """
-    Upload a file to an S3 bucket
-    :return: True if file was uploaded, else False
+    delete student photo
     """
-    img = request.files.get("img")
-    student_id = request.form.get("student_id")
-    try:
-        if student_id and int(student_id) not in StudentService.get_all_student_ids():
-            raise ThingahaCustomError("Invalid student ID")
-        if student_id is None or not img or img.filename == "":
-            return post_request_empty()
-        file_extension = student_service.allowed_file(img.filename)
-        if not file_extension:
-            return custom_error("File extension should be .png or .jpg or .jpeg")
-        file_name = student_id + "." + file_extension
-        result = student_service.upload_file(img, file_name)
-        if result:
-            if student_service.update_photo_path_by_id(student_id, result):
-                return get_student_by_id(student_id), 200
-        else:
-            current_app.logger.error("Can't update student photo url for student id: {}".format(student_id))
-            return "", 400
-    except ThingahaCustomError as error:
-        current_app.logger.error("Error for student photo upload {}".format(error.__dict__))
-        return jsonify({"errors": [error.__dict__]}), 400
-    except (ValueError, TypeError):
-        current_app.logger.error("Value error for student photo upload error: {}".format(traceback.format_exc()))
-        return jsonify({"errors": [ThingahaCustomError("Student ID must be integer").__dict__]}), 400
-
-
-@api.route("/student/upload", methods=["PUT"])
-@jwt_required
-@sub_admin
-@cross_origin()
-def update_file():
-    """
-    update s3 file, delete file first and upload new files
-    """
-    old_url = request.form["old_url"]
-    if not old_url:
-        current_app.logger.error("Old url for student required")
-        return post_request_empty()
-    if not student_service.delete_file(old_url):
-        current_app.logger.error("Can't delete file before update")
-        return custom_error("Update file error")
-    return upload_s3_file()
-
-
-@api.route("/student/upload", methods=["DELETE"])
-@jwt_required
-@sub_admin
-@cross_origin()
-def delete_s3_file():
-    """
-    delete S3 file
-    """
-    data = request.get_json()
-    url = data.get("url")
-    student_id = data.get("student_id")
-    if not url or not student_id:
+    if not student_id:
         current_app.logger.error("Empty url or empty student id")
         return post_request_empty()
-
+    student = student_service.get_student_by_id(student_id)
     try:
-        if int(student_id) not in StudentService.get_all_student_ids():
-            raise ThingahaCustomError("Invalid student ID")
-        result = student_service.delete_file(url) and student_service.update_photo_path_by_id(student_id, "")
+        if not student:
+            raise ThingahaCustomError("Invalid student id.")
+        if student["photo"] is None:
+            raise ThingahaCustomError("Cannot delete photo that doesn't exist anymore.")
+        result = student_service.delete_file(student["photo"]) and student_service.update_photo_path_by_id(student_id, "")
         if result:
-            current_app.logger.info("Delete file for URL %s success", url)
+            current_app.logger.info("Delete file for URL %s success", student["photo"])
             return "", 200
         else:
-            current_app.logger.error("Delete file for URL %s fail", url)
+            current_app.logger.error("Delete file for URL %s fail", student["photo"])
             return "", 400
     except TypeError:
         current_app.logger.error("Student id must be integer")
         return custom_error("Student id must be integer")
-
+    except SQLCustomError as error:
+        current_app.logger.error("Error for student photo delete {}".format(error.__dict__))
+        return custom_error("Error updating student photo.")
 
 @api.route("/students/search", methods=["GET"])
 @jwt_required

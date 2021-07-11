@@ -34,7 +34,7 @@ class FileUploadService:
         self.uploaded_file = uploaded_file
         self.filename = self.__generate_url_safe_random_filename()
         self.file_ext = os.path.splitext(uploaded_file.filename)[1]
-        self.full_filename = f"{self.filename}.{self.file_ext}"
+        self.full_filename = f"{self.filename}{self.file_ext}"
 
         if self.__is_dev():
             self.logger.info("Using local photo upload feature.")
@@ -52,6 +52,7 @@ class FileUploadService:
         if self.__is_dev():
             self.logger.info(f"Deleting an uploaded file {filename}")
             os.remove(os.path.join(UPLOAD_DIR, filename))
+            print("REMOVED", os.path.join(UPLOAD_DIR, filename))
             return True
         try:
             my_bucket = get_bucket()

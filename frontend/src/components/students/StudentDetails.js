@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
+import { media } from '../../styles/variables'
 import * as actions from '../../store/actions'
 import ReplyRoundedIcon from '@material-ui/icons/ReplyRounded'
 import { Link } from 'react-router-dom'
 import EventRoundedIcon from '@material-ui/icons/EventRounded'
 import SchoolIcon from '@material-ui/icons/School'
+import DeleteIcon from '@material-ui/icons/Delete'
+import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper'
 import StudentForm from './StudentForm'
 import ThingahaCombinedAddress from '../common/ThingahaCombinedAddress'
@@ -16,6 +19,7 @@ import WorkOutlineRoundedIcon from '@material-ui/icons/WorkOutlineRounded'
 import CheckCircleRoundedIcon from '@material-ui/icons/CheckCircleRounded'
 import PeopleIcon from '@material-ui/icons/People'
 import ThingahaName from '../common/ThingahaName'
+import defaultImageUrl from '../../images/default_student.png'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -23,7 +27,6 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   padding: 0 20px;
-  min-width: 40rem;
 `
 
 const TopIconContainer = styled.div`
@@ -40,17 +43,34 @@ const TopIconContainer = styled.div`
 
 const StudentDetailWrapper = styled(Paper)`
   display: flex;
-  /* justify-content: flex-start; */
-  flex-direction: row;
+  flex-direction: column;
+  width: 100%;
   align-items: flex-start;
-  /* margin-top:2rem; */
   padding: 1rem 1rem;
+  margin: 0 auto;
   justify-content: space-between;
 
-  & .photo {
-    margin: 1.5rem 1rem;
-    width: 200px;
-    height: 240px;
+  ${media.tabletLandscapeUp} {
+    flex-direction: row;
+  }
+
+  & .photo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+  }
+
+  & .photo-container .photo {
+    margin: 1.5rem 0rem;
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+
+    ${media.tabletLandscapeUp} {
+      width: 100%;
+      min-width: 100px;
+    }
   }
 
   & .infoText {
@@ -58,6 +78,7 @@ const StudentDetailWrapper = styled(Paper)`
     justify-content: flex-start;
     flex-direction: column;
     align-items: flex-start;
+    flex: 2;
   }
 
   & .iconTextWrapper {
@@ -73,7 +94,7 @@ const StudentDetailWrapper = styled(Paper)`
   }
 `
 
-const StudentDetail = ({ student }) => {
+const StudentDetail = ({ student, deleteStudentPhoto }) => {
   const parentName = student.father_name + ' +  ' + student.mother_name
 
   return (
@@ -112,12 +133,33 @@ const StudentDetail = ({ student }) => {
           </div>
         </div>
       </div>
-      <img src={student.photo} className="photo" alt={student.name} />
+      <div className="photo-container">
+        <img
+          src={student.photo || defaultImageUrl}
+          className="photo"
+          alt={student.name}
+        />
+        {student.photo && (
+          <Button
+            variant="contained"
+            color="secondary"
+            startIcon={<DeleteIcon />}
+            onClick={() => deleteStudentPhoto({ studentId: student.id })}
+          >
+            Delete
+          </Button>
+        )}
+      </div>
     </StudentDetailWrapper>
   )
 }
 
-const StudentDetails = ({ match, student, getStudentInfo }) => {
+const StudentDetails = ({
+  match,
+  student,
+  getStudentInfo,
+  deleteStudentPhoto,
+}) => {
   const { params } = match
   const studentId = params.id
 
@@ -153,7 +195,10 @@ const StudentDetails = ({ match, student, getStudentInfo }) => {
         />
       </TopIconContainer>
 
-      <StudentDetail student={student} />
+      <StudentDetail
+        student={student}
+        deleteStudentPhoto={deleteStudentPhoto}
+      />
 
       <StudentForm
         visible={studentFormVisible}
@@ -173,6 +218,8 @@ const mapStateToProps = (state, props) => ({
 const mapDispatchToProps = (dispatch) => {
   return {
     getStudentInfo: (studentId) => dispatch(actions.fetchStudent(studentId)),
+    deleteStudentPhoto: ({ studentId }) =>
+      dispatch(actions.deleteStudentPhoto({ studentId })),
   }
 }
 

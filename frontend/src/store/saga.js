@@ -22,12 +22,12 @@ import {
 import {
   GET_ACCOUNT_USER_INFO,
   SUBMIT_EDIT_USER_DETAIL_FORM,
-  SUBMIT_EDIT_USER_PASSWORD_FORM
+  SUBMIT_EDIT_USER_PASSWORD_FORM,
 } from './actions/settings'
 import {
   fetchAccountUserInfo,
   submitEditUserDetailForm,
-  submitEditUserPasswordForm
+  submitEditUserPasswordForm,
 } from './sagas/settings'
 
 import {
@@ -61,12 +61,14 @@ import {
   GET_ALL_STUDENTS,
   SUBMIT_NEW_STUDENT_FORM,
   SUBMIT_EDIT_STUDENT_FORM,
+  DELETE_STUDENT_PHOTO,
 } from './actions/students'
 import {
   fetchStudentInfo,
   fetchAllStudents,
   submitNewStudentForm,
   submitEditStudentForm,
+  deleteStudentPhotoSaga,
 } from './sagas/students'
 import {
   logInUser,
@@ -135,6 +137,7 @@ export default function* rootSaga() {
     takeLatest(GET_ALL_STUDENTS, fetchAllStudents),
     takeLatest(SUBMIT_NEW_STUDENT_FORM, submitNewStudentForm),
     takeLatest(SUBMIT_EDIT_STUDENT_FORM, submitEditStudentForm),
+    takeLatest(DELETE_STUDENT_PHOTO, deleteStudentPhotoSaga),
     takeLatest(GET_ALL_ATTENDANCES, fetchAttendances),
 
     takeLatest(GET_ALL_EXTRAFUNDS, fetchExtraFundsSaga),

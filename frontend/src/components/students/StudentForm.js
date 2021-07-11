@@ -54,6 +54,7 @@ const StudentForm = ({
   submitForm,
   handleSubmit,
 }) => {
+  console.log(values, editingStudent)
   return (
     <ThingahaFormModal
       title={editingStudent ? 'Edit Student' : 'Add New Student'}
@@ -192,6 +193,7 @@ const StudentForm = ({
               color="primary"
               type="file"
               file={values.photoUpload}
+              existingFileUrl={values.photo}
             />
           </StyledFormControl>
         </FormContainer>
@@ -215,7 +217,7 @@ const transformStudentSchemaFlat = (student) => {
     street_address: student.address.street_address,
     active: !Boolean(student.deactivated_at),
     photo: student.photo,
-    photo: student.photoUpload,
+    photoUpload: student.photoUpload,
   }
 }
 

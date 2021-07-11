@@ -3,9 +3,9 @@ import styled from 'styled-components'
 import AddIcon from '@material-ui/icons/Add'
 import Fab from '@material-ui/core/Fab'
 
-const Preview = ({ file, name }) => {
+const Preview = ({ file, name, existingFileUrl }) => {
   const [loadingState, setLoadingState] = useState({
-    loading: true,
+    loading: !Boolean(existingFileUrl),
     thumb: null,
   })
 
@@ -29,12 +29,12 @@ const Preview = ({ file, name }) => {
   }, [file])
 
   if (loadingState.loading) {
-    return <p>loading...</p>
+    return <p>Not set.</p>
   }
 
   return (
     <img
-      src={loadingState.thumb}
+      src={loadingState.thumb || existingFileUrl}
       alt={name}
       className="img-thumbnail mt-2"
       height={200}
@@ -62,7 +62,7 @@ const HiddenFileInput = styled.input`
   display: none;
 `
 
-const ThingahaFileUpload = ({ file, ...fileProps }) => {
+const ThingahaFileUpload = ({ existingFileUrl, file, ...fileProps }) => {
   return (
     <Wrapper>
       <label htmlFor={fileProps.name}>
@@ -77,7 +77,11 @@ const ThingahaFileUpload = ({ file, ...fileProps }) => {
           <AddIcon /> Upload photo
         </Fab>
       </label>
-      <Preview file={file} name={fileProps.name} />
+      <Preview
+        file={file}
+        name={fileProps.name}
+        existingFileUrl={existingFileUrl}
+      />
     </Wrapper>
   )
 }
