@@ -54,7 +54,6 @@ const StudentForm = ({
   submitForm,
   handleSubmit,
 }) => {
-  console.log(values, editingStudent)
   return (
     <ThingahaFormModal
       title={editingStudent ? 'Edit Student' : 'Add New Student'}

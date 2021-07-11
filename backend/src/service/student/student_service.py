@@ -161,8 +161,8 @@ class StudentService(Service):
                 photo=new_photo_url or old_photo_url,
                 address_id=data["address_id"]))
 
-            # if new_photo_url and old_photo_url:
-            #     self.delete_file(old_photo_url)
+            if new_photo_url and old_photo_url:
+                self.delete_file(old_photo_url)
 
             return updated_student
 
