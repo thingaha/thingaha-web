@@ -22,12 +22,12 @@ import {
 import {
   GET_ACCOUNT_USER_INFO,
   SUBMIT_EDIT_USER_DETAIL_FORM,
-  SUBMIT_EDIT_USER_PASSWORD_FORM
+  SUBMIT_EDIT_USER_PASSWORD_FORM,
 } from './actions/settings'
 import {
   fetchAccountUserInfo,
   submitEditUserDetailForm,
-  submitEditUserPasswordForm
+  submitEditUserPasswordForm,
 } from './sagas/settings'
 
 import {
@@ -73,8 +73,18 @@ import {
   getAuthenticationState,
   logOutUser,
 } from './sagas/authentication'
-import { fetchAttendances } from './sagas/attendances'
-import { GET_ALL_ATTENDANCES } from './actions/attendances'
+import {
+  fetchAttendanceInfo,
+  fetchAttendances,
+  submitNewAttendanceForm,
+  submitEditAttendanceForm,
+} from './sagas/attendances'
+import {
+  GET_ATTENDANCE_INFO,
+  GET_ALL_ATTENDANCES,
+  SUBMIT_NEW_ATTENDANCE_FORM,
+  SUBMIT_EDIT_ATTENDANCE_FORM,
+} from './actions/attendances'
 import { GET_ALL_ADDRESSES, GET_SEARCH_ADDRESSES } from './actions/addresses'
 import { fetchAddressesSaga, searchAddressesSaga } from './sagas/addresses'
 import { GET_CONFIG_DATA_DIVISIONS } from './actions/configData'
@@ -135,7 +145,11 @@ export default function* rootSaga() {
     takeLatest(GET_ALL_STUDENTS, fetchAllStudents),
     takeLatest(SUBMIT_NEW_STUDENT_FORM, submitNewStudentForm),
     takeLatest(SUBMIT_EDIT_STUDENT_FORM, submitEditStudentForm),
+
+    takeLatest(GET_ATTENDANCE_INFO, fetchAttendanceInfo),
     takeLatest(GET_ALL_ATTENDANCES, fetchAttendances),
+    takeLatest(SUBMIT_NEW_ATTENDANCE_FORM, submitNewAttendanceForm),
+    takeLatest(SUBMIT_EDIT_ATTENDANCE_FORM, submitEditAttendanceForm),
 
     takeLatest(GET_ALL_EXTRAFUNDS, fetchExtraFundsSaga),
     takeLatest(SUBMIT_NEW_EXTRAFUND_FORM, submitNewExtraFundsFormSaga),

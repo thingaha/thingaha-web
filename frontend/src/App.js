@@ -30,6 +30,8 @@ import { checkLoginState } from './store/actions/authentication'
 import ExtraFunds from './components/extraFunds/ExtraFunds'
 import Transfers from './components/transfers/Transfers'
 import UserSetting from './components/settings/Setting'
+import Attendances from './components/attendances/Attendances'
+import AttendanceDetails from './components/attendances/AttendanceDetails'
 
 // Initial check for existing persisted login state. This will grab any existing persistent login state to the redux store before mounting components.
 store.dispatch(checkLoginState())
@@ -93,6 +95,12 @@ const AdminApp = () => {
         <PrivateRoute path="/extra_funds" exact component={ExtraFunds} />
         <PrivateRoute path="/transfers" exact component={Transfers} />
         <PrivateRoute path="/account" exact component={UserSetting} />
+        <PrivateRoute path="/attendances" exact component={Attendances} />
+        <PrivateRoute
+          path="/attendances/:id"
+          exact
+          component={AttendanceDetails}
+        />
         <Route path="*" component={NotFound} />
       </Switch>
     </Router>
