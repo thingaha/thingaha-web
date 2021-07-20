@@ -1,31 +1,35 @@
 """API route for Student API"""
-import traceback
 from datetime import datetime
 
 from flask import request, current_app, jsonify
 from flask_cors import cross_origin
 from flask_jwt_extended import jwt_required
 
-from common.aws_client import get_s3_url
-from common.config import S3_BUCKET
 from common.error import SQLCustomError, RequestDataEmpty, ValidateFail, ThingahaCustomError
+from common.helper import ThingahaHelper
 from controller.api import address_service
 from controller.api import api, post_request_empty, custom_error, sub_admin, full_admin, get_default_address
 from service.student.student_service import StudentService
 
 student_service = StudentService()
 
-def parse_address_data(data: dict) -> dict:
-    return {k: data[f"address[{k}]"] for k in ["division", "district", "township", "street_address"]}
 
-def get_student_data_from_request(request):
+def get_student_data_from_request(form_request):
+    """
+    get student data from request form and divide data
+    @param form_request:
+    @type form_request:
+    @return:
+    @rtype:
+    """
     photo = None
-    if request.mimetype == 'application/json':
-        data = request.get_json()
+    if form_request.mimetype == 'application/json':
+        data = form_request.get_json()
     else:
-        data = request.form
-        photo = request.files.get('photo', None)
+        data = form_request.form
+        photo = form_request.files.get('photo', None)
     return data, photo
+
 
 @api.route("/students", methods=["GET"])
 @jwt_required
@@ -75,7 +79,7 @@ def create_student():
     if data is None:
         return post_request_empty()
     try:
-        address_data = parse_address_data(data) if data.get('address[division]') else get_default_address()
+        address_data = ThingahaHelper.parse_address_data(data) if data.get('address[division]') else get_default_address()
         address_id = address_service.create_address({
             "division": address_data.get("division"),
             "district": address_data.get("district"),
@@ -150,7 +154,7 @@ def update_student(student_id: int):
         return custom_error("Invalid student id supplied.")
 
     try:
-        address_data = parse_address_data(data)
+        address_data = ThingahaHelper.parse_address_data(data)
         address_updated = True
 
         if address_data:
@@ -221,6 +225,7 @@ def delete_student_photo(student_id: int):
     except SQLCustomError as error:
         current_app.logger.error("Error for student photo delete {}".format(error.__dict__))
         return custom_error("Error updating student photo.")
+
 
 @api.route("/students/search", methods=["GET"])
 @jwt_required
