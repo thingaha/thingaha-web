@@ -9,9 +9,11 @@ export const fetchStudent = async (studentId) => {
   }
 }
 
-export const fetchStudents = async ({ page } = { page: 1 }) => {
+export const fetchStudents = async (
+  { page, perPage } = { page: 1, perPage: 20 }
+) => {
   const { data } = await thingahaApiClient.get('/students', {
-    params: { page },
+    params: { page, per_page: perPage },
   })
 
   return {

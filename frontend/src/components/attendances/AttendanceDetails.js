@@ -16,6 +16,7 @@ import WorkOutlineRoundedIcon from '@material-ui/icons/WorkOutlineRounded'
 import CheckCircleRoundedIcon from '@material-ui/icons/CheckCircleRounded'
 import PeopleIcon from '@material-ui/icons/People'
 import ThingahaName from '../common/ThingahaName'
+import { values } from 'lodash'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -125,13 +126,24 @@ const AttendanceDetail = ({ attendance }) => {
   )
 }
 
-const AttendanceDetails = ({ match, attendance, getAttendanceInfo }) => {
+const AttendanceDetails = ({
+  match,
+  attendance,
+  getAttendanceInfo,
+  getAllStudents,
+  fetchSchools,
+  values,
+  newStudents,
+  newSchools,
+}) => {
   const { params } = match
   const attendanceId = params.id
 
   useEffect(() => {
     getAttendanceInfo(attendanceId)
-  }, [getAttendanceInfo, attendanceId])
+    getAllStudents()
+    fetchSchools()
+  }, [getAttendanceInfo, attendanceId, getAllStudents, fetchSchools])
 
   const [editingAttendance, setEditingAttendance] = useState(null)
   const [attendanceFormVisible, setAttendanceFormVisible] = useState(false)
@@ -139,7 +151,9 @@ const AttendanceDetails = ({ match, attendance, getAttendanceInfo }) => {
   if (!attendance) {
     return null
   }
-
+  if (newStudents.length === 0) {
+    return null
+  }
   return (
     <Wrapper>
       <TopIconContainer>
@@ -167,6 +181,8 @@ const AttendanceDetails = ({ match, attendance, getAttendanceInfo }) => {
         visible={attendanceFormVisible}
         setVisible={setAttendanceFormVisible}
         editingAttendance={editingAttendance}
+        newStudents={newStudents}
+        newSchools={newSchools}
       />
     </Wrapper>
   )
@@ -177,12 +193,18 @@ const getAttendance = (state, attendanceId) =>
 
 const mapStateToProps = (state, props) => ({
   attendance: getAttendance(state, props.match.params.id),
+  newStudents: values(state.students.students),
+  newSchools: values(state.schools.schools),
 })
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getAttendanceInfo: (attendanceId) =>
       dispatch(actions.fetchAttendance(attendanceId)),
+    getAllStudents: ({ page, perPage } = { page: 1, perPage: 200 }) =>
+      dispatch(actions.fetchStudents({ page, perPage })),
+    fetchSchools: ({ page } = { page: 1 }) =>
+      dispatch(actions.fetchSchools({ page })),
   }
 }
 

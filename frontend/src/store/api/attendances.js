@@ -25,11 +25,20 @@ export const fetchAllAttendances = async (
   }
 }
 
-export const createAttendance = async (attendanceFormValues) => {
-  const { data } = await thingahaApiClient.post(
-    '/attendances',
-    attendanceFormValues
-  )
+export const createAttendance = async ({
+  student_id,
+  school_id,
+  grade,
+  year,
+  enrolled_date,
+}) => {
+  const { data } = await thingahaApiClient.post('/attendances', {
+    student_id,
+    school_id,
+    grade,
+    year,
+    enrolled_date,
+  })
 
   return {
     attendance: data.attendance,

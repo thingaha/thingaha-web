@@ -44,36 +44,45 @@ const AttendancesContainer = styled.div`
     height: auto;
   }
 `
-const SearchInput = () => {
-  return (
-    <Input
-      id="input-with-icon-adornment"
-      startAdornment={
-        <InputAdornment position="start">
-          <SearchIcon />
-        </InputAdornment>
-      }
-    />
-  )
-}
 
 const Attendances = ({
   attendances,
+  newStudents,
+  newSchools,
   getAllAttendances,
+  getAllStudents,
+  fetchSchools,
   totalCount,
   totalPages,
 }) => {
   const [attendanceFormVisible, setAttendanceFormVisible] = useState(false)
   const [editingAttendance, setEditingAttendance] = useState(null)
+  const [searchData, setSearchData] = useState()
 
+  const handleSearch = (event) => {
+    let value = event.target.value.toLowerCase()
+    let result = []
+    result = attendances.filter((data) => {
+      return data.student.name.toLowerCase().search(value) != -1
+    })
+    if (!value) {
+      return setSearchData()
+    } else {
+      setSearchData(result)
+    }
+  }
   useEffect(() => {
     getAllAttendances()
-  }, [getAllAttendances])
+    getAllStudents()
+    fetchSchools()
+  }, [getAllAttendances, getAllStudents, fetchSchools])
 
   if (attendances.length === 0) {
     return null
   }
-  console.log(attendances)
+  if (newStudents.length === 0) {
+    return null
+  }
   return (
     <Wrapper component={Paper}>
       <h1>Attendances</h1>
@@ -89,39 +98,68 @@ const Attendances = ({
         >
           Add Attendance
         </Button>
-        <SearchInput />
+        <Input
+          id="input-with-icon-adornment"
+          startAdornment={
+            <InputAdornment position="start">
+              <SearchIcon />
+            </InputAdornment>
+          }
+          onChange={(event) => handleSearch(event)}
+        />
       </HeadingContainer>
-
       <AttendancesContainer>
-        {attendances.map((attendance) => {
-          return (
-            <AttendanceCard
-              attendance={attendance}
-              className="attendance"
-              key={attendance.id}
-              onEdit={(edit) => {
-                setEditingAttendance(edit)
-                setAttendanceFormVisible(true)
+        {searchData
+          ? searchData.map((attendance) => {
+              return (
+                <AttendanceCard
+                  attendance={attendance}
+                  className="attendance"
+                  key={attendance.id}
+                  onEdit={(edit) => {
+                    setEditingAttendance(edit)
+                    setAttendanceFormVisible(true)
+                  }}
+                />
+              )
+            })
+          : null}
+      </AttendancesContainer>
+      {!searchData ? (
+        <div>
+          <AttendancesContainer>
+            {attendances.map((attendance) => {
+              return (
+                <AttendanceCard
+                  attendance={attendance}
+                  className="attendance"
+                  key={attendance.id}
+                  onEdit={(edit) => {
+                    setEditingAttendance(edit)
+                    setAttendanceFormVisible(true)
+                  }}
+                />
+              )
+            })}
+          </AttendancesContainer>
+          <div className="pagination-container">
+            <Pagination
+              count={totalPages} // need to pass in total pages instead of total count
+              color="primary"
+              onChange={(_event, page) => {
+                getAllAttendances({ page })
               }}
             />
-          )
-        })}
-      </AttendancesContainer>
-      <div className="pagination-container">
-        <Pagination
-          count={totalPages} // need to pass in total pages instead of total count
-          color="primary"
-          onChange={(_event, page) => {
-            getAllAttendances({ page })
-          }}
-        />
-      </div>
-
+          </div>
+        </div>
+      ) : null}
       {attendanceFormVisible ? (
         <AttendanceForm
           visible={attendanceFormVisible}
           setVisible={setAttendanceFormVisible}
           editingAttendance={editingAttendance}
+          newStudents={newStudents}
+          newSchools={newSchools}
         />
       ) : null}
     </Wrapper>
@@ -139,12 +177,18 @@ const mapStateToProps = (state) => ({
   totalPages: getTotalPage(state),
   totalCount: getTotalCount(state),
   attendances: getAttendanceList(state),
+  newStudents: values(state.students.students),
+  newSchools: values(state.schools.schools),
 })
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getAllAttendances: ({ page } = { page: 1 }) =>
       dispatch(actions.fetchAllAttendances({ page })),
+    getAllStudents: ({ page, perPage } = { page: 1, perPage: 200 }) =>
+      dispatch(actions.fetchStudents({ page, perPage })),
+    fetchSchools: ({ page } = { page: 1 }) =>
+      dispatch(actions.fetchSchools({ page })),
   }
 }
 

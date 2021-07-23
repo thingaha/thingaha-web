@@ -8,8 +8,10 @@ import FormControl from '@material-ui/core/FormControl'
 import TextField from '@material-ui/core/TextField'
 import ThingahaFormModal from '../common/ThingahaFormModal'
 import Checkbox from '@material-ui/core/Checkbox'
-
-import FormControlLabel from '@material-ui/core/FormControlLabel'
+import ThingahaSelect from '../common/ThingahaSelect'
+import MenuItem from '@material-ui/core/MenuItem'
+import { MONTHS, getCurrentYearAndMonth } from '../../utils/dateAndTimeHelpers'
+import range from 'lodash/range'
 
 const FormContainer = styled.div`
   display: flex;
@@ -32,20 +34,38 @@ const StyledFormControl = styled(FormControl)`
   width: 100%;
   margin-bottom: 1rem;
 `
+const Grade = [
+  'KG',
+  'G-1',
+  'G-2',
+  'G-3',
+  'G-4',
+  'G-5',
+  'G-6',
+  'G-7',
+  'G-8',
+  'G-9',
+  'G-10',
+  'G-11',
+  'G-12',
+]
 
 const AttendanceForm = ({
   visible,
   setVisible,
   editingAttendance,
+  newStudents,
+  newSchools,
   values,
-  setFieldValue,
-  setValues,
+  submitEditAttendanceForm,
+  submitNewAttendanceForm,
   handleChange,
   errors,
-  validateForm,
-  submitForm,
   handleSubmit,
 }) => {
+  const { year: currentYear } = getCurrentYearAndMonth()
+  const years = range(currentYear - 10, currentYear + 11, 1)
+
   return (
     <ThingahaFormModal
       title={editingAttendance ? 'Edit Student' : 'Add New Student'}
@@ -53,76 +73,127 @@ const AttendanceForm = ({
       onClose={() => setVisible(false)}
       onCancel={() => setVisible(false)}
       onSubmit={(e) => {
-        submitForm(e)
+        if (editingAttendance) {
+          submitEditAttendanceForm(values)
+        } else {
+          submitNewAttendanceForm(values)
+        }
+        setVisible(false)
       }}
     >
       <form onSubmit={handleSubmit}>
         <FormContainer>
           <StyledFormControl>
-            <TextField
-              id="name1"
-              name="name1"
-              placeholder="Please enter student name..."
-              label="Student Name"
+            <ThingahaSelect
               onChange={handleChange}
-              value={values.name1}
-              error={Boolean(errors.name1)}
-              helperText={errors.name1}
-            />
+              value={values.student_id}
+              id="student_id"
+              name="student_id"
+              label="Student Name"
+              error={Boolean(errors.student_id)}
+              helperText={errors.student_id}
+            >
+              {newStudents.map((item, index) => {
+                return (
+                  <MenuItem key={index} value={item.id}>
+                    {item.name}
+                  </MenuItem>
+                )
+              })}
+              {/* {newStudents && !editingAttendance
+                ? newStudents.map((item, index) => {
+                    return (
+                      <MenuItem key={index} value={item.id}>
+                        {item.name}
+                      </MenuItem>
+                    )
+                  })
+                : null}
+              {editingAttendance
+                ? newStudents
+                    .filter((item) => item.id == values.student_id)
+                    .map((item, index) => {
+                      return (
+                        <MenuItem key={index} value={item.id}>
+                          {item.name}
+                        </MenuItem>
+                      )
+                    })
+                : null} */}
+            </ThingahaSelect>
           </StyledFormControl>
           <StyledFormControl>
-            <TextField
-              id="grade"
-              name="grade"
-              placeholder="Please enter grade..."
-              label="Grade"
+            <ThingahaSelect
               onChange={handleChange}
               value={values.grade}
+              id="grade"
+              name="grade"
+              label="Grade"
               error={Boolean(errors.grade)}
               helperText={errors.grade}
-            />
+            >
+              {Grade.map((item, index) => {
+                return (
+                  <MenuItem key={index} value={item}>
+                    {item}
+                  </MenuItem>
+                )
+              })}
+            </ThingahaSelect>
           </StyledFormControl>
-
           <StyledFormControl>
-            <TextField
-              id="name2"
-              name="name2"
-              placeholder="Please enter school..."
-              label="School"
+            <ThingahaSelect
               onChange={handleChange}
-              value={values.name2}
-              error={Boolean(errors.name2)}
-              helperText={errors.name2}
-            />
+              value={values.school_id}
+              id="school_id"
+              name="school_id"
+              label="School Name"
+              error={Boolean(errors.school_id)}
+              helperText={errors.school_id}
+            >
+              {newSchools.map((item, index) => {
+                return (
+                  <MenuItem key={index} value={item.id}>
+                    {item.name}
+                  </MenuItem>
+                )
+              })}
+            </ThingahaSelect>
           </StyledFormControl>
           <StyledFormControl>
-            <TextField
-              id="year"
-              name="year"
-              placeholder="Please enter year..."
-              label="Year"
+            <ThingahaSelect
               onChange={handleChange}
               value={values.year}
+              id="year"
+              name="year"
+              label="Year"
               error={Boolean(errors.year)}
               helperText={errors.year}
-            />
+            >
+              {years.map((year) => {
+                return (
+                  <MenuItem value={year} key={year}>
+                    {year}
+                  </MenuItem>
+                )
+              })}
+            </ThingahaSelect>
           </StyledFormControl>
           <StyledFormControl>
-            <div className="icon">
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={values.active}
-                    onChange={handleChange}
-                    name="active"
-                    id="active"
-                    value={values.active}
-                    color="primary"
-                  />
-                }
-                label="Active?"
-              />
-            </div>
+            <TextField
+              id="enrolled_date"
+              name="enrolled_date"
+              placeholder="Please enter enrolled date..."
+              label="Enrolled Date"
+              onChange={handleChange}
+              value={values.enrolled_date}
+              type="date"
+              InputLabelProps={{
+                shrink: true,
+              }}
+              error={Boolean(errors.enrolled_date)}
+              helperText={errors.enrolled_date}
+            />
           </StyledFormControl>
         </FormContainer>
       </form>
@@ -133,28 +204,11 @@ const AttendanceForm = ({
 const transformAttendanceSchemaFlat = (attendance) => {
   return {
     id: attendance.id,
-    name1: attendance.student.name,
+    student_id: attendance.student.id,
     grade: attendance.grade,
     year: attendance.year,
-    name2: attendance.school.name,
-    active: !Boolean(attendance.student.deactivated_at),
-  }
-}
-
-const transformAttendanceSchema = (attendance) => {
-  return {
-    id: attendance.id,
-    student: {
-      name: attendance.name1,
-    },
-    grade: attendance.grade,
-    year: attendance.year,
-    school: {
-      name: attendance.name2,
-    },
-    active: {
-      student: attendance.active,
-    },
+    school_id: attendance.school.id,
+    enrolled_date: attendance.enrolled_date,
   }
 }
 
@@ -166,14 +220,10 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => {
   return {
     submitNewAttendanceForm: (values) => {
-      dispatch(
-        actions.submitNewAttendanceForm(transformAttendanceSchema(values))
-      )
+      dispatch(actions.submitNewAttendanceForm(values))
     },
     submitEditAttendanceForm: (values) => {
-      dispatch(
-        actions.submitEditAttendanceForm(transformAttendanceSchema(values))
-      )
+      dispatch(actions.submitEditAttendanceForm(values))
     },
   }
 }
@@ -183,14 +233,14 @@ const FormikAttendanceForm = withFormik({
     return transformAttendanceSchemaFlat(
       props.editingAttendance || {
         student: {
-          name: '',
+          id: '',
         },
         grade: '',
         year: '',
         school: {
-          name: '',
+          id: '',
         },
-        active: true,
+        enrolled_date: '',
       }
     )
   },

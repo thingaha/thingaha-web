@@ -28,9 +28,11 @@ export function* fetchStudentInfo(action) {
   }
 }
 
-export function* fetchAllStudents({ page }) {
+export function* fetchAllStudents(
+  { page, perPage } = { page: 1, perPage: 20 }
+) {
   try {
-    const { data } = yield fetchStudents({ page })
+    const { data } = yield fetchStudents({ page, perPage })
     yield put({
       type: GET_ALL_STUDENTS_SUCCESS,
       students: data.students,
