@@ -59,12 +59,10 @@ def json_access_token(init_app):
 @pytest.fixture
 def student_json():
     return {
-        "address": {
-            "district": "မရမ်းကုန်းမြို့နယ်",
-            "division": "yangon",
-            "street_address": "ဉီးဘအိုလမ်း",
-            "township": "အမှတ်(၂)ရပ်ကွက်",
-        },
+        "address[district]": "မရမ်းကုန်းမြို့နယ်",
+        "address[division]": "yangon",
+        "address[street_address]": "ဉီးဘအိုလမ်း",
+        "address[township]": "အမှတ်(၂)ရပ်ကွက်",
         "deactivated_at": "2020-07-26T03:37:05.836Z",
         "birth_date": "12-08-2006",
         "father_name": "ဉီးလှ",
@@ -111,6 +109,7 @@ def school_json():
     return {
         "name": "No.(35) Nyanungdon",
         "contact_info": "098",
+        "photo": "www.thingaha.org",
         "address": {
             "district": "yangon",
             "division": "yangon",
@@ -421,12 +420,10 @@ def test_create_update_student(client, json_access_token, student_json):
     res = client.post("/api/v1/students", json=student_json, headers=json_access_token)
     assert res.status_code == 200
     res = client.put("/api/v1/students/1", json={
-        "address":{
-            "district": "မရမ်းကုန်းမြို့နယ်",
-            "division": "yangon",
-            "street_address": "ဉီးဘအိုလမ်း",
-            "township": "အမှတ်(၂)ရပ်ကွက်"
-        },
+        "address[district]": "မရမ်းကုန်းမြို့နယ်",
+        "address[division]": "yangon",
+        "address[street_address]": "ဉီးဘအိုလမ်း",
+        "address[township]": "အမှတ်(၂)ရပ်ကွက်",
         "active": True,
         "birth_date": "12-08-2006",
         "father_name": "ဉီးလှ",

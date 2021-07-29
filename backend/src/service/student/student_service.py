@@ -5,13 +5,12 @@ from typing import List, Dict, Any, Optional
 from botocore.exceptions import ClientError
 from sqlalchemy.exc import SQLAlchemyError
 
-from common.aws_client import get_client, get_bucket
-from common.config import S3_BUCKET
 from common.data_schema import student_schema
-from common.error import SQLCustomError, RequestDataEmpty, ValidateFail, PhotoUploadFailure
+from common.error import SQLCustomError, RequestDataEmpty, ValidateFail
 from models.student import StudentModel
-from service.service import Service
 from service.file_upload.file_upload_service import FileUploadService
+from service.service import Service
+
 
 class StudentService(Service):
     """
@@ -94,12 +93,7 @@ class StudentService(Service):
             self.logger.error("All student field input must be required.")
             raise ValidateFail("Student validation fail")
         try:
-            uploaded_photo_url = None
-            if data["photo"]:
-               uploaded_photo_url = self.upload_file(data["photo"])
-            else:
-                self.logger.error("All student field input must be required.")
-                raise PhotoUploadFailure("Student update validation fail")
+            uploaded_photo_url = self.upload_file(data["photo"]) if data.get("photo") else None
             return StudentModel.create_student(StudentModel(
                 name=data["name"],
                 deactivated_at=data["deactivated_at"],
@@ -143,7 +137,6 @@ class StudentService(Service):
             student = StudentModel.get_student_by_id(student_id)
             self.logger.info("Update student info by student_id:{}".format(student_id))
 
-            new_photo_url = None
             old_photo_url = student.photo
             if data["photo"]:
                 new_photo_url = self.upload_file(data["photo"])
@@ -252,7 +245,8 @@ class StudentService(Service):
             self.logger.error("File delete error %s", error)
             return False
 
-    def upload_file(self, photo_file) -> Optional[str]:
+    @staticmethod
+    def upload_file(photo_file) -> Optional[str]:
         """
         upload file to S3
         :params photo_file : image object
