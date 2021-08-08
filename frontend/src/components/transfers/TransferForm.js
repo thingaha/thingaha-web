@@ -154,7 +154,6 @@ const FormikTransferForm = withFormik({
   },
 
   handleSubmit: (values, { props }) => {
-    console.log('Submitting values', values, props)
     if (props.editingTransfer) {
       props.submitEditTransferForm(values)
     } else {

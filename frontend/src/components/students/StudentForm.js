@@ -9,8 +9,10 @@ import TextField from '@material-ui/core/TextField'
 import ThingahaFormModal from '../common/ThingahaFormModal'
 import Checkbox from '@material-ui/core/Checkbox'
 import ThingahaAddressFields from '../common/ThingahaAddressFields'
-
+import ThingahaFileUpload from '../common/ThingahaFileUpload'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Radio from '@material-ui/core/Radio'
+import RadioGroup from '@material-ui/core/RadioGroup'
 
 const FormContainer = styled.div`
   display: flex;
@@ -118,6 +120,29 @@ const StudentForm = ({
             />
           </StyledFormControl>
           <StyledFormControl>
+            <label for="gender">Gender</label>
+            <RadioGroup
+              aria-label="gender"
+              name="gender"
+              row
+              value={values.gender}
+              onChange={handleChange}
+              helperText={errors.parents_occupation}
+            >
+              <FormControlLabel
+                value="Female"
+                control={<Radio />}
+                label="Female"
+              />
+              <FormControlLabel value="Male" control={<Radio />} label="Male" />
+              <FormControlLabel
+                value="Non-Binary"
+                control={<Radio />}
+                label="Non-Binary"
+              />
+            </RadioGroup>
+          </StyledFormControl>
+          <StyledFormControl>
             <TextField
               id="parents_occupation"
               name="parents_occupation"
@@ -157,6 +182,19 @@ const StudentForm = ({
               />
             </div>
           </StyledFormControl>
+          <StyledFormControl>
+            <ThingahaFileUpload
+              onChange={(event) => {
+                setFieldValue('photoUpload', event.currentTarget.files[0])
+              }}
+              name="photo"
+              id="photo"
+              color="primary"
+              type="file"
+              file={values.photoUpload}
+              existingFileUrl={values.photo}
+            />
+          </StyledFormControl>
         </FormContainer>
       </form>
     </ThingahaFormModal>
@@ -170,12 +208,15 @@ const transformStudentSchemaFlat = (student) => {
     birth_date: student.birth_date,
     father_name: student.father_name,
     mother_name: student.mother_name,
+    gender: student.gender,
     parents_occupation: student.parents_occupation,
     division: student.address.division,
     district: student.address.district,
     township: student.address.township,
     street_address: student.address.street_address,
     active: !Boolean(student.deactivated_at),
+    photo: student.photo,
+    photoUpload: student.photoUpload,
   }
 }
 
@@ -187,7 +228,10 @@ const transformStudentSchema = (student) => {
     birth_date: student.birth_date,
     father_name: student.father_name,
     mother_name: student.mother_name,
+    gender: student.gender,
     parents_occupation: student.parents_occupation,
+    photo: student.photo,
+    photoUpload: student.photoUpload,
     address: {
       division: student.division,
       district: student.district,
@@ -222,6 +266,7 @@ const FormikStudentForm = withFormik({
         father_name: '',
         mother_name: '',
         parents_occupation: '',
+        gender: '',
         address: {
           division: '',
           district: '',
@@ -229,6 +274,8 @@ const FormikStudentForm = withFormik({
           street_address: '',
         },
         active: true,
+        photo: '',
+        photoUpload: null,
       }
     )
   },
@@ -246,6 +293,7 @@ const FormikStudentForm = withFormik({
   validationSchema: yup.object().shape({
     name: yup.string().label('Name').required(),
     birth_date: yup.string().label('Birth Date').required(),
+    gender: yup.string().label('Gender').required(),
     father_name: yup.string().label('Father Name').required(),
     mother_name: yup.string().label('Mother Name').required(),
     parents_occupation: yup.string().label('Parents Occupation').required(),

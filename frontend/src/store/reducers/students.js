@@ -7,6 +7,8 @@ import {
   SUBMIT_NEW_STUDENT_FORM_FAILURE,
   SUBMIT_EDIT_STUDENT_FORM_SUCCESS,
   SUBMIT_EDIT_STUDENT_FORM_FAILURE,
+  DELETE_STUDENT_PHOTO_SUCCESS,
+  DELETE_STUDENT_PHOTO_FAILURE,
 } from '../actions/students'
 import {
   immutableAppendOrUpdate,
@@ -53,6 +55,17 @@ export default (state = { students: {} }, action) => {
         students: immutableAppendOrUpdate(state.students, action.student),
       }
     case SUBMIT_EDIT_STUDENT_FORM_FAILURE:
+      return {
+        ...state,
+        error: action.error,
+      }
+    case DELETE_STUDENT_PHOTO_SUCCESS:
+      let updatedStudent = { ...state.students[action.studentId], photo: null }
+      return {
+        ...state,
+        students: immutableAppendOrUpdate(state.students, updatedStudent),
+      }
+    case DELETE_STUDENT_PHOTO_FAILURE:
       return {
         ...state,
         error: action.error,

@@ -1,19 +1,34 @@
 """API route for Student API"""
-import traceback
 from datetime import datetime
 
 from flask import request, current_app, jsonify
 from flask_cors import cross_origin
 from flask_jwt_extended import jwt_required
 
-from common.aws_client import get_s3_url
-from common.config import S3_BUCKET
 from common.error import SQLCustomError, RequestDataEmpty, ValidateFail, ThingahaCustomError
+from common.helper import ThingahaHelper
 from controller.api import address_service
 from controller.api import api, post_request_empty, custom_error, sub_admin, full_admin, get_default_address
 from service.student.student_service import StudentService
 
 student_service = StudentService()
+
+
+def get_student_data_from_request(form_request):
+    """
+    get student data from request form and divide data
+    @param form_request:
+    @type form_request:
+    @return:
+    @rtype:
+    """
+    photo = None
+    if form_request.mimetype == 'application/json':
+        data = form_request.get_json()
+    else:
+        data = form_request.form
+        photo = form_request.files.get('photo', None)
+    return data, photo
 
 
 @api.route("/students", methods=["GET"])
@@ -60,18 +75,18 @@ def create_student():
     create student by post body
     :return:
     """
-    data = request.get_json()
+    data, photo = get_student_data_from_request(request)
     if data is None:
         return post_request_empty()
     try:
-        address_data = data.get("address") if data.get("address") else get_default_address()
+        address_data = ThingahaHelper.parse_address_data(data) if data.get('address[division]') else get_default_address()
         address_id = address_service.create_address({
             "division": address_data.get("division"),
             "district": address_data.get("district"),
             "township": address_data.get("township"),
             "street_address": address_data.get("street_address"),
             "type": "student"
-        }, flush=True)
+        }, True)
         if not address_id:
             raise ThingahaCustomError("Student address create fail")
 
@@ -83,7 +98,7 @@ def create_student():
             "mother_name": data.get("mother_name"),
             "gender": data.get("gender"),
             "parents_occupation": data.get("parents_occupation"),
-            "photo": data.get("photo"),
+            "photo": photo,
             "address_id": address_id})
         current_app.logger.info("Create student success. student_name %s", data.get("name"))
         return get_student_by_id(student_id), 200
@@ -130,7 +145,7 @@ def update_student(student_id: int):
     :param student_id:
     :return:
     """
-    data = request.get_json()
+    data, photo = get_student_data_from_request(request)
     if data is None:
         return post_request_empty()
 
@@ -139,8 +154,9 @@ def update_student(student_id: int):
         return custom_error("Invalid student id supplied.")
 
     try:
-        address_data = data.get("address")
+        address_data = ThingahaHelper.parse_address_data(data)
         address_updated = True
+
         if address_data:
             address_updated = address_service.update_address_by_id(student["address"]["id"], {
                 "division": address_data.get("division"),
@@ -159,7 +175,7 @@ def update_student(student_id: int):
                 "mother_name": data.get("mother_name"),
                 "gender": data.get("gender"),
                 "parents_occupation": data.get("parents_occupation"),
-                "photo": data.get("photo"),
+                "photo": photo,
                 "address_id": student["address"]["id"]
             })
             if student_update_status:
@@ -179,88 +195,36 @@ def update_student(student_id: int):
         return jsonify({"errors": [error.__dict__]}), 400
 
 
-@api.route("/student/upload", methods=["POST"])
+@api.route("/students/<int:student_id>/photo", methods=["DELETE"])
 @jwt_required
 @sub_admin
 @cross_origin()
-def upload_s3_file():
+def delete_student_photo(student_id: int):
     """
-    Upload a file to an S3 bucket
-    :return: True if file was uploaded, else False
+    delete student photo
     """
-    img = request.files.get("img")
-    student_id = request.form.get("student_id")
-    try:
-        if student_id and int(student_id) not in StudentService.get_all_student_ids():
-            raise ThingahaCustomError("Invalid student ID")
-        if student_id is None or not img or img.filename == "":
-            return post_request_empty()
-        file_extension = student_service.allowed_file(img.filename)
-        if not file_extension:
-            return custom_error("File extension should be .png or .jpg or .jpeg")
-        file_name = student_id + "." + file_extension
-        result = student_service.upload_file(img, file_name)
-        if result:
-            url = get_s3_url().format(S3_BUCKET, file_name)
-            if student_service.update_photo_path_by_id(student_id, url):
-                return get_student_by_id(student_id), 200
-        else:
-            current_app.logger.error("Can't update student photo url for student id: {}".format(student_id))
-            return "", 400
-    except ThingahaCustomError as error:
-        current_app.logger.error("Error for student photo upload {}".format(error.__dict__))
-        return jsonify({"errors": [error.__dict__]}), 400
-    except (ValueError, TypeError):
-        current_app.logger.error("Value error for student photo upload error: {}".format(traceback.format_exc()))
-        return jsonify({"errors": [ThingahaCustomError("Student ID must be integer").__dict__]}), 400
-
-
-@api.route("/student/upload", methods=["PUT"])
-@jwt_required
-@sub_admin
-@cross_origin()
-def update_file():
-    """
-    update s3 file, delete file first and upload new files
-    """
-    old_url = request.form["old_url"]
-    if not old_url:
-        current_app.logger.error("Old url for student required")
-        return post_request_empty()
-    if not student_service.delete_file(old_url):
-        current_app.logger.error("Can't delete file before update")
-        return custom_error("Update file error")
-    return upload_s3_file()
-
-
-@api.route("/student/upload", methods=["DELETE"])
-@jwt_required
-@sub_admin
-@cross_origin()
-def delete_s3_file():
-    """
-    delete S3 file
-    """
-    data = request.get_json()
-    url = data.get("url")
-    student_id = data.get("student_id")
-    if not url or not student_id:
+    if not student_id:
         current_app.logger.error("Empty url or empty student id")
         return post_request_empty()
-
+    student = student_service.get_student_by_id(student_id)
     try:
-        if int(student_id) not in StudentService.get_all_student_ids():
-            raise ThingahaCustomError("Invalid student ID")
-        result = student_service.delete_file(url) and student_service.update_photo_path_by_id(student_id, "")
+        if not student:
+            raise ThingahaCustomError("Invalid student id.")
+        if student["photo"] is None:
+            raise ThingahaCustomError("Cannot delete photo that doesn't exist anymore.")
+        result = student_service.delete_file(student["photo"]) and student_service.update_photo_path_by_id(student_id, "")
         if result:
-            current_app.logger.info("Delete file for URL %s success", url)
+            current_app.logger.info("Delete file for URL %s success", student["photo"])
             return "", 200
         else:
-            current_app.logger.error("Delete file for URL %s fail", url)
+            current_app.logger.error("Delete file for URL %s fail", student["photo"])
             return "", 400
     except TypeError:
         current_app.logger.error("Student id must be integer")
         return custom_error("Student id must be integer")
+    except SQLCustomError as error:
+        current_app.logger.error("Error for student photo delete {}".format(error.__dict__))
+        return custom_error("Error updating student photo.")
 
 
 @api.route("/students/search", methods=["GET"])

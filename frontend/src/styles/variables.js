@@ -53,7 +53,7 @@ export const size = {
 export const pxBreakpoints = {
   mobile: 0,
   tabletPortrait: 600,
-  tabletLandscape: 1000,
+  tabletLandscape: 1024,
   desktop: 1200,
 }
 

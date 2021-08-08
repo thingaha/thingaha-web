@@ -4,6 +4,7 @@ import {
   fetchStudents,
   createStudent,
   editStudent,
+  deleteStudentPhoto,
 } from '../api/students'
 import {
   GET_STUDENT_INFO_SUCCESS,
@@ -13,7 +14,9 @@ import {
   SUBMIT_NEW_STUDENT_FORM_FAILURE,
   SUBMIT_NEW_STUDENT_FORM_SUCCESS,
   SUBMIT_EDIT_STUDENT_FORM_SUCCESS,
+  DELETE_STUDENT_PHOTO_SUCCESS,
   SUBMIT_EDIT_STUDENT_FORM_FAILURE,
+  DELETE_STUDENT_PHOTO_FAILURE,
 } from '../actions/students'
 
 export function* fetchStudentInfo(action) {
@@ -60,5 +63,15 @@ export function* submitEditStudentForm(action) {
     yield put({ type: SUBMIT_EDIT_STUDENT_FORM_SUCCESS, student: student })
   } catch (error) {
     yield put({ type: SUBMIT_EDIT_STUDENT_FORM_FAILURE, error })
+  }
+}
+
+export function* deleteStudentPhotoSaga({ studentId }) {
+  try {
+    yield deleteStudentPhoto({ studentId })
+
+    yield put({ type: DELETE_STUDENT_PHOTO_SUCCESS, studentId })
+  } catch (error) {
+    yield put({ type: DELETE_STUDENT_PHOTO_FAILURE, error })
   }
 }

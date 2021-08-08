@@ -61,12 +61,14 @@ import {
   GET_ALL_STUDENTS,
   SUBMIT_NEW_STUDENT_FORM,
   SUBMIT_EDIT_STUDENT_FORM,
+  DELETE_STUDENT_PHOTO,
 } from './actions/students'
 import {
   fetchStudentInfo,
   fetchAllStudents,
   submitNewStudentForm,
   submitEditStudentForm,
+  deleteStudentPhotoSaga,
 } from './sagas/students'
 import {
   logInUser,
@@ -145,7 +147,8 @@ export default function* rootSaga() {
     takeLatest(GET_ALL_STUDENTS, fetchAllStudents),
     takeLatest(SUBMIT_NEW_STUDENT_FORM, submitNewStudentForm),
     takeLatest(SUBMIT_EDIT_STUDENT_FORM, submitEditStudentForm),
-
+    takeLatest(DELETE_STUDENT_PHOTO, deleteStudentPhotoSaga),
+    
     takeLatest(GET_ATTENDANCE_INFO, fetchAttendanceInfo),
     takeLatest(GET_ALL_ATTENDANCES, fetchAttendances),
     takeLatest(SUBMIT_NEW_ATTENDANCE_FORM, submitNewAttendanceForm),

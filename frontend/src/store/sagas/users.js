@@ -75,7 +75,6 @@ export function* submitEditUserForm(action) {
 export function* submitPasswordResetForm(action) {
   try {
     const json = yield passwordReset(action.user)
-    console.log('aa')
     toast.success('User successfully updated!')
     yield put({ type: SUBMIT_PASSWORD_RESET_FORM_SUCCESS, user: json.data })
   } catch (error) {

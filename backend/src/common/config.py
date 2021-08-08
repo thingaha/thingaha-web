@@ -12,8 +12,11 @@ from common.error import FileNotFound
 
 CURRENT_DIR = os.path.join(os.path.dirname(__file__), "../../conf/")
 S3_BUCKET = os.environ.get("S3_BUCKET")
-S3_KEY = os.environ.get("S3_KEY")
-S3_SECRET = os.environ.get("S3_SECRET_ACCESS_KEY")
+AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY_ACCESS_KEY")
+
+UPLOAD_DIR=os.path.abspath(os.path.join(os.path.dirname(__file__), '../uploads'))
+UPLOAD_PATH='uploads'
 
 
 def load_logging_conf(log_file_path: str):
