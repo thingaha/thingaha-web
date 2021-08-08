@@ -28,10 +28,13 @@ export const fetchStudent = (studentId) => {
   }
 }
 
-export const fetchStudents = ({ page }) => {
+export const fetchStudents = (
+  { page, perPage } = { page: 1, perPage: 200 }
+) => {
   return {
     type: GET_ALL_STUDENTS,
     page,
+    perPage,
   }
 }
 
