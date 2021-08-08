@@ -7,10 +7,9 @@ import * as actions from '../../store/actions'
 import FormControl from '@material-ui/core/FormControl'
 import TextField from '@material-ui/core/TextField'
 import ThingahaFormModal from '../common/ThingahaFormModal'
-import Checkbox from '@material-ui/core/Checkbox'
 import ThingahaSelect from '../common/ThingahaSelect'
 import MenuItem from '@material-ui/core/MenuItem'
-import { MONTHS, getCurrentYearAndMonth } from '../../utils/dateAndTimeHelpers'
+import { getCurrentYearAndMonth } from '../../utils/dateAndTimeHelpers'
 import range from 'lodash/range'
 
 const FormContainer = styled.div`
@@ -57,14 +56,13 @@ const AttendanceForm = ({
   newStudents,
   newSchools,
   values,
-  submitEditAttendanceForm,
-  submitNewAttendanceForm,
   handleChange,
   errors,
   handleSubmit,
+  submitForm,
 }) => {
   const { year: currentYear } = getCurrentYearAndMonth()
-  const years = range(currentYear - 10, currentYear + 11, 1)
+  const years = range(currentYear - 10, currentYear + 1, 1)
 
   return (
     <ThingahaFormModal
@@ -73,12 +71,7 @@ const AttendanceForm = ({
       onClose={() => setVisible(false)}
       onCancel={() => setVisible(false)}
       onSubmit={(e) => {
-        if (editingAttendance) {
-          submitEditAttendanceForm(values)
-        } else {
-          submitNewAttendanceForm(values)
-        }
-        setVisible(false)
+        submitForm(e)
       }}
     >
       <form onSubmit={handleSubmit}>
@@ -100,26 +93,6 @@ const AttendanceForm = ({
                   </MenuItem>
                 )
               })}
-              {/* {newStudents && !editingAttendance
-                ? newStudents.map((item, index) => {
-                    return (
-                      <MenuItem key={index} value={item.id}>
-                        {item.name}
-                      </MenuItem>
-                    )
-                  })
-                : null}
-              {editingAttendance
-                ? newStudents
-                    .filter((item) => item.id == values.student_id)
-                    .map((item, index) => {
-                      return (
-                        <MenuItem key={index} value={item.id}>
-                          {item.name}
-                        </MenuItem>
-                      )
-                    })
-                : null} */}
             </ThingahaSelect>
           </StyledFormControl>
           <StyledFormControl>
@@ -255,12 +228,13 @@ const FormikAttendanceForm = withFormik({
     props.setVisible(false)
   },
 
-  //   validationSchema: yup.object().shape({
-  //     name: yup.string().label('Name').required(),
-  //     grade: yup.string().label('Grade').required(),
-  //     year: yup.string().label('Year').required(),
-  //     name: yup.string().label('School Name').required(),
-  //   }),
+  validationSchema: yup.object().shape({
+    student_id: yup.number().label('Student').required(),
+    grade: yup.string().label('Grade').required(),
+    year: yup.number().label('Year').required(),
+    school_id: yup.number().label('School').required(),
+    enrolled_date: yup.date().label('School').required(),
+  }),
 
   displayName: 'AttendanceForm',
   enableReinitialize: true,

@@ -57,7 +57,7 @@ attendance_schema = Schema({
     "student_id": int,
     "school_id": int,
     "grade": str,
-    "year": str,
+    "year": int,
     "enrolled_date": str
 })
 
