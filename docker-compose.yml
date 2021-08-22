@@ -1,0 +1,52 @@
+version: '3.3'
+services:
+  backend:
+    image: thingha-api:0.1
+    build:
+      context: .
+      dockerfile: ./Dockerfile.frontend
+    environment:
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+    ports:
+      - '5000:5000'
+    volumes:
+      - .:/app
+      - logdata:/var/log
+    links:
+      - database
+    networks:
+      - thingaha-net
+  database:
+    image: 'postgres:12.4'
+    restart: always
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      - thingaha_db:/var/lib/postgresql/data
+    networks:
+      - thingaha-net
+  frontend:
+    image: thingaha-frontend:0.1
+    build:
+      context: .
+      dockerfile: ./Dockerfile.frontend
+    volumes:
+      - thingaha_frontend:/var/www/html
+    links:
+      - database
+    networks:
+      - thingaha-net
+  web:
+    image: 'nginx:latest'
+    volumes:
+      - ./docker-config/nginx.conf:/etc/nginx/conf.d/default.conf
+
+volumes:
+  logdata: {}
+  thingaha_db:
+  thingaha_frontend:
+networks:
+  thingaha-net:
+    driver: 'bridge'

@@ -1,0 +1,20 @@
+#stage 1
+FROM node:16.6.2-alpine as build
+
+WORKDIR /frontend
+
+ENV REACT_APP_USE_DRAFT_API false
+ENV PORT 5001
+ENV PATH /app/node_modules/.bin:$PATH
+
+COPY ./frontend /frontend
+
+RUN npm ci --only=production --loglevel=verbose
+RUN npm run build
+RUN ls -lah /frontend
+
+# # stage 2
+FROM nginx:1.16.0-alpine
+COPY --from=build /frontend/build /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
