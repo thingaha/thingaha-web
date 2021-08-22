@@ -2,8 +2,8 @@ import axios from 'axios'
 import config from '../config'
 import PersistentAuthentication from './persistentAuthentication'
 
-const draftServerUrl = 'http://localhost:9000'
-const thingahaServerUrl = 'http://localhost:5000/api/v1'
+const draftServerUrl = config.draftServerUrl
+const thingahaServerUrl = `${config.apiServerUrl}/api/v1`
 const apiBaseUrl = config.useDraftServer ? draftServerUrl : thingahaServerUrl
 
 const axiosInstance = axios.create({
