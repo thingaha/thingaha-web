@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import * as actions from '../../store/actions'
 import Paper from '@material-ui/core/Paper'
 import UserDetailForm from '../settings/UserDetailForm'
-import UserPasswordForm from '../settings/UserPasswordForm'
+import PasswordChangeForm from '../settings/PasswordChangeForm'
 import { Button } from '@material-ui/core'
 import EditIcon from '@material-ui/icons/EditRounded'
 import ThingahaName from '../common/ThingahaName'
@@ -57,7 +57,8 @@ const UserDetailWrapper = styled(Paper)`
 
 const UserDetail = ({ user, currentUser, getUserInfo }) => {
   const [userDetailFormVisible, setUserDetailFormVisible] = useState(false)
-  const [userPasswordFormVisible, setUserPasswordFormVisible] = useState(false)
+  const [passwordChangeFormVisible, setPasswordChangeFormVisible] =
+    useState(false)
   const [editingUserDetail, setEditingUserDetail] = useState(null)
   const [editingUserPassword, setEditingUserPassword] = useState(null)
 
@@ -123,7 +124,7 @@ const UserDetail = ({ user, currentUser, getUserInfo }) => {
                 color="primary"
                 startIcon={<EditIcon />}
                 onClick={() => {
-                  setUserPasswordFormVisible(true)
+                  setPasswordChangeFormVisible(true)
                   setEditingUserPassword(user)
                 }}
               >
@@ -141,10 +142,10 @@ const UserDetail = ({ user, currentUser, getUserInfo }) => {
           editingUserDetail={editingUserDetail}
         />
       ) : null}
-      {userPasswordFormVisible ? (
-        <UserPasswordForm
-          visible={userPasswordFormVisible}
-          setVisible={setUserPasswordFormVisible}
+      {passwordChangeFormVisible ? (
+        <PasswordChangeForm
+          visible={passwordChangeFormVisible}
+          setVisible={setPasswordChangeFormVisible}
           editingUserPassword={editingUserPassword}
         />
       ) : null}

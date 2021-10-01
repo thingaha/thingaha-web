@@ -16,8 +16,8 @@ import {
   GET_ACCOUNT_USER_INFO_FAILURE,
   SUBMIT_EDIT_USER_DETAIL_FORM_SUCCESS,
   SUBMIT_EDIT_USER_DETAIL_FORM_FAILURE,
-  SUBMIT_EDIT_USER_PASSWORD_FORM_SUCCESS,
-  SUBMIT_EDIT_USER_PASSWORD_FORM_FAILURE,
+  SUBMIT_PASSWORD_CHANGE_FORM_SUCCESS,
+  SUBMIT_PASSWORD_CHANGE_FORM_FAILURE,
 } from '../actions/settings'
 import {
   immutableAppendOrUpdate,
@@ -99,12 +99,12 @@ export default (state = { users: {} }, action) => {
         ...state,
         error: action.error,
       }
-    case SUBMIT_EDIT_USER_PASSWORD_FORM_SUCCESS:
+    case SUBMIT_PASSWORD_CHANGE_FORM_SUCCESS:
       return {
         ...state,
         users: immutableAppendOrUpdate(state.users, action.user),
       }
-    case SUBMIT_EDIT_USER_PASSWORD_FORM_FAILURE:
+    case SUBMIT_PASSWORD_CHANGE_FORM_FAILURE:
       return {
         ...state,
         error: action.error,
