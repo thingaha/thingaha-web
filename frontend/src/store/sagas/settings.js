@@ -6,7 +6,7 @@ import {
   fetchUser,
   fetchUsers,
   editUserDetail,
-  editUserPassword,
+  changePassword,
 } from '../api/settings' //API Called
 import {
   GET_ACCOUNT_USER_INFO_SUCCESS,
@@ -15,7 +15,7 @@ import {
   GET_ALL_USERS_FAILURE,
   SUBMIT_EDIT_USER_DETAIL_FORM_SUCCESS,
   SUBMIT_EDIT_USER_DETAIL_FORM_FAILURE,
-  SUBMIT_EDIT_USER_PASSWORD_FORM_FAILURE,
+  SUBMIT_PASSWORD_CHANGE_FORM_FAILURE,
 } from '../actions/settings'
 import { toast } from 'react-toastify'
 import defaultErrorHandler from './defaultErrorHandler'
@@ -55,11 +55,19 @@ export function* submitEditUserDetailForm(action) {
   }
 }
 
-export function* submitEditUserPasswordForm(action) {
+export function* submitPasswordChangeForm({
+  currentPassword,
+  newPassword,
+  newPasswordConfirmation,
+}) {
   try {
-    const json = yield editUserPassword(action.user)
+    const json = yield changePassword({
+      currentPassword,
+      newPassword,
+      newPasswordConfirmation,
+    })
     toast.success('User successfully updated!')
   } catch (error) {
-    yield defaultErrorHandler(error, SUBMIT_EDIT_USER_PASSWORD_FORM_FAILURE)
+    yield defaultErrorHandler(error, SUBMIT_PASSWORD_CHANGE_FORM_FAILURE)
   }
 }

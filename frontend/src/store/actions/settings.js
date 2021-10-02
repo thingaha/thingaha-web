@@ -15,12 +15,12 @@ export const SUBMIT_EDIT_USER_DETAIL_FORM_SUCCESS =
 export const SUBMIT_EDIT_USER_DETAIL_FORM_FAILURE =
   'SETTINGS/SUBMIT_EDIT_USER_DETAIL_FORM_FAILURE'
 
-export const SUBMIT_EDIT_USER_PASSWORD_FORM =
-  'SETTINGS/SUBMIT_EDIT_USER_PASSWORD_FORM'
-export const SUBMIT_EDIT_USER_PASSWORD_FORM_SUCCESS =
-  'SETTINGS/SUBMIT_EDIT_USER_PASSWORD_FORM_SUCCESS'
-export const SUBMIT_EDIT_USER_PASSWORD_FORM_FAILURE =
-  'SETTINGS/SUBMIT_EDIT_USER_PASSWORD_FORM_FAILURE'
+export const SUBMIT_PASSWORD_CHANGE_FORM =
+  'SETTINGS/SUBMIT_PASSWORD_CHANGE_FORM'
+export const SUBMIT_PASSWORD_CHANGE_FORM_SUCCESS =
+  'SETTINGS/SUBMIT_PASSWORD_CHANGE_FORM_SUCCESS'
+export const SUBMIT_PASSWORD_CHANGE_FORM_FAILURE =
+  'SETTINGS/SUBMIT_PASSWORD_CHANGE_FORM_FAILURE'
 
 export const fetchUser = (userId) => {
   return {
@@ -42,9 +42,15 @@ export const submitEditUserDetailForm = (formValues) => {
   }
 }
 
-export const submitEditUserPasswordForm = (formValues) => {
+export const submitPasswordChangeForm = ({
+  currentPassword,
+  newPassword,
+  newPasswordConfirmation,
+}) => {
   return {
-    type: SUBMIT_EDIT_USER_PASSWORD_FORM,
-    user: formValues,
+    type: SUBMIT_PASSWORD_CHANGE_FORM,
+    currentPassword,
+    newPassword,
+    newPasswordConfirmation,
   }
 }

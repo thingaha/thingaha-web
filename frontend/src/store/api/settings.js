@@ -48,15 +48,15 @@ export const editUserDetail = async ({
   }
 }
 
-export const editUserPassword = async ({
-  current_password,
-  new_password,
-  new_confirm_password,
+export const changePassword = async ({
+  currentPassword,
+  newPassword,
+  newPasswordConfirmation,
 }) => {
   const { data } = await thingahaApiClient.put(`/users/password`, {
-    current_password,
-    new_password,
-    new_confirm_password,
+    current_password: currentPassword,
+    new_password: newPassword,
+    new_confirm_password: newPasswordConfirmation,
   })
 
   return {
