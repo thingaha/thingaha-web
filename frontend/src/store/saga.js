@@ -102,11 +102,13 @@ import {
   submitUpdateExtraFundsFormSaga,
 } from './sagas/extraFunds'
 import {
-  GET_ALL_TRANSFER,
+  GET_TRANSFER_INFO,
+  GET_ALL_TRANSFERS,
   SUBMIT_TRANSFER_FORM,
   SUBMIT_EDIT_TRANSFER_FORM,
 } from './actions/transfers'
 import {
+  fetchTransferSaga,
   fetchAllTransfers,
   submitTransferForm,
   submitEditTransferForm,
@@ -158,7 +160,8 @@ export default function* rootSaga() {
     takeLatest(SUBMIT_NEW_EXTRAFUND_FORM, submitNewExtraFundsFormSaga),
     takeLatest(SUBMIT_EDIT_EXTRAFUND_FORM, submitUpdateExtraFundsFormSaga),
 
-    takeLatest(GET_ALL_TRANSFER, fetchAllTransfers),
+    takeLatest(GET_TRANSFER_INFO, fetchTransferSaga),
+    takeLatest(GET_ALL_TRANSFERS, fetchAllTransfers),
     takeLatest(SUBMIT_TRANSFER_FORM, submitTransferForm),
     takeLatest(SUBMIT_EDIT_TRANSFER_FORM, submitEditTransferForm),
 

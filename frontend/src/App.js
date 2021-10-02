@@ -29,6 +29,7 @@ import Addresses from './components/addresses/Addresses'
 import { checkLoginState } from './store/actions/authentication'
 import ExtraFunds from './components/extraFunds/ExtraFunds'
 import Transfers from './components/transfers/Transfers'
+import TransferDetails from './components/transfers/TransferDetails'
 import UserSetting from './components/settings/Setting'
 import Attendances from './components/attendances/Attendances'
 import AttendanceDetails from './components/attendances/AttendanceDetails'
@@ -94,6 +95,7 @@ const AdminApp = () => {
         <PrivateRoute path="/students/:id" exact component={StudentDetails} />
         <PrivateRoute path="/extra_funds" exact component={ExtraFunds} />
         <PrivateRoute path="/transfers" exact component={Transfers} />
+        <PrivateRoute path="/transfers/:id" exact component={TransferDetails} />
         <PrivateRoute path="/account" exact component={UserSetting} />
         <PrivateRoute path="/attendances" exact component={Attendances} />
         <PrivateRoute

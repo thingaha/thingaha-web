@@ -1,6 +1,11 @@
 import { call, put } from 'redux-saga/effects'
 
-import { fetchTransfers, createTransfer, editTransfer } from '../api/transfers' //API Called
+import {
+  fetchTransfer,
+  fetchTransfers,
+  createTransfer,
+  editTransfer,
+} from '../api/transfers' //API Called
 import {
   SUBMIT_TRANSFER_FORM_FAILURE,
   SUBMIT_TRANSFER_FORM_SUCCESS,
@@ -8,12 +13,25 @@ import {
   GET_ALL_TRANSFERS_FAILURE,
   SUBMIT_EDIT_TRANSFER_FORM_SUCCESS,
   SUBMIT_EDIT_TRANSFER_FORM_FAILURE,
+  GET_TRANSFER_INFO_FAILURE,
+  GET_TRANSFER_INFO_SUCCESS,
 } from '../actions/transfers'
 import { toast } from 'react-toastify'
 import defaultErrorHandler from './defaultErrorHandler'
 
+export function* fetchTransferSaga(action) {
+  try {
+    const json = yield fetchTransfer(action.transferId)
+    yield put({
+      type: GET_TRANSFER_INFO_SUCCESS,
+      transfer: json.data.transfer,
+    })
+  } catch (error) {
+    yield defaultErrorHandler(error, GET_TRANSFER_INFO_FAILURE)
+  }
+}
+
 export function* fetchAllTransfers(action) {
-  //Saga Func
   try {
     const json = yield call(fetchTransfers, { page: action.page })
     yield put({
