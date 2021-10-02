@@ -276,3 +276,20 @@ class UserModel(db.Model):
         except SQLAlchemyError as error:
             db.session.rollback()
             raise error
+
+    @staticmethod
+    def change_password_email(email: str, new_pwd: str) -> bool:
+        """
+        change password by user_email
+        :param email:
+        :param new_pwd:
+        :return: bool
+        """
+        try:
+            db.session.query(UserModel).filter(UserModel.email == email). \
+                update({UserModel.hashed_password: new_pwd})
+            db.session.commit()
+            return True
+        except SQLAlchemyError as error:
+            db.session.rollback()
+            raise error
