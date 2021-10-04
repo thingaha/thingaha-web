@@ -70,7 +70,16 @@ for windows -> go to backend\bin and run -> db_migrate.bat
 #memo
 postgres url be like [DB_TYPE]+[DB_CONNECTOR]://[USERNAME]:[PASSWORD]@[HOST]:[PORT]/[DB_NAME]
 ```
+- DB Seeding
+```shell script
 
+for linux, macOS -> go backend/bin and run -> ./db_seed.sh
+for windows -> go to backend\bin and run -> db_seed.bat
+
+
+#memo
+Put all testing data to DB
+```
 - ERD Diagram for Thingaha Project
 
 ![alt text](https://thingaha.drawerd.com/projects/602/render_svg?share_key=81bba674955bdb98666dc6a685de3f)
