@@ -12,6 +12,7 @@ import InputAdornment from '@material-ui/core/InputAdornment'
 import SearchIcon from '@material-ui/icons/Search'
 import Input from '@material-ui/core/Input'
 import Pagination from '@material-ui/lab/Pagination'
+import { Grid } from '@material-ui/core'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -85,29 +86,42 @@ const Attendances = ({
   }
   return (
     <Wrapper component={Paper}>
-      <h1>Attendances</h1>
-      <HeadingContainer>
-        <Button
-          variant="contained"
-          color="primary"
-          startIcon={<AddCircleIcon />}
-          onClick={() => {
-            setAttendanceFormVisible(true)
-            setEditingAttendance(null)
-          }}
-        >
-          Add Attendance
-        </Button>
-        <Input
-          id="input-with-icon-adornment"
-          startAdornment={
-            <InputAdornment position="start">
-              <SearchIcon />
-            </InputAdornment>
-          }
-          onChange={(event) => handleSearch(event)}
-        />
-      </HeadingContainer>
+      <h1> Attendances</h1>
+
+      {/* Add button and Search */}
+      <Grid
+        style={{ marginBottom: '10px' }}
+        container
+        direction="row"
+        alignItems="center"
+        justify="space-between"
+      >
+        <Grid item>
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<AddCircleIcon />}
+            onClick={() => {
+              setAttendanceFormVisible(true)
+              setEditingAttendance(null)
+            }}
+          >
+            Add
+          </Button>
+        </Grid>
+        <Grid item className="MuiGrid-justify-xs-flex-end">
+          <Input
+            id="input-with-icon-adornment"
+            startAdornment={
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            }
+            onChange={(event) => handleSearch(event)}
+          />
+        </Grid>
+      </Grid>
+
       <AttendancesContainer>
         {searchData
           ? searchData.map((attendance) => {
