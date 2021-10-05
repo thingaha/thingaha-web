@@ -73,6 +73,17 @@ def full_admin(func):
     return decorated
 
 
+def edit_right(user_id: int) -> bool:
+    """
+
+    :param user_id:
+    :type user_id:
+    :return:
+    :rtype:
+    """
+    return get_jwt_claims() in ["admin", "sub_admin"] or get_jwt_identity() == user_id
+
+
 def sub_admin(func):
     """
     admin role checking for sub admin or full admin
