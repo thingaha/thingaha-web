@@ -145,29 +145,6 @@ const AttendanceCard = ({ attendance, onEdit }) => {
             <div className="smallText">{attendance.school.name}</div>
           </div>
         </Grid>
-        {/* <Box
-          display={{ xs: 'none', sm: 'block' }}
-          style={{ marginRight: '-4rem' }}
-        >
-          <Link
-            to={`/attendances/${attendance.id}`}
-            params={{ attendancename: attendance.student.name }}
-          >
-            <VisibilityRoundedIcon
-              color="primary"
-              className="show"
-              variant="rounded"
-            />
-          </Link>
-          <EditIcon
-            color="primary"
-            className="edit"
-            variant="rounded"
-            onClick={() => {
-              onEdit(attendance)
-            }}
-          />
-        </Box> */}
       </Grid>
     </AttendanceCardWrapper>
   )
