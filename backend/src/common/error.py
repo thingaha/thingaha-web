@@ -99,6 +99,7 @@ class FileExtensionNotAllowed(Error):
         self.error_code = "E0005"
         self.reason = "File not found"
 
+
 class ThingahaCustomError(Error):
     """Raised custom Error"""
     def __init__(self, description):

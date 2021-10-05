@@ -2,10 +2,10 @@
 
 from flask import request, current_app, jsonify
 from flask_cors import cross_origin
-from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt_claims
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from common.error import SQLCustomError, RequestDataEmpty, ValidateFail, ThingahaCustomError
-from controller.api import api, custom_error, post_request_empty, sub_admin, full_admin, get_default_address
+from controller.api import api, custom_error, post_request_empty, sub_admin, edit_right, full_admin, get_default_address
 from service.address.address_service import AddressService
 from service.user.user_service import UserService
 
@@ -97,12 +97,14 @@ def create_user():
 
 @api.route("/users/<int:user_id>", methods=["PUT"])
 @jwt_required
-@sub_admin
 @cross_origin()
 def update_user(user_id: int):
     """
     update user info by id
     """
+    if not edit_right(user_id):
+        return custom_error("Invalid user role to apply this action.", 403)
+
     data = request.get_json()
     if data is None:
         return post_request_empty()
