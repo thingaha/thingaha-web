@@ -88,52 +88,6 @@ const AttendanceCard = ({ attendance, onEdit }) => {
 
   return (
     <AttendanceCardWrapper className={deactivatedClass}>
-      {/* <div className="row">
-        <ThingahaName className="thingaha-name w25">
-          {attendance.student.name}
-        </ThingahaName>
-        <div className="iconTextWrapper w25">
-          <h5 className="capName">{labelEnrolledDate} : </h5>
-          <div className="smallText">{attendance.enrolled_date}</div>
-        </div>
-        <div className="w50 text-right">
-          <Link
-            to={`/attendances/${attendance.id}`}
-            params={{ attendancename: attendance.student.name }}
-          >
-            <VisibilityRoundedIcon
-              color="primary"
-              className="show"
-              variant="rounded"
-            />
-          </Link>
-          <EditIcon
-            color="primary"
-            className="edit"
-            variant="rounded"
-            onClick={() => {
-              onEdit(attendance)
-            }}
-          />
-        </div>
-      </div>
-
-      <div className="row">
-        <div className="iconTextWrapper w25">
-          <h5 className="capName">{labelGrade} : </h5>
-          <div className="smallText">{attendance.grade}</div>
-        </div>
-        <div className="iconTextWrapper w25">
-          <h5 className="capName">{labelYear} : </h5>
-          <div className="smallText">({attendance.year})</div>
-        </div>
-        <div className="iconTextWrapper w50">
-          <h5 className="capName">{labelSchool} : </h5>
-          <div className="smallText">{attendance.school.name}</div>
-        </div>
-      </div> */}
-
-
       <Grid container spacing={1}>
         <Grid item sm={12} xs={12}>
           <Grid container spacing={1}>

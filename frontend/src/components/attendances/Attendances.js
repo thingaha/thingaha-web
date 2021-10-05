@@ -7,7 +7,6 @@ import Paper from '@material-ui/core/Paper'
 import AttendanceForm from './AttendanceForm'
 import { Button } from '@material-ui/core'
 import AddCircleIcon from '@material-ui/icons/AddCircle'
-import HowToRegIcon from '@material-ui/icons/HowToReg'
 import AttendanceCard from './AttendanceCard'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import SearchIcon from '@material-ui/icons/Search'
@@ -87,7 +86,7 @@ const Attendances = ({
   }
   return (
     <Wrapper component={Paper}>
-      <h1> Attendances</h1 >
+      <h1> Attendances</h1>
 
       {/* Add button and Search */}
       <Grid
@@ -97,7 +96,7 @@ const Attendances = ({
         alignItems="center"
         justify="space-between"
       >
-        <Grid item >
+        <Grid item>
           <Button
             variant="contained"
             color="primary"
