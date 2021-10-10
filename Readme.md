@@ -33,14 +33,16 @@ For project background and current goals for v1.0, please read the [Wiki Home Pa
   Troubleshooting with docker FAQ
 
   - I need to delete the database and recreate it again. What do I do?
-    - Run `docker exec -it backend_db_1 /bin/sh` to get into the shell of db container.
+    - Make sure you are in the `backend` directory and run `docker-compose up` if you haven't already.
+    - Run `docker-compose stop web` to stop the web container to make sure there is no connection to the db.
+    - Run `docker-compose exec db /bin/bash` to get into the shell of db container.
     - TO delete the db:
       - Run `dropdb -U thingaha thingaha_dev` (Using default username thingaha and password thingaha here. Replace with your credentials if you happen to have overriden it.)
     - Then, to recreate db:
       - Run `createdb -U thingaha thingaha_dev` (Using default username thingaha and password thingaha here. Replace with your credentials if you happen to have overriden it.)
     - After db is created, exit the db container shell using `exit` command and restart currently running `docker-compose up`.
     - Once it's up and migrated, run the db seeding command back again into the backend_web_1 container.
-      - `docker exec backend_web_1 /usr/bin/python3 ../src/db_seed.py`
+      - `docker-compose exec web /usr/bin/python3 ../src/db_seed.py`
 
 #### Native env setup using Anaconda
 
@@ -70,7 +72,9 @@ for windows -> go to backend\bin and run -> db_migrate.bat
 #memo
 postgres url be like [DB_TYPE]+[DB_CONNECTOR]://[USERNAME]:[PASSWORD]@[HOST]:[PORT]/[DB_NAME]
 ```
+
 - DB Seeding
+
 ```shell script
 
 for linux, macOS -> go backend/bin and run -> ./db_seed.sh
@@ -80,6 +84,7 @@ for windows -> go to backend\bin and run -> db_seed.bat
 #memo
 Put all testing data to DB
 ```
+
 - ERD Diagram for Thingaha Project
 
 ![alt text](https://thingaha.drawerd.com/projects/602/render_svg?share_key=81bba674955bdb98666dc6a685de3f)
@@ -133,6 +138,7 @@ Main UI framework is [Material UI](https://material-ui.com/). For component styl
   - Then, run `yarn start`
   - The draft server is configured to run on port `9000`. Try navigating to [http://localhost:9000/users](http://localhost:9000/users) to see if draft server is working properly.
 - Then set up the frontend app.
+
   - To set up frontend dev server, `cd` into the `frontend` directory and install necessary node modules by running `yarn install`.
   - Then, run `yarn start`
   - To set up for windows developmemt, please update frontend\package.json
