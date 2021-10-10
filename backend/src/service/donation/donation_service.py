@@ -12,8 +12,8 @@ from service.service import Service
 
 class DonationService(Service):
     """
-    school service class for CRUD actions
-    define specific params for school service in SchoolService Class
+    donation service class for CRUD actions
+    define specific params for donation service in DonationService Class
     """
     def __init__(self, logger=None) -> None:
         super().__init__(logger)
@@ -97,6 +97,26 @@ class DonationService(Service):
             "prev_page": donations.prev_num,
             "pages": donations.pages
         }
+
+    def search_donation_records(self, year: Optional[int], month: Optional[str], keyword: Optional[str], per_page: int = 20, page: int = 1) -> Dict[str, Any]:
+        """
+        get donations for a given year and month
+        :params page
+        :params per_page
+        :return: donation list of dict
+        """
+        self.logger.debug("Get Donation list by search (year, month, keyword): {}, {}, {}, {}, {}".format(year, month, keyword, page, per_page))
+        donations = DonationModel.search_donations(year=year, month=month, keyword=keyword, page=page, per_page=per_page)
+        self.logger.debug("Total: {}".format(donations.items))
+        return {
+            "donations": [donation.donation_dict(user, student) for donation, user, student in donations.items],
+            "total_count": donations.total,
+            "current_page": donations.page,
+            "next_page": donations.next_num,
+            "prev_page": donations.prev_num,
+            "pages": donations.pages
+        }
+
 
     def get_donation_by_id(self, donation_id: int) -> Optional[Dict]:
         """

@@ -5,8 +5,9 @@ from datetime import datetime
 from typing import Optional
 
 from flask_sqlalchemy import Pagination
-from sqlalchemy import desc, Integer, Enum, DateTime, Column, Float
+from sqlalchemy import or_, desc, Integer, Enum, DateTime, Column, Float
 from sqlalchemy.exc import SQLAlchemyError, DataError
+from sqlalchemy.orm import joinedload
 
 from common.error import SQLCustomError
 from database import db
@@ -30,6 +31,9 @@ class DonationModel(db.Model):
     paid_at = Column(DateTime(timezone=True), nullable=True)
     created_at = Column(DateTime, default=datetime.now)
     updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
+
+    user = db.relationship("UserModel", lazy=True)
+    attendance = db.relationship("AttendanceModel", lazy=True)
 
     def __init__(self, user_id: int, attendance_id: int, transfer_id: Optional[int], year: int, month: str, mmk_amount: float,
                  jpy_amount: float, paid_at: Optional[datetime]) -> None:
@@ -146,6 +150,35 @@ class DonationModel(db.Model):
                 filter(DonationModel.year == year). \
                 filter(DonationModel.month == month).\
                 filter(DonationModel.user_id == user_id).paginate(page=1, per_page=1000, error_out=False)
+        except (SQLAlchemyError, DataError) as error:
+            raise error
+
+    @staticmethod
+    def search_donations(year: Optional[int], month: Optional[str], keyword: Optional[str], per_page: int = 20, page: int = 1) -> Pagination:
+        """
+        get all donator donation records for given year and month
+        :params page
+        :params per_page
+        :return: donation list
+        """
+        try:
+            query = db.session.query(DonationModel, UserModel, StudentModel). \
+                join(UserModel). \
+                filter(DonationModel.user_id == UserModel.id). \
+                filter(DonationModel.attendance_id == AttendanceModel.id). \
+                filter(AttendanceModel.id == StudentModel.id)
+
+            if year is not None:
+                query = query.filter(DonationModel.year == year)
+
+            if month is not None:
+                query = query.filter(DonationModel.month == month)
+
+            if keyword is not None:
+                query = query.filter(or_(UserModel.display_name.ilike('%' + keyword + '%'),
+                                              UserModel.email.ilike('%' + keyword + '%')))
+
+            return query.paginate(page=page, per_page=per_page, error_out=False)
         except (SQLAlchemyError, DataError) as error:
             raise error
 

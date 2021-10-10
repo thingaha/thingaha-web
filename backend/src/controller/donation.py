@@ -2,18 +2,31 @@
 from flask import request, current_app, jsonify
 from flask_cors import cross_origin
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from functools import wraps
 
 from common.error import SQLCustomError, RequestDataEmpty, ValidateFail, ThingahaCustomError
 from controller.api import api, post_request_empty, custom_error, full_admin, sub_admin
 from service.donation.donation_service import DonationService
-
 donation_service = DonationService()
 
+def with_donation_service(func):
+    """
+    admin role checking for sub admin or full admin
+    """
+    wraps(func)
+
+    def decorated(*args, **kwargs):
+        donation_service = DonationService(logger=current_app.logger)
+        return func(donation_service, *args, **kwargs)
+
+    decorated.__name__ = func.__name__
+    return decorated
 
 @api.route("/donator_donations", methods=["GET"])
 @jwt_required
 @cross_origin()
-def get_my_donations():
+@with_donation_service
+def get_my_donations(donation_service):
     try:
         page = request.args.get("page", 1, type=int)
         per_page = request.args.get("per_page", 20, type=int)
@@ -21,6 +34,10 @@ def get_my_donations():
         month = request.args.get("month", None, type=str)
         user_id = get_jwt_identity()
         current_app.logger.info("Parameters: year => {}, month => {}".format(year, month))
+        # TODO: Need to handle the following filters:
+        # - year only
+        # - year and month
+        # - year and month and search keyword
 
         if year is not None and month is not None:
             return jsonify({
@@ -28,7 +45,7 @@ def get_my_donations():
             }), 200
         else:
             return jsonify({
-                "data": donation_service.get_all_donator_donations_records(user_id, page, per_page)
+                "data": donation_service.search_donation_records(year=2020, month="december", keyword=None, page=page, per_page=per_page)
             }), 200
 
     except SQLCustomError as error:
@@ -39,18 +56,26 @@ def get_my_donations():
 @api.route("/donations", methods=["GET"])
 @jwt_required
 @cross_origin()
-def get_donations():
+@with_donation_service
+def get_donations(donation_service):
     try:
         page = request.args.get("page", 1, type=int)
         per_page = request.args.get("per_page", 20, type=int)
         year = request.args.get("year", None, type=int)
         month = request.args.get("month", None, type=str)
+        keyword = request.args.get("keyword", None, type=str)
 
         current_app.logger.info("Parameters: year => {}, month => {}".format(year, month))
 
-        if year is not None and month is not None:
+        if year is not None or month is not None or keyword is not None:
             return jsonify({
-                "data": donation_service.get_donations_records_by_year_month(year, month)
+                "data": donation_service.search_donation_records(
+                    year=year,
+                    month=month,
+                    keyword=keyword,
+                    page=page,
+                    per_page=per_page
+            )
             }), 200
         else:
             return jsonify({
@@ -65,7 +90,8 @@ def get_donations():
 @api.route("/donations/<int:donation_id>", methods=["GET"])
 @jwt_required
 @cross_origin()
-def get_donation_by_id(donation_id: int):
+@with_donation_service
+def get_donation_by_id(donation_service, donation_id: int):
     """
     get donation by donation id
     :return:
@@ -86,7 +112,8 @@ def get_donation_by_id(donation_id: int):
 @jwt_required
 @sub_admin
 @cross_origin()
-def create_donation():
+@with_donation_service
+def create_donation(donation_service):
     """
     create donation by post body
     :return:
@@ -116,7 +143,8 @@ def create_donation():
 @jwt_required
 @full_admin
 @cross_origin()
-def delete_donation(donation_id):
+@with_donation_service
+def delete_donation(donation_service, donation_id):
     """
     delete donation  by ID
     :param donation_id:
@@ -136,7 +164,8 @@ def delete_donation(donation_id):
 @jwt_required
 @sub_admin
 @cross_origin()
-def update_donation(donation_id: int):
+@with_donation_service
+def update_donation(donation_service, donation_id: int):
     """
     update donation by ID
     :param donation_id:
@@ -178,7 +207,8 @@ def update_donation(donation_id: int):
 @jwt_required
 @sub_admin
 @cross_origin()
-def update_donation_status(donation_id: int):
+@with_donation_service
+def update_donation_status(donation_service, donation_id: int):
     """
     update donation by ID
     :param donation_id:
