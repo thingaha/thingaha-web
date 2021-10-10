@@ -1,4 +1,5 @@
 import thingahaApiClient from '../../utils/thingahaApiClient'
+import omitBy from 'lodash/omitBy'
 
 export const fetchAllDonations = async ({ page }) => {
   const { data } = await thingahaApiClient.get('/donations', {
@@ -14,9 +15,15 @@ export const fetchAllDonations = async ({ page }) => {
   }
 }
 
-export const getDonationsForMonth = async ({ year, month }) => {
+export const getDonationsForMonth = async ({ year, month, keyword, page }) => {
+  page = page || 1
+  let queryParams = omitBy(
+    { year, month, keyword },
+    (value) => value === '' || value === undefined || value === null
+  )
+
   const { data } = await thingahaApiClient.get('/donations', {
-    params: { year, month },
+    params: queryParams,
   })
 
   return {
