@@ -9,7 +9,10 @@ import TextField from '@material-ui/core/TextField'
 import ThingahaFormModal from '../common/ThingahaFormModal'
 import ThingahaSelect from '../common/ThingahaSelect'
 import MenuItem from '@material-ui/core/MenuItem'
-import { getCurrentYearAndMonth } from '../../utils/dateAndTimeHelpers'
+import {
+  getCurrentYearAndMonth,
+  dateConvertDefautToYMD,
+} from '../../utils/dateAndTimeHelpers'
 import range from 'lodash/range'
 
 const FormContainer = styled.div`
@@ -63,6 +66,8 @@ const AttendanceForm = ({
 }) => {
   const { year: currentYear } = getCurrentYearAndMonth()
   const years = range(currentYear - 10, currentYear + 1, 1)
+
+  console.log(values)
 
   return (
     <ThingahaFormModal
@@ -156,10 +161,9 @@ const AttendanceForm = ({
             <TextField
               id="enrolled_date"
               name="enrolled_date"
-              placeholder="Please enter enrolled date..."
               label="Enrolled Date"
               onChange={handleChange}
-              value={values.enrolled_date}
+              defaultValue={dateConvertDefautToYMD(values.enrolled_date)}
               type="date"
               InputLabelProps={{
                 shrink: true,
