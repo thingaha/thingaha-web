@@ -67,8 +67,6 @@ const AttendanceForm = ({
   const { year: currentYear } = getCurrentYearAndMonth()
   const years = range(currentYear - 10, currentYear + 1, 1)
 
-  console.log(values)
-
   return (
     <ThingahaFormModal
       title={editingAttendance ? 'Edit Student' : 'Add New Student'}
