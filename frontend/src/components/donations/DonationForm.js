@@ -13,6 +13,7 @@ import ThingahaFormModal from '../common/ThingahaFormModal'
 import ThingahaSelect from '../common/ThingahaSelect'
 import get from 'lodash/get'
 
+
 const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -271,8 +272,8 @@ const FormikDonationForm = withFormik({
   validationSchema: yup.object().shape({
     year: yup.number().required().positive().integer(),
     month: yup.mixed().oneOf(MONTHS.map(({ value }) => value)),
-    jpy_amount: yup.number().required().positive().integer(),
-    mmk_amount: yup.number().required().positive().integer(),
+    jpy_amount: yup.number().required().min(0).integer(),
+    mmk_amount: yup.number().required().min(0).integer(),
     attendance_id: yup.number().required().positive().integer(),
     user_id: yup.number().required().positive().integer(),
   }),
