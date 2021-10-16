@@ -54,7 +54,7 @@ class StudentModel(db.Model):
         return {
             "id": self.id,
             "name": self.name,
-            "deactivated_at": self.deactivated_at.strftime("%d-%m-%Y") if self.deactivated_at else "",
+            "deactivated_at": self.deactivated_at.strftime("%Y-%m-%d") if self.deactivated_at else "",
             "birth_date": self.birth_date.strftime("%Y-%m-%d") if self.birth_date else "",
             "father_name": self.father_name,
             "mother_name": self.mother_name,

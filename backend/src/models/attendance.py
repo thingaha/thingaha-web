@@ -52,7 +52,7 @@ class AttendanceModel(db.Model):
             "id": self.id,
             "grade": self.grade,
             "year": self.year,
-            "enrolled_date": self.enrolled_date.strftime("%d-%m-%Y"),
+            "enrolled_date": self.enrolled_date.strftime("%Y-%m-%d"),
             "school": school.school_dict(),
             "student": student.student_dict()
         }
