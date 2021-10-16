@@ -34,7 +34,7 @@ class ExtraFundsService(Service):
                 mmk_amount=int(data["mmk_amount"]),
                 transfer_id=int(data["transfer_id"])
             ))
-        except SQLAlchemyError:
+        except (SQLAlchemyError,ValueError):
             self.logger.error("Extra funds create fail. error %s", traceback.format_exc())
             raise SQLCustomError("Extra funds create fail")
 
@@ -60,7 +60,7 @@ class ExtraFundsService(Service):
             self.logger.error("Extra fund update fail. id %s, error %s, custom error: %s", extra_fund_id,
                               traceback.format_exc(), e)
             raise SQLCustomError(description="Update extra fund by ID SQL ERROR")
-        except SQLCustomError as e:
+        except (SQLCustomError, ValueError) as e:
             self.logger.error("Extra fund update fail. id %s, error %s, custom error: %s", extra_fund_id,
                               traceback.format_exc(), e)
             raise SQLCustomError(description="No record for requested extra fund")

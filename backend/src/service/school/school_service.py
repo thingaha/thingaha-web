@@ -80,11 +80,7 @@ class SchoolService(Service):
             self.logger.error("All school field input must be required.")
             raise ValidateFail("School validation fail")
         try:
-            return SchoolModel.create_school(SchoolModel(
-                name=data["name"],
-                photo=data["photo"],
-                contact_info=data["contact_info"],
-                address_id=int(data["address_id"])))
+            return SchoolModel.create_school(SchoolModel(**data))
         except SQLAlchemyError as error:
             self.logger.error("School create fail. error %s", error)
             raise SQLCustomError("School create fail")
@@ -118,11 +114,7 @@ class SchoolService(Service):
         try:
             self.logger.info(
                 "update school info by school_id:{}".format(school_id))
-            return SchoolModel.update_school(school_id, SchoolModel(
-                name=data["name"],
-                contact_info=data["contact_info"],
-                photo=data["photo"],
-                address_id=data["address_id"]))
+            return SchoolModel.update_school(school_id, SchoolModel(**data))
         except SQLAlchemyError as error:
             self.logger.error("Error: {}".format(error))
             raise SQLCustomError(description="Update school by ID SQL ERROR")

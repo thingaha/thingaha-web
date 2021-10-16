@@ -64,7 +64,7 @@ def student_json():
         "address[street_address]": "ဉီးဘအိုလမ်း",
         "address[township]": "အမှတ်(၂)ရပ်ကွက်",
         "active": True,
-        "birth_date": "12-08-2006",
+        "birth_date": "2006-12-08",
         "father_name": "ဉီးလှ",
         "mother_name": "ဒေါ်မြ",
         "name": "မောင်မောင်",
@@ -125,7 +125,7 @@ def attendance_json():
         "student_id": 1,
         "school_id": 1,
         "grade": "G-10",
-        "year": "2020",
+        "year": 2020,
         "enrolled_date": "2020-02-02"
     }
 
@@ -270,7 +270,6 @@ def test_reset_password(client, json_access_token):
     assert res.status_code == 403
 
 
-
 def test_get_user_by_id(client, json_access_token):
     res = client.get("/api/v1/users/1", headers=json_access_token)
     assert res.status_code == 200
@@ -279,6 +278,7 @@ def test_get_user_by_id(client, json_access_token):
 def test_put_user_by_id(client, json_access_token, user_json):
     res = client.post("/api/v1/users", json=user_json, headers=json_access_token)
     assert res.status_code == 403
+    # should only can update himself or herself
     res = client.put("/api/v1/users/1", json={
         "username": "test01",
         "display_name": "test01",
@@ -293,7 +293,7 @@ def test_put_user_by_id(client, json_access_token, user_json):
             "township": "La Thar township"
         }
     }, headers=json_access_token)
-    assert res.status_code == 403
+    assert res.status_code == 200
 
 
 def test_delete_user_by_id(client, json_access_token, user_json, address_json):
@@ -427,7 +427,7 @@ def test_create_update_student(client, json_access_token, student_json):
         "address[street_address]": "ဉီးဘအိုလမ်း",
         "address[township]": "အမှတ်(၂)ရပ်ကွက်",
         "active": True,
-        "birth_date": "12-08-2006",
+        "birth_date": "2006-12-08",
         "father_name": "ဉီးလှ",
         "mother_name": "ဒေါ်မြ",
         "name": "မောင်မောင်",

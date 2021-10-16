@@ -10,6 +10,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import relationship
 
 from common.error import SQLCustomError
+from common.helper import ThingahaHelper
 from database import db
 from models.school import SchoolModel
 from models.student import StudentModel
@@ -52,7 +53,7 @@ class AttendanceModel(db.Model):
             "id": self.id,
             "grade": self.grade,
             "year": self.year,
-            "enrolled_date": self.enrolled_date.strftime("%Y-%m-%d"),
+            "enrolled_date": ThingahaHelper.standardize_date(self.enrolled_date),
             "school": school.school_dict(),
             "student": student.student_dict()
         }

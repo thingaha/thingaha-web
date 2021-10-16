@@ -1,12 +1,12 @@
 """API route for Student API"""
-from datetime import datetime
+
+import traceback
 
 from flask import request, current_app, jsonify
 from flask_cors import cross_origin
 from flask_jwt_extended import jwt_required
 
 from common.error import SQLCustomError, RequestDataEmpty, ValidateFail, ThingahaCustomError
-from common.helper import ThingahaHelper
 from controller.api import address_service
 from controller.api import api, post_request_empty, custom_error, sub_admin, full_admin, get_default_address
 from service.student.student_service import StudentService
@@ -79,7 +79,7 @@ def create_student():
     if data is None:
         return post_request_empty()
     try:
-        address_data = ThingahaHelper.parse_address_data(data) if data.get('address[division]') else get_default_address()
+        address_data = address_service.thingaha_helper.parse_address_data(data) if data.get('address[division]') else get_default_address()
         address_id = address_service.create_address({
             "division": address_data.get("division"),
             "district": address_data.get("district"),
@@ -89,11 +89,10 @@ def create_student():
         }, True)
         if not address_id:
             raise ThingahaCustomError("Student address create fail")
-
         student_id = student_service.create_student({
             "name": data.get("name"),
-            "deactivated_at":  None if data.get("active") else datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "birth_date": data.get("birth_date"),
+            "deactivated_at":  None if data.get("active") else student_service.thingaha_helper.get_now(),
+            "birth_date": student_service.thingaha_helper.standardize_str_to_date(data.get("birth_date")),
             "father_name": data.get("father_name"),
             "mother_name": data.get("mother_name"),
             "gender": data.get("gender"),
@@ -102,8 +101,8 @@ def create_student():
             "address_id": address_id})
         current_app.logger.info("Create student success. student_name %s", data.get("name"))
         return get_student_by_id(student_id), 200
-    except (RequestDataEmpty, SQLCustomError, ValidateFail, ThingahaCustomError) as error:
-        current_app.logger.error("Create student request fail")
+    except (RequestDataEmpty, SQLCustomError, ValidateFail, ThingahaCustomError, ValueError) as error:
+        current_app.logger.error(f"Create student request fail.{traceback.format_exc()}")
         return jsonify({"errors": [error.__dict__]}), 400
 
 
@@ -154,7 +153,7 @@ def update_student(student_id: int):
         return custom_error("Invalid student id supplied.")
 
     try:
-        address_data = ThingahaHelper.parse_address_data(data)
+        address_data = address_service.thingaha_helper.parse_address_data(data)
         address_updated = True
 
         if address_data:
@@ -169,8 +168,8 @@ def update_student(student_id: int):
         if address_updated:
             student_update_status = student_service.update_student_by_id(student_id, {
                 "name": data.get("name"),
-                "deactivated_at": None if data.get("active") else datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                "birth_date": data.get("birth_date"),
+                "deactivated_at": None if data.get("active") else student_service.thingaha_helper.get_now(),
+                "birth_date": student_service.thingaha_helper.standardize_str_to_date(data.get("birth_date")),
                 "father_name": data.get("father_name"),
                 "mother_name": data.get("mother_name"),
                 "gender": data.get("gender"),
@@ -186,12 +185,11 @@ def update_student(student_id: int):
                 custom_error("Update Fail for student id: {}".format(student_id))
 
     except ValueError as error:
-        current_app.logger.error("Value error for address id. error: %s", error)
+        current_app.logger.error(f"Value error for address id. error: {error}")
         return jsonify({"errors": [error.__dict__]}), 400
 
     except (SQLCustomError, ValidateFail, RequestDataEmpty) as error:
-        current_app.logger.error("Error for student data update id {} Error: {}"
-                                 .format(student_id, error))
+        current_app.logger.error(f"Error for student data update id {student_id} Error: {error}")
         return jsonify({"errors": [error.__dict__]}), 400
 
 
