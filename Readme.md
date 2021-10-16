@@ -137,6 +137,10 @@ Main UI framework is [Material UI](https://material-ui.com/). For component styl
   - Then, run `yarn start`
   - To set up for windows developmemt, please update frontend\package.json
     - `"start": "PORT=5001 react-scripts start"` to `"start": "set PORT=5001 && react-scripts start"`
+  - To set up for connection with server (draft api or backend)
+    - rename file `frontend\src\.env.example` to `frontend\src\.env.local`
+  - To set up for connection with draft api server, update frontend\src\\.env.local file
+    - `REACT_APP_USE_DRAFT_API=false` to `REACT_APP_USE_DRAFT_API=true`
   - The frontend dev server is configured to run on port `5001`. Try navigating to [http://localhost:5001/](http://localhost:5001/) to see the app in action.
 
   - initial login information
