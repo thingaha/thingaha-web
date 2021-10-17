@@ -1,21 +1,5 @@
 import PersistentAuthentication from '../../utils/persistentAuthentication'
 import thingahaApiClient from '../../utils/thingahaApiClient'
-import config from '../../config'
-
-// Development only - fake login method
-// Just returning hardcoded values
-const draftLogin = ({ email_or_username, password }) => {
-  const fakeCredentials = {
-    accessToken: 'faketoken',
-    currentUser: {
-      email_or_username,
-      name: 'Fake Login',
-    },
-  }
-  PersistentAuthentication.save(fakeCredentials)
-
-  return fakeCredentials
-}
 
 export const login = async ({ email_or_username, password }) => {
   const { data } = await thingahaApiClient.post('/login', {
