@@ -10,8 +10,7 @@ import ThingahaFormModal from '../common/ThingahaFormModal'
 import ThingahaSelect from '../common/ThingahaSelect'
 import MenuItem from '@material-ui/core/MenuItem'
 import {
-  getCurrentYearAndMonth,
-  dateConvertDefautToYMD,
+  getCurrentYearAndMonth
 } from '../../utils/dateAndTimeHelpers'
 import range from 'lodash/range'
 
@@ -161,7 +160,7 @@ const AttendanceForm = ({
               name="enrolled_date"
               label="Enrolled Date"
               onChange={handleChange}
-              defaultValue={dateConvertDefautToYMD(values.enrolled_date)}
+              defaultValue={values.enrolled_date}
               type="date"
               InputLabelProps={{
                 shrink: true,

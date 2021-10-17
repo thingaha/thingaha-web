@@ -25,9 +25,3 @@ export const getCurrentYearAndMonth = () => {
     month: currentMonth,
   }
 }
-
-//DefautToYMD dd-mm-yyyy to yyyy-mm-dd
-export const dateConvertDefautToYMD = (date) => {
-  const [day, month, year] = date.split('-')
-  return `${year}-${month}-${day}`
-}
