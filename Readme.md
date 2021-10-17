@@ -12,6 +12,7 @@ For project background and current goals for v1.0, please read the [Wiki Home Pa
 2. [PostgreSQL](https://www.postgresql.org/download/) == 12.3
 
 ### Environment setup
+  - you only need to setup one of them [Docker based setup](#docker-based-setup) or [Native env setup using Anaconda](#native-env-setup-using-anaconda)
 
 #### Docker based setup
 
