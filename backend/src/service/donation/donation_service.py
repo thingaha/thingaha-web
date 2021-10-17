@@ -105,9 +105,9 @@ class DonationService(Service):
         :params per_page
         :return: donation list of dict
         """
-        self.logger.debug("Get Donation list by search (year, month, keyword): {}, {}, {}, {}, {}".format(year, month, keyword, page, per_page))
+        self.logger.debug("Donation serach params: (year: {}, month: {}, keyword: {}, page: {}, per_page: {})".format(year, month, keyword, page, per_page))
         donations = DonationModel.search_donations(year=year, month=month, keyword=keyword, page=page, per_page=per_page)
-        self.logger.debug("Total: {}".format(donations.items))
+
         return {
             "donations": [donation.donation_dict(user, student) for donation, user, student in donations.items],
             "total_count": donations.total,
