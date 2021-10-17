@@ -11,7 +11,7 @@ donation_service = DonationService()
 
 def with_donation_service(func):
     """
-    admin role checking for sub admin or full admin
+    Decorator function to set donation service instance on each route that needs it.
     """
     wraps(func)
 
@@ -26,18 +26,13 @@ def with_donation_service(func):
 @jwt_required
 @cross_origin()
 @with_donation_service
-def get_my_donations(donation_service):
+def get_my_donations(donation_service: DonationService):
     try:
         page = request.args.get("page", 1, type=int)
         per_page = request.args.get("per_page", 20, type=int)
         year = request.args.get("year", None, type=int)
         month = request.args.get("month", None, type=str)
         user_id = get_jwt_identity()
-        current_app.logger.info("Parameters: year => {}, month => {}".format(year, month))
-        # TODO: Need to handle the following filters:
-        # - year only
-        # - year and month
-        # - year and month and search keyword
 
         if year is not None and month is not None:
             return jsonify({
@@ -45,7 +40,7 @@ def get_my_donations(donation_service):
             }), 200
         else:
             return jsonify({
-                "data": donation_service.search_donation_records(year=2020, month="december", keyword=None, page=page, per_page=per_page)
+                "data": donation_service.search_donation_records(year=year, month=month, keyword=None, page=page, per_page=per_page)
             }), 200
 
     except SQLCustomError as error:
@@ -57,7 +52,7 @@ def get_my_donations(donation_service):
 @jwt_required
 @cross_origin()
 @with_donation_service
-def get_donations(donation_service):
+def get_donations(donation_service: DonationService):
     try:
         page = request.args.get("page", 1, type=int)
         per_page = request.args.get("per_page", 20, type=int)
@@ -65,9 +60,7 @@ def get_donations(donation_service):
         month = request.args.get("month", None, type=str)
         keyword = request.args.get("keyword", None, type=str)
 
-        current_app.logger.info("Parameters: year => {}, month => {}".format(year, month))
-
-        if year is not None or month is not None or keyword is not None:
+        if year or month or keyword:
             return jsonify({
                 "data": donation_service.search_donation_records(
                     year=year,
@@ -91,7 +84,7 @@ def get_donations(donation_service):
 @jwt_required
 @cross_origin()
 @with_donation_service
-def get_donation_by_id(donation_service, donation_id: int):
+def get_donation_by_id(donation_service: DonationService, donation_id: int):
     """
     get donation by donation id
     :return:
@@ -113,7 +106,7 @@ def get_donation_by_id(donation_service, donation_id: int):
 @sub_admin
 @cross_origin()
 @with_donation_service
-def create_donation(donation_service):
+def create_donation(donation_service: DonationService):
     """
     create donation by post body
     :return:
@@ -144,7 +137,7 @@ def create_donation(donation_service):
 @full_admin
 @cross_origin()
 @with_donation_service
-def delete_donation(donation_service, donation_id):
+def delete_donation(donation_service: DonationService, donation_id: int):
     """
     delete donation  by ID
     :param donation_id:
@@ -165,7 +158,7 @@ def delete_donation(donation_service, donation_id):
 @sub_admin
 @cross_origin()
 @with_donation_service
-def update_donation(donation_service, donation_id: int):
+def update_donation(donation_service: DonationService, donation_id: int):
     """
     update donation by ID
     :param donation_id:
@@ -208,7 +201,7 @@ def update_donation(donation_service, donation_id: int):
 @sub_admin
 @cross_origin()
 @with_donation_service
-def update_donation_status(donation_service, donation_id: int):
+def update_donation_status(donation_service: DonationService, donation_id: int):
     """
     update donation by ID
     :param donation_id:
