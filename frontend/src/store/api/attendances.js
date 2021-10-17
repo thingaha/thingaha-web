@@ -25,6 +25,14 @@ export const fetchAllAttendances = async (
   }
 }
 
+const transformTypesForAttendances = (attendanceFormValues) => ({
+  student_id: attendanceFormValues.school_id,
+  school_id: attendanceFormValues.school_id,
+  grade: attendanceFormValues.grade,
+  year: attendanceFormValues.year,
+  enrolled_date: attendanceFormValues.enrolled_date,
+})
+
 export const createAttendance = async ({
   student_id,
   school_id,
@@ -48,7 +56,7 @@ export const createAttendance = async ({
 export const editAttendance = async (attendanceFormValues) => {
   const { data } = await thingahaApiClient.put(
     `/attendances/${attendanceFormValues.id}`,
-    attendanceFormValues
+    transformTypesForAttendances(attendanceFormValues)
   )
 
   return {

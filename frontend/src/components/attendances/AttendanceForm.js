@@ -156,7 +156,6 @@ const AttendanceForm = ({
             <TextField
               id="enrolled_date"
               name="enrolled_date"
-              placeholder="Please enter enrolled date..."
               label="Enrolled Date"
               onChange={handleChange}
               value={values.enrolled_date}
