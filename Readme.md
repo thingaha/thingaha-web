@@ -133,20 +133,12 @@ Main UI framework is [Material UI](https://material-ui.com/). For component styl
 #### Getting Started
 
 - First, install tools listed in pre-requisite section.
-- Then, set up the draft api server. **We're using a draft api server with canned response before backend is ready**
-  - To set up draft api server, `cd` into the `draft_server` directory and install necessary node modules by running `yarn install`.
-  - Then, run `yarn start`
-  - The draft server is configured to run on port `9000`. Try navigating to [http://localhost:9000/users](http://localhost:9000/users) to see if draft server is working properly.
 - Then set up the frontend app.
 
   - To set up frontend dev server, `cd` into the `frontend` directory and install necessary node modules by running `yarn install`.
   - Then, run `yarn start`
   - To set up for windows developmemt, please update frontend\package.json
     - `"start": "PORT=5001 react-scripts start"` to `"start": "set PORT=5001 && react-scripts start"`
-  - To set up for connection with server (draft api or backend)
-    - rename file `frontend\src\.env.example` to `frontend\src\.env.local`
-  - To set up for connection with draft api server, update frontend\src\\.env.local file
-    - `REACT_APP_USE_DRAFT_API=false` to `REACT_APP_USE_DRAFT_API=true`
   - The frontend dev server is configured to run on port `5001`. Try navigating to [http://localhost:5001/](http://localhost:5001/) to see the app in action.
 
   - initial login information
