@@ -62,15 +62,15 @@ def create_attendance():
         return post_request_empty()
     try:
         attendance_id = attendance_service.create_attendance({
-            "student_id": data.get("student_id"),
-            "school_id": data.get("school_id"),
+            "student_id": int(data.get("student_id")),
+            "school_id": int(data.get("school_id")),
             "grade": data.get("grade"),
-            "year": data.get("year"),
-            "enrolled_date": data.get("enrolled_date")})
+            "year": int(data.get("year")),
+            "enrolled_date": attendance_service.thingaha_helper.standardize_str_to_date(data.get("enrolled_date"))})
         current_app.logger.info("Create school success. school_name %s", data.get("school_name"))
         return get_attendance_by_id(attendance_id), 200
-    except (RequestDataEmpty, SQLCustomError, ValidateFail) as error:
-        current_app.logger.error("Create attendance request fail")
+    except (RequestDataEmpty, SQLCustomError, ValidateFail, ValueError) as error:
+        current_app.logger.error(f"Create attendance request fail. {error}")
         return jsonify({"errors": [error.__dict__]}), 400
 
 
@@ -109,7 +109,12 @@ def update_attendance(attendance_id: int):
         return post_request_empty()
 
     try:
-        status = attendance_service.update_attendance_by_id(attendance_id, data)
+        status = attendance_service.update_attendance_by_id(attendance_id, {
+            "student_id": int(data.get("student_id")),
+            "school_id": int(data.get("school_id")),
+            "grade": data.get("grade"),
+            "year": int(data.get("year")),
+            "enrolled_date": attendance_service.thingaha_helper.standardize_str_to_date(data.get("enrolled_date"))})
 
         if status:
             current_app.logger.info("Success update attendance for attendance_id: %s", attendance_id)

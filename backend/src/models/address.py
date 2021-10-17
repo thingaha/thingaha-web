@@ -6,9 +6,8 @@ from datetime import datetime
 from typing import Dict, Any
 
 from flask_sqlalchemy import Pagination
-from sqlalchemy import or_, desc, Column, DateTime, UnicodeText, Integer, Enum
+from sqlalchemy import or_, Column, DateTime, UnicodeText, Integer, Enum
 from sqlalchemy.exc import SQLAlchemyError
-
 from common.error import SQLCustomError
 from database import db
 

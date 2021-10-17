@@ -1,4 +1,4 @@
-"""school service class for CRUD actions"""
+"""attendance service class for CRUD actions"""
 import traceback
 from typing import List, Any, Optional, Dict
 
@@ -78,12 +78,7 @@ class AttendanceService(Service):
             self.logger.error("All attendance field input must be required.")
             raise ValidateFail("Attendance validation fail")
         try:
-            return AttendanceModel.create_attendance(AttendanceModel(
-                student_id=data["student_id"],
-                school_id=data["school_id"],
-                grade=data["grade"],
-                year=data["year"],
-                enrolled_date=data["enrolled_date"]))
+            return AttendanceModel.create_attendance(AttendanceModel(**data))
         except SQLAlchemyError as error:
             self.logger.error("Attendance create fail. error %s, format: %s ", error, traceback.format_exc())
             raise SQLCustomError("Attendance create fail")
@@ -115,12 +110,7 @@ class AttendanceService(Service):
             raise ValidateFail("Attendance update validation fail")
         try:
             self.logger.info("Update attendance info by attendance_id:{}".format(attendance_id))
-            return AttendanceModel.update_attendance(attendance_id, AttendanceModel(
-                student_id=data["student_id"],
-                school_id=data["school_id"],
-                grade=data["grade"],
-                year=data["year"],
-                enrolled_date=data["enrolled_date"]))
+            return AttendanceModel.update_attendance(attendance_id, AttendanceModel(**data))
         except SQLAlchemyError as error:
             self.logger.error("Error: {}".format(error))
             raise SQLCustomError(description="Update attendance by ID SQL ERROR")

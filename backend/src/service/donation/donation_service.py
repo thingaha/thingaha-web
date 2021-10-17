@@ -129,16 +129,7 @@ class DonationService(Service):
             self.logger.error("All donation field input must be required.")
             raise ValidateFail("Donation validation fail")
         try:
-            return DonationModel.create_donation(DonationModel(
-                user_id=data["user_id"],
-                attendance_id=data["attendance_id"],
-                transfer_id=data["transfer_id"],
-                year=data["year"],
-                month=data["month"],
-                mmk_amount=data["mmk_amount"],
-                jpy_amount=data["jpy_amount"],
-                paid_at=data["paid_at"]
-                ))
+            return DonationModel.create_donation(DonationModel(**data))
         except SQLAlchemyError as error:
             self.logger.error("Donation create fail. error %s", error)
             raise SQLCustomError("Donation create fail")
@@ -170,15 +161,7 @@ class DonationService(Service):
             raise ValidateFail("Donation update validation fail")
         try:
             self.logger.info("Update donation info by donation_id:{}".format(donation_id))
-            return DonationModel.update_donation(donation_id, DonationModel(
-                user_id=data["user_id"],
-                attendance_id=data["attendance_id"],
-                transfer_id=data["transfer_id"],
-                year=data["year"],
-                month=data["month"],
-                mmk_amount=data["mmk_amount"],
-                jpy_amount=data["jpy_amount"],
-                paid_at=data["paid_at"]))
+            return DonationModel.update_donation(donation_id, DonationModel(**data))
         except SQLAlchemyError as error:
             self.logger.error("Error: {}".format(error))
             raise SQLCustomError(description="Update donation by ID SQL ERROR")

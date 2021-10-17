@@ -58,7 +58,7 @@ attendance_schema = Schema({
     "school_id": int,
     "grade": str,
     "year": int,
-    "enrolled_date": str
+    "enrolled_date": datetime
 })
 
 donation_schema = Schema({
@@ -87,7 +87,7 @@ transfer_schema = Schema({
 student_schema = Schema({
     "name": str,
     "deactivated_at": Or(None, str),
-    "birth_date": str,
+    "birth_date": datetime,
     "father_name": str,
     "mother_name": str,
     "parents_occupation": str,

@@ -11,7 +11,7 @@ Input Sample:
   "student_id": 1,
   "school_id": 1,
   "grade": "G-10",
-  "year": "2020",
+  "year": 2020,
   "enrolled_date": "2020-02-02"
 }
 ```
@@ -23,7 +23,7 @@ Output Sample:
   "data": {
     "attendances": [
       {
-        "enrolled_date": "02-02-2020",
+        "enrolled_date": "2020-02-02",
         "grade": "G-9",
         "id": 1,
         "school": {
@@ -81,7 +81,7 @@ Output Sample
   "data": {
     "attendances": [
       {
-        "enrolled_date": "02-02-2020",
+        "enrolled_date": "2020-02-02",
         "grade": "G-10",
         "id": 2,
         "school": {
@@ -104,7 +104,7 @@ Output Sample
             "street_address": "18 street",
             "township": "La Thar township"
           },
-          "birth_date": "09-06-2020",
+          "birth_date": "2020-09-06",
           "deactivated_at": "",
           "father_name": "U Aye",
           "id": 1,
@@ -115,7 +115,7 @@ Output Sample
         "year": "2020"
       },
       {
-        "enrolled_date": "02-02-2020",
+        "enrolled_date": "2020-02-02",
         "grade": "G-9",
         "id": 1,
         "school": {
@@ -138,7 +138,7 @@ Output Sample
             "street_address": "18 street",
             "township": "La Thar township"
           },
-          "birth_date": "09-06-2020",
+          "birth_date": "2020-09-06",
           "deactivated_at": "",
           "father_name": "U Aye",
           "id": 1,
@@ -186,7 +186,7 @@ Output Sample
 {
   "data": {
     "attendance": {
-      "enrolled_date": "02-02-2020",
+      "enrolled_date": "2020-02-02",
       "grade": "G-9",
       "id": 1,
       "school": {
@@ -209,7 +209,7 @@ Output Sample
           "street_address": "18 street",
           "township": "La Thar township"
         },
-        "birth_date": "09-06-2020",
+        "birth_date": "2020-09-06",
         "deactivated_at": "",
         "father_name": "U Aye",
         "id": 1,
@@ -247,7 +247,7 @@ Output Sample:
 {
   "data": {
     "attendance": {
-      "enrolled_date": "02-02-2020",
+      "enrolled_date": "2020-02-02",
       "grade": "G-8",
       "id": 3,
       "school": {
@@ -270,8 +270,8 @@ Output Sample:
           "street_address": "ဉီးဘအိုလမ်း",
           "township": "အမှတ်(၂)ရပ်ကွက်"
         },
-        "birth_date": "11-08-2006",
-        "deactivated_at": "09-06-2020",
+        "birth_date": "2006-11-08",
+        "deactivated_at": "2020-09-06",
         "father_name": "ဉီးအေး",
         "id": 4,
         "mother_name": "ဒေါ်အေးအေး",

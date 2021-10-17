@@ -1,6 +1,6 @@
 """address service layer for CRUD action"""
 import traceback
-from typing import Dict, Any, List, Optional, Tuple
+from typing import Dict, Any, List, Union, Tuple
 
 from flask_sqlalchemy import Pagination
 from sqlalchemy.exc import SQLAlchemyError
@@ -109,7 +109,7 @@ class AddressService(Service):
             raise SQLCustomError(description="Delete address by ID SQL ERROR")
 
     @staticmethod
-    def __return_address_types(page: int, per_page: int, address_type: str) -> Optional[Tuple[Pagination, Dict]]:
+    def __return_address_types(page: int, per_page: int, address_type: str) -> Union[Tuple[None, None], Tuple[Pagination, Dict]]:
         """
         return address by requested types
         :params page

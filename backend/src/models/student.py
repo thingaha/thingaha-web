@@ -10,6 +10,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import relationship
 
 from common.error import SQLCustomError
+from common.helper import ThingahaHelper
 from database import db
 from models.address import AddressModel
 
@@ -54,8 +55,8 @@ class StudentModel(db.Model):
         return {
             "id": self.id,
             "name": self.name,
-            "deactivated_at": self.deactivated_at.strftime("%Y-%m-%d") if self.deactivated_at else "",
-            "birth_date": self.birth_date.strftime("%Y-%m-%d") if self.birth_date else "",
+            "deactivated_at": ThingahaHelper.standardize_date(self.deactivated_at) if self.deactivated_at else "",
+            "birth_date": ThingahaHelper.standardize_date(self.birth_date) if self.birth_date else "",
             "father_name": self.father_name,
             "mother_name": self.mother_name,
             "gender": self.gender,

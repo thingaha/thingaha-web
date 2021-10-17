@@ -36,7 +36,7 @@ class TransferService(Service):
                 total_jpy=int(data["total_jpy"]),
                 total_mmk=int(data["total_mmk"])
                 ))
-        except SQLAlchemyError:
+        except (SQLAlchemyError, ValueError):
             self.logger.error("Transfer create fail. error %s", traceback.format_exc())
             raise SQLCustomError("Transfer create fail")
 
@@ -59,7 +59,7 @@ class TransferService(Service):
                 month=data["month"],
                 total_jpy=int(data["total_jpy"]),
                 total_mmk=int(data["total_mmk"])))
-        except SQLAlchemyError as error:
+        except (SQLAlchemyError, ValueError) as error:
             self.logger.error("Transfer update fail. id %s, error %s, custom error: %s", transfer_id,
                               traceback.format_exc(), error)
             raise SQLCustomError(description="Update transfer by ID SQL ERROR")

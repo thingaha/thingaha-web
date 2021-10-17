@@ -41,7 +41,7 @@ Output Sample:
           "township": "ညောင်တုန်းမြို့နယ်"
         },
         "birth_date": "2000-03-03",
-        "deactivated_at": "28-02-2017",
+        "deactivated_at": "2017-28-02",
         "father_name": "ဦးမောင်ဦး",
         "id": 1,
         "mother_name": "ဒေါ်မြအေး",
@@ -103,7 +103,7 @@ Output Sample
             "township": "အမှတ်(၄)ရပ်ကွက်"
           },
           "birth_date": "11-08-2006",
-          "deactivated_at": "09-06-2020",
+          "deactivated_at": "2020-09-06",
           "father_name": "ဉီးအောင်အောင်",
           "id": 2,
           "mother_name": "ဒေါ်အေးမြ",
@@ -165,7 +165,7 @@ Output Sample
             "township": "ညောင်တုန်းမြို့နယ်"
           },
           "birth_date": "2002-03-03",
-          "deactivated_at": "31-03-2019",
+          "deactivated_at": "2019-31-03",
           "father_name": "ဦးစိုးဝင်း",
           "id": 25,
           "mother_name": "ဒေါ်သိန်းကြည်",
@@ -234,8 +234,8 @@ Output Sample
             "street_address": "၃၆လမ်း",
             "township": "အမှတ်(၄)ရပ်ကွက်"
           },
-          "birth_date": "11-08-2006",
-          "deactivated_at": "09-06-2020",
+          "birth_date": "2006-11-08",
+          "deactivated_at": "2020-09-06",
           "father_name": "ဉီးအောင်အောင်",
           "id": 2,
           "mother_name": "ဒေါ်အေးမြ",
@@ -306,7 +306,7 @@ Output Sample:
           "township": "အမှတ်(၂)ရပ်ကွက်"
         },
         "birth_date": "11-08-2006",
-        "deactivated_at": "09-06-2020",
+        "deactivated_at": "2020-09-06",
         "father_name": "ဉီးအောင်အောင်",
         "id": 2,
         "mother_name": "ဒေါ်အေးမြ",
@@ -372,7 +372,7 @@ Output Sample:
           "township": "အမှတ်(၂)ရပ်ကွက်"
         },
         "birth_date": "11-08-2006",
-        "deactivated_at": "09-06-2020",
+        "deactivated_at": "2020-09-06",
         "father_name": "ဉီးအောင်အောင်",
         "id": 2,
         "mother_name": "ဒေါ်အေးမြ",

@@ -64,7 +64,7 @@ def student_json():
         "address[street_address]": "ဉီးဘအိုလမ်း",
         "address[township]": "အမှတ်(၂)ရပ်ကွက်",
         "deactivated_at": "2020-07-26T03:37:05.836Z",
-        "birth_date": "12-08-2006",
+        "birth_date": "2006-12-08",
         "father_name": "ဉီးလှ",
         "mother_name": "ဒေါ်မြ",
         "name": "မောင်မောင်",
@@ -124,7 +124,7 @@ def attendance_json():
         "student_id": 1,
         "school_id": 1,
         "grade": "G-10",
-        "year": "2020",
+        "year": 2020,
         "enrolled_date": "2020-02-02"
     }
 
@@ -428,7 +428,7 @@ def test_create_update_student(client, json_access_token, student_json):
         "address[street_address]": "ဉီးဘအိုလမ်း",
         "address[township]": "အမှတ်(၂)ရပ်ကွက်",
         "deactivated_at": "2020-07-26T03:37:05.836Z",
-        "birth_date": "12-08-2006",
+        "birth_date": "2006-08-06",
         "father_name": "ဉီးလှ",
         "mother_name": "ဒေါ်မြ",
         "name": "မောင်မောင်",
