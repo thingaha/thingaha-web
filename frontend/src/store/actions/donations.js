@@ -38,11 +38,13 @@ export const fetchDonations = ({ page } = { page: 1 }) => {
   }
 }
 
-export const getDonationsForMonth = ({ year, month }) => {
+export const getDonationsForMonth = ({ year, month, keyword, page }) => {
   return {
     type: GET_DONATIONS_FOR_MONTH,
-    year: year,
-    month: month,
+    year,
+    month,
+    keyword,
+    page,
   }
 }
 

@@ -6,6 +6,7 @@ import { formatMMK, formatJPY } from '../../utils/formatCurrency'
 import { media } from '../../styles/variables'
 import VisibilityRoundedIcon from '@material-ui/icons/VisibilityRounded'
 import { Link } from 'react-router-dom'
+import Chip from '@material-ui/core/Chip'
 
 const DonationCardWrapper = styled(Paper)`
   display: flex;
@@ -127,6 +128,14 @@ const DonationCard = ({ donation, onEdit }) => {
       <div className="col1">
         <div className="year">{donation.year}</div>
         <div className="month">{donation.month.slice(0, 3)}</div>
+        <div className="month">
+          <Chip
+            label={donation.id}
+            variant="default"
+            size="small"
+            className="current-page-total"
+          />
+        </div>
       </div>
       <div className="col2">
         <div className="top-row">

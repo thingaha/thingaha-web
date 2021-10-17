@@ -41,13 +41,15 @@ export function* fetchDonations({ page }) {
   }
 }
 
-export function* fetchDonationsForMonth({ year, month }) {
+export function* fetchDonationsForMonth({ year, month, keyword, page }) {
   try {
-    const response = yield getDonationsForMonth({ year, month })
+    const response = yield getDonationsForMonth({ year, month, keyword, page })
 
     yield put({
       type: GET_DONATIONS_FOR_MONTH_SUCCESS,
       donations: response.data.donations,
+      totalCount: response.data.total_count,
+      totalPages: response.data.total_pages,
     })
   } catch (error) {
     yield defaultErrorHandler(error, GET_DONATIONS_FOR_MONTH_FAILURE)

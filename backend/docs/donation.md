@@ -76,10 +76,10 @@ Output Sample:
 
 ### GET all donations
 
-| API                                  |             Description             | Action |
-| :----------------------------------- | :---------------------------------: | -----: |
-| /api/v1/donations                    |  GET all donations with pagination  |    GET |
-| /api/v1/donations?year=XXX&month=XXX | GET all donations by year and month |    GET |
+| API                                               |             Description             | Action |
+| :------------------------------------------------ | :---------------------------------: | -----: |
+| /api/v1/donations                                 |  GET all donations with pagination  |    GET |
+| /api/v1/donations?year=XXX&month=XXX&keyword=name | GET all donations by year and month |    GET |
 
 Output Sample
 
@@ -134,6 +134,7 @@ Output Sample
 ```
 
 ### GET all logged in donator donations
+
 - return logged in donator's donations only
 
 | API                                          |                 Description                 | Action |

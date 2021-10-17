@@ -25,3 +25,11 @@ export const getCurrentYearAndMonth = () => {
     month: currentMonth,
   }
 }
+
+// A convenient year configuration for year pickers
+// This should give us a pragmatic range of years to choose from.
+// Thingaha project real data starts from 2015.
+export const THINGAHA_PROJECT_YEARS = [
+  2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027,
+  2028, 2029, 2030,
+]
