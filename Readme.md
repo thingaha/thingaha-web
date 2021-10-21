@@ -12,7 +12,7 @@ For project background and current goals for v1.0, please read the [Wiki Home Pa
 2. [PostgreSQL](https://www.postgresql.org/download/) == 12.3
 
 ### Environment setup
-  - you only need to setup one of them [Docker based setup](#docker-based-setup) or [Native env setup using Anaconda](#native-env-setup-using-anaconda)
+  - You can set up backend using either [Docker based setup](#docker-based-setup) or [Native env setup using Anaconda](#native-env-setup-using-anaconda). You only need to setup one of them.
 
 #### Docker based setup
 
@@ -137,6 +137,8 @@ Main UI framework is [Material UI](https://material-ui.com/). For component styl
 - Then set up the frontend app.
 
   - To set up frontend dev server, `cd` into the `frontend` directory and install necessary node modules by running `yarn install`.
+  - To set up for connection with backend server
+    - copy env file (`frontend\src\.env.example`) and rename to (`frontend\src\.env.local`)
   - Then, run `yarn start`
   - To set up for windows developmemt, please update frontend\package.json
     - `"start": "PORT=5001 react-scripts start"` to `"start": "set PORT=5001 && react-scripts start"`
