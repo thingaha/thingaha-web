@@ -2,10 +2,10 @@
 from __future__ import annotations
 
 from datetime import date, datetime
-from typing import List
+from typing import List, Optional
 
 from flask_sqlalchemy import Pagination
-from sqlalchemy import and_, desc, Column, Date, DateTime, Integer, ForeignKey, Enum
+from sqlalchemy import or_, and_, desc, Column, Date, DateTime, Integer, ForeignKey, Enum
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import relationship
 
@@ -27,8 +27,8 @@ class AttendanceModel(db.Model):
                 name="grade"))
     year = Column(Integer, nullable=False)
     enrolled_date = Column(Date, nullable=True)
-    school = relationship("SchoolModel", foreign_keys=[school_id])
-    student = relationship("StudentModel", foreign_keys=[student_id])
+    school = relationship("SchoolModel", foreign_keys=[school_id], lazy='joined')
+    student = relationship("StudentModel", foreign_keys=[student_id], lazy='joined')
     created_at = Column(DateTime, default=datetime.now)
     updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
 
@@ -82,9 +82,40 @@ class AttendanceModel(db.Model):
         :return: Attendance Pagination Object
         """
         try:
-            return db.session.query(AttendanceModel, SchoolModel, StudentModel).\
-                filter(AttendanceModel.school_id == SchoolModel.id).\
-                filter(AttendanceModel.student_id == StudentModel.id).order_by(desc(AttendanceModel.created_at)).paginate(page=page, per_page=per_page, error_out=False)
+            query = db.session.query(AttendanceModel).options(
+                    db.joinedload(AttendanceModel.school, innerjoin=True),
+                    db.joinedload(AttendanceModel.student, innerjoin=True)
+                )
+            query = query.order_by(desc(AttendanceModel.created_at))
+
+            return query.paginate(page=page, per_page=per_page, error_out=False)
+        except SQLAlchemyError as error:
+            raise error
+
+    @staticmethod
+    def search_attendances(grade: Optional[str], year: Optional[int], keyword: Optional[str], page: int = 1, per_page: int = 20) -> Pagination:
+        """
+        get all Attendance records
+        :params page
+        :params per_page
+        :return: Attendance Pagination Object
+        """
+        try:
+            query = db.session.query(AttendanceModel).options(
+                db.joinedload(AttendanceModel.school, innerjoin=True).\
+                    selectinload(SchoolModel.address),
+                db.joinedload(AttendanceModel.student, innerjoin=True).\
+                    selectinload(StudentModel.address))
+
+            if grade:
+                query = query.filter(AttendanceModel.grade == grade)
+            if year:
+                query = query.filter(AttendanceModel.year == year)
+            if keyword:
+                query = query.filter(StudentModel.name.ilike(f"%{keyword}%"))
+            query = query.order_by(desc(AttendanceModel.created_at))
+
+            return query.paginate(page=page, per_page=per_page, error_out=False)
         except SQLAlchemyError as error:
             raise error
 

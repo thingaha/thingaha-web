@@ -18,26 +18,26 @@ class AttendanceService(Service):
     def __init__(self, logger=None) -> None:
         super().__init__(logger)
 
-    def get_all_attendances(self, page: int, grade: str, year: int, per_page: int = 20) -> (List, Any):
+    def get_all_attendances(self, page: int, grade: Optional[str], year: Optional[int], keyword: Optional[str], per_page: int = 20) -> (List, Any):
         """
         get all attendance
         :params page
         :params grade
         :params year
+        :params keyword
         :params per_page
         :return: attendance list of dict
         """
         try:
-            if year and not grade:
-                attendances = AttendanceModel.get_attendances_by_year(page, year, per_page)
-            elif grade and not year:
-                attendances = AttendanceModel.get_attendances_by_grade(page, grade, per_page)
-            elif year and grade:
-                attendances = AttendanceModel.get_attendances_by_grade_year(page, grade, year, per_page)
+            if year or grade or keyword:
+                self.logger.info(f"Searching attendances: year: {year}, grade: {grade}, keyword: {keyword}")
+                attendances = AttendanceModel.search_attendances(grade=grade, year=year, keyword=keyword, page=page, per_page=per_page)
             else:
-                attendances = AttendanceModel.get_all_attendances(page, per_page)
+                self.logger.info("Getting all attendances")
+                attendances = AttendanceModel.get_all_attendances(page=page, per_page=per_page)
+
             return {
-                "attendances": [attendance.attendance_dict(school, student) for attendance, school, student in
+                "attendances": [attendance.attendance_dict(attendance.school, attendance.student) for attendance in
                                 attendances.items],
                 "total_count": attendances.total,
                 "current_page": attendances.page,

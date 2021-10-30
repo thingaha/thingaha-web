@@ -64,13 +64,13 @@ Output Sample:
 
 ### GET all Attendances
 
-| API                                    |                       Description                       | Action |
-| :------------------------------------- | :-----------------------------------------------------: | -----: |
-| /api/v1/attendances                    |                   Get all attendances                   |    GET |
-| /api/v1/attendances?page=XXX           |           Get all attendances with pagination           |    GET |
-| /api/v1/attendances?year=XXX           |    Get attendances by filter (year) with pagination     |    GET |
-| /api/v1/attendances?grade=XXX          |    Get attendances by filter (grade) with pagination    |    GET |
-| /api/v1/attendances?grade=XXX&year=XXX | Get attendances by filter (grade, year) with pagination |    GET |
+| API                                                |                       Description                       | Action |
+| :------------------------------------------------- | :-----------------------------------------------------: | -----: |
+| /api/v1/attendances                                |                   Get all attendances                   |    GET |
+| /api/v1/attendances?page=XXX                       |           Get all attendances with pagination           |    GET |
+| /api/v1/attendances?year=XXX                       |    Get attendances by filter (year) with pagination     |    GET |
+| /api/v1/attendances?grade=XXX                      |    Get attendances by filter (grade) with pagination    |    GET |
+| /api/v1/attendances?grade=XXX&year=XXX&keyword=XXX | Get attendances by filter (grade, year) with pagination |    GET |
 
 default count per page is 20.
 
