@@ -29,12 +29,13 @@ export const fetchStudent = (studentId) => {
 }
 
 export const fetchStudents = (
-  { page, perPage } = { page: 1, perPage: 200 }
+  { page, perPage, keyword } = { page: 1, perPage: 200, keyword: '' }
 ) => {
   return {
     type: GET_ALL_STUDENTS,
     page,
     perPage,
+    keyword,
   }
 }
 

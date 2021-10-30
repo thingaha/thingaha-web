@@ -32,10 +32,10 @@ export function* fetchStudentInfo(action) {
 }
 
 export function* fetchAllStudents(
-  { page, perPage } = { page: 1, perPage: 20 }
+  { keyword, page, perPage } = { page: 1, perPage: 20 }
 ) {
   try {
-    const { data } = yield fetchStudents({ page, perPage })
+    const { data } = yield fetchStudents({ keyword, page, perPage })
     yield put({
       type: GET_ALL_STUDENTS_SUCCESS,
       students: data.students,
