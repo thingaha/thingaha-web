@@ -147,3 +147,56 @@ Main UI framework is [Material UI](https://material-ui.com/). For component styl
   - initial login information
     - username: `moemoe@gmail.com`
     - password: `123`
+
+### For Myanmar language Search 
+
+Check your local language in terminal
+> locale 
+
+```
+LANG="en_US.UTF-8"
+LC_COLLATE="en_US.UTF-8"
+LC_CTYPE="en_US.UTF-8"
+LC_MESSAGES="en_US.UTF-8"
+LC_MONETARY="en_US.UTF-8"
+LC_NUMERIC="en_US.UTF-8"
+LC_TIME="en_US.UTF-8"
+LC_ALL="en_US.UTF-8"
+```
+
+- If there is no _en_US.UTF-8_, please try adding or editing the following line in  `~/.profile` or `~/.zshrc` file for it to correctly export your
+locale settings upon initiating a new session.
+
+```
+export LC_ALL=en_US.UTF-8  
+export LANG=en_US.UTF-8
+```
+
+- Then check `locale -a` or `locale` in terminal again. 
+- You should see the above locale setting in your terminal. Then restart the postgresql.
+
+```
+brew services list 
+brew services restart postgresql@12
+```
+
+- Try to create `test db` by using the following command.
+
+```
+CREATE DATABASE db_test WITH TEMPLATE = templateUTF_8 ENCODING = 'UTF8' LC_COLLATE = 'en_US.UTF-8' LC_CTYPE = '
+en_US.UTF-8';
+```
+
+- If there is no error , drop the thingaha_dev db and create again by following SQL.
+
+```
+CREATE DATABASE thingaha_dev 
+WITH OWNER = XXXX 
+TEMPLATE = templateUTF_8 
+ENCODING = 'UTF8' 
+LC_COLLATE = 'en_US.UTF-8'
+LC_CTYPE = 'en_US.UTF-8' 
+TABLESPACE = pg_default 
+CONNECTION LIMIT = -1;
+```
+- rerun `db_migrate` and `db_seed` again
