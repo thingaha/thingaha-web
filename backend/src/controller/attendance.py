@@ -1,4 +1,6 @@
 """API route for Attendance API"""
+from functools import wraps
+
 from flask import request, current_app, jsonify
 from flask_cors import cross_origin
 from flask_jwt_extended import jwt_required
@@ -7,20 +9,41 @@ from common.error import SQLCustomError, RequestDataEmpty, ValidateFail
 from controller.api import api, post_request_empty, custom_error, full_admin, sub_admin
 from service.attendance.attendance_service import AttendanceService
 
-attendance_service = AttendanceService()
+
+def with_attendance_service(func):
+    """
+    Decorator function to set attendance service instance on each route that needs it.
+    """
+    wraps(func)
+
+    def decorated(*args, **kwargs):
+        attendance_service = AttendanceService(logger=current_app.logger)
+        return func(attendance_service, *args, **kwargs)
+
+    decorated.__name__ = func.__name__
+    return decorated
 
 
 @api.route("/attendances", methods=["GET"])
 @jwt_required
 @cross_origin()
-def get_attendances():
+@with_attendance_service
+def get_attendances(attendance_service: AttendanceService):
+    """
+    get all attendances
+    :param attendance_service:
+    :return:
+    :rtype:
+    """
     try:
         page = request.args.get("page", 1, type=int)
         per_page = request.args.get("per_page", 20, type=int)
-        grade = request.args.get("grade")
-        year = request.args.get("year")
-        attendances = attendance_service.get_all_attendances(page, grade, year, per_page)
-        current_app.logger.info("Get all attendance records")
+        grade = request.args.get("grade", type=str)
+        year = request.args.get("year", type=int)
+        keyword = request.args.get("keyword", type=str)
+
+        attendances = attendance_service.get_all_attendances(grade=grade, year=year, keyword=keyword, page=page, per_page=per_page)
+
         return jsonify({
             "data": attendances
         }), 200
@@ -32,9 +55,12 @@ def get_attendances():
 @api.route("/attendances/<int:attendance_id>", methods=["GET"])
 @jwt_required
 @cross_origin()
-def get_attendance_by_id(attendance_id: int):
+@with_attendance_service
+def get_attendance_by_id(attendance_service: AttendanceService, attendance_id: int):
     """
     get attendance by attendance id
+    :param attendance_service:
+    :param attendance_id:
     :return:
     """
     try:
@@ -52,9 +78,11 @@ def get_attendance_by_id(attendance_id: int):
 @jwt_required
 @sub_admin
 @cross_origin()
-def create_attendance():
+@with_attendance_service
+def create_attendance(attendance_service: AttendanceService):
     """
     create attendance by post body
+    :param attendance_service:
     :return:
     """
     data = request.get_json()
@@ -78,9 +106,11 @@ def create_attendance():
 @jwt_required
 @full_admin
 @cross_origin()
-def delete_attendances(attendance_id):
+@with_attendance_service
+def delete_attendances(attendance_service: AttendanceService, attendance_id: int):
     """
     delete attendance  by ID
+    :param attendance_service:
     :param attendance_id:
     :return:
     """
@@ -98,10 +128,12 @@ def delete_attendances(attendance_id):
 @jwt_required
 @sub_admin
 @cross_origin()
-def update_attendance(attendance_id: int):
+@with_attendance_service
+def update_attendance(attendance_service: AttendanceService, attendance_id: int):
     """
     update attendance by ID
     :param attendance_id:
+    :param attendance_service:
     :return:
     """
     data = request.get_json()
@@ -130,9 +162,11 @@ def update_attendance(attendance_id: int):
 @api.route("/attendances/year", methods=["GET"])
 @jwt_required
 @cross_origin()
-def get_all_attendance_years():
+@with_attendance_service
+def get_all_attendance_years(attendance_service: AttendanceService):
     """
     get all attendance years
+    :param attendance_service:
     :return:
     """
     try:
