@@ -1,4 +1,6 @@
 """API route for Attendance API"""
+from functools import wraps
+
 from flask import request, current_app, jsonify
 from flask_cors import cross_origin
 from flask_jwt_extended import jwt_required
@@ -6,7 +8,7 @@ from flask_jwt_extended import jwt_required
 from common.error import SQLCustomError, RequestDataEmpty, ValidateFail
 from controller.api import api, post_request_empty, custom_error, full_admin, sub_admin
 from service.attendance.attendance_service import AttendanceService
-from functools import wraps
+
 
 def with_attendance_service(func):
     """
@@ -21,17 +23,24 @@ def with_attendance_service(func):
     decorated.__name__ = func.__name__
     return decorated
 
+
 @api.route("/attendances", methods=["GET"])
 @jwt_required
 @cross_origin()
 @with_attendance_service
 def get_attendances(attendance_service: AttendanceService):
+    """
+    get all attendances
+    :param attendance_service:
+    :return:
+    :rtype:
+    """
     try:
         page = request.args.get("page", 1, type=int)
         per_page = request.args.get("per_page", 20, type=int)
-        grade = request.args.get("grade", None, type=str)
-        year = request.args.get("year", None, type=int)
-        keyword = request.args.get("keyword", None, type=str)
+        grade = request.args.get("grade", type=str)
+        year = request.args.get("year", type=int)
+        keyword = request.args.get("keyword", type=str)
 
         attendances = attendance_service.get_all_attendances(grade=grade, year=year, keyword=keyword, page=page, per_page=per_page)
 
@@ -50,6 +59,8 @@ def get_attendances(attendance_service: AttendanceService):
 def get_attendance_by_id(attendance_service: AttendanceService, attendance_id: int):
     """
     get attendance by attendance id
+    :param attendance_service:
+    :param attendance_id:
     :return:
     """
     try:
@@ -71,6 +82,7 @@ def get_attendance_by_id(attendance_service: AttendanceService, attendance_id: i
 def create_attendance(attendance_service: AttendanceService):
     """
     create attendance by post body
+    :param attendance_service:
     :return:
     """
     data = request.get_json()
@@ -98,6 +110,7 @@ def create_attendance(attendance_service: AttendanceService):
 def delete_attendances(attendance_service: AttendanceService, attendance_id: int):
     """
     delete attendance  by ID
+    :param attendance_service:
     :param attendance_id:
     :return:
     """
@@ -120,6 +133,7 @@ def update_attendance(attendance_service: AttendanceService, attendance_id: int)
     """
     update attendance by ID
     :param attendance_id:
+    :param attendance_service:
     :return:
     """
     data = request.get_json()
@@ -152,6 +166,7 @@ def update_attendance(attendance_service: AttendanceService, attendance_id: int)
 def get_all_attendance_years(attendance_service: AttendanceService):
     """
     get all attendance years
+    :param attendance_service:
     :return:
     """
     try:
