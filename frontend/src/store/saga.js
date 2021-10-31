@@ -1,6 +1,7 @@
 import {
   takeLatest,
   all,
+  throttle,
   // call
 } from 'redux-saga/effects'
 import {
@@ -146,7 +147,9 @@ export default function* rootSaga() {
     takeLatest(GET_SEARCH_ADDRESSES, searchAddressesSaga),
 
     takeLatest(GET_STUDENT_INFO, fetchStudentInfo),
-    takeLatest(GET_ALL_STUDENTS, fetchAllStudents),
+    // Throttle requests to avoid overloading the server
+    throttle(1000, GET_ALL_STUDENTS, fetchAllStudents),
+
     takeLatest(SUBMIT_NEW_STUDENT_FORM, submitNewStudentForm),
     takeLatest(SUBMIT_EDIT_STUDENT_FORM, submitEditStudentForm),
     takeLatest(DELETE_STUDENT_PHOTO, deleteStudentPhotoSaga),

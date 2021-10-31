@@ -8,10 +8,9 @@ import StudentForm from './StudentForm'
 import { Button } from '@material-ui/core'
 import AddCircleIcon from '@material-ui/icons/AddCircle'
 import StudentCard from './StudentCard'
-import InputAdornment from '@material-ui/core/InputAdornment'
-import SearchIcon from '@material-ui/icons/Search'
-import Input from '@material-ui/core/Input'
 import Pagination from '@material-ui/lab/Pagination'
+import ThingahaSearchInput from '../../components/common/ThingahaSearchInput'
+import Chip from '@material-ui/core/Chip'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -28,7 +27,16 @@ const Wrapper = styled.div`
 const HeadingContainer = styled.div`
   margin-bottom: 1rem;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
+
+  & .current-page-total {
+    margin-left: 1rem;
+    align-self: center;
+  }
+
+  & .search {
+    margin-left: auto;
+  }
 `
 
 const StudentsContainer = styled.div`
@@ -44,29 +52,53 @@ const StudentsContainer = styled.div`
     height: auto;
   }
 `
-const SearchInput = () => {
+const NoStudentsWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  height: 100%;
+  align-items: center;
+
+  & .message {
+    margin-top: 2rem;
+    font-size: 2rem;
+  }
+`
+
+const NoStudents = () => {
   return (
-    <Input
-      id="input-with-icon-adornment"
-      startAdornment={
-        <InputAdornment position="start">
-          <SearchIcon />
-        </InputAdornment>
-      }
-    />
+    <NoStudentsWrapper>
+      <p className="message">No students found.</p>
+    </NoStudentsWrapper>
   )
 }
 
 const Students = ({ students, getAllStudents, totalCount, totalPages }) => {
   const [studentFormVisible, setStudentFormVisible] = useState(false)
   const [editingStudent, setEditingStudent] = useState(null)
+  const [keyword, setKeyword] = useState('')
 
   useEffect(() => {
-    getAllStudents()
-  }, [getAllStudents])
+    getAllStudents({ keyword })
+  }, [getAllStudents, keyword])
 
+  let studentList = null
   if (students.length === 0) {
-    return null
+    studentList = <NoStudents />
+  } else {
+    studentList = students.map((student) => {
+      return (
+        <StudentCard
+          student={student}
+          className="student"
+          key={student.id}
+          onEdit={(edit) => {
+            setEditingStudent(edit)
+            setStudentFormVisible(true)
+          }}
+        />
+      )
+    })
   }
 
   return (
@@ -84,33 +116,34 @@ const Students = ({ students, getAllStudents, totalCount, totalPages }) => {
         >
           Add Student
         </Button>
-        <SearchInput />
+        <Chip
+          label={totalCount}
+          variant="default"
+          size="small"
+          className="current-page-total"
+        />
+        <ThingahaSearchInput
+          onChange={(e) => {
+            setKeyword(e.target.value)
+          }}
+          value={keyword}
+          id="donation-search"
+          className="search"
+        />
       </HeadingContainer>
 
-      <StudentsContainer>
-        {students.map((student) => {
-          return (
-            <StudentCard
-              student={student}
-              className="student"
-              key={student.id}
-              onEdit={(edit) => {
-                setEditingStudent(edit)
-                setStudentFormVisible(true)
-              }}
-            />
-          )
-        })}
-      </StudentsContainer>
-      <div className="pagination-container">
-        <Pagination
-          count={totalPages} // need to pass in total pages instead of total count
-          color="primary"
-          onChange={(_event, page) => {
-            getAllStudents({ page })
-          }}
-        />
-      </div>
+      <StudentsContainer>{studentList}</StudentsContainer>
+      {totalPages > 1 && (
+        <div className="pagination-container">
+          <Pagination
+            count={totalPages} // need to pass in total pages instead of total count
+            color="primary"
+            onChange={(_event, page) => {
+              getAllStudents({ page })
+            }}
+          />
+        </div>
+      )}
 
       {studentFormVisible ? (
         <StudentForm
@@ -138,8 +171,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getAllStudents: ({ page } = { page: 1 }) =>
-      dispatch(actions.fetchStudents({ page })),
+    getAllStudents: ({ page, keyword } = { page: 1, keyword: '' }) =>
+      dispatch(actions.fetchStudents({ page, keyword })),
   }
 }
 

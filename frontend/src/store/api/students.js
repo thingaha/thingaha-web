@@ -12,17 +12,26 @@ export const fetchStudent = async (studentId) => {
 }
 
 export const fetchStudents = async (
-  { page, perPage } = { page: 1, perPage: 20 }
+  { keyword, page, perPage } = { page: 1, perPage: 20 }
 ) => {
-  const { data } = await thingahaApiClient.get('/students', {
-    params: { page, per_page: perPage },
-  })
+  // NOTE: We're using old format where we send request to separate endpoint for search
+  // TODO: Update api to support keyword filter on the /students endpoint itself to match other pages
+  let result = null
+  if (keyword && keyword.length > 0) {
+    result = await thingahaApiClient.get('/students/search', {
+      params: { query: keyword, page, per_page: perPage },
+    })
+  } else {
+    result = await thingahaApiClient.get('/students', {
+      params: { page, per_page: perPage },
+    })
+  }
 
   return {
     data: {
-      students: data.students,
-      total_count: data.total_count,
-      total_pages: data.pages,
+      students: result.data.students,
+      total_count: result.data.total_count,
+      total_pages: result.data.pages,
     },
   }
 }
